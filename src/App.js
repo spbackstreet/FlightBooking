@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import './css/App.css';
+import './LazyLoader/css/LazyLoader.css';
+import ErrorBoundary from './Common/JS/ErrorBoundary';
+import BackgroundLoader from './BackgroundLoader';
+const Home = React.lazy(() => import('./Home/View/Home'));
 
-function App() {
+
+class App extends React.Component {
+
+  componentDidCatch(err) {
+    this.props.history.push({
+      pathname: '/Home',
+    });
+  }
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+<ErrorBoundary>
+        <div>
+          <React.Suspense fallback={<BackgroundLoader />}>
+            <BrowserRouter>
+
+                    <Route exact path="/" component={Home} />
+
+            </BrowserRouter>
+          </React.Suspense>
+        </div>
+      </ErrorBoundary>
+
+
+  )
+  }
 }
 
 export default App;
+

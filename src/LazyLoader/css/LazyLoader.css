@@ -1,0 +1,84 @@
+body1 {
+    padding: 20px;
+  }
+  
+  .container1 {
+    display: flex;
+    border: 1px solid #eaecef;
+    height: 200px;
+    padding: 1%;
+    background-color: white;
+    box-shadow: 2px 5px 5px 1px lightgrey;
+  }
+  
+  .img-container1{
+    width: 15%;
+    padding: 20px;
+  }
+  
+  .img1 {
+    border: 1px solid white;
+    width: 100%;
+    height: 100%;
+    background-color: #babbbc;
+  }
+  
+  .content1 {
+    border: 1px solid white;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-between;
+  }
+  
+  .stripe1 {
+    border: 1px solid white;
+    height: 20%;
+    background-color: #babbbc;
+  }
+  
+  .small-stripe1 {
+    width: 40%;
+  }
+  
+  .medium-stripe1 {
+    width: 70%;
+  }
+  
+  .long-stripe1 {
+    width: 100%;
+  }
+  
+  .container1.loading1 .img1, .container1.loading1 .stripe1 {
+    animation: hintloading 2s ease-in-out 0s infinite reverse;
+    -webkit-animation: hintloading 2s ease-in-out 0s infinite reverse;
+  }
+  
+  @keyframes hintloading
+  {
+    0% {
+      opacity: 0.5;
+    }
+    50%  {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+  
+  @-webkit-keyframes hintloading
+  {
+    0% {
+      opacity: 0.5;
+    }
+    50%  {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+  
+  
