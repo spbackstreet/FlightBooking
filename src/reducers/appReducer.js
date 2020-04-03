@@ -14,7 +14,7 @@ const reducer = (state = initialState.app, action) => {
         case actions.STORE_CUSTOMER_CIRCLE: {
             return {
                 ...state,
-                pincode: action.payload.postlist
+                pincodeRes: action.payload.postlist
             }
         }
 

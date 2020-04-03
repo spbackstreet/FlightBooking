@@ -1,7 +1,7 @@
 const initialState = {
     app: {
         loading: false,
-        pincode: {},
+        pincodeRes: {},
         
     }
 }
