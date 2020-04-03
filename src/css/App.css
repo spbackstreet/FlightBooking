@@ -865,7 +865,7 @@ a {
 .custom-control.custom-checkbox .custom-control-label{
   font-size:14px;
   color:#333;
-  padding-left:10px;
+  /* padding-left:10px; */
 }
 .custom-control.custom-checkbox .custom-control-label::before {
   content: "";
@@ -903,7 +903,7 @@ a {
 .custom-control.custom-radio .custom-control-label{
   font-size:14px;
   color:#333;
-  padding-left:10px;
+  /* padding-left:10px; */
 }
 .custom-control.custom-radio .custom-control-label::before {
   content: "";
