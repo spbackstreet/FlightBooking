@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
+import '../../css/style.css';
 
 
 const display = {
@@ -15,10 +16,103 @@ const Home = () => {
 
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
+    const [displayOTP, setDisplayOTP] = useState(false)
+    const [time, setTime] = useState({})
+    let [timer, setTimer] = useState(0)
+    let [seconds, setSeconds] = useState(30)
+    const [custOtp, setCustOtp] = useState('')
+    const [doneC, setDoneC] = useState(false)
+
+
+
+    const secondsToTime = (secs) => {
+        let hours = Math.floor(secs / (60 * 60));
+        let divisor_for_minutes = secs % (60 * 60);
+        let minutes = Math.floor(divisor_for_minutes / 60);
+        let divisor_for_seconds = divisor_for_minutes % 60;
+        let seconds = Math.ceil(divisor_for_seconds);
+        let obj = {
+            "h": hours,
+            "m": minutes,
+            "s": seconds
+        };
+        return obj;
+    }
+
 
     const updateMsdn = (event) => {
         setMsdn(event.currentTarget.value.substring(0, 10))
     }
+
+    const startTimer = () => {
+        if (timer == 0 && seconds > 0) {
+            setTimer(setInterval(countDown, 1000))
+            // timer = setInterval(countDown, 1000);
+        }
+
+        // let timeLeftVar = secondsToTime(seconds);
+        // setTime(timeLeftVar)
+        // document.getElementById("scust").click();
+    }
+
+    const countDown = () => {
+        
+        seconds = seconds - 1;
+        if (seconds >= 0) {
+            if (seconds.toString().length > 1) {
+                setTime(secondsToTime(seconds))
+                setSeconds(seconds)
+
+            }
+            else {
+                seconds = 0 + seconds;
+                setTime(secondsToTime('0' + seconds))
+                setSeconds('0' + seconds)
+            }
+        }
+        if (seconds == 0) {
+            console.log("endedA")
+            setDoneC(true)
+            clearInterval(timer);
+
+        }
+    }
+
+    const ResendOTP = (e) => {
+        if (seconds === "00") {
+            // setSeconds(30)
+            // setTimer(0)
+            seconds= 30;
+            timer =0;
+            setDoneC(false)
+            console.log("clicked cust")
+            startTimer()
+            // resendCustOtp()
+        }
+
+    }
+
+    const resendCustOtp = () => {
+
+    }
+
+    const validateCustOTP = () => {
+
+    }
+
+    useEffect(() => {
+        let timeLeftVar = secondsToTime(seconds);
+        setTime(timeLeftVar);
+    }, []);
+
+    const SendOtp = () => {
+        setDisplayOTP(true)
+        let timeLeftVar = secondsToTime(seconds);
+        setTime(timeLeftVar)
+        document.getElementById("scust").click();
+    }
+
+
 
 
     return (
@@ -26,21 +120,20 @@ const Home = () => {
             <div class="rechargehome_wrapper">
                 <div>
                     <div class="container">
-                    {/* <OtpDialogue></OtpDialogue> */}
+                        {/* <OtpDialogue></OtpDialogue> */}
 
-                    {/* <div class="modal fade show oy" id="otpModal" style={this.state.displayOTP ? display : hide}
-                    >
-                        <div class="modal-backdrop fade show"></div>
-                        <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                            <div class="modal-content">
-                                <div class="text-center" style={{ "background": "#03007f" }}>
-                                    <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer & Agent<br></br>OTP Validation</b></h6>
+                        <div class="modal fade show oy" id="otpModal" style={displayOTP ? display : hide}
+                        >
+                            <div class="modal-backdrop fade show"></div>
+                            <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "40%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                                    <div class="text-center" style={{ "background": "#0D95A2" }}>
+                                        <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
 
-                                </div>
+                                    </div>
 
-                                <div class="input-style" style={{ "height": "500px", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+                                    <div class="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
 
-                                    <Scrollbars style={{ height: 500 }}>
 
                                         <div class="text-left display-linebreak">
 
@@ -51,24 +144,22 @@ const Home = () => {
                                                 <br></br>
 
                                                 <input class="input-style mb10" id="custOtp" name="custOtp" type="number"
-                                                    onChange={child.setOtp.bind(this, "custOtp")}
+                                                    onChange={(e) => setCustOtp(e, "custOtp")}
 
                                                     pattern="^[1-9]\d*$"
-                                                    value={this.state.custOtp}
+                                                    value={custOtp}
                                                 />
-
-                                                {this.validator.message('custOtp', this.state.custOtp, 'required')}
 
                                                 <br></br>
 
-                                                {this.state.time.s > 9 ?
+                                                {time.s > 9 ?
 
                                                     <div id="custTime" style={{ "float": "left", "fontSize": "11px" }}>
 
 
-                                                        <button onClick={child.startTimer.bind(this)} id="scust" hidden>Start</button>
+                                                        <button onClick={(e) => startTimer()} id="scust" hidden>Start</button>
 
-                                                        0{this.state.time.m}:{this.state.time.s}
+                                                        0{time.m}:{time.s}
 
                                                     </div>
 
@@ -76,18 +167,18 @@ const Home = () => {
 
                                                     <div id="custTime" style={{ "float": "left", "fontSize": "11px" }}>
 
-                                                        <button onClick={child.startTimer.bind(this)} id="scust" hidden>Start</button>
+                                                        <button onClick={(e) => startTimer()} id="scust" hidden>Start</button>
 
-                                                        0{this.state.time.m}:0{this.state.time.s}
+                                                        0{time.m}:0{time.s}
                                                     </div>
 
                                                 }
 
-                                                
-                                                {this.state.doneC
+
+                                                {doneC
                                                     ?
                                                     <a id="rCust" style={{ "float": "right", "color": "#28a3ae", "fontSize": "11px", "cursor": "pointer" }}
-                                                        onClick={child.ResendOTP.bind(this, "cust")}
+                                                        onClick={(e) => ResendOTP(e)}
                                                     >Resend OTP </a>
                                                     :
                                                     <a id="rCust" style={{ "float": "right", "color": "#BFBBBA", "fontSize": "11px" }}
@@ -97,132 +188,22 @@ const Home = () => {
 
                                                 <br></br>
 
-                                                <div class="round" >
+                                                {/* <button type="submit" class="btn btn-primary btn-login"
+                                                    onClick={validateCustOTP}
+                                                >Validate OTP</button> */}
 
-                                                    <input type="checkbox" id="chkC" style={{ "float": "left" }} onClick={() => {
-                                                        if (document.getElementById('chkC').checked === true)
-                                                            this.setState({ displayConsent: true })
-                                                        else {
-                                                            this.setState({ displayConsent: false })
-                                                        }
-                                                    }} />
-
-                                                    <label for="chkC"></label>
-
-                                                    <div style={{ "float": "left", "paddingLeft": "22px", "paddingTop": "1px" }}>I have read the customer consent</div>
-
+                                                <div class="form-group text-center mt-5 mb-0">
+                                                    <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                        onClick={(e) => validateCustOTP}
+                                                    >Validate OTP</button>
                                                 </div>
-
-                                                <br></br>
-
-                                                <hr style={{ "borderColor": "#BFBBBA" }}></hr>
-
-                                                <label style={{ color: "black", "fontWeight": "bolder", "marginTop": "10px" }}>Agent OTP</label>
-
-                                                <br></br>
-
-                                                <input class="input-style mb10" id="agOtp" name="agOtp" type="number"
-                                                    onChange={child.setOtp.bind(this, "agOtp")}
-                                                    autocomplete="off"
-                                                    pattern="^[1-9]\d*$"
-                                                    value={this.state.agOtp}
-                                                />
-
-                                                {this.validator.message('agOtp', this.state.agOtp, 'required')}
-
-                                                <br></br>
-
-                                                {this.state.timeA.s > 9 ?
-
-                                                    <div id="agTime" style={{ "float": "left", "fontSize": "11px" }}>
-
-                                                        <button onClick={child.startTimerA} id="acust" hidden>Start</button>
-
-                                                        0{this.state.timeA.m}:{this.state.timeA.s}
-
-                                                    </div>
-
-                                                    :
-
-                                                    <div id="agTime" style={{ "float": "left", "fontSize": "11px" }}>
-
-                                                        <button onClick={child.startTimerA} id="acust" hidden>Start</button>
-
-                                                        0{this.state.timeA.m}:0{this.state.timeA.s}
-
-                                                    </div>
-
-                                                }
-
-                                               
-
-                                                {this.state.doneA ?
-                                                    <a id="rAgnt" style={{ "float": "right", "color": "#28a3ae", "fontSize": "11px", "cursor": "pointer" }}
-                                                        onClick={child.ResendOTP.bind(this, "agent")}
-                                                    >Resend OTP </a>
-                                                    :
-                                                    <a id="rAgnt" style={{ "float": "right", "color": "#BFBBBA", "fontSize": "11px" }}
-                                                    >Resend OTP </a>
-                                                }
-
-
-
-
-                                                <br></br>
-
-
-
-                                                <div class="round" >
-
-                                                    <input type="checkbox" id="chkA" style={{ "float": "left" }} onClick={() => {
-                                                        if (document.getElementById("chkA").checked === true)
-                                                            this.setState({ displayConsentDealer: true })
-                                                        else {
-                                                            this.setState({ displayConsentDealer: false })
-                                                        }
-                                                    }} />
-
-                                                    <label for="chkA"></label>
-
-                                                    <div style={{ "float": "left", "paddingLeft": "22px", "paddingTop": "1px" }} >I have read the agent consent</div>
-
-                                                </div>
-
-                                                <br></br>
-
-                                                <hr style={{ "borderColor": "#BFBBBA" }}></hr>
-
-                                                <div class="input-style" style={{ "height": "100px", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
-
-                                                    <p style={{ color: "black" }}>
-
-                                                        <label style={{ color: "black", "fontSize": "12px" }}>Please enter last 5 digits of ICCID of SIM given to Customer</label>
-
-                                                        <br></br>
-
-                                                        <input class="input-style mb10" id="iccid" name="iccid" type="number"
-                                                            onChange={child.setOtp.bind(this, "iccid")}
-                                                            autocomplete="off"
-                                                            pattern="^[1-9]\d*$"
-                                                            value={this.state.iccid} />
-
-                                                        {this.validator.message('iccid', this.state.iccid, 'required|integer')}
-
-                                                        <br></br>
-
-                                                    </p>
-
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary btn-login"
-                                                    onClick={child.validateDigitalKycOTP.bind((this, this.state.custOtp, this.state.agOtp, this.state.iccid))}
-                                                >Validate OTP</button>
 
                                             </p>
 
                                         </div>
 
-                                    </Scrollbars>
+
+                                    </div>
 
                                 </div>
 
@@ -230,9 +211,7 @@ const Home = () => {
 
                         </div>
 
-                    </div>
-                     */}
-                    
+
                         <div class="">
                             <div class="row">
                                 <div class="col">
@@ -250,8 +229,8 @@ const Home = () => {
                                                         <form action="" class="">
                                                             <div class="login">
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange = { (e) => updateMsdn(e)}
+                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
+                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
                                                                     <label for="msdn" class="control-label">Enter Customer Mobile No.</label>
@@ -293,8 +272,8 @@ const Home = () => {
                                                         </form>
 
                                                         <div class="form-group text-center mt-5 mb-0">
-                                                            <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
-                                                            //onClick={() => this.searchMobile}
+                                                            <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                                onClick={(e) => SendOtp()}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>
