@@ -17,7 +17,7 @@ const hide = {
     display: 'none'
 };
 
-const DeliveryAddress = () => {
+const PermanentAddress = () => {
 
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
@@ -197,4 +197,4 @@ const DeliveryAddress = () => {
 }
 
 
-export default DeliveryAddress;
+export default PermanentAddress;
