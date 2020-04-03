@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
-import OtpDialogue from '../OtpDialogue/OtpDialogue';
+import useLoader from '../../hooks/useLoader';
+import getpincode from '../../services/getpincode';
+import useGlobalState from '../../hooks/useGlobalState';
+import {storeCustomerCircle} from '../../action';
+import { confirmAlert } from 'react-confirm-alert';
 
-
+ 
 const display = {
     display: 'block'
 };
@@ -15,9 +19,34 @@ const DeliveryAddress = () => {
 
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
+    const [pincode, setPincode] = useState('')
+    const [triggerAction] = useLoader();
+    const [, dispatch] = useGlobalState();
 
-    const updateMsdn = (event) => {
-        setMsdn(event.currentTarget.value.substring(0, 10))
+
+    const updatePincode = async (e) => {
+        setPincode(e.currentTarget.value.substring(0, 6))
+
+        if(e.currentTarget.value.substring(0, 6).length === 6){
+        const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
+        dispatch(storeCustomerCircle(getCustomerCircle));
+        if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
+            
+        }
+        else {
+            confirmAlert({
+                title : "Error",
+                message: getCustomerCircle.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { return false; }
+                    }
+                ]
+            });
+        }
+    }
+
     }
 
 
@@ -26,7 +55,7 @@ const DeliveryAddress = () => {
             <div class="rechargehome_wrapper">
                 <div>
                     <div class="container">
-                   
+
                         <div class="">
                             <div class="row">
                                 <div class="col">
@@ -43,33 +72,34 @@ const DeliveryAddress = () => {
                                                     <div class="col-12">
                                                         <form action="" class="">
                                                             <div class="login">
+
+
                                                                 <div class="form-group">
-                                                             
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="customerName"  type="text" required="required"  name="customerName"     autocomplete="off" placeholder=" "  class="jio-form-control"
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+
+                                                                    {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
+                                                                    <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" " class="jio-form-control"
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
-                                                                     <label for="customerName" class="control-label">House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <label for="customerName" class="control-label">House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                 </div>
 
 
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="landMark"  type="text" required="required"  name="landMark"     autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
+                                                                    <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
-                                                                    <label for="customerName" class="control-label">Landmark<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <label for="customerName" class="control-label">Landmark</label>
                                                                 </div>
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="roadName"  type="text" required="required"  name="roadName"     autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
                                                                     <label for="customerName" class="control-label">Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
@@ -77,9 +107,8 @@ const DeliveryAddress = () => {
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="area"  type="text" required="required"  name="area"   autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input id="area" type="text" required="required" name="area" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
                                                                     <label for="customerName" class="control-label">Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
@@ -87,9 +116,11 @@ const DeliveryAddress = () => {
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="pinCode"  type="number" required="required"  name="pinCode"  autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input id="pinCode" type="number" required="required" name="pinCode" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                        onChange={(e) => updatePincode(e, "custOtp")}
+
+                                                                        pattern="^[1-9]\d*$"
+                                                                        value={pincode}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
                                                                     <label for="customerName" class="control-label">Pincode<label style={{ color: "#FF0000" }}>*</label></label>
@@ -97,74 +128,39 @@ const DeliveryAddress = () => {
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <select id="village"  type="number" required="required"  name="village"  autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <select id="village" type="number" required="required" name="village" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     >
                                                                         <option></option>
                                                                         <option>Village 1</option>
                                                                         <option>Village 2</option>
 
-                                                                        </select>
+                                                                    </select>
                                                                     <label for="customerName" class="control-label">Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <select id="district"  type="number" required="required"  name="district"  autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <select id="district" type="number" required="required" name="district" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     >
                                                                         <option></option>
                                                                         <option>District 1</option>
-                                                                        </select>
+                                                                    </select>
                                                                     <label for="customerName" class="control-label">District<label style={{ color: "#FF0000" }}>*</label></label>
                                                                 </div>
 
 
 
                                                                 <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span>
-                                                                    <input id="state"  type="text" required="required"  name="state"  autocomplete="off" class="jio-form-control" placeholder=" "
-                                                                  //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input id="state" type="text" required="required" name="state" autocomplete="off" class="jio-form-control" placeholder=" "
+                                                                    //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
                                                                     <label for="customerName" class="control-label">State<label style={{ color: "#FF0000" }}>*</label></label>
                                                                 </div>
 
-
-{/* 
-                                                                <div class="row no-gutters">
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <div class="radio-wrap">
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="vanity" name="onboardtype" value="Paper CAF" class="custom-control-input"
-                                                                                    //onSelect={(e) => this.setOptionData(e.target.value, false, false)}
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="vanity">Paper CAF</label>
-                                                                                </div>
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
-                                                                                    //onSelect={(e) => this.setOptionData(false, e.target.value, false)}
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="mnp">Digital KYC</label>
-                                                                                </div>
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="cocp" name="onboardtype" value="cocp" class="custom-control-input"
-                                                                                    // onSelect={
-                                                                                    //     (e) => {
-                                                                                    //         this.setOptionData(false, false, e.target.value);
-                                                                                    //     }
-                                                                                    // }
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="cocp">eKYC</label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
 
                                                             </div>
                                                         </form>

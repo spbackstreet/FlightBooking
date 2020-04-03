@@ -9,25 +9,19 @@ const performLoadingOperation = (payload) => {
   }
 }
 
-const fetchCommData = (payload) => {
+const storeCustomerCircle = (payload) => {
   return {
-    type: actions.FETCH_COMM_DATA,
+    type: actions.STORE_CUSTOMER_CIRCLE,
     payload
   }
 }
 
-const fetchCommDetailData = (payload) => {
-  return {
-    type: actions.FETCH_COMM_DETAIL_DATA,
-    payload
-  }
-}
+
 
 
 
 
 export {
   performLoadingOperation, 
-  fetchCommData,
-  fetchCommDetailData
+  storeCustomerCircle
 };

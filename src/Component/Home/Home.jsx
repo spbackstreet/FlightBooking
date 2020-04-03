@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
@@ -22,7 +23,7 @@ const Home = () => {
     let [seconds, setSeconds] = useState(30)
     const [custOtp, setCustOtp] = useState('')
     const [doneC, setDoneC] = useState(false)
-
+    const history = useHistory();
 
 
     const secondsToTime = (secs) => {
@@ -96,7 +97,8 @@ const Home = () => {
 
     }
 
-    const validateCustOTP = () => {
+    const validateCustOTP = (e) => {
+        history.push('/deliveryAddress')
 
     }
 
@@ -126,7 +128,7 @@ const Home = () => {
                         >
                             <div class="modal-backdrop fade show"></div>
                             <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "40%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
                                     <div class="text-center" style={{ "background": "#0D95A2" }}>
                                         <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
 
@@ -194,7 +196,7 @@ const Home = () => {
 
                                                 <div class="form-group text-center mt-5 mb-0">
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => validateCustOTP}
+                                                        onClick={(e) => validateCustOTP()}
                                                     >Validate OTP</button>
                                                 </div>
 

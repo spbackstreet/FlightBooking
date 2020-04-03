@@ -11,19 +11,14 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
-        case actions.FETCH_COMM_DATA: {
+        case actions.STORE_CUSTOMER_CIRCLE: {
             return {
                 ...state,
-                communications: action.payload.postlist
+                pincode: action.payload.postlist
             }
         }
 
-        case actions.FETCH_COMM_DETAIL_DATA: {
-            return {
-                ...state,
-                communication: action.payload.postlist[0]
-            }
-        }
+        
 
         
     }
