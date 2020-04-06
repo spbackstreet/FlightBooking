@@ -83,8 +83,10 @@ const PermanentAddress = () => {
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+
+                                                                        value={custLocalAdd.houseNo} disabled
                                                                     //  onChange = { (e) => updateMsdn(e)}
-                                                                    //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                    //onChange={(e) =>this.validateMobile(e.target.value)} 
                                                                     />
                                                                     {/* <label for="customerName" class="control-label">House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label> */}
                                                                 </div>
@@ -95,7 +97,9 @@ const PermanentAddress = () => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    //  onChange = { (e) => updateMsdn(e)}
+                                                                     value={custLocalAdd.landMark} disabled
+                                                                   
+                                                                   //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
                                                                     {/* <label for="customerName" class="control-label">Landmark<label style={{ color: "#FF0000" }}>*</label></label> */}
@@ -105,10 +109,11 @@ const PermanentAddress = () => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    //  onChange = { (e) => updateMsdn(e)}
+                                                                       value={custLocalAdd.roadName}     disabled                                                              
+
+                                                                   //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
-                                                                    {/* <label for="customerName" class="control-label">Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label> */}
                                                                 </div>
 
 
@@ -117,10 +122,11 @@ const PermanentAddress = () => {
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                     <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    //  onChange = { (e) => updateMsdn(e)}
+                                                                 value={custLocalAdd.area}     disabled   
+                                                                 
+                                                                 //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
-                                                                    {/* <label for="customerName" class="control-label">Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label> */}
                                                                 </div>
 
 
@@ -130,7 +136,7 @@ const PermanentAddress = () => {
                                                                     <input id="pinCode" type="number" required="required" name="pinCode" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                         onChange={(e) => updatePincode(e, "custOtp")}
                                                                         pattern="^[1-9]\d*$"
-                                                                        value={pincode}
+                                                                        value={custLocalAdd.pincode}
                                                                     />
 
                                                                 </div>
@@ -138,26 +144,29 @@ const PermanentAddress = () => {
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input  id="village" type="text" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                     value={custLocalAdd.city}     disabled   
+                                                                   //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     >
-                                                                        <option></option>
+                                                                        {/* <option></option>
                                                                         <option>Village 1</option>
-                                                                        <option>Village 2</option>
+                                                                        <option>Village 2</option> */}
 
-                                                                    </select>
+                                                                    </input>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="district" type="number" required="required" name="district" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    //  onChange = { (e) => updateMsdn(e)}
+                                                                    <input   id="district" type="text" required="required" name="district" autocomplete="off" 
+                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                     value={custLocalAdd.district}    disabled
+                                                                   //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     >
-                                                                        <option></option>
-                                                                        <option>District 1</option>
-                                                                    </select>
+                                                                        {/* <option></option>
+                                                                        <option>District 1</option> */}
+                                                                    </input>
                                                                 </div>
 
 
@@ -166,10 +175,11 @@ const PermanentAddress = () => {
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                     <input id="state" type="text" required="required" name="state" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                      value={custLocalAdd.state}     disabled  
+                                                                    
                                                                     //  onChange = { (e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                     />
-                                                                    {/* <label for="customerName" class="control-label">State<label style={{ color: "#FF0000" }}>*</label></label> */}
                                                                 </div>
 
 

@@ -116,7 +116,8 @@ const DeliveryAddress = () => {
                 "area": area,
                 "city": city,
                 "district": district,
-                "state": state
+                "state": state,
+                "pincode":pincode
             }
             confirmAlert({
                 message: "Are you an outstation customer?",
