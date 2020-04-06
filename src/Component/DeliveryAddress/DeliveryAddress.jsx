@@ -44,10 +44,13 @@ const DeliveryAddress = () => {
 
         if (e.currentTarget.value.substring(0, 6).length === 6) {
             setLoading(true)
-            const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
+            let vpincode = e.currentTarget.value.substring(0, 6)
+            const getCustomerCircle = await triggerAction(() => getpincode(vpincode));
             setLoading(false)
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
-                dispatch(storeCustomerCircle(getCustomerCircle));
+                // dispatch(storeCustomerCircle(getCustomerCircle));
+                dispatch(storeCustomerCircle(vpincode));
+
                 let vcityLst = [];
                 let vdistrictLst = [];
                 let vstateLst = []

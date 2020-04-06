@@ -4,6 +4,9 @@ import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
+import useGlobalState from '../../hooks/useGlobalState';
+import { storeCustomerNumber } from '../../action';
+
 
 
 const display = {
@@ -15,6 +18,7 @@ const hide = {
 
 const Home = () => {
 
+    const [, dispatch] = useGlobalState();
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
     const [displayOTP, setDisplayOTP] = useState(false)
@@ -102,6 +106,8 @@ const Home = () => {
     }
 
     const validateCustOTP = (e) => {
+
+        dispatch(storeCustomerNumber(msdn));
         history.push('/deliveryAddress')
 
     }

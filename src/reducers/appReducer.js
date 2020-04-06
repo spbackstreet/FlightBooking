@@ -14,7 +14,7 @@ const reducer = (state = initialState.app, action) => {
         case actions.STORE_CUSTOMER_CIRCLE: {
             return {
                 ...state,
-                pincodeRes: action.payload.postlist
+                pincode: action.payload
             }
         }
 
@@ -24,6 +24,15 @@ const reducer = (state = initialState.app, action) => {
                 custLocalAdd: action.payload
             }
         }
+
+        case actions.STORE_CUSTOMER_NUMBER: {
+            return {
+                ...state,
+                custNumber: action.payload
+            }
+        }
+
+        
 
         
 

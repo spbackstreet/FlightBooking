@@ -23,6 +23,15 @@ const storeCustomerDelivery = (payload) => {
   }
 }
 
+const storeCustomerNumber = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_NUMBER,
+    payload
+  }
+}
+
+
+
 
 
 
@@ -31,5 +40,6 @@ const storeCustomerDelivery = (payload) => {
 export {
   performLoadingOperation, 
   storeCustomerCircle,
-  storeCustomerDelivery
+  storeCustomerDelivery,
+  storeCustomerNumber
 };

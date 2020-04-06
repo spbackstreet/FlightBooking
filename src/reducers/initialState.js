@@ -1,8 +1,9 @@
 const initialState = {
     app: {
         loading: false,
-        pincodeRes: {},
-        custLocalAdd : {}
+        pincode: '',
+        custLocalAdd : {},
+        custNumber : ''
     }
 }
 
