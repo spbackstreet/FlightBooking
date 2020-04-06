@@ -23,6 +23,13 @@ const storeCustomerDelivery = (payload) => {
   }
 }
 
+const storeCustomerPermanent = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_PERMANENT,
+    payload
+  }
+}
+
 const storeCustomerNumber = (payload) => {
   return {
     type: actions.STORE_CUSTOMER_NUMBER,
@@ -49,5 +56,6 @@ export {
   storeCustomerCircle,
   storeCustomerDelivery,
   storeCustomerNumber,
-  storeCustomeroutstation
+  storeCustomeroutstation,
+  storeCustomerPermanent
 };

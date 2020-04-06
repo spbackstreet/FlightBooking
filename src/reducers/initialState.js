@@ -3,6 +3,7 @@ const initialState = {
         loading: false,
         pincode: '',
         custLocalAdd : {},
+        custPermAdd : {},
         custNumber : '',
         isOutstation : false
     }

@@ -25,6 +25,13 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+        case actions.STORE_CUSTOMER_PERMANENT: {
+            return {
+                ...state,
+                custPermAdd: action.payload
+            }
+        }
+
         case actions.STORE_CUSTOMER_NUMBER: {
             return {
                 ...state,

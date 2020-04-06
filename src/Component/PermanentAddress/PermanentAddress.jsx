@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
@@ -6,19 +6,11 @@ import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
 import { confirmAlert } from 'react-confirm-alert';
-import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
+import { storeCustomerPermanent, storeCustomeroutstation } from '../../action';
 
-
-const display = {
-    display: 'block'
-};
-const hide = {
-    display: 'none'
-};
 
 const PermanentAddress = () => {
-
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
     const [pincodePerm, setPincodePerm] = useState('')
@@ -43,6 +35,34 @@ const PermanentAddress = () => {
     console.log(custLocalAdd)
 
     console.log(isOutstation)
+
+    useEffect(() => {
+        if (!isOutstation) {
+            (async () => {
+                const getCustomerCircle = await triggerAction(() => getpincode(custLocalAdd.pincode));
+                setLoading(false)
+                if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
+
+                    // dispatch(storeCustomerCircle(vpincode));
+
+                    let vcityLst = [];
+                    let vdistrictLst = [];
+                    let vstateLst = []
+                    for (let i = 0; i < getCustomerCircle.pincodelist.length; i++) {
+                        const element = getCustomerCircle.pincodelist[i];
+                        vcityLst.push(element.city);
+                        vdistrictLst.push(element.district);
+                        vstateLst.push(element.state);
+                    }
+                    setCityLst([...vcityLst]);
+                    setDistrictLst([...vdistrictLst]);
+                    setStateLst([...vstateLst])
+
+                }
+            })()
+        }
+
+    }, []);
 
     const updatePincodePerm = async (e) => {
         setPincodePerm(e.currentTarget.value.substring(0, 6))
@@ -89,7 +109,10 @@ const PermanentAddress = () => {
                     buttons: [
                         {
                             label: 'Yes',
-                            onClick: () => { history.push('/localreference') }
+                            onClick: async() => { 
+                                await dispatch(storeCustomeroutstation(false));
+                                history.push('/localreference') 
+                            }
                         },
                         {
                             label: 'No',
@@ -131,6 +154,39 @@ const PermanentAddress = () => {
         setState(e.target.value)
     }
 
+    const validateFields = async (e) => {
+        if (isOutstation) {
+            if (houseNo && roadName && area && city && district && state) {
+
+                let permAddr = {
+                    "houseNo": houseNo,
+                    "landMark": landMark,
+                    "roadName": roadName,
+                    "area": area,
+                    "city": city,
+                    "district": district,
+                    "state": state,
+                    "pincode": pincode
+                }
+                await dispatch(storeCustomerPermanent(permAddr));
+                history.push('/localreference')
+            }
+
+            else {
+                confirmAlert({
+                    title: "Error",
+                    message: "Please enter all mandatory fields",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
+
+        }
+    }
 
 
 
@@ -222,10 +278,6 @@ const PermanentAddress = () => {
                                                                         <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
                                                                             value={roadName} onChange={(e) => updateRoadName(e)}
-
-
-                                                                        //  onChange = { (e) => updateMsdn(e)}
-                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                         />
                                                                     </div>
 
@@ -236,9 +288,6 @@ const PermanentAddress = () => {
 
 
                                                                             value={custLocalAdd.roadName} disabled
-
-                                                                        //  onChange = { (e) => updateMsdn(e)}
-                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                         />
                                                                     </div>
                                                                 }
@@ -247,16 +296,11 @@ const PermanentAddress = () => {
                                                                 {isOutstation ?
 
                                                                     <div class="form-group">
-                                                                        {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                         <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
                                                                             value={area} onChange={(e) => updateArea(e)}
-
-
-                                                                        //  onChange = { (e) => updateMsdn(e)}
-                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
                                                                         />
                                                                     </div>
 
@@ -331,6 +375,7 @@ const PermanentAddress = () => {
                                                                         <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                             onChange={(e) => updateCity(e)}
                                                                             value={custLocalAdd.city} disabled
+                                                                            selected={custLocalAdd.city} disabled
                                                                         >
                                                                             <option></option>
                                                                             {cityLst.map((element) =>
@@ -423,7 +468,7 @@ const PermanentAddress = () => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" style={{ width: "50%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px", "background-color": "darkcyan", "color": "white" }}
-                                                            //onClick={() => this.searchMobile}
+                                                                onClick={(e) => validateFields(e)}
                                                             >NEXT</button>
                                                         </div>
                                                     </div>
