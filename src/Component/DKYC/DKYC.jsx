@@ -5,9 +5,7 @@ import getpoilist from '../../services/getpoilist';
 import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
-import DKYCChild from './DKYCChild';
-
-let child;
+import useLoader from '../../hooks/useLoader';
 
 
 const display = {
@@ -20,160 +18,160 @@ const hide = {
 const DKYC = () => {
 
     const [loading, setLoading] = useState(false)
-    const [displayOTP, setDisplayOTP] = useState(false)
-    const [time, setTime] = useState({})
-    let [timer, setTimer] = useState(0)
-    let [seconds, setSeconds] = useState(30)
-    const [doneC, setDoneC] = useState(false)
+    const [selectJourney, setSelectJourney] = useState("Aadhar")
+    const [poi, setPoi] = useState('Aadhar')
+    const [isAadhaar, setIsAadhar] = useState(true)
+
+    const [poiList, setPoiList] = useState([])
+    const [showQrDiv, setShowQrDiv] = useState(true)
+    const [AadhaarScan, setAadhaarScan] = useState(false)
+    const [showDocView, setShowDocView] = useState(false)
+    const [selectedDocObject, setSelectedDocObject] = useState('')
+
     const history = useHistory();
+    const [triggerAction] = useLoader();
 
-
-
-    const secondsToTime = (secs) => {
-        let hours = Math.floor(secs / (60 * 60));
-        let divisor_for_minutes = secs % (60 * 60);
-        let minutes = Math.floor(divisor_for_minutes / 60);
-        let divisor_for_seconds = divisor_for_minutes % 60;
-        let seconds = Math.ceil(divisor_for_seconds);
-        let obj = {
-            "h": hours,
-            "m": minutes,
-            "s": seconds
-        };
-        return obj;
-    }
-
-
-   
-
-   
-
-    const countDown = () => {
-        
-        seconds = seconds - 1;
-        if (seconds >= 0) {
-            if (seconds.toString().length > 1) {
-                setTime(secondsToTime(seconds))
-                setSeconds(seconds)
-
-            }
-            else {
-                seconds = 0 + seconds;
-                setTime(secondsToTime('0' + seconds))
-                setSeconds('0' + seconds)
-            }
+    const handlePOIChange = (e) => {
+        setSelectJourney(e.target.value)
+        setPoi(e.target.value);
+        if (e.target.value === "") {
+            setIsAadhar(false)
         }
-        if (seconds == 0) {
-            console.log("endedA")
-            setDoneC(true)
-            clearInterval(timer);
-
+        else {
+            setIsAadhar(true)
         }
     }
-
-   
-
-  
-
-  
 
     useEffect(() => {
-        let timeLeftVar = secondsToTime(seconds);
-        setTime(timeLeftVar);
+
+        (async () => {
+            setLoading(true)
+            const fetchPoaPoiMaster = await triggerAction(() => getpoilist(isAadhaar));
+            setLoading(false)
+            debugger;
+            if (fetchPoaPoiMaster.Error_Code === "00" || fetchPoaPoiMaster.Error_Code === "0") {
+                debugger;
+                setPoiList([...fetchPoaPoiMaster.lstPOI])  
+            }
+        })()
+
+
     }, []);
-
-    const SendOtp = () => {
-        setDisplayOTP(true)
-        let timeLeftVar = secondsToTime(seconds);
-        setTime(timeLeftVar)
-        document.getElementById("scust").click();
-    }
-
 
 
 
     return (
+       
+        
         <div class="my_app_container">
+        {FixedHeader()}
             <div class="rechargehome_wrapper">
                 <div>
+
                     <div class="container">
-                        <div class="">
-                            <div class="row">
-                                <div class="col">
-                                    {FixedHeader()}
-                                    <section class="card-view-sm mt-3">
-                                        <div class="md-font f-16 pl-3 pb-2">Mode of Activation</div>
-                                        <div class="card shadow-sm">
-                                            <div class="card-body">
-                                                <div className="spin">
-                                                    <Spinner visible={loading}
-                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                        <div class="row">
+                            <div class="col">
+                                <div class="date-title bold-font mt-3  mb-2 ml-3 mr-3 f-16">Mode of Activation</div>
+                                <div class="card shadow-sm payment-mode">
+                                    <div class="card-body p-0">
+                                        <div class="form-group pb-0 mb-0">
+                                            <div class="radio-wrap">
+                                                <div class="custom-control custom-radio custom-control-inline d-flex">
+                                                    <input type="radio"
+                                                        value="Aadhar"
+                                                        checked={selectJourney === "Aadhar"}
+                                                        onChange={(e) => handlePOIChange(e)}
+                                                        id="customRadio3" name="customRadio" class="custom-control-input" />
+                                                    <label class="custom-control-label" for="customRadio3">Aadhar</label>
                                                 </div>
-                                                <div class="row no-gutters">
-                                                    <div class="col-12">
-                                                        <form action="" class="">
-                                                            <div class="login">
-                                                                {/* <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
-                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)}
-                                                                    //onChange={(e) =>this.validateMobile(e.target.value)}
-                                                                    />
-                                                                    <label for="msdn" class="control-label">Enter alternate Mobile No.</label>
-                                                                </div> */}
 
-
-                                                                <div class="row no-gutters">
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <div class="radio-wrap">
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="vanity" name="customRadio"  value="option1" class="custom-control-input"
-                                                                                      checked={this.state.selectJourney === "option1"}
-                                                                                      onChange={child.handleMyChange.bind(document.getElementById("dkycHomeForm"))}
-                                                                                   
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="vanity">Aadhar</label>
-                                                                                </div>
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="mnp" name="customRadio" value="mnp" class="custom-control-input"
-                                                                                    checked={this.state.selectJourney === "option2"}
-                                                                                    onChange={child.handleMyChange.bind(document.getElementById("dkycHomeForm"))}
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="mnp">Non Aadhar</label>
-                                                                                </div>
-                                                                                <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
-                  <br />
-                  <select class="customsel" 
-                //   onChange={child.handleSpinnerChange.bind(document.getElementById("dkycHomeForm"))}
-                  >
-                    {/* {this.state.poiList.map((element) => (<option selected={this.state.selectedDocObject == element}>{element.DocName}</option>))} */}
-
-                  </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </form>
-
-                                                        <div class="form-group text-center mt-5 mb-0">
-                                                            <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                                onClick={(e) => SendOtp()}
-                                                            >Select</button>
-                                                        </div>
-                                                    </div>
+                                                <div class="custom-control custom-radio custom-control-inline d-flex">
+                                                    <input type="radio"
+                                                        value="Non Aadhar"
+                                                        checked={selectJourney === "Non Aadhar"}
+                                                        onChange={(e) => handlePOIChange(e)}
+                                                        id="customRadio4" name="customRadio" class="custom-control-input" />
+                                                    <label class="custom-control-label" for="customRadio4">Non Aadhar</label>
                                                 </div>
                                             </div>
                                         </div>
-                                    </section>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
+                        <div class="pt-95 text-center mt-2">
+                            <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
+                            <br />
+                            <select class="customsel"
+                            //   onChange={child.handleSpinnerChange.bind(document.getElementById("dkycHomeForm"))}
+                            >
+                                {poiList.map((element) => (
+                                    <option
+                                    // selected={this.state.selectedDocObject == element}
+                                    >{element.DocName}</option>))}
+
+                            </select>
+
+                            <div id="QrView" style={showQrDiv ? { marginBottom: '20vh' } : { display: 'none' }} >
+                                <p class="fs-13 txt-col-1 mt-10">Scan QR Here</p>
+                                <button class="scan-icon-70 mt-1"
+                                // onClick={child.doScan.bind(this)}
+                                ></button>
+                                <br />
+
+                                {AadhaarScan ?
+                                    <p class="fs-13 txt-col-1">Aadhar QR code validated successfully. Click on next to proceed.</p>
+                                    : null}
+                            </div>
+
+                            <div >
+
+
+                                <div class="card shadow mt-2" style={showDocView ? {} : { display: 'none' }}>
+                                    <div class="card-body">
+
+                                        <div class="form-group">
+                                            <input type="text" id="docNumber" autoComplete="off"
+                                                class="jio-form-control" placeholder=" " />
+                                            <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " />
+                                            <label for="dateOfIssue" class="control-label">Date of Issue <label style={{ color: "#FF0000" }}>*</label></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="placeOfIssue" autoComplete="off"
+                                                class="jio-form-control" placeholder=" " />
+                                            <label for="placeOfIssue" class="control-label">Place of Issue <label style={{ color: "#FF0000" }}>*</label></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="authority" autoComplete="off"
+                                                class="jio-form-control" placeholder=" " value={selectedDocObject.issuingauth} />
+                                            <label for="authority" class="control-label">Issuing Authority <label style={{ color: "#FF0000" }}>*</label></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                        {/* <div class="mt-3 mb-3"><a href="javascript:void(0);"><img class="img-fluid" src={require("../../img/pos/add-banner.jpg")} width="100%" height="auto" /></a></div> */}
+                    </div>
+                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+
+                        <button type="submit"
+                            // onClick={child.submit.bind(document.getElementById("dkycHomeForm"), this)}
+                            class="btn btn-primary btn-login">NEXT</button>
+
                     </div>
                 </div>
             </div>
         </div>
+      
     )
 
 }
