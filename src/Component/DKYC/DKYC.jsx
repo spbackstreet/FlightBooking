@@ -5,7 +5,7 @@ import getpoilist from '../../services/getpoilist';
 import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
-import DKYCChild from './DKYCChild';
+// import DKYCChild from './DKYCChild';
 
 let child;
 

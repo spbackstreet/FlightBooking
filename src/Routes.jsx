@@ -5,7 +5,7 @@ const DeliveryAddress = React.lazy(() => import('./Component/DeliveryAddress/Del
 const PermanentAddress= React.lazy(() => import('./Component/PermanentAddress/PermanentAddress'));
 const LocalReference= React.lazy(() => import('./Component/LocalRef/LocalReference'));
 const DKYC= React.lazy(() => import('./Component/DKYC/DKYC'));
-
+const CustomerDetails = React.lazy(() => import('./Component/CustomerDetails/CustomerDetails'));
 
 // const LocalAddress = React.lazy(() => import('./components/LocalAddress/LocalAddress'));
 
@@ -20,6 +20,8 @@ const Routes = () => {
             <Route exact path="/permanentAddress" component={PermanentAddress} />
             <Route exact path="/localreference" component={LocalReference} />
             <Route exact path="/DKYC" component={DKYC} />
+            <Route exact path="/CustomerDetails" component={CustomerDetails} />
+
             <Redirect to='/' />
         </Switch>
     );
