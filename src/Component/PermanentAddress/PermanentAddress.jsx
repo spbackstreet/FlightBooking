@@ -105,7 +105,7 @@ const PermanentAddress = () => {
             else {
                 confirmAlert({
                     title: "Error",
-                    message: "Default your Local Address captured earlier as Permanent Address",
+                    message: "Make your Local Address captured earlier as Permanent Address? ",
                     buttons: [
                         {
                             label: 'Yes',
@@ -116,7 +116,11 @@ const PermanentAddress = () => {
                         },
                         {
                             label: 'No',
-                            onClick: () => { return false; }
+                            onClick: () => { 
+                                setLoading(false)
+                                setPincodePerm('')
+                                return false; 
+                            }
                         }
 
                     ]
