@@ -2,7 +2,8 @@ const initialState = {
     app: {
         loading: false,
         pincodeRes: {},
-        custLocalAdd : {}
+        custLocalAdd : {},
+        poiList :{},
     }
 }
 
