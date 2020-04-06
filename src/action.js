@@ -17,7 +17,6 @@ const storeCustomerCircle = (payload) => {
 }
 
 const storeCustomerDelivery = (payload) => {
-  debugger;
   return {
     type: actions.STORE_CUSTOMER_DELIVERY,
     payload

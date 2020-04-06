@@ -24,7 +24,6 @@ const PermanentAddress = () => {
     const [triggerAction] = useLoader();
     const [{app : { pincodeRes, custLocalAdd }}, dispatch] = useGlobalState();
 
-    debugger;
 
     console.log(custLocalAdd)
 
@@ -36,7 +35,6 @@ const PermanentAddress = () => {
             const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
             setLoading(false)
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
-                debugger;
                 // dispatch(storeCustomerCircle(getCustomerCircle));
             }
             else {

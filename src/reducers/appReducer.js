@@ -19,7 +19,6 @@ const reducer = (state = initialState.app, action) => {
         }
 
         case actions.STORE_CUSTOMER_DELIVERY: {
-            debugger;
             return {
                 ...state,
                 custLocalAdd: action.payload
