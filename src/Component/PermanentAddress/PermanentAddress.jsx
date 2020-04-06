@@ -23,7 +23,7 @@ const PermanentAddress = () => {
     const [loading, setLoading] = useState(false)
     const [pincodePerm, setPincodePerm] = useState('')
     const [triggerAction] = useLoader();
-    const [{ app: { pincode, custLocalAdd } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, storeCustomeroutstation } }, dispatch] = useGlobalState();
     const [houseNo, setHouseNo] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
@@ -156,83 +156,219 @@ const PermanentAddress = () => {
                                                             <div class="login">
 
 
-                                                                <div class="form-group">
-
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
-                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                        value={houseNo} onChange={(e) => updateHouseNo(e)}
-                                                                    />
-                                                                    {/* <label for="customerName" class="control-label">House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label> */}
-                                                                </div>
+                                                                {storeCustomeroutstation ?
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                            value={houseNo} onChange={(e) => updateHouseNo(e)}
 
 
 
+                                                                        />
+                                                                    </div>
 
-                                                                <div class="form-group">
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
-                                                                    <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        value={landMark} onChange={(e) => updateLandMark(e)}
-                                                                    />
-                                                                    {/* <label for="customerName" class="control-label">Landmark<label style={{ color: "#FF0000" }}>*</label></label> */}
-                                                                </div>
+                                                                    :
 
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                            value={custLocalAdd.houseNo} readOnly
+                                                                        />
+                                                                    </div>
 
-                                                                <div class="form-group">
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        value={roadName} onChange={(e) => updateRoadName(e)}
-                                                                    />
-                                                                    {/* <label for="customerName" class="control-label">Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label> */}
-                                                                </div>
+                                                                }
 
 
-                                                                <div class="form-group">
-                                                                    {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
-                                                                    <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        value={area} onChange={(e) => updateArea(e)}
-                                                                    />
-                                                                    {/* <label for="customerName" class="control-label">Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label> */}
-                                                                </div>
+                                                                {storeCustomeroutstation ?
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
+                                                                        <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+
+                                                                            value={landMark} onChange={(e) => updateLandMark(e)}
 
 
-                                                                <div class="form-group">
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                        {/* <label for="customerName" class="control-label">Landmark<label style={{ color: "#FF0000" }}>*</label></label> */}
+                                                                    </div>
 
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="pinCodePerm" type="number" required="required" name="pinCodePerm" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        onChange={(e) => updatePincodePerm(e)}
-                                                                        pattern="^[1-9]\d*$"
-                                                                        value={pincodePerm}
-                                                                    />
+                                                                    :
 
-                                                                </div>
-
-
-                                                                <div class="form-group">
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        onChange={(e) => updateCity(e)} value={city}
-                                                                    >
-                                                                        <option></option>
-                                                                        {cityLst.map((element) =>
-                                                                            (<option>{element}</option>))}
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
+                                                                        <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
 
-                                                                    </select>
-                                                                </div>
+                                                                            value={custLocalAdd.landMark} disabled
 
-                                                                <div class="form-group">
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="district" type="number" required="required" name="district" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        onChange={(e) => updateDistrict(e)} value={district}
-                                                                    >
-                                                                        <option></option>
-                                                                        {districtLst.map((element) =>
-                                                                            (<option>{element}</option>))}
-                                                                    </select>
-                                                                </div>
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                        {/* <label for="customerName" class="control-label">Landmark<label style={{ color: "#FF0000" }}>*</label></label> */}
+                                                                    </div>
+
+                                                                }
+
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+
+                                                                            value={roadName} onChange={(e) => updateRoadName(e)}
+
+
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                    </div>
+
+                                                                    :
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+
+
+                                                                            value={custLocalAdd.roadName} disabled
+
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                    </div>
+                                                                }
+
+
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+                                                                        {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
+
+                                                                        <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+
+                                                                            value={area} onChange={(e) => updateArea(e)}
+
+
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                    </div>
+
+                                                                    :
+
+                                                                    <div class="form-group">
+                                                                        {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
+
+                                                                        <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+
+
+                                                                            value={custLocalAdd.area} disabled
+
+                                                                        //  onChange = { (e) => updateMsdn(e)}
+                                                                        //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
+                                                                        />
+                                                                    </div>
+
+                                                                }
+
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="pinCodePerm" type="number" required="required" name="pinCodePerm" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updatePincodePerm(e)}
+                                                                            pattern="^[1-9]\d*$"
+
+                                                                            value={pincodePerm}
+
+                                                                        />
+
+                                                                    </div>
+
+                                                                    :
+
+                                                                    <div class="form-group">
+
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="pinCodePerm" type="number" required="required" name="pinCodePerm" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updatePincodePerm(e)}
+                                                                            pattern="^[1-9]\d*$"
+
+
+                                                                            value={custLocalAdd.pincode} disabled
+                                                                        />
+
+                                                                    </div>
+                                                                }
+
+
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateCity(e)}
+                                                                            value={city}
+                                                                        >
+                                                                            <option></option>
+                                                                            {cityLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    :
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateCity(e)}
+                                                                            value={custLocalAdd.city} disabled
+                                                                        >
+                                                                            <option></option>
+                                                                            {cityLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+
+                                                                }
+
+
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="district" type="number" required="required" name="district" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateDistrict(e)}
+                                                                            value={district}
+
+                                                                        >
+                                                                            <option></option>
+                                                                            {districtLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    :
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="district" type="number" required="required" name="district" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateDistrict(e)}
+
+                                                                            value={custLocalAdd.district} disabled
+                                                                        >
+                                                                            <option></option>
+                                                                            {districtLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+                                                                }
 
 
 
@@ -244,17 +380,40 @@ const PermanentAddress = () => {
                                                                     />
                                                                 </div> */}
 
-                                                                <div class="form-group">
-                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="state" type="text" required="required" name="state" autocomplete="off"
-                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        onChange={(e) => updateState(e)} value={state}
-                                                                    >
-                                                                        <option></option>
-                                                                        {stateLst.map((element) =>
-                                                                            (<option>{element}</option>))}
-                                                                    </select>
-                                                                </div>
+                                                                {storeCustomeroutstation ?
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="state" type="text" required="required" name="state" autocomplete="off"
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateState(e)}
+
+                                                                            value={state}
+
+                                                                        >
+                                                                            <option></option>
+                                                                            {stateLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    :
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <select id="state" type="text" required="required" name="state" autocomplete="off"
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                            onChange={(e) => updateState(e)}
+
+
+                                                                            value={custLocalAdd.state} disabled
+                                                                        >
+                                                                            <option></option>
+                                                                            {stateLst.map((element) =>
+                                                                                (<option>{element}</option>))}
+                                                                        </select>
+                                                                    </div>
+                                                                }
 
 
                                                             </div>

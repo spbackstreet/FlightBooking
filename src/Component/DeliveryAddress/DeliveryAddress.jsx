@@ -4,7 +4,7 @@ import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerCircle, storeCustomerDelivery } from '../../action';
+import { storeCustomerCircle, storeCustomerDelivery , storeCustomeroutstation} from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
@@ -109,7 +109,7 @@ const DeliveryAddress = () => {
         setState(e.target.value)
     }
 
-    const validateFields = (e) => {
+    const validateFields = async(e) => {
         if (houseNo && roadName && area && city && district && state) {
 
             let delAddr = {
@@ -119,15 +119,18 @@ const DeliveryAddress = () => {
                 "area": area,
                 "city": city,
                 "district": district,
-                "state": state
+                "state": state,
+                "pincode":pincode
             }
             confirmAlert({
                 message: "Are you an outstation customer?",
                 buttons: [
                     {
                         label: 'Yes',
-                        onClick: () => {
-                            dispatch(storeCustomerDelivery(delAddr));
+                        onClick: async () => {
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(true));
+
                             history.push('/permanentAddress')
                         }
                     },
