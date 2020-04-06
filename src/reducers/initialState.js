@@ -1,9 +1,11 @@
 const initialState = {
     app: {
         loading: false,
-        pincodeRes: {},
+        pincode: '',
         custLocalAdd : {},
-        poiList :{},
+        custPermAdd : {},
+        custNumber : '',
+        isOutstation : false
     }
 }
 

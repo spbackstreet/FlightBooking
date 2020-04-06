@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
-import { default as APIRouter, default as ApiRouter } from '../../Common/JS/ApiRouter';
-import GlobalORNModel from '../Model/ORNModel';
-import { getHttpStatus } from '../../Common/JS/constants';
-import GlobalPOIModel from '../Model/POIModel';
+import { default as APIRouter, default as ApiRouter } from '../../ApiRouter';
+// import GlobalORNModel from '../Model/ORNModel';
+// import { getHttpStatus } from '../../Common/JS/constants';
+// import GlobalPOIModel from '../Model/POIModel';
 import config from '../../config';
 
 let that;
@@ -45,9 +45,9 @@ class DKYCChild extends Component
 
       async fetchPoiPoaTask(isAadhaar, frm) {
         if (isAadhaar) {
-          GlobalPOIModel.setAadharKYC(true);
+        //   GlobalPOIModel.setAadharKYC(true);
         } else {
-          GlobalPOIModel.setAadharKYC(false);
+        //   GlobalPOIModel.setAadharKYC(false);
     
         }
         console.log("fetchPoiPoaTaskcalled", "Called")
@@ -103,24 +103,10 @@ class DKYCChild extends Component
         console.log("PoiListRepsonse", response1);
     
     
-        // fetch('/GetPOAPOIMaster', {
-        //   method: 'POST',
-        //   headers: {
-        //     "Accept": 'application/json',
-        //     "Content-Type": 'text/plain',
-        //     "Authorization": 'Basic OTk5OTAwMDA6UEBzc3cwcmQ=',
-        //     "GUID": config.objDeviceSave.Msg'),
-        //     "X-API-Key": config.objSupervisorLogin.APIKey'),
-        //     "STOREID": config.objGetStore.StoreID')
-        //   },
-        //   body: encryptedRequest
-        // }).then((response) => response.json())
-        //   .then((responseJson) => {
+      
         that.props.setState({ loading: false })
     
-        // var DecryptedResponseFecthPoiPoaList = decryptData(responseJson);
-        // console.log("PoiListRepsonse", DecryptedResponseFecthPoiPoaList);
-    
+      
     
         if (response1.Error_Code === '00') {
     
@@ -172,8 +158,7 @@ class DKYCChild extends Component
       }
         else {
     
-        //  showErrorAlert(response1.Error_Msg)
-    
+      
     
     
         }

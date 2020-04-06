@@ -4,7 +4,7 @@ import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerCircle, storeCustomerDelivery } from '../../action';
+import { storeCustomerCircle, storeCustomerDelivery , storeCustomeroutstation} from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
@@ -44,10 +44,13 @@ const DeliveryAddress = () => {
 
         if (e.currentTarget.value.substring(0, 6).length === 6) {
             setLoading(true)
-            const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
+            let vpincode = e.currentTarget.value.substring(0, 6)
+            const getCustomerCircle = await triggerAction(() => getpincode(vpincode));
             setLoading(false)
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
-                dispatch(storeCustomerCircle(getCustomerCircle));
+                // dispatch(storeCustomerCircle(getCustomerCircle));
+                dispatch(storeCustomerCircle(vpincode));
+
                 let vcityLst = [];
                 let vdistrictLst = [];
                 let vstateLst = []
@@ -106,7 +109,7 @@ const DeliveryAddress = () => {
         setState(e.target.value)
     }
 
-    const validateFields = (e) => {
+    const validateFields = async(e) => {
         if (houseNo && roadName && area && city && district && state) {
 
             let delAddr = {
@@ -124,14 +127,20 @@ const DeliveryAddress = () => {
                 buttons: [
                     {
                         label: 'Yes',
-                        onClick: () => {
-                            dispatch(storeCustomerDelivery(delAddr));
+                        onClick: async () => {
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(true));
+
                             history.push('/permanentAddress')
                         }
                     },
                     {
                         label: 'No',
-                        onClick: () => { return false; }
+                        onClick: async() => { 
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(false));
+
+                            history.push('/permanentAddress') }
                     }
                 ]
             });
