@@ -23,7 +23,7 @@ const PermanentAddress = () => {
     const [loading, setLoading] = useState(false)
     const [pincodePerm, setPincodePerm] = useState('')
     const [triggerAction] = useLoader();
-    const [{ app: { pincode, custLocalAdd, storeCustomeroutstation } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation } }, dispatch] = useGlobalState();
     const [houseNo, setHouseNo] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
@@ -41,6 +41,8 @@ const PermanentAddress = () => {
     console.log(pincode)
 
     console.log(custLocalAdd)
+
+    console.log(isOutstation)
 
     const updatePincodePerm = async (e) => {
         setPincodePerm(e.currentTarget.value.substring(0, 6))
@@ -156,7 +158,7 @@ const PermanentAddress = () => {
                                                             <div class="login">
 
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
@@ -182,7 +184,7 @@ const PermanentAddress = () => {
 
 
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
                                                                         <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -213,7 +215,7 @@ const PermanentAddress = () => {
 
                                                                 }
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
@@ -242,7 +244,7 @@ const PermanentAddress = () => {
                                                                 }
 
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
                                                                         {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
@@ -276,7 +278,7 @@ const PermanentAddress = () => {
 
                                                                 }
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
 
@@ -308,7 +310,7 @@ const PermanentAddress = () => {
                                                                 }
 
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
@@ -339,7 +341,7 @@ const PermanentAddress = () => {
                                                                 }
 
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
@@ -380,7 +382,7 @@ const PermanentAddress = () => {
                                                                     />
                                                                 </div> */}
 
-                                                                {storeCustomeroutstation ?
+                                                                {isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>

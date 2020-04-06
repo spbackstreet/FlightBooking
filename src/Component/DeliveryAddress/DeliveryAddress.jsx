@@ -136,7 +136,11 @@ const DeliveryAddress = () => {
                     },
                     {
                         label: 'No',
-                        onClick: () => { return false; }
+                        onClick: async() => { 
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(false));
+
+                            history.push('/permanentAddress') }
                     }
                 ]
             });
