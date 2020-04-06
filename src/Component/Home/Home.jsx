@@ -26,6 +26,10 @@ const Home = () => {
     const history = useHistory();
 
 
+    const updateCustOtp = (e) => {
+        setCustOtp(e.target.value)
+    }
+
     const secondsToTime = (secs) => {
         let hours = Math.floor(secs / (60 * 60));
         let divisor_for_minutes = secs % (60 * 60);
@@ -146,7 +150,7 @@ const Home = () => {
                                                 <br></br>
 
                                                 <input class="input-style mb10" id="custOtp" name="custOtp" type="number"
-                                                    onChange={(e) => setCustOtp(e, "custOtp")}
+                                                    onChange={(e) => updateCustOtp(e)}
 
                                                     pattern="^[1-9]\d*$"
                                                     value={custOtp}
@@ -235,11 +239,11 @@ const Home = () => {
                                                                     <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)}
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
-                                                                    <label for="msdn" class="control-label">Enter Customer Mobile No.</label>
+                                                                    <label for="msdn" class="control-label">Enter alternate Mobile No.</label>
                                                                 </div>
 
 
-                                                                <div class="row no-gutters">
+                                                                {/* <div class="row no-gutters">
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <div class="radio-wrap">
@@ -268,7 +272,7 @@ const Home = () => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
 
                                                             </div>
                                                         </form>

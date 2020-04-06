@@ -8,6 +8,8 @@ import { storeCustomerCircle } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
+import { useHistory } from 'react-router-dom';
+
 
 
 const display = {
@@ -33,6 +35,8 @@ const DeliveryAddress = () => {
     const [city, setCity] = useState('');
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
+
+    const history = useHistory()
 
     const updatePincode = async (e) => {
         setPincode(e.currentTarget.value.substring(0, 6))
@@ -106,7 +110,7 @@ const DeliveryAddress = () => {
                 buttons: [
                     {
                         label: 'Yes',
-                        onClick: () => { return false; }
+                        onClick: () => { history.push('/permanentAddress') }
                     },
                     {
                         label: 'No',

@@ -64,7 +64,7 @@ const PermanentAddress = () => {
                                 <div class="col">
                                     {FixedHeader()}
                                     <section class="card-view-sm mt-3">
-                                        <div class="md-font f-16 pl-3 pb-2">Customer Delivery Details</div>
+                                        <div class="md-font f-16 pl-3 pb-2">Customer Permanent Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
                                                 <div className="spin">
