@@ -14,5 +14,4 @@ const StateProvider = ({ children }) => {
 }
 
 const useGlobalState = () => useContext(StateContext);
-
 export { StateProvider, useGlobalState as default };

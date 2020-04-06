@@ -16,6 +16,14 @@ const storeCustomerCircle = (payload) => {
   }
 }
 
+const storeCustomerDelivery = (payload) => {
+  debugger;
+  return {
+    type: actions.STORE_CUSTOMER_DELIVERY,
+    payload
+  }
+}
+
 
 
 
@@ -23,5 +31,6 @@ const storeCustomerCircle = (payload) => {
 
 export {
   performLoadingOperation, 
-  storeCustomerCircle
+  storeCustomerCircle,
+  storeCustomerDelivery
 };

@@ -4,7 +4,7 @@ import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerCircle } from '../../action';
+import { storeCustomerCircle, storeCustomerDelivery } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
@@ -25,10 +25,11 @@ const DeliveryAddress = () => {
     const [loading, setLoading] = useState(false)
     const [pincode, setPincode] = useState('')
     const [triggerAction] = useLoader();
-    const [pincodeRes, dispatch] = useGlobalState();
+    const [, dispatch] = useGlobalState();
     const [cityLst, setCityLst] = useState([])
-    const [districtLst, setDistrictLst] = useState([])
-    const [customerName, setCustomerName] = useState('')
+    const [districtLst, setDistrictLst] = useState([]);
+    const [stateLst, setStateLst] = useState([])
+    const [houseNo, setHouseNo] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
     const [area, setArea] = useState('');
@@ -49,13 +50,16 @@ const DeliveryAddress = () => {
                 dispatch(storeCustomerCircle(getCustomerCircle));
                 let vcityLst = [];
                 let vdistrictLst = [];
+                let vstateLst = []
                 for (let i = 0; i < getCustomerCircle.pincodelist.length; i++) {
                     const element = getCustomerCircle.pincodelist[i];
                     vcityLst.push(element.city);
                     vdistrictLst.push(element.district);
+                    vstateLst.push(element.state);
                 }
                 setCityLst([...vcityLst]);
                 setDistrictLst([...vdistrictLst]);
+                setStateLst([...vstateLst])
 
             }
             else {
@@ -74,8 +78,8 @@ const DeliveryAddress = () => {
 
     }
 
-    const updateCustomerName = (e) => {
-        setCustomerName(e.target.value)
+    const updateHouseNo = (e) => {
+        setHouseNo(e.target.value)
     }
 
     const updateLandMark = (e) => {
@@ -103,14 +107,26 @@ const DeliveryAddress = () => {
     }
 
     const validateFields = (e) => {
-        debugger;
-        if(customerName && roadName && area && city && district && state){
+        if (houseNo && roadName && area && city && district && state) {
+
+            let delAddr = {
+                "houseNo": houseNo,
+                "landMark": landMark,
+                "roadName": roadName,
+                "area": area,
+                "city": city,
+                "district": district,
+                "state": state
+            }
             confirmAlert({
                 message: "Are you an outstation customer?",
                 buttons: [
                     {
                         label: 'Yes',
-                        onClick: () => { history.push('/permanentAddress') }
+                        onClick: () => {
+                            dispatch(storeCustomerDelivery(delAddr));
+                            history.push('/permanentAddress')
+                        }
                     },
                     {
                         label: 'No',
@@ -120,7 +136,7 @@ const DeliveryAddress = () => {
             });
         }
 
-        else{
+        else {
             confirmAlert({
                 title: "Error",
                 message: "Please enter all mandatory fields",
@@ -160,10 +176,9 @@ const DeliveryAddress = () => {
 
 
                                                                 <div class="form-group">
-
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
-                                                                    value={customerName} onChange={(e) => updateCustomerName(e)}
+                                                                    <input id="houseNo" type="text" required="required" name="houseNo" autocomplete="off" placeholder=" "
+                                                                        value={houseNo} onChange={(e) => updateHouseNo(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
                                                                 </div>
@@ -174,17 +189,17 @@ const DeliveryAddress = () => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
                                                                     <input id="landMark" type="text" required="required" name="landMark" autocomplete="off"
-                                                                     style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                        value = {landMark} onChange= {(e) => updateLandMark(e)}
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        value={landMark} onChange={(e) => updateLandMark(e)}
                                                                     />
                                                                 </div>
 
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" 
-                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    value = {roadName} onChange = {(e) => updateRoadName(e)}
+                                                                    <input id="roadName" type="text" required="required" name="roadName" autocomplete="off"
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        value={roadName} onChange={(e) => updateRoadName(e)}
                                                                     />
                                                                 </div>
 
@@ -192,9 +207,9 @@ const DeliveryAddress = () => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
-                                                                    <input id="area" type="text" required="required" name="area" autocomplete="off" 
-                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    value = {area} onChange = {(e) => updateArea(e)}
+                                                                    <input id="area" type="text" required="required" name="area" autocomplete="off"
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        value={area} onChange={(e) => updateArea(e)}
                                                                     />
                                                                 </div>
 
@@ -213,9 +228,9 @@ const DeliveryAddress = () => {
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="village" type="number" required="required" name="village" autocomplete="off" 
-                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    onChange = {(e) => updateCity(e)} value = {city}
+                                                                    <select id="village" type="number" required="required" name="village" autocomplete="off"
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        onChange={(e) => updateCity(e)} value={city}
                                                                     >
                                                                         <option></option>
                                                                         {cityLst.map((element) =>
@@ -227,9 +242,9 @@ const DeliveryAddress = () => {
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="district" type="number" required="required" name="district" autocomplete="off" 
-                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
-                                                                    onChange = {(e) => updateDistrict(e)} value = {district}
+                                                                    <select id="district" type="text" required="required" name="district" autocomplete="off"
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        onChange={(e) => updateDistrict(e)} value={district}
                                                                     >
                                                                         <option></option>
                                                                         {districtLst.map((element) =>
@@ -240,13 +255,26 @@ const DeliveryAddress = () => {
 
 
 
-                                                                <div class="form-group">
+                                                                {/* <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                     <input id="state" type="text" required="required" name="state" autocomplete="off" 
                                                                     style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                     value ={state} onChange={(e) => updateState(e)}
                                                                     />
+                                                                </div> */}
+
+
+                                                                <div class="form-group">
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <select id="state" type="text" required="required" name="state" autocomplete="off"
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                        onChange={(e) => updateState(e)} value={state}
+                                                                    >
+                                                                        <option></option>
+                                                                        {stateLst.map((element) =>
+                                                                            (<option>{element}</option>))}
+                                                                    </select>
                                                                 </div>
 
 
