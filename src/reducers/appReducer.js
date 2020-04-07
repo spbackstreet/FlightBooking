@@ -32,6 +32,22 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+        case actions.STORE_SELECTED_DOCOBJECT: {
+            return {
+                ...state,
+                selectedDocObject: action.payload
+            }
+        }
+
+        case actions.STORE_LIST_POA: {
+            return {
+                ...state,
+                poaList: action.payload
+            }
+        }
+
+        
+
         case actions.STORE_CUSTOMER_NUMBER: {
             return {
                 ...state,
