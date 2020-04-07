@@ -400,7 +400,9 @@ const LocalReference = () => {
             setCallingPartyNumber(e.target.value)
         }
 
-
+        const hideModal =(e)=>{
+            setDisplayotp(false)
+        }
 
         return (
             <div class="my_app_container">
@@ -416,6 +418,8 @@ const LocalReference = () => {
 
                                         <div class="text-center" style={{ "background": "#024C9D" }}>
                                             <h4 class="modal-title mt-10" style={{ color: "white" }}><b>Local Reference Validation</b></h4>
+                                            <span class="remove-no" style={{marginLeft:"260px"}}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{"margin-top":"-40px"}} onClick={(e) => hideModal(e)} /></span>
+
                                         </div>
                                         <div class="input-style" style={{ "height": "40vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
                                             <Scrollbars style={{ height: 500 }}>
