@@ -58,6 +58,10 @@ const Home = () => {
         setMsdn(event.currentTarget.value.substring(0, 10))
     }
 
+
+    const hideModal =(e)=>{
+        setDisplayOTP(false)
+    }
     const startTimer = () => {
         if (timer == 0 && seconds > 0) {
             setTimer(setInterval(countDown, 1000))
@@ -191,7 +195,9 @@ const Home = () => {
                             <div class="modal-dialog" style={{ zIndex: "inherit" }}>
                                 <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
                                     <div class="text-center" style={{ "background": "#0D95A2" }}>
+
                                         <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
+                                        <span class="remove-no" style={{marginLeft:"260px"}}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{"margin-top":"-40px"}} onClick={(e) => hideModal(e)} /></span>
 
                                     </div>
 
