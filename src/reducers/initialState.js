@@ -5,7 +5,9 @@ const initialState = {
         custLocalAdd : {},
         custPermAdd : {},
         custNumber : '',
-        isOutstation : false
+        isOutstation : false,
+        selectedDocObject : {},
+        poaList : []
     }
 }
 
