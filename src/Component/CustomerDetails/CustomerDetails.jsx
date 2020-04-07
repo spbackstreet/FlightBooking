@@ -302,7 +302,7 @@ const updateHouseNo = (e) => {
                                                                                <div class="form-group">
                                                                              <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
                                                                                 <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
-                                                                            //   value={custNumber}
+                                                                              value={custNumber}
                                                                                disabled
                                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                                    />
