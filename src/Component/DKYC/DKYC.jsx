@@ -95,7 +95,16 @@ const DKYC = () => {
     }, [isAadhaar]);
 
     const handleSpinnerChange = (e) => {
-        setSelectedDocObject(e.target.value)
+
+        for (let index = 0; index < poiList.length; index++) {
+            const element = poiList[index];
+            if (e.target.value === element.DocName) {
+                setSelectedDocObject(element)
+              break
+            }
+      
+          }
+        
     }
 
     const doScan = (e) => {
@@ -131,7 +140,7 @@ const DKYC = () => {
 
         else if (docNumber.value == '') {
             showErrorAlert('Please enter Doc Number')
-        } else if (selectedDocObject.IsDateOfIssue != '' && selectedDocObject.IsDateOfIssue == 'YES' && dateOfIssue == '') {
+        } else if (selectedDocObject.IsDateOfIssue != '' && selectedDocObject.IsDateOfIssue == 'YES' && document.getElementById('dateOfIssue').value  == '') {
             showErrorAlert('Please enter Date Of Issue')
         } else if (placeOfIssue == '') {
             showErrorAlert('Please enter Place Of Issue')
@@ -186,8 +195,8 @@ const DKYC = () => {
         } else {
             GlobalPOIModel.setAadharKYC(false);
             GlobalPOIModel.docNumber = (docNumber);
-            GlobalPOIModel.dateOfIssue = (docNumber);
-            GlobalPOIModel.placeOfIssue = (docNumber);
+            GlobalPOIModel.dateOfIssue = (document.getElementById('dateOfIssue').value);
+            GlobalPOIModel.placeOfIssue = (placeOfIssue);
         }
 
 
@@ -253,9 +262,11 @@ const DKYC = () => {
                             <select class="customsel"
                                 onChange={(e) => handleSpinnerChange(e)} value={selectedDocObject}
                             >
+
                                 {poiList.map((element) => (
                                     <option
                                         selected={selectedDocObject == element}
+                                       
                                     >{element.DocName}</option>))}
 
                             </select>
@@ -276,7 +287,7 @@ const DKYC = () => {
 
 
                                 {showDocView ?
-                                    <div class="card shadow" style ={{"marginTop" : "20px"}} >
+                                    <div class="card shadow" style={{ "marginTop": "20px" }} >
                                         <div class="card-body">
 
                                             <div class="form-group">
@@ -285,7 +296,10 @@ const DKYC = () => {
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
-                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " value={dateOfIssue} onchange={(e) => updateDateOfIssue(e)} />
+                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " 
+                                                // value={dateOfIssue} 
+                                                // onchange={(e) => updateDateOfIssue(e)} 
+                                                />
                                                 <label for="dateOfIssue" class="control-label">Date of Issue <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
@@ -318,7 +332,7 @@ const DKYC = () => {
                 </div>
             </div>
             <div>
-                <input class="mt-40" id="QRDATA" type="text" style={{ "display": "none" }} 
+                <input class="mt-40" id="QRDATA" type="text" style={{ "display": "none" }}
                 // onClick={(e) => handleScan(e)} 
                 />
 

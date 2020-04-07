@@ -18,6 +18,12 @@ import GlobalPOIModel from '../../Model/POIModel'
 
 var GSON = require('gson');
 
+const display = {
+    display: 'block'
+};
+const hide = {
+    display: 'none'
+};
 
 const POICapture = () => {
 
@@ -78,7 +84,8 @@ const POICapture = () => {
         }
     }
 
-    const previewClicked = (str, e) => {
+    const previewClicked = (e,str) => {
+        debugger;
         e.preventDefault();
         if (str == "FRONT") {
             var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poiImage;
@@ -967,7 +974,19 @@ const POICapture = () => {
 
     return (
         <div>
-            <div class="back-color" style={{ height: "100vh" }}>
+            <div className="modal" role="dialog" style={showDialog ? display : hide}>
+                <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
+                    <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
+                        <div className="modal-header1">
+                            <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
+                            <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
+                        </div>
+                        <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
+                    </div>
+                </div>
+            </div>
+
+            <div  style={{ height: "100vh" }}>
                 <form id="SdkReponseForm">
                     <div className="spin">
                         <Spinner visible={loading}
@@ -986,22 +1005,29 @@ const POICapture = () => {
                                         <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn-block jio-btn jio-btn-primary" >Preview</button>
                                     </div>
                                 </div>
-                                <p class="mt-40" style={{
-                                    color: "black", "fontWeight": "bolder",
-                                    visibility: showPhotoView
-                                }}>Capture Back View</p>
-                                <div id="BackView"
-                                    class="photoPreviewFrame"
-                                    style={{ visibility: showPhotoView }}
-                                >
-                                    <button style={{ "padding": "20px" }} onClick={(e) => fetchLocation(e, "Back Side")}>
-                                        <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"></img>
-                                    </button>
-                                    <div class="col-6 col-sm-6">
-                                        <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "BACK")} >Preview</button>
+
+
+                                {showPhotoView ?
+                                    <p class="mt-40" style={{
+                                        color: "black", "fontWeight": "bolder",
+
+                                    }}>Capture Back View</p>
+                                    : null}
+
+                                {showPhotoView ?
+                                    <div id="BackView"
+                                        class="photoPreviewFrame"
+                                    >
+                                        <button style={{ "padding": "20px" }} onClick={(e) => fetchLocation(e, "Back Side")}>
+                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"></img>
+                                        </button>
+                                        <div class="col-6 col-sm-6">
+                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "BACK")} >Preview</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>
+                                    : null}
+
+                                {/* <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p> */}
                             </div>
                         </div>
 
