@@ -1,0 +1,223 @@
+
+const txnUploadData = {
+  CAF: "",//Done
+  Guid: "",//Done
+  StoreNo: "",//Done
+  Toast: "97431623",
+  TxnInfo: {
+    PromoDiscountCouponDetails: [
+    ],
+    PromoList: [
+    ],
+    TxnHeader: {
+      Area: "",
+      BalanceLoyaltyPoints: "0.0",
+      BillOfSupply: "",
+      BlockNo: "",
+      BuildingName: "",
+      ChangeDue: "0.00",
+      City: "",
+      ContactNumber: "",
+      CouponID: "",
+      CouponType: "",
+      CouponValue: "0.00",
+      CouponValueParam: "",
+      CouponValueType: "",
+      CurReferenceID: "1",
+      CustomerID: "",
+      CustomerName: "",
+      DeviceId: "",
+      DoctorsAdd1: "",
+      DoctorsAdd2: "",
+      DoctorsAdd3: "",
+      DoctorsName: "",
+      ESOrderID: "",
+      EmailID: "",
+      EmailId: "",
+      FlatNo: "",
+      FloorNo: "",
+      IDProofCaptureStatus: "",
+      IsAddressCaptured: "",
+      IsCouponApplied: "",
+      IsIDProofRequiredFlag: "",
+      IsLoyaltyCardCaptured: "",
+      IsLoyaltyRedeemed: "",
+      IsValidLoyaltyRedemption: "",
+      IsVatExtra: "false",
+      ItemCount: "1",
+      LogonTime: "",
+      LoyaltyCardNumber: "",
+      MNP_MSISDN: "",
+      OrderType: "",
+      PanCardNo: "",
+      PatientsAdd1: "",
+      PatientsAdd2: "",
+      PatientsAdd3: "",
+      PatientsName: "",
+      PaymentEndTime: '',
+      PaymentStartTime: "",
+      Pincode: "",
+      PlotNo: "",
+      ProductVersion: "10.4.7",
+      PromoTotal: "0.00",
+      ReceiptRefID: "",
+      ReceiptTextPath: "",
+      RedeemAmount: "",
+      RefundTxnSupervisorID: "",
+      RoundOffAmount: "0.00",
+      RoundOffConfigValue: "0.50",
+      Sector: "",
+      SocietyName: "",
+      State: "",
+      Street: "",
+      Supply_State_Code: "27",
+      TaxInvoice: "",
+      TaxableAmount: "0.00",
+      TransactionType: "SALE",
+      TxnAppliedDiscValue: "0.00",
+      TxnCouponSupervisorID: "",
+      TxnDiscAppliedTime: "",
+      TxnDiscSupervisorID: "",
+      TxnDiscValue: "",
+      TxnDiscValueFlag: "",
+      TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
+        + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
+      TxnId: "",
+      TxnMarkDownReason: "",
+      TxnMarkDownReasonDesc: "",
+      TxnSalesManID: "",
+      TxnStartTime: "",
+      TxnStatus: "COMPLETED",
+      TxnTotal: "",//this.state.Totalp
+      UserId: "",
+      VoidTxnSupervisorID: "",
+      ZONE: "WE",
+      isMDTApplied: ""
+    },
+    TxnItemList: [
+      // {
+      //   BatchNumber: "",
+      //   Colorcode: "0",
+      //   CouponID: "",
+      //   CouponSupervisorID: "",
+      //   CouponType: "",
+      //   CouponValue: "",
+      //   CouponValueParam: "",
+      //   CouponValueType: "",
+      //   DeliveryLocation: "",
+      //   DeliveryLocationId: "",
+      //   Description: "Test Offer 2(mapped ",
+      //   DiscountAmount: "0.00",
+      //   DiscountID: "",
+      //   DiscountPercentage: "0.00",
+      //   DiscountWithQty: "0.00",
+      //   EffectivePrice: "0.00",
+      //   EmbeddedTotalPrice: "0.00",
+      //   EnterEANorSKU: "1409276",
+      //   EntryMethod: "S",
+      //   ExpectedDeliveryDate: "",
+      //   ExpectedDeliveryTime: "",
+      //   ExpiryDate: "",
+      //   Extnd_bckt_nbr: "0",
+      //   Extnd_prom_nbr: "0",
+      //   HSN_CODE: "0000",
+      //   IsCouponApplied: "0",
+      //   ItemDiscAppliedTime: "",
+      //   ItemEmpDiscSupervisorID: "",
+      //   ItemEmployeeDiscount: "0.00",
+      //   ItemMarkDownDescription: "",
+      //   ItemMarkDownDiscountFlag: "",
+      //   ItemMarkDownDiscountParam: "0.00",
+      //   ItemMarkDownDiscountValue: "0.00",
+      //   ItemMarkDownReason: "",
+      //   ItemMarkDownSupervisorID: "",
+      //   ItemMesurementType: "MEASURE_TYPE_QUANTITY",
+      //   ItemSellingPrice: "0.00",
+      //   ItemType: "TYPE_GRAB_AND_GO",
+      //   ItemUnitPriceAfterDiscount: "0.00",
+      //   LnkItemList: [
+      //   ],
+      //   LocationType: "",
+      //   MDIAppliedDateTime: "",
+      //   MD_FG: "0",
+      //   MaximumQuantity: "1",
+      //   OrgPrice: "0.00",
+      //   OrgSeqId: "",
+      //   OriginalBarcode: "",
+      //   OriginalPriceWithQty: "0.00",
+      //   OtherDiscounts: "0.00",
+      //   ParentReferenceID: "",
+      //   PosMsgDetails: [
+      //   ],
+      //   ProductID: "1409276",
+      //   QtyChangeDateTime: "",
+      //   Quantity: "1",
+      //   QuantityAdded: "",
+      //   QuantityFlag: "0",
+      //   SalesManID: "",
+      //   ScanTime: "27/12/2019 13:28:58",
+      //   SellingPrice: "0.00",
+      //   SequenceID: "1",
+      //   Status: "",
+      //   StockCheckRequired: "0",
+      //   StockCount: "",
+      //   StoreID: "",
+      //   Stylecode: "0",
+      //   SupervisorID: "",
+      //   TaxDetails: {
+      //     AddlDetailsList: [
+      //     ],
+      //     TaxCodeType: "TAX_TYPE_INCL",
+      //     TaxGSTList: [
+      //       {
+      //         HSN_TYPE: "JOSG",
+      //         SEQUENCEID_TAX: "1",
+      //         TaxAmount: "0",
+      //         TaxRate: "0"
+      //       },
+      //       {
+      //         HSN_TYPE: "JOCG",
+      //         SEQUENCEID_TAX: "1",
+      //         TaxAmount: "0",
+      //         TaxRate: "0"
+      //       }
+      //     ],
+      //     TaxType: "TAX_TYPE_PERCENTAGE",
+      //     TaxableAmount: "0.00"
+      //   },
+      //   TxnItemPromoDetails: [
+      //   ],
+      //   UnitOfMeasure: "EA",
+      //   ValidatedPosMsgId: "",
+      //   VoidSupervisorID: "",
+      //   VoidedDateTime: "",
+      //   isDiscountApplied: "0",
+      //   isLinkedItemsPresentFlag: "1",
+      //   isMDIApplied: "0",
+      //   isPromotionAvailableFlag: "0",
+      //   isTradeInItem: "0",
+      //   isVoidAllowed: "0",
+      //   itm_point: "0",
+      //   prom_nbr: "0"
+      // }
+    ],
+    TxnTenderList: [
+      {
+        Amount: "",//this.state.Totalp
+        Description: "CASH",
+        MOPID: "1",
+        ReceiptTypeDescription: "CASH",
+        Status: "SUCCESS",
+        TenderMode: "DEBIT",
+        Type: "TENDERTYPE_CASH"
+      }
+    ]
+  }
+  
+};
+
+
+
+
+
+export default txnUploadData;

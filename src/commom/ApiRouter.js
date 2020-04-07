@@ -5,12 +5,18 @@ import config from '../config';
 // *************** For API Call **********************
 const postApiCall = async (Request, ApiName) => {
   try {
-    // return await axios.post(ApiName,
-    //   Request)
 
-    return await axios.post(ApiName, Request ,{
+
+    if (ApiName.includes("HealthService")) {
+      return await axios.post(ApiName, Request, {
         data: { stopIntercept: true },
-    });
+      });
+    }
+    else {
+      return await axios.post(ApiName,
+        Request)
+    }
+
   }
   catch (err) {
     console.log("err.message : ", err);

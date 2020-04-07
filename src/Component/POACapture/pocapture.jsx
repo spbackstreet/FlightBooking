@@ -242,11 +242,7 @@ showErrorAlert(errorMessage)
                     GlobalPOIModel.setCustPOATime(getCurrentDateTime());
                     GlobalPOIModel.setCustPOALat("test");
                     GlobalPOIModel.setCustPOALong("test");
-
-                   
-                    //Added by neelam
                     GlobalPOIModel.setSdkUsed("hyperverge");
-                    //end
 
                     GlobalPOIModel.setHyperverge_POI_2_Img_Path(that.props.state.SDKURI);
                     console.log("change", GlobalPOIModel.getHyperverge_POI_2_Img_Path());

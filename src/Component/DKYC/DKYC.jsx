@@ -102,7 +102,7 @@ const DKYC = () => {
         e.preventDefault();
         GlobalPOIModel.qrScannedData = "";
         if (window.Mobile) {
-            console.log("NEELAM1 " + config.userID)
+            console.log("config.userID " + config.userID)
 
             window.Mobile.handleScanQR();
         }

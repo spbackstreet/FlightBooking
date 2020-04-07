@@ -1,11 +1,15 @@
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
+import { basicAuth } from '../commom/basicAuth';
+
 
 const checkMobile = async (msisdn) => {
+
+    
     const Request = {
 
-        "msisdn" : msisdn
+        "msisdn": msisdn
     };
     console.log("Request : ", Request)
     const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
@@ -18,5 +22,7 @@ const checkMobile = async (msisdn) => {
     }
 
 }
+
+
 
 export default checkMobile;
