@@ -41,7 +41,8 @@ axios.interceptors.request.use(request => {
 
 axios.interceptors.response.use(response => {
     try {
-        const config = JSON.parse(JSON.stringify(response.config.data));
+        const config = JSON.parse(response.config.data);
+        debugger;
         if (config.stopIntercept) {
             return response.data;
         } else {

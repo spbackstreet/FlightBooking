@@ -91,7 +91,7 @@ const PermanentAddress = () => {
                 }
                 else {
                     confirmAlert({
-                        title: "Error",
+                        title: <h3 style={{ "color": "red" }}>Error</h3>,
                         message: getCustomerCircle.ErrorMsg,
                         buttons: [
                             {
@@ -104,7 +104,7 @@ const PermanentAddress = () => {
             }
             else {
                 confirmAlert({
-                    title: "Error",
+                    title: <h3 style={{ "color": "red" }}>Error</h3>,
                     message: "Make your Local Address captured earlier as Permanent Address? ",
                     buttons: [
                         {
@@ -178,7 +178,7 @@ const PermanentAddress = () => {
 
             else {
                 confirmAlert({
-                    title: "Error",
+                    title: <h3 style={{ "color": "red" }}>Error</h3>,
                     message: "Please enter all mandatory fields",
                     buttons: [
                         {

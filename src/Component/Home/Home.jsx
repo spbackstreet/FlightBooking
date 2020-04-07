@@ -6,7 +6,10 @@ import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeCustomerNumber } from '../../action';
-
+import checkMobile from '../../services/checkMobile';
+import validateOTP from '../../services/validateOTP';
+import useLoader from '../../hooks/useLoader';
+import { confirmAlert } from 'react-confirm-alert';
 
 
 const display = {
@@ -28,7 +31,9 @@ const Home = () => {
     const [custOtp, setCustOtp] = useState('')
     const [doneC, setDoneC] = useState(false)
     const history = useHistory();
-
+    const [triggerAction] = useLoader();
+    const [error, setError] = useState(false)
+    const [wrongOTP, setWrongOTP] = useState(false)
 
     const updateCustOtp = (e) => {
         setCustOtp(e.target.value)
@@ -65,7 +70,7 @@ const Home = () => {
     }
 
     const countDown = () => {
-        
+
         seconds = seconds - 1;
         if (seconds >= 0) {
             if (seconds.toString().length > 1) {
@@ -91,24 +96,36 @@ const Home = () => {
         if (seconds === "00") {
             // setSeconds(30)
             // setTimer(0)
-            seconds= 30;
-            timer =0;
+            seconds = 30;
+            timer = 0;
             setDoneC(false)
             console.log("clicked cust")
             startTimer()
-            // resendCustOtp()
+            resendCustOtp()
         }
 
     }
 
-    const resendCustOtp = () => {
-
+    const resendCustOtp = async () => {
+        const callCheckMobile = await triggerAction(() => checkMobile(msdn));
     }
 
-    const validateCustOTP = (e) => {
+    const validateCustOTP = async (e) => {
+        setError(false)
+        if (custOtp) {
+            const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp));
+            if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
+                dispatch(storeCustomerNumber(msdn));
+                history.push('/deliveryAddress')
+            }
+            else {
+                setWrongOTP(true)
+            }
 
-        dispatch(storeCustomerNumber(msdn));
-        history.push('/deliveryAddress')
+        }
+        else {
+            setError(true)
+        }
 
     }
 
@@ -117,11 +134,45 @@ const Home = () => {
         setTime(timeLeftVar);
     }, []);
 
-    const SendOtp = () => {
-        setDisplayOTP(true)
-        let timeLeftVar = secondsToTime(seconds);
-        setTime(timeLeftVar)
-        document.getElementById("scust").click();
+    const SendOtp = async () => {
+
+        if (msdn) {
+            setLoading(true)
+            const callCheckMobile = await triggerAction(() => checkMobile(msdn));
+            setLoading(false)
+
+            if (callCheckMobile.errorCode === "00" || callCheckMobile.errorCode === "0") {
+                setDisplayOTP(true)
+                let timeLeftVar = secondsToTime(seconds);
+                setTime(timeLeftVar)
+                document.getElementById("scust").click();
+            }
+            else {
+                confirmAlert({
+                    title: <h3 style={{ "color": "red" }}>Error</h3>,
+                    message: callCheckMobile.errorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
+        }
+        else {
+            confirmAlert({
+                title: <h3 style={{ "color": "red" }}>Error</h3>,
+                message: "Please enter Alternate mobile number",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { return false; }
+                    }
+                ]
+            });
+        }
+
     }
 
 
@@ -200,11 +251,31 @@ const Home = () => {
 
                                                 <br></br>
 
+                                                {error ?
+                                                    <>
+                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                            <h3 style={{ "color": "red" }}>Please Enter OTP</h3>
+                                                        </div>
+                                                        <br></br>
+                                                    </>
+                                                    : null
+                                                }
+
+                                                {wrongOTP ?
+                                                    <>
+                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                            <h3 style={{ "color": "red" }}>Please Enter Correct OTP</h3>
+                                                        </div>
+                                                        <br></br>
+                                                    </>
+                                                    : null
+                                                }
+
                                                 {/* <button type="submit" class="btn btn-primary btn-login"
                                                     onClick={validateCustOTP}
                                                 >Validate OTP</button> */}
 
-                                                <div class="form-group text-center mt-5 mb-0">
+                                                <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                         onClick={(e) => validateCustOTP()}
                                                     >Validate OTP</button>
