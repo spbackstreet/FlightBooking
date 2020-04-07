@@ -38,6 +38,7 @@ const CustomerDetails = () => {
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
     const [rel,setRelation]  = useState(false)
+    const [relationShipType,setRelationshipType] =useState(true)
     const  [altMobileNum,setAltMobileNum] =useState ('')
     const [dob,setDOB] =useState('')
     const [{ app: {  custLocalAdd, custNumber } }, ] = useGlobalState();
@@ -89,7 +90,16 @@ const updateCustomerName= (e) =>{
     setCustName(e.target.value)
 }
 
+const  changeRelationType =(e)=>{
+    console.log(`relation`,e.target.value)
+    if(e.target.value=="Self"){
+        setRelationshipType(true)
 
+    }
+    else{
+        setRelationshipType(false)
+    }
+}
 const changeGenderName= (e)=>{
     console.log(e.target.value)
     if(e.target.value=="Female"){
@@ -302,7 +312,7 @@ const updateHouseNo = (e) => {
                                                                                <div class="form-group">
                                                                              <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
                                                                                 <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
-                                                                            //   value={custNumber}
+                                                                              value={custNumber}
                                                                                disabled
                                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                                    />
@@ -311,20 +321,31 @@ const updateHouseNo = (e) => {
                                                                                <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Relationship  Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" "
-                                                                    
+                                                                    onChange={(e)=>changeRelationType(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
                                                                         <option>Self</option>
                                                                         <option>Others</option>
                                                                         </select>
                                                                 </div>
+{relationShipType ? 
                                                                 <div class="form-group">
                                                                              <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
                                                                                 <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                              maxLength="10" onChange={(e)=>changeMobileNumber(e)}
+                                                                              maxLength="10"  value ={custNumber}  disabled
                                                                                    style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                                    />
                                                                                </div>
+
+:
+                                                                <div class="form-group">
+                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                                <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
+                                                                              maxLength="10" onChange={(e)=>changeMobileNumber(e)} 
+                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                                   />
+                                                                               </div>
+                                                                            }
 
                                                                                <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Type<label style={{ color: "#FF0000" }}>*</label></label>
