@@ -775,7 +775,11 @@ const POICapture = () => {
 
     const setGeoLocation = (e) => {
         e.preventDefault()
-        console.log(reqCode)
+        console.log(reqCode);
+
+
+
+        
         console.log(document.getElementById('LAT').value)
         console.log(document.getElementById('LON').value)
 
@@ -1101,11 +1105,11 @@ const POICapture = () => {
 
                         </div>
                         <div>
-                            <input class="mt-40" id="LAT" type="text" style={{ "display": "none" }} />
+                            <input class="mt-40" id="LAT" type="text"  />
 
                         </div>
                         <div>
-                            <input class="mt-40" id="LON" type="text" style={{ "display": "none" }} />
+                            <input class="mt-40" id="LON" type="text"  />
 
                         </div>
                         <div>

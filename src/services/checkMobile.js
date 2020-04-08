@@ -13,7 +13,7 @@ const checkMobile = async (msisdn) => {
     };
     console.log("Request : ", Request)
     // const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
-    const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
+    const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
 
     try {
         const response = await postApiCall(Request, APIURL);
