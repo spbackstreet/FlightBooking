@@ -7,6 +7,7 @@ const initialState = {
         custNumber : '',
         isOutstation : false,
         selectedDocObject : {},
+        selectedDocPOAObject : {},
         poaList : []
     }
 }

@@ -51,19 +51,19 @@ const storeSelectedDocObject = (payload) => {
   }
 }
 
+const storeSelectedDocPOAObject = (payload) => {
+  return {
+    type: actions.STORE_SELECTED_DOCPOAOBJECT,
+    payload
+  }
+}
+
 const storeListPOA = (payload) => {
   return {
     type: actions.STORE_LIST_POA,
     payload
   }
 }
-
-
-
-
-
-
-
 
 export {
   performLoadingOperation, 
@@ -73,5 +73,6 @@ export {
   storeCustomeroutstation,
   storeCustomerPermanent,
   storeSelectedDocObject,
+  storeSelectedDocPOAObject,
   storeListPOA
 };
