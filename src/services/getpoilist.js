@@ -12,6 +12,7 @@ const getPoiList = async (isAadhaar) => {
         "CircleId": 'MU'
     };
     console.log("Request : ", Request)
+    // const APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_CouponManagement/api/v1.0/GetPOAPOIMaster`;
     const APIURL = `${process.env.REACT_APP_API_URL}/CouponManagement/GetPOAPOIMaster`;
     try {
         const response = await postApiCall(Request, APIURL);

@@ -7,15 +7,15 @@ const postApiCall = async (Request, ApiName) => {
   try {
 
 
-    if (ApiName.includes("HealthService")) {
-      return await axios.post(ApiName, Request, {
-        data: { stopIntercept: true },
-      });
-    }
-    else {
+    // if (ApiName.includes("HealthService")) {
+    //   return await axios.post(ApiName, Request, {
+    //     data: { stopIntercept: true },
+    //   });
+    // }
+    // else {
       return await axios.post(ApiName,
         Request)
-    }
+    // }
 
   }
   catch (err) {

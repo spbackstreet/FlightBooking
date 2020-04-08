@@ -376,13 +376,18 @@ const POACapture = () => {
 
         }
         if (window.Mobile) {
-            var appId = getValueFromAuthConfigList("HV_AppId")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
 
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353"
 
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06"
 
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A"
 
             console.log("ProcessocrJSonbody", JSON.stringify(jsonBody));
 
@@ -429,13 +434,17 @@ const POACapture = () => {
         }
 
         if (window.Mobile) {
-            var appId = getValueFromAuthConfigList("HV_AppId")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
 
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353"
 
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06"
 
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A"
 
             console.log("ProcessocrJSonbody", JSON.stringify(jsonBody));
 
@@ -646,8 +655,12 @@ const POACapture = () => {
         docConfig.docCaptureSubText = "Front/Back Side";
         //  docConfig.document.aspectRatio=aspectRatio;
         if (!config.isFTTX) {
-            var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
-            var tilt = getValueFromAuthConfigList("HV_TILT");
+            // var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
+            var angle = "10,10";
+
+            // var tilt = getValueFromAuthConfigList("HV_TILT");
+            var tilt = "false;"
+
             if (tilt != '') {
 
                 docConfig.shouldAllowPhoneTilt = (tilt);
@@ -672,13 +685,20 @@ const POACapture = () => {
 
 
 
-            var appId = getValueFromAuthConfigList("HV_AppId")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
 
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353"
 
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06"
 
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A"
+
+
             console.log("HV_AppId", appId)
             console.log("HV_AppKey", appKey)
             console.log("HV_MIX_PANEL", appMixPanel)
@@ -702,7 +722,11 @@ const POACapture = () => {
 
     //for test
     // setFaceMatchIdfySDKAllowFlag (getValueFromAuthConfigList('FaceMatch_SDK'));
+    setFaceMatchIdfySDKAllowFlag ("2");
+
     // setFaceMatch_SDK_NA (getValueFromAuthConfigList('FaceMatch_SDK_NA'));
+    setFaceMatch_SDK_NA ("4");
+
 
 
     return (

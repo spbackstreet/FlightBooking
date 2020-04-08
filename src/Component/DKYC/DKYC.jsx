@@ -95,7 +95,7 @@ const DKYC = () => {
     }, [isAadhaar]);
 
     const handleSpinnerChange = (e) => {
-
+// debugger;
         for (let index = 0; index < poiList.length; index++) {
             const element = poiList[index];
             if (e.target.value === element.DocName) {
@@ -265,8 +265,8 @@ const DKYC = () => {
 
                                 {poiList.map((element) => (
                                     <option
-                                        selected={selectedDocObject == element}
-                                       
+                                        // selected={selectedDocObject == element}
+                                       defaultValue = {selectedDocObject}
                                     >{element.DocName}</option>))}
 
                             </select>

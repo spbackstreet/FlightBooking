@@ -67,10 +67,13 @@ const POICapture = () => {
 
         //tbd
         // let HV_ACCURACY = getValueFromAuthConfigList('HV_ACCURACY').toString()
+        let HV_ACCURACY = "500;2000;20"
+
         // let LATLONG_INTERVAL = getValueFromAuthConfigList('LATLONG_INTERVAL').toString()
+        let LATLONG_INTERVAL = "500"
 
         if (window.Mobile) {
-            // window.Mobile.startLocationUpdates(HV_ACCURACY, LATLONG_INTERVAL)
+            window.Mobile.startLocationUpdates(HV_ACCURACY, LATLONG_INTERVAL)
         }
 
 
@@ -490,10 +493,18 @@ const POICapture = () => {
         }
 
         if (window.Mobile) {
-            var appId = getValueFromAuthConfigList("HV_AppId")
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
+
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353"
+
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06"
+
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A"
+
             console.log("ProcessocrJSonbody", JSON.stringify(jsonBody));
             //cc
             window.Mobile.processOCR("hyperverge", "getocr", "https://jio-docs-staging.hyperverge.co/v2.0/readKYC", uri, JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId, appKey, appMixPanel, apptimeout);
@@ -694,13 +705,17 @@ const POICapture = () => {
             "referenceId": GlobalPOIModel.mOrnNumber
         }
         if (window.Mobile) {
-            var appId = getValueFromAuthConfigList("HV_AppId")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
 
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353"
 
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06"
 
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A"
 
             console.log("ProcessocrJSonbody", JSON.stringify(jsonBody));
 
@@ -844,8 +859,12 @@ const POICapture = () => {
 
         if (!config.isFTTX) {
             //end
-            var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
-            var tilt = getValueFromAuthConfigList("HV_TILT");
+            // var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
+            var angle = "10,10";
+
+            // var tilt = getValueFromAuthConfigList("HV_TILT");
+            var tilt = "false;"
+
             var roll = '', pitch = ''
             if (tilt != '') {
                 if (tilt.toUpperCase() == "TRUE") {
@@ -935,8 +954,12 @@ const POICapture = () => {
         docConfig.docCaptureSubText = reqCode;
 
         if (!config.isFTTX) {
-            var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
-            var tilt = getValueFromAuthConfigList("HV_TILT");
+            // var angle = getValueFromAuthConfigList("HV_TILT_ANGLE");
+            var angle = "10,10";
+
+            // var tilt = getValueFromAuthConfigList("HV_TILT");
+            var tilt = "false;";
+
             if (tilt != '') {
                 docConfig.shouldAllowPhoneTilt = (tilt);
             }
@@ -953,13 +976,18 @@ const POICapture = () => {
         console.log(JSON.stringify(docConfig))
         if (window.Mobile) {
 
-            var appId = getValueFromAuthConfigList("HV_AppId")
+            // var appId = getValueFromAuthConfigList("HV_AppId")
+            var appId = "6db63e"
 
-            var appKey = getValueFromAuthConfigList("HV_AppKey")
+            // var appKey = getValueFromAuthConfigList("HV_AppKey")
+            var appKey = "a227e76e6e0a4c26c353";
 
-            var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            // var appMixPanel = getValueFromAuthConfigList("HV_MIX_PANEL")
+            var appMixPanel = "ecc8fa0c0d3255b9c51c0ccfe193cf06";
 
-            var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
+            var apptimeout = "30;119;119;A";
+            
             console.log("HV_AppId", appId)
             console.log("HV_AppKey", appKey)
             console.log("HV_MIX_PANEL", appMixPanel)
