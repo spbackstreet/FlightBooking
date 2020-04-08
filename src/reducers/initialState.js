@@ -8,7 +8,8 @@ const initialState = {
         isOutstation : false,
         selectedDocObject : {},
         selectedDocPOAObject : {},
-        poaList : []
+        poaList : [],
+        ORN : ''
     }
 }
 

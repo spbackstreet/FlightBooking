@@ -5,9 +5,10 @@ import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerNumber } from '../../action';
+import { storeCustomerNumber, storeORN } from '../../action';
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
+import ServiceableAreaService from '../../services/ServiceableAreaService';
 import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
 
@@ -21,22 +22,29 @@ const hide = {
 
 const Home = () => {
 
-    const [, dispatch] = useGlobalState();
+    const [ORN, dispatch] = useGlobalState();
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
     const [displayOTP, setDisplayOTP] = useState(false)
+    const [displayPIN, setDisplayPIN] = useState(false)
     const [time, setTime] = useState({})
     let [timer, setTimer] = useState(0)
     let [seconds, setSeconds] = useState(30)
     const [custOtp, setCustOtp] = useState('')
+    const [pin, setPin] = useState('')
     const [doneC, setDoneC] = useState(false)
     const history = useHistory();
     const [triggerAction] = useLoader();
     const [error, setError] = useState(false)
+    const [errorPin, setErrorPin] = useState(false)
     const [wrongOTP, setWrongOTP] = useState(false)
 
     const updateCustOtp = (e) => {
         setCustOtp(e.target.value)
+    }
+
+    const updatePIN = (e) => {
+        setPin(e.target.value)
     }
 
     const secondsToTime = (secs) => {
@@ -59,7 +67,7 @@ const Home = () => {
     }
 
 
-    const hideModal =(e)=>{
+    const hideModal = (e) => {
         setDisplayOTP(false)
     }
     const startTimer = () => {
@@ -114,13 +122,45 @@ const Home = () => {
         const callCheckMobile = await triggerAction(() => checkMobile(msdn));
     }
 
+    const getServicableArea = async () => {
+        setErrorPin(false)
+        if (pin) {
+            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
+            if (GetServiceableAreaBypincode.Errocode == "00") {
+                dispatch(storeCustomerNumber(msdn));
+                history.push('/DKYC')
+            }
+            else{
+                setDisplayOTP(false)
+                setDisplayPIN(false)
+                confirmAlert({
+                    title: <h3 style={{ "color": "red" }}>Sorry!!</h3>,
+                    message: GetServiceableAreaBypincode.Erromessage,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
+
+        }
+        else {
+            setErrorPin(true)
+        }
+    }
+
     const validateCustOTP = async (e) => {
         setError(false)
         if (custOtp) {
-            const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp));
+            const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, ORN));
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                dispatch(storeCustomerNumber(msdn));
-                history.push('/deliveryAddress')
+
+                setDisplayOTP(false)
+                setDisplayPIN(true)
+                // dispatch(storeCustomerNumber(msdn));
+                // history.push('/DKYC')
             }
             else {
                 setWrongOTP(true)
@@ -146,6 +186,7 @@ const Home = () => {
             setLoading(false)
 
             if (callCheckMobile.errorCode === "00" || callCheckMobile.errorCode === "0") {
+                dispatch(storeORN(callCheckMobile.ORN));
                 setDisplayOTP(true)
                 let timeLeftVar = secondsToTime(seconds);
                 setTime(timeLeftVar)
@@ -197,7 +238,7 @@ const Home = () => {
                                     <div class="text-center" style={{ "background": "#0D95A2" }}>
 
                                         <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
-                                        <span class="remove-no" style={{marginLeft:"260px"}}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{"margin-top":"-40px"}} onClick={(e) => hideModal(e)} /></span>
+                                        <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => hideModal(e)} /></span>
 
                                     </div>
 
@@ -300,7 +341,74 @@ const Home = () => {
 
                         </div>
 
+                        {/* servicabelarea */}
 
+                        <div class="modal fade show oy" id="otpModal" style={displayPIN ? display : hide}
+                        >
+                            <div class="modal-backdrop fade show"></div>
+                            <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                                    <div class="text-center" style={{ "background": "#0D95A2" }}>
+
+                                        <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Servicable area Check</b></h6>
+                                        <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => setDisplayPIN(false)} /></span>
+
+                                    </div>
+
+                                    <div class="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+
+
+                                        <div class="text-left display-linebreak">
+
+                                            <p style={{ color: "black" }}>
+
+                                                <label style={{ color: "black", "fontWeight": "bolder", "marginTop": "10px" }}>Customer PINCODE</label>
+
+                                                <br></br>
+
+                                                <input class="input-style mb10" id="pin" name="pin" type="number"
+                                                    onChange={(e) => updatePIN(e)}
+
+                                                    pattern="^[1-9]\d*$"
+                                                    value={pin}
+                                                />
+
+                                                <br></br>
+
+
+                                                <br></br>
+
+                                                {errorPin ?
+                                                    <>
+                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                            <h3 style={{ "color": "red" }}>Please Enter PINCODE</h3>
+                                                        </div>
+                                                        <br></br>
+                                                    </>
+                                                    : null
+                                                }
+
+                                                <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                    <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                        onClick={(e) => getServicableArea(e)}
+                                                    >CHECK</button>
+                                                </div>
+
+                                            </p>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* end */}
                         <div class="">
                             <div class="row">
                                 <div class="col">

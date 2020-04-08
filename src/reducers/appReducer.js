@@ -53,7 +53,12 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
-        
+        case actions.STORE_ORN: {
+            return {
+                ...state,
+                ORN: action.payload
+            }
+        }
 
         case actions.STORE_CUSTOMER_NUMBER: {
             return {

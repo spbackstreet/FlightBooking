@@ -496,13 +496,14 @@ const POACapture = () => {
         var GlobalPOIModel = require("../../Model/POIModel")
 
 
-        if ((GlobalPOIModel.default.Hyperverge_POI_2_Img_Path == null || GlobalPOIModel.default.Hyperverge_POI__Img_Path == '')) {
-            showErrorAlert("Please Capture POA");
-        } else {
+        //for test
+        // if ((GlobalPOIModel.default.Hyperverge_POI_2_Img_Path == null || GlobalPOIModel.default.Hyperverge_POI__Img_Path == '')) {
+        //     showErrorAlert("Please Capture POA");
+        // } else {
 
-            callUserPhotoCaptureScreen();
-        }
-
+        //     callUserPhotoCaptureScreen();
+        // }
+        callUserPhotoCaptureScreen();
 
     }
 
@@ -533,7 +534,7 @@ const POACapture = () => {
     const fetchLocation = (e, param) => {
         e.preventDefault();
         var config = require('../../config')
-        reqCode = param;
+        setReqCode(param);
 
         // if(!lat || !long){
         //showErrorAlert("Location not fetched");
@@ -713,7 +714,6 @@ const POACapture = () => {
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
 
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
-
 
                         </div>
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
