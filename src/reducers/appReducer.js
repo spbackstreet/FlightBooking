@@ -33,7 +33,6 @@ const reducer = (state = initialState.app, action) => {
         }
 
         case actions.STORE_SELECTED_DOCOBJECT: {
-            debugger;
             return {
                 ...state,
                 selectedDocObject: action.payload

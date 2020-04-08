@@ -42,7 +42,7 @@ const POICapture = () => {
     const [SDKURI, setSDKURI] = useState('');
     const [FaceMatchIdfySDKAllowFlag, setFaceMatchIdfySDKAllowFlag] = useState('');
     const [FaceMatch_SDK_NA, setFaceMatch_SDK_NA] = useState('');
-    const [selectedDocJourney, setSelectedDocJourney] = useState('');
+    const [selectedDocJourney, setSelectedDocJourney] = useState('vishwam');
     const [showDialog, setShowDialog] = useState(false);
 
     console.log('selectedDocObject : ', selectedDocObject);
@@ -87,7 +87,6 @@ const POICapture = () => {
     }
 
     const previewClicked = (e, str) => {
-        debugger;
         e.preventDefault();
         if (str == "FRONT") {
             var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poiImage;
@@ -820,7 +819,7 @@ const POICapture = () => {
     }
 
     const startDocumentCaptureVishwam = () => {
-        selectedDocJourney = "vishwam";
+        setSelectedDocJourney = "vishwam";
         console.log("vishwam doc ", "called")
         var jsonBody;
         console.log("isfftx", config.isFTTX)
@@ -883,7 +882,7 @@ const POICapture = () => {
     }
 
     const startDocumentCaptureHyperVerge = () => {
-        selectedDocJourney = "hyperverge";
+        setSelectedDocJourney = "hyperverge";
         var aspectRatio = ""//from backend
 
         var docConfig = {

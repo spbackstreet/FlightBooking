@@ -237,6 +237,7 @@ const DKYCPOA = () => {
     }
 
     const transferToNextFragment = async () => {
+        debugger;
         if (GlobalPOIModel.isAadharKYC) {
             history.push('/CapCustPhoto')
         }
