@@ -30,7 +30,7 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
-    const [{ app: { pincode, custLocalAdd, isOutstation, SelectedDocObject } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject } }, dispatch] = useGlobalState();
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
@@ -44,6 +44,8 @@ const POICapture = () => {
     const [FaceMatch_SDK_NA, setFaceMatch_SDK_NA] = useState('');
     const [selectedDocJourney, setSelectedDocJourney] = useState('');
     const [showDialog, setShowDialog] = useState(false);
+
+    console.log('selectedDocObject : ', selectedDocObject);
 
     useEffect(() => {
 
@@ -84,7 +86,7 @@ const POICapture = () => {
         }
     }
 
-    const previewClicked = (e,str) => {
+    const previewClicked = (e, str) => {
         debugger;
         e.preventDefault();
         if (str == "FRONT") {
@@ -600,31 +602,34 @@ const POICapture = () => {
     const validateAndNext = (e) => {
         e.preventDefault();
         var GlobalPOIModel = require("../../commom/Modal/POIModel").default
-        if (GlobalPOIModel.PhotoCount > 1) {
-            if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
-                showErrorAlert("Please Capture POI");
-            } else if ((GlobalPOIModel.Hyperverge_POI_2_Img_Path == null ||
-                GlobalPOIModel.Hyperverge_POI_2_Img_Path == '')) {
-                showErrorAlert("Please Capture POA");
+        // for test
+        // if (GlobalPOIModel.PhotoCount > 1) {
+        //     if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
+        //         showErrorAlert("Please Capture POI");
+        //     } else if ((GlobalPOIModel.Hyperverge_POI_2_Img_Path == null ||
+        //         GlobalPOIModel.Hyperverge_POI_2_Img_Path == '')) {
+        //         showErrorAlert("Please Capture POA");
 
-            } else {
+        //     } else {
 
-                callDigKYCPoaFragment();
-
-
-
-            }
-        } else {
-            if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
-                showErrorAlert("Please Capture POI");
-            } else {
-
-                callDigKYCPoaFragment();
+        //         callDigKYCPoaFragment();
 
 
 
-            }
-        }
+        //     }
+        // }
+        // else {
+        //     if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
+        //         showErrorAlert("Please Capture POI");
+        //     } else {
+
+        //         callDigKYCPoaFragment();
+
+
+
+        //     }
+        // }
+        callDigKYCPoaFragment();
 
     }
 
@@ -769,15 +774,15 @@ const POICapture = () => {
             currentMonth = currentDateTime.getMonth()
         }
         if (reqCode == "Back Side") {
-            let DG_POA = "POA;" + SelectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-                SelectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+            let DG_POA = "POA;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
+            selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POA)
             CAFRequest.DG_POA = DG_POA
         }
         else if (reqCode == "Front Side") {
-            let DG_POI = "POI;" + SelectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-                SelectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+            let DG_POI = "POI;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
+            selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POI)
 
@@ -896,18 +901,18 @@ const POICapture = () => {
             "allowedTiltPitch": ''
         }
 
-        if (SelectedDocObject.doctypecode === "Z00005" || SelectedDocObject.doctypecode === "Z00001") {
+        if (selectedDocObject.doctypecode === "Z00005" || selectedDocObject.doctypecode === "Z00001") {
             HyperVerge_Data = "CARD";
 
         } else
 
-            if (SelectedDocObject.doctypecode === "FS0002") {
+            if (selectedDocObject.doctypecode === "FS0002") {
                 HyperVerge_Data = "PASSPORT";
 
 
             } else
 
-                if (SelectedDocObject.doctypecode === "Z00008") {
+                if (selectedDocObject.doctypecode === "Z00008") {
                     HyperVerge_Data = "OTHER";
 
 
@@ -919,7 +924,7 @@ const POICapture = () => {
 
         if (HyperVerge_Data === "CARD" || HyperVerge_Data === "PASSPORT" || HyperVerge_Data === "OTHER") {
 
-            aspectRatio = SelectedDocObject.Aspect_ratio
+            aspectRatio = selectedDocObject.Aspect_ratio
 
         }
         else {
@@ -986,7 +991,7 @@ const POICapture = () => {
                 </div>
             </div>
 
-            <div  style={{ height: "100vh" }}>
+            <div style={{ height: "100vh" }}>
                 <form id="SdkReponseForm">
                     <div className="spin">
                         <Spinner visible={loading}
