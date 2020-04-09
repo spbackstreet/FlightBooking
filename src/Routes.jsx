@@ -9,6 +9,7 @@ const CustomerDetails = React.lazy(() => import('./Component/CustomerDetails/Cus
 const poicapture = React.lazy(() => import('./Component/POICapture/POICapture'));
 const CapCustPhoto = React.lazy(() => import('./Component/CapCustPhoto/CapCustPhoto'));
 const DKYCPOA = React.lazy(() => import('./Component/DKYCPOA/DKYCPOA'));
+const Planselection = React.lazy(() => import('./Component/Planselection/Planselection'));
 
 const POACapture = React.lazy(() => import('./Component/POACapture/POACapture'));
 // const LocalAddress = React.lazy(() => import('./components/LocalAddress/LocalAddress'));
@@ -26,6 +27,7 @@ const Routes = () => {
             <Route exact path="/DKYCPOA" component={DKYCPOA} />
             <Route exact path="/POACapture" component={POACapture} />
             <Route exact path="/CapCustPhoto" component={CapCustPhoto} />
+            <Route exact path="/Planselection" component={Planselection} />
             
             <Redirect to='/' />
         </Switch>

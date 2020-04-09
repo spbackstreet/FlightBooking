@@ -1,5 +1,5 @@
 import { func } from "prop-types";
-import config from "../../config";
+import config from "../config";
 
 //Added by cc
 export function numcheck(e) {

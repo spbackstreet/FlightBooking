@@ -9,7 +9,8 @@ const initialState = {
         selectedDocObject : {},
         selectedDocPOAObject : {},
         poaList : [],
-        ORN : ''
+        ORN : '',
+        customerName : ''
     }
 }
 

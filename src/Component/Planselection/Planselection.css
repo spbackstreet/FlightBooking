@@ -1,0 +1,402 @@
+/* === all plan font size classes requrie cooman === */
+.topPlan .list-view{
+    font-family: 'JioTypeW04-Medium';
+}
+.topPlan .plan-amt{
+    font-size: 1rem;
+    font-family:"JioTypeW04-Medium";
+}
+.topPlan .plus-text, .plan_detail_list .plus-text{
+    line-height: 12px;
+    font-size: 0.875rem;
+}
+.topPlan .plan-topup, .plan_detail_list .plan-topup{
+    font-size: 0.75rem;
+}
+.topPlan .plan-info, .plan_detail_list .plan-info{
+    font-size: .5rem;
+    font-family: 'JioTypeW04-Light';
+    white-space:nowrap;
+}
+.topPlan .selected{
+    background-color: #044286 !important;
+    color: #fff !important;
+}
+
+.accordian-unit-frame{
+    background-color: #fff;
+}
+.text-plan-amount{
+font-size:16px;
+font-family: 'JioTypeW04-Medium';
+
+}
+.text-plan-gb{
+font-size:0.75rem;
+}
+
+.accordian-unit-frame .accordian-set .accordian-head.active-head {
+font-weight: normal;
+}
+
+.accordian-unit-frame .accordian-set {
+margin: 4px 0px 0px 0px;
+background-color: #fff;
+border: 1px solid #ccc;
+border-radius: 0.25rem;
+}
+.accordian-unit-frame .accordian-set .accordian-head{
+border-bottom:0px;
+}
+
+.accordian-unit-frame .accordian-set .accordian-body{
+padding:0px;
+}
+.accordian-set .plan_details, .accordian-set .plan_heading{
+margin:0px;
+
+}
+.accordian-set .plan_heading.title{
+background-color:#E0F2FF;
+border-top:solid 1px #ccc;
+border-bottom:solid 1px #ccc;
+}
+.accordian-set .plan_details .primeInfoIcon{
+top: 0px;
+}
+
+.no-space {
+padding: 0;
+margin: 0;
+}
+
+.list_inline
+{
+    font-size: 12px;
+}
+/* plan popup */
+.plan-overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 99999999;
+    display: none;
+    line-height: 1.42857143;
+}
+   .know-more-container {
+    word-spacing: normal;
+}
+.know-more-container {
+background-color: #fff;
+width: 80%;
+margin: 0;
+position: absolute;
+top: 52%;
+left: 50%;
+transform: translate(-50%, -50%);
+padding: 20px;
+padding-bottom: 70px;
+word-spacing: 0px;
+}
+    .row-container {
+        max-height: 300px;
+        overflow: auto;
+    }
+    .pop-close-btn {
+position: absolute;
+top: -14px;
+right: -12px;
+width: 25px;
+height: 25px;
+line-height: 25px;
+text-align: center;
+font-weight: bold;
+border-radius: 50%;
+background-color: #006ca0;
+color: #fff;
+font-size: 16px;
+cursor: pointer;
+}
+.know-more-container h1 {
+font-size: 28px;
+font-family: 'JioTypeW04-Medium', Arial, Helvetica, sans-serif;
+margin-bottom: 10px;
+}
+.fixed-btn-container {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+display: none;
+}
+
+.know-more-head {
+font-family: 'JioTypeW04-Medium', Arial, Helvetica, sans-serif;
+padding-right: 0px;
+padding-left: 0px;
+}
+
+
+.row-container .btn-main-plan {
+min-width: auto;
+font-size: 12px;
+padding: 5px 8px;
+width: 100px;
+margin: 0 auto;
+background-color: #2f65b0;
+}
+
+
+@media (max-width: 1023px){
+.know-more-container {
+background-color: #fff;
+margin: 0;
+position: absolute;
+top: 10%;
+left: 4%;
+right: 4%;
+bottom: 10%;
+padding: 10px;
+transform: translate(0%, 0%);
+width: auto;
+padding-bottom: 50px;
+word-spacing: 0px;
+}
+}
+
+@media (max-width: 600px)
+{
+.row-container {
+    max-height: 100%;
+}
+}
+@media (max-width: 480px){
+.know-more-container {
+    padding-bottom: 70px;
+}
+}
+
+
+.body_content{
+padding: 15px 0;
+border-top:1px solid #ccc;
+margin-top:15px;
+}
+
+
+
+.body_content p{
+margin-bottom:10px;
+}
+.bottom-fixed-btn{
+position: fixed;
+bottom: 0px;
+width: 100%;
+left: 0;
+right:0;
+background-color:#fff;
+padding:10px;
+}
+.bottom-fixed-btn.show{
+display:block;
+}
+@media (min-width: 961px) {
+        .plus-text {
+            padding-left: 16%;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .recharge_panel_main .plan_detail_list {
+            padding: 0 5px;
+        }
+
+        .accordian-set .plan_details .plan_detail_list {
+            float: none;
+            box-sizing: border-box;
+            display: block;
+            padding: 0 5px;
+        }
+
+        .recharge_panel_main .plan_details {
+            padding: 5px 0px;
+        }
+    }
+
+    .recharge_panel_main .plan_details {
+        align-items: start;
+    }
+    .form-group .searchInput{
+        padding-left: 30px;
+        padding-right: 30px;
+        border-radius: 0.25rem;
+        -moz-border-radius: 0.25rem;
+        -webkit-border-radius: 0.25rem;
+    }
+    .form-group .icon-search {
+        position: absolute;
+        left: 7px;
+        top: 7px;
+    }
+    .form-group .remove-no {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+    }
+
+    .accordian-set .plan_details {
+        width: 100%;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0px 10px 15px;
+    }
+
+
+    .accordian-set .plan_heading .plan_heading_list {
+        font-size:0.8rem;
+    }
+
+
+
+    .accordian-set .plan_details .big_tt{
+        font-size:12px;
+        font-family: "JioTypeW04-Medium" !important;
+        color:#616264;
+    }
+
+    .accordian-set .plan_details .small_tt
+    {
+        font-size: 10px;
+        color: #999;
+        font-family: "JioTypeW04-Medium" !important;
+    }
+    @media (max-width: 375px){
+        .accordian-set .plan_heading .plan_heading_list {
+            font-size: 0.6rem;
+        }
+    }
+/* === all plan end === */
+
+.scroll-container {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+@media (max-height: 568px) {
+    .scroll-container {
+        height: 100vh;
+    }
+}
+
+@media (min-height: 812px) {
+    .scroll-container {
+        height: 80vh;
+    }
+}
+
+@media (min-height: 1024px) {
+    .scroll-container {
+        height: 65vh;
+    }
+}
+
+.fullpage-margin
+{
+    margin-bottom:30px;
+}
+
+body
+{
+    background: #E4E9F0;
+}
+
+.all-plans-tab .tab-content-nobg{
+    background-color:transparent !important;
+    margin-top:-32px;
+}
+
+.all-plans-tab .nav-tabs .nav-item {
+    border-bottom:1px solid #0E4194;
+
+}
+
+
+.all-plans-tab .nav-tabs .nav-item .nav-link{
+    background-color: transparent !important;
+    color: #333333 !important;
+    border: 0 !important;
+    border-radius: 0;
+    font-size:14px !important;
+    font-family: 'JioTypeW04-Medium';
+    padding: 15px 10px;
+
+}
+
+
+.all-plans-tab .nav-tabs .nav-link.active{
+    border-bottom:2px solid #0E4194 !important;
+    color:#0E4194 !important;
+    border-radius:0 !important;
+}
+
+.all-plans-tab  .nav-tabs .nav-item:last-child .nav-link{
+    border-radius:0;
+    border-right:0;
+}
+.all-plans-tab .plans-list{
+    overflow-y: auto;
+    white-space: nowrap;
+    width:100%
+}
+
+.all-plans-tab .plans-list{
+    position: sticky;
+    top:0px;
+    background:#fff;
+    /* padding:10px 0; */
+    z-index:999;
+}
+
+
+.all-plans-tab  .form-group .icon-search {
+    position: absolute;
+    left: 23px;
+    top: 28px;
+}
+
+.disabled {
+    pointer-events: none;
+    background-color: #aaa;
+    border-color: #aaa;
+}
+
+/* .all-plans-tab .plans-list .nav-list-items{
+    overflow-y: auto;
+    white-space: nowrap;
+    width:100%
+} */
+
+
+.all-plans-tab .custom-control.custom-radio .custom-control-label::before
+{
+    top:-5px;
+}
+
+.all-plans-tab .accordian-set .plan_details
+{
+    align-items: flex-start;
+    padding: 20px 0px 0px 15px;
+}
