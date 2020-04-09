@@ -260,7 +260,8 @@ const DKYC = () => {
                             <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
                             <br />
                             <select class="customsel"
-                                onChange={(e) => handleSpinnerChange(e)} value={selectedDocObject}
+                                onChange={(e) => handleSpinnerChange(e)}
+                            // value={selectedDocObject}
                             >
 
                                 {poiList.map((element) => (
