@@ -32,7 +32,8 @@ const permissionsToRequest = {
 const videoConstraints = {
     width: 280,
     height: 420,
-    facingMode: { exact: "environment" }
+    // facingMode: { exact: "environment" }
+    facingMode: "user"
 };
 
 
@@ -79,20 +80,20 @@ const POACapture = () => {
     const webcamRef = React.useRef(null);
     const capture = React.useCallback(
         (e) => {
-            e.stopPropagation()
+            e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
             debugger;
             if(side === "Front Side"){
-                setFrontsrc(imageSrc)
-                // setShowPhotoView(true)
+            setFrontsrc(imageSrc)
+            // setShowPhotoView(true)
             }
             else if(side === "Back Side"){
                 setBacksrc(imageSrc)
             }
             // updateShowWebcam(false , '')
-            closeWebcam()
-            
+            closeWebcam(e)
+
         },
         [webcamRef]
     );
@@ -151,11 +152,12 @@ const POACapture = () => {
         }
     }
 
-    const previewClicked = (str, e) => {
+    const previewClicked = (e, str) => {
         e.preventDefault();
 
-        var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.poaImage;
-        document.getElementById("previewImage").src = base64Icon;
+        // var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.poaImage;
+        // document.getElementById("previewImage").src = base64Icon;
+        document.getElementById("previewImage").src = frontsrc
 
         setShowDialog(true);
     }
@@ -799,10 +801,8 @@ const POACapture = () => {
                     <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
                         <div class="text-center" style={{ "background": "#0D95A2" }}>
 
-                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click front photo</b></h6>
-                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} 
-                            // onClick={(e) => closeWebcam()} 
-                            /></span>
+                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click {side} photo</b></h6>
+                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => closeWebcam(e)} /></span>
                         </div>
 
                         <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
@@ -818,7 +818,7 @@ const POACapture = () => {
                                     width={280}
                                     videoConstraints={videoConstraints}
                                 />
-                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={ (e) => capture(e)}>Capture photo</button>
+                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={(e) => capture(e)}>Capture photo</button>
                             </>
 
                         </div>
@@ -828,6 +828,8 @@ const POACapture = () => {
                 </div>
 
             </div>
+
+
 
 
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
@@ -848,7 +850,7 @@ const POACapture = () => {
             </div>
 
             <div class="back-color">
-                <form id="SdkReponseForm">
+                <div id="SdkReponseForm">
 
                     <div className="spin">
                         <Spinner visible={loading}
@@ -862,7 +864,10 @@ const POACapture = () => {
                                 <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Back View</p>
                                 <div id="poaview" class="photoPreviewFrame">
 
-                                    <button style={{ "padding": "20px" }} onClick={(e) => fetchLocation(e, "Front Side")}>
+                                    <button style={{ "padding": "20px" }} onClick={(e) => 
+                                        // fetchLocation(e, "Front Side")}
+                                        updateShowWebcam(true, "Front Side")}
+                                        >
                                         <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."></img>
                                     </button>
                                     <div class="col-6 col-sm-6">
@@ -916,7 +921,7 @@ const POACapture = () => {
                         </div>
                     </div>
 
-                </form>
+                </div>
 
             </div>
         </div>
