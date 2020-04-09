@@ -8,6 +8,10 @@ import config from '../../config';
 import GlobalPOIModel from '../../Model/POIModel';
 import GlobalPOAModel from '../../Model/POAModel';
 import { showErrorAlert } from '../../commom/commonMethod';
+import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/commonMethod';
+import uploadDocuments from "../../txnUploadData/uploadDocuments"
+import { compareTwoDateTime } from '../../commom/commonMethod'
+import Webcam from "react-webcam";
 
 
 const display = {
@@ -19,6 +23,13 @@ const hide = {
 
 const CapCustPhoto = () => {
 
+    let videoConstraints = {
+        width: 280,
+        height: 420,
+        // facingMode: { exact: "environment" }
+        facingMode: "user"
+    };
+
 
     const [FM_NONAADHAAR_CHECK, setFM_NONAADHAAR_CHECK] = useState('');
     const [FaceMatchIdfySDKAllowFlag, setFaceMatchIdfySDKAllowFlag] = useState('');
@@ -27,7 +38,7 @@ const CapCustPhoto = () => {
     const [appId, setAppId] = useState('')
     const [appKey, setAppKey] = useState('')
     const [appMixPanel, setAppMixPanel] = useState('')
-    const [apptimeout, setapptimeout] = useState('')
+    const [apptimeout, setApptimeout] = useState('')
     const [ORC_STRING, setORC_STRING] = useState('')
     const [SDKError, setSDKError] = useState('')
     const [SDKResult, setSDKResult] = useState('')
@@ -37,8 +48,54 @@ const CapCustPhoto = () => {
     const [SDKJourney, setSDKJourney] = useState('')
     const [showDialog, setShowDialog] = useState(false)
     const [isFrontCam, setIsFrontCam] = useState(false)
+    const [reqCode, setReqCode] = useState('Front Side')
+
+    let [showWebcam, setShowWebcam] = useState(true);
+    const [imgsrc, setImgsrc] = useState(true)
+    // const [frontsrc, setFrontsrc] = useState('');
+    // const [backsrc, setBacksrc] = useState('');
+    let [side, setSide] = useState('Front Side')
 
     const history = useHistory();
+
+    const camside = (param) => {
+        if (param === "back") {
+            videoConstraints.facingMode = { exact: "environment" }
+        }
+        else if (param === "front") {
+            videoConstraints.facingMode = "user"
+        }
+    }
+
+    const updateShowWebcam = () => {
+        setShowWebcam(!showWebcam)
+
+    }
+
+    const closeWebcam = (e) => {
+        e.preventDefault()
+        setShowWebcam(false)
+        // showWebcam = !showWebcam
+    }
+
+
+    //strt
+    const webcamRef = React.useRef(null);
+    const capture = React.useCallback(
+        (e) => {
+            e.preventDefault()
+            const imageSrc = webcamRef.current.getScreenshot();
+            console.log("imageSrc : ", imageSrc);
+            debugger;
+            setImgsrc(imageSrc)
+            // updateShowWebcam(false , '')
+            closeWebcam(e)
+
+        },
+        [webcamRef]
+    );
+
+
 
     useEffect(() => {
         // var date = new Date().getDate();
@@ -50,16 +107,35 @@ const CapCustPhoto = () => {
         // var Finaldate = (date + "-" + '0' + month + "-" + year + " " + hours + ":" + min + ":" + sec);
         // setDeviceDate(Finaldate)
 
-        setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
-        setFaceMatchIdfySDKAllowFlag(getValueFromAuthConfigList('FaceMatch_SDK'));
-        setFaceMatch_SDK_NA(getValueFromAuthConfigList('FaceMatch_SDK_NA'));
-        setHV_WHITE(getValueFromAuthConfigList("HV_WHITE"));
-        setappId(getValueFromAuthConfigList("HV_AppId"));
-        setappKey(getValueFromAuthConfigList("HV_AppKey"));
-        setappMixPanel(getValueFromAuthConfigList("HV_MIX_PANEL"));
-        setapptimeout(getValueFromAuthConfigList("HV_TIMEOUT"));
-        setORC_STRING(getValueFromAuthConfigList("OCR_ALLOWED"));
-        setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        setFM_NONAADHAAR_CHECK("0");
+
+        // setFaceMatchIdfySDKAllowFlag(getValueFromAuthConfigList('FaceMatch_SDK'));
+        setFaceMatchIdfySDKAllowFlag("2");
+
+        // setFaceMatch_SDK_NA(getValueFromAuthConfigList('FaceMatch_SDK_NA'));
+        setFaceMatch_SDK_NA("4");
+
+        // setHV_WHITE(getValueFromAuthConfigList("HV_WHITE"));
+        setHV_WHITE("");
+
+        // setappId(getValueFromAuthConfigList("HV_AppId"));
+        setAppId("6db63e");
+
+        // setappKey(getValueFromAuthConfigList("HV_AppKey"));
+        setAppKey("a227e76e6e0a4c26c353");
+
+        // setappMixPanel(getValueFromAuthConfigList("HV_MIX_PANEL"));
+        setAppMixPanel("ecc8fa0c0d3255b9c51c0ccfe193cf06");
+
+        // setapptimeout(getValueFromAuthConfigList("HV_TIMEOUT"));
+        setApptimeout("30;119;119;A");
+
+        // setORC_STRING(getValueFromAuthConfigList("OCR_ALLOWED"));
+        setORC_STRING("0010001");
+
+        // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        setFM_NONAADHAAR_CHECK("0");
 
     }, [])
 
@@ -93,6 +169,7 @@ const CapCustPhoto = () => {
 
     const callNextScreen = () => {
 
+        history.push('/deliveryAddress');
         // that.props.props.history.push({
         //     pathname: '/CapAgentPhoto',
 
@@ -136,26 +213,28 @@ const CapCustPhoto = () => {
 
             setSDKResult(modifiedString)
             console.log("NEELAMRESULT", modifiedString)
-        } 
+        }
         else if (param == "IMAGE") {
             setSDKImage(document.getElementById(param).value)
             console.log("IMAGE", document.getElementById(param).value);
-        } 
+        }
         else if (param == "HEADER") {
             setSDKHeader(document.getElementById(param).value)
             console.log("HEADER", document.getElementById(param).value);
-        } 
+        }
         else if (param == "URI") {
             setSDKURI(document.getElementById(param).value)
             console.log("URI", document.getElementById(param).value);
         }
     }
 
-    const previewClicked = (str, e) => {
+    const previewClicked = (e, str) => {
         e.preventDefault();
 
-        var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.custImage;
-        document.getElementById("previewImage").src = base64Icon;
+        // var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.custImage;
+        // document.getElementById("previewImage").src = base64Icon;
+
+        document.getElementById("previewImage").src = imgsrc
 
         setShowDialog(true)
 
@@ -183,8 +262,10 @@ const CapCustPhoto = () => {
 
             } else {
                 var isLiveCheckEnable = "1";
-                var isLiveCheckEnable = getValueFromAuthConfigList("HV_LIVE");
-                var GlobalPOIModel = require('../Model/POIModel')
+                // var isLiveCheckEnable = getValueFromAuthConfigList("HV_LIVE");
+                var isLiveCheckEnable = "0";
+
+                var GlobalPOIModel = require('../../Model/POIModel')
 
                 if (isLiveCheckEnable == '' || config.Environment == "RR" || config.Environment == ("PRODUCTION")) {
                     isLiveCheckEnable = "1";// always checks liveness
@@ -276,7 +357,7 @@ const CapCustPhoto = () => {
                         jsonSucess.referenceId = referenceId;
 
                         var obj_data = jsonSucess.result;
-                        var GlobalPOIModel = require('../Model/POIModel')
+                        var GlobalPOIModel = require('../../Model/POIModel')
                         try {
                             var jsonObject2 = JSON.parse(GlobalPOIModel.default.POI_Response);
                             if (jsonObject2 != null && (JSON.stringify(jsonObject2)).includes("details")) {
@@ -297,12 +378,19 @@ const CapCustPhoto = () => {
                         GlobalPOIModel.default.setFace_match_Response(JSON.stringify(jsonSucess));
 
                         if (SDKJourney == 'vishwam') {
-                            GlobalPOIModel.default.setFM_VM_LOWERSCORE(getValueFromAuthConfigList("FM_VM_LOWERSCORE"));
-                            GlobalPOIModel.default.setFM_VM_UPPERSCORE(getValueFromAuthConfigList("FM_VM_UPPERSCORE"));
-                            GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            // GlobalPOIModel.default.setFM_VM_LOWERSCORE(getValueFromAuthConfigList("FM_VM_LOWERSCORE"));
+                            GlobalPOIModel.default.setFM_VM_LOWERSCORE("30");
+
+                            // GlobalPOIModel.default.setFM_VM_UPPERSCORE(getValueFromAuthConfigList("FM_VM_UPPERSCORE"));
+                            GlobalPOIModel.default.setFM_VM_UPPERSCORE("70");
+
+                            // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE_AR("A");
                             //for non aadhaar journey
-                            GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA(getValueFromAuthConfigList("FM_VM_LOWERSCORE_NA"));
-                            GlobalPOIModel.default.setFM_VM_UPPERSCORE_NA(getValueFromAuthConfigList("FM_VM_UPPERSCORE_NA"));
+                            // GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA(getValueFromAuthConfigList("FM_VM_LOWERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA('');
+
+                            GlobalPOIModel.default.setFM_VM_UPPERSCORE_NA('');
 
                             if (GlobalPOIModel.default.isAadharKYC) {
                                 if (GlobalPOIModel.default.FM_VM_LOWERSCORE != null && GlobalPOIModel.default.FM_VM_LOWERSCORE != ''
@@ -397,12 +485,21 @@ const CapCustPhoto = () => {
                         } else {
 
 
-                            GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
-                            GlobalPOIModel.default.setFM_UPPERSCORE(getValueFromAuthConfigList("FM_HV_UPPERSCORE"));
-                            GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            // GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE("30");
+
+                            // GlobalPOIModel.default.setFM_UPPERSCORE(getValueFromAuthConfigList("FM_HV_UPPERSCORE"));
+                            GlobalPOIModel.default.setFM_UPPERSCORE("50");
+
+                            // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE_AR("A");
+
                             //for non aadhaar journey
-                            GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA(getValueFromAuthConfigList("FM_HV_LOWERSCORE_NA"));
-                            GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
+                            // GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA(getValueFromAuthConfigList("FM_HV_LOWERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA("10");
+
+                            // GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA("60");
 
 
                             if (GlobalPOIModel.default.isAadharKYC) {
@@ -505,63 +602,68 @@ const CapCustPhoto = () => {
     const proceed = (e) => {
         e.preventDefault();
 
-        var GlobalPOIModel = require('../Model/POIModel')
-        if (GlobalPOIModel.default.custPhotoCaptureTime != null
-            && GlobalPOIModel.default.custPOATime != null &&
-            GlobalPOIModel.default.custPhotoCaptureTime != ''
-            && GlobalPOIModel.default.custPOATime != ''
-            && compareTwoDateTime(GlobalPOIModel.default.custPhotoCaptureTime,
-                GlobalPOIModel.default.custPOATime)) { //check poi timestamp similar or greater or not
-            showErrorAlert("User photo capture time should be greater than POA submission time.");
+        debugger;
+        callNextScreen()
 
-        } else {
+        // var GlobalPOIModel = require('../../Model/POIModel')
+        // if (GlobalPOIModel.default.custPhotoCaptureTime != null
+        //     && GlobalPOIModel.default.custPOATime != null &&
+        //     GlobalPOIModel.default.custPhotoCaptureTime != ''
+        //     && GlobalPOIModel.default.custPOATime != ''
+        //     && compareTwoDateTime(GlobalPOIModel.default.custPhotoCaptureTime,
+        //         GlobalPOIModel.default.custPOATime)) { //check poi timestamp similar or greater or not
+        //     showErrorAlert("User photo capture time should be greater than POA submission time.");
 
-            if (GlobalPOIModel.default.custImage == null || GlobalPOIModel.default.custImage == '') {
-                showErrorAlert("Please capture user photo")
-            } else
+        // } else {
 
-                if ((FaceMatchIdfySDKAllowFlag == ("2") || FaceMatch_SDK_NA == ("4") ||
-                    FaceMatchIdfySDKAllowFlag == ("6") || FaceMatch_SDK_NA.equa == ("8"))) {
-                    if (GlobalPOIModel.default.isAadharKYC) {
-                        if (FaceMatchIdfySDKAllowFlag == ("6")) {//6- for vishwam in aadhar
-                            verifyFaceMatchVishwam();
-                        } else {
-                            verifyFaceMatchHyperVerge();
-                        }
-                    } else if (FM_NONAADHAAR_CHECK == ("2")) {
-                        if (FaceMatch_SDK_NA == ("8")) {//8 for vishwam in non aadhar
-                            verifyFaceMatchVishwam();
-                        } else {
-                            verifyFaceMatchHyperVerge();
-                        }
-                    } else if (FM_NONAADHAAR_CHECK == ("0")) {
-                        if (!config.isFTTX && FaceMatch_SDK_NA == ("4") &&
-                            (GlobalPOIModel.default.doctypecode == ("Z00005") || GlobalPOIModel.default.doctypecode == ("Z00001")
-                                || GlobalPOIModel.default.doctypecode == ("FS0002") || GlobalPOIModel.default.doctypecode == ("Z00008"))) {
-                            //invoke api
-                            verifyFaceMatchHyperVerge();
-                        } else if (!config.isFTTX && FaceMatch_SDK_NA == ("8") && (GlobalPOAModel.doctypecode == ("Z00005")
-                            || GlobalPOAModel.doctypecode == ("Z00001")
-                            || GlobalPOIModel.default.doctypecode == ("FS0002") || GlobalPOIModel.default.doctypecode == ("Z00008"))) {
-                            //invoke api
-                            verifyFaceMatchVishwam();
-                        } else if (!config.isFTTX && FaceMatch_SDK_NA == ("4") && (GlobalPOAModel.doctypecode == ("Z00005") ||
-                            GlobalPOAModel.doctypecode == ("Z00001")
-                            || GlobalPOAModel.doctypecode == ("FS0002") || GlobalPOAModel.doctypecode == ("Z00008"))) {
-                            GlobalPOIModel.default.shouldCallValidateHyperVerge = (true);
-                            callNextScreen();
-                        } else {
-                            callNextScreen();
-                        }
-                    } else {
-                        callNextScreen();
-                    }
+        //     if (GlobalPOIModel.default.custImage == null || GlobalPOIModel.default.custImage == '') {
+        //         showErrorAlert("Please capture user photo")
+        //     } else
 
-                    //////
-                } else {
-                    callNextScreen();
-                }
-        }
+        //         if ((FaceMatchIdfySDKAllowFlag == ("2") || FaceMatch_SDK_NA == ("4") ||
+        //             FaceMatchIdfySDKAllowFlag == ("6") || FaceMatch_SDK_NA.equa == ("8"))) {
+        //             if (GlobalPOIModel.default.isAadharKYC) {
+        //                 if (FaceMatchIdfySDKAllowFlag == ("6")) {//6- for vishwam in aadhar
+        //                     verifyFaceMatchVishwam();
+        //                 } else {
+        //                     verifyFaceMatchHyperVerge();
+        //                 }
+        //             } else if (FM_NONAADHAAR_CHECK == ("2")) {
+        //                 if (FaceMatch_SDK_NA == ("8")) {//8 for vishwam in non aadhar
+        //                     verifyFaceMatchVishwam();
+        //                 } else {
+        //                     verifyFaceMatchHyperVerge();
+        //                 }
+        //             } else if (FM_NONAADHAAR_CHECK == ("0")) {
+        //                 if (!config.isFTTX && FaceMatch_SDK_NA == ("4") &&
+        //                     (GlobalPOIModel.default.doctypecode == ("Z00005") || GlobalPOIModel.default.doctypecode == ("Z00001")
+        //                         || GlobalPOIModel.default.doctypecode == ("FS0002") || GlobalPOIModel.default.doctypecode == ("Z00008"))) {
+        //                     //invoke api
+        //                     verifyFaceMatchHyperVerge();
+        //                 } else if (!config.isFTTX && FaceMatch_SDK_NA == ("8") && (GlobalPOAModel.doctypecode == ("Z00005")
+        //                     || GlobalPOAModel.doctypecode == ("Z00001")
+        //                     || GlobalPOIModel.default.doctypecode == ("FS0002") || GlobalPOIModel.default.doctypecode == ("Z00008"))) {
+        //                     //invoke api
+        //                     verifyFaceMatchVishwam();
+        //                 } else if (!config.isFTTX && FaceMatch_SDK_NA == ("4") && (GlobalPOAModel.doctypecode == ("Z00005") ||
+        //                     GlobalPOAModel.doctypecode == ("Z00001")
+        //                     || GlobalPOAModel.doctypecode == ("FS0002") || GlobalPOAModel.doctypecode == ("Z00008"))) {
+        //                     GlobalPOIModel.default.shouldCallValidateHyperVerge = (true);
+        //                     callNextScreen();
+        //                 } else {
+        //                     callNextScreen();
+        //                 }
+        //             } else {
+        //                 callNextScreen();
+        //             }
+
+        //             //////
+        //         } else {
+        //             callNextScreen();
+        //         }
+        // }
+    
+    
     }
 
     const verifyFaceMatchVishwam = () => {
@@ -763,7 +865,44 @@ const CapCustPhoto = () => {
     return (
 
         <div>
-            <div className="modal" role="dialog" style={showDialog ? display : hide}>
+
+            <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
+            >
+                <div class="modal-backdrop fade show"></div>
+                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                    <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                        <div class="text-center" style={{ "background": "#0D95A2" }}>
+
+                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click photo</b></h6>
+                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => closeWebcam(e)} /></span>
+                        </div>
+
+                        <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+
+                            {/* <WebcamCapture /> */}
+
+                            <>
+                                <Webcam
+                                    audio={false}
+                                    height={420}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={280}
+                                    videoConstraints={videoConstraints}
+                                />
+                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={(e) => capture(e)}>Capture photo</button>
+                            </>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
                         <div className="modal-header1">
@@ -778,9 +917,22 @@ const CapCustPhoto = () => {
                     </div>
                 </div>
 
+            </div> */}
+
+            <div className="modal" role="dialog" style={showDialog ? display : hide}>
+                <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
+                    <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
+                        <div className="modal-header1">
+                            <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
+                            <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
+                        </div>
+                        <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
+                    </div>
+                </div>
             </div>
+
             <div class="back-color">
-                <form id="custphotoform" style={{ height: "100vh" }}>
+                <div id="custphotoform" style={{ height: "100vh" }}>
                     <div class="my_app_container">
                         {FixedHeader()}
 
@@ -790,11 +942,20 @@ const CapCustPhoto = () => {
                                 Capture Customer Photo</label>
                             <div style={{ textAlign: "center", marginTop: "100px" }}>
                                 <div>
-                                    <input type="radio" onClick={() => setIsFrontCam(true)} name="cameraSel" /> <label style={{ color: "black", marginRight: "40px" }}>Front Camera</label>
-                                    <input type="radio" onClick={() => setIsFrontCam(false)} name="cameraSel" /> <label style={{ color: "black" }}>Back Camera</label><br />
+                                    <input type="radio"
+                                        // onClick={() => setIsFrontCam(true)}
+                                        onClick={() => camside("front")}
+                                        name="cameraSel" /> <label style={{ color: "black", marginRight: "40px" }}>Front Camera</label>
+                                    <input type="radio"
+                                        // onClick={() => setIsFrontCam(false)} 
+                                        onClick={() => camside("back")}
+                                        name="cameraSel" /> <label style={{ color: "black" }}>Back Camera</label><br />
                                 </div>
                                 <div class="photoPreviewFrame">
-                                    <button style={{ marginTop: "50px" }} id="custPhotoButton" onClick={(e) => onPhotoClick(e, "lat", "long")}>
+                                    <button style={{ marginTop: "50px" }} id="custPhotoButton"
+                                        // onClick={(e) => onPhotoClick(e, "lat", "long")}
+                                        onClick={(e) => updateShowWebcam()}
+                                    >
                                         <img id="custphoto" src={require("../../img/add_new.png")} style={{ width: "110px", height: "110" }} alt="logo" />
                                     </button>
                                     <div class="col-6 col-sm-6" style={{ marginTop: "40px" }}>
@@ -840,7 +1001,7 @@ const CapCustPhoto = () => {
 
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="bottom-fixed-btn">
                 <div class="row m-0 mt-4">

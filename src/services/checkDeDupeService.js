@@ -28,6 +28,7 @@ const checkDeDupeService = async (mobileNo, isLRDedup) => {
     if (isLRDedup) {
 
         APIURL = `${process.env.REACT_APP_API_URL}/TransactionManagement/DeDupe`;
+        // APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_TransactionManagement/api/v1.0/DeDupe`;
     }
     else {
         APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_TransactionManagement/api/v1.0//VID_DeDupe`;
