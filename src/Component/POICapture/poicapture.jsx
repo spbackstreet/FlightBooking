@@ -1064,6 +1064,40 @@ const POICapture = () => {
         }
 
     }
+const  uploadFile =(e)=>{
+    let files = e.target.files;
+
+    let reader = new FileReader();
+  
+    reader.readAsDataURL(files[0]);
+    reader.onload = (e) => {
+    //   console.warn("Data", e.target.result)
+      setFrontsrc(e.target.result);
+  //setinstructionUpload( 'File Uploaded Successfully' );
+      //setinstructiondata(files);
+    }
+
+
+}
+
+
+
+
+const  uploadFileBack =(e)=>{
+    let files = e.target.files;
+
+    let reader = new FileReader();
+  
+    reader.readAsDataURL(files[0]);
+    reader.onload = (e) => {
+    //   console.warn("Data", e.target.result)
+      setBacksrc(e.target.result);
+  //setinstructionUpload( 'File Uploaded Successfully' );
+      //setinstructiondata(files);
+    }
+
+
+}
 
     return (
         <div>
@@ -1134,12 +1168,15 @@ const POICapture = () => {
                             <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
                                 <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
                                 <div id="FrontView" class="photoPreviewFrame">
-                                    <button style={{ "padding": "20px" }} onClick={(e) =>
+                                    {/* <button style={{ "padding": "20px" }} onClick={(e) =>
                                         // fetchLocation(e, "Front Side")}
                                         updateShowWebcam(true, "Front Side")}
-                                    >
-                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Front View"></img>
-                                    </button>
+                                    > */}
+                                    <input   id="files"
+                                    type="file"
+                                    capture="camera" onChange={(e)=>uploadFile(e)}  accept="image/*"/>
+                                     <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Front View"></img>
+                                    {/* </button> */}
                                     <div class="col-6 col-sm-6">
                                         <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn-block jio-btn jio-btn-primary" >Preview</button>
                                     </div>
@@ -1157,12 +1194,15 @@ const POICapture = () => {
                                     <div id="BackView"
                                         class="photoPreviewFrame"
                                     >
-                                        <button style={{ "padding": "20px" }} onClick={(e) =>
+                                        {/* <button style={{ "padding": "20px" }} onClick={(e) =>
                                             // fetchLocation(e, "Back Side")}
                                             updateShowWebcam(true, "Back Side")}
-                                        >
+                                        > */}
+                                          <input   id="files"
+                                    type="file"
+                                    capture="camera" onChange={(e)=>uploadFileBack(e)}  accept="image/*"/>
                                             <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"></img>
-                                        </button>
+                                        {/* </button> */}
                                         <div class="col-6 col-sm-6">
                                             <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "BACK")} >Preview</button>
                                         </div>
