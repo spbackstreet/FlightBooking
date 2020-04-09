@@ -8,6 +8,9 @@ import config from '../../config';
 import GlobalPOIModel from '../../Model/POIModel';
 import GlobalPOAModel from '../../Model/POAModel';
 import { showErrorAlert } from '../../commom/commonMethod';
+import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/commonMethod';
+import uploadDocuments from "../../txnUploadData/uploadDocuments"
+import {compareTwoDateTime} from '../../commom/commonMethod'
 
 
 const display = {
@@ -27,7 +30,7 @@ const CapCustPhoto = () => {
     const [appId, setAppId] = useState('')
     const [appKey, setAppKey] = useState('')
     const [appMixPanel, setAppMixPanel] = useState('')
-    const [apptimeout, setapptimeout] = useState('')
+    const [apptimeout, setApptimeout] = useState('')
     const [ORC_STRING, setORC_STRING] = useState('')
     const [SDKError, setSDKError] = useState('')
     const [SDKResult, setSDKResult] = useState('')
@@ -37,6 +40,7 @@ const CapCustPhoto = () => {
     const [SDKJourney, setSDKJourney] = useState('')
     const [showDialog, setShowDialog] = useState(false)
     const [isFrontCam, setIsFrontCam] = useState(false)
+    const [reqCode, setReqCode] = useState('Front Side')
 
     const history = useHistory();
 
@@ -50,16 +54,35 @@ const CapCustPhoto = () => {
         // var Finaldate = (date + "-" + '0' + month + "-" + year + " " + hours + ":" + min + ":" + sec);
         // setDeviceDate(Finaldate)
 
-        setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
-        setFaceMatchIdfySDKAllowFlag(getValueFromAuthConfigList('FaceMatch_SDK'));
-        setFaceMatch_SDK_NA(getValueFromAuthConfigList('FaceMatch_SDK_NA'));
-        setHV_WHITE(getValueFromAuthConfigList("HV_WHITE"));
-        setappId(getValueFromAuthConfigList("HV_AppId"));
-        setappKey(getValueFromAuthConfigList("HV_AppKey"));
-        setappMixPanel(getValueFromAuthConfigList("HV_MIX_PANEL"));
-        setapptimeout(getValueFromAuthConfigList("HV_TIMEOUT"));
-        setORC_STRING(getValueFromAuthConfigList("OCR_ALLOWED"));
-        setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        setFM_NONAADHAAR_CHECK("0");
+
+        // setFaceMatchIdfySDKAllowFlag(getValueFromAuthConfigList('FaceMatch_SDK'));
+        setFaceMatchIdfySDKAllowFlag("2");
+
+        // setFaceMatch_SDK_NA(getValueFromAuthConfigList('FaceMatch_SDK_NA'));
+        setFaceMatch_SDK_NA("4");
+
+        // setHV_WHITE(getValueFromAuthConfigList("HV_WHITE"));
+        setHV_WHITE("");
+
+        // setappId(getValueFromAuthConfigList("HV_AppId"));
+        setAppId("6db63e");
+
+        // setappKey(getValueFromAuthConfigList("HV_AppKey"));
+        setAppKey("a227e76e6e0a4c26c353");
+
+        // setappMixPanel(getValueFromAuthConfigList("HV_MIX_PANEL"));
+        setAppMixPanel("ecc8fa0c0d3255b9c51c0ccfe193cf06");
+
+        // setapptimeout(getValueFromAuthConfigList("HV_TIMEOUT"));
+        setApptimeout("30;119;119;A");
+
+        // setORC_STRING(getValueFromAuthConfigList("OCR_ALLOWED"));
+        setORC_STRING("0010001");
+
+        // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
+        setFM_NONAADHAAR_CHECK("0");
 
     }, [])
 
@@ -93,6 +116,7 @@ const CapCustPhoto = () => {
 
     const callNextScreen = () => {
 
+        history.push('/deliveryAddress');
         // that.props.props.history.push({
         //     pathname: '/CapAgentPhoto',
 
@@ -183,8 +207,10 @@ const CapCustPhoto = () => {
 
             } else {
                 var isLiveCheckEnable = "1";
-                var isLiveCheckEnable = getValueFromAuthConfigList("HV_LIVE");
-                var GlobalPOIModel = require('../Model/POIModel')
+                // var isLiveCheckEnable = getValueFromAuthConfigList("HV_LIVE");
+                var isLiveCheckEnable = "0";
+
+                var GlobalPOIModel = require('../../Model/POIModel')
 
                 if (isLiveCheckEnable == '' || config.Environment == "RR" || config.Environment == ("PRODUCTION")) {
                     isLiveCheckEnable = "1";// always checks liveness
@@ -276,7 +302,7 @@ const CapCustPhoto = () => {
                         jsonSucess.referenceId = referenceId;
 
                         var obj_data = jsonSucess.result;
-                        var GlobalPOIModel = require('../Model/POIModel')
+                        var GlobalPOIModel = require('../../Model/POIModel')
                         try {
                             var jsonObject2 = JSON.parse(GlobalPOIModel.default.POI_Response);
                             if (jsonObject2 != null && (JSON.stringify(jsonObject2)).includes("details")) {
@@ -297,12 +323,19 @@ const CapCustPhoto = () => {
                         GlobalPOIModel.default.setFace_match_Response(JSON.stringify(jsonSucess));
 
                         if (SDKJourney == 'vishwam') {
-                            GlobalPOIModel.default.setFM_VM_LOWERSCORE(getValueFromAuthConfigList("FM_VM_LOWERSCORE"));
-                            GlobalPOIModel.default.setFM_VM_UPPERSCORE(getValueFromAuthConfigList("FM_VM_UPPERSCORE"));
-                            GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            // GlobalPOIModel.default.setFM_VM_LOWERSCORE(getValueFromAuthConfigList("FM_VM_LOWERSCORE"));
+                            GlobalPOIModel.default.setFM_VM_LOWERSCORE("30");
+
+                            // GlobalPOIModel.default.setFM_VM_UPPERSCORE(getValueFromAuthConfigList("FM_VM_UPPERSCORE"));
+                            GlobalPOIModel.default.setFM_VM_UPPERSCORE("70");
+
+                            // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE_AR("A");
                             //for non aadhaar journey
-                            GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA(getValueFromAuthConfigList("FM_VM_LOWERSCORE_NA"));
-                            GlobalPOIModel.default.setFM_VM_UPPERSCORE_NA(getValueFromAuthConfigList("FM_VM_UPPERSCORE_NA"));
+                            // GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA(getValueFromAuthConfigList("FM_VM_LOWERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA('');
+                            
+                            GlobalPOIModel.default.setFM_VM_UPPERSCORE_NA('');
 
                             if (GlobalPOIModel.default.isAadharKYC) {
                                 if (GlobalPOIModel.default.FM_VM_LOWERSCORE != null && GlobalPOIModel.default.FM_VM_LOWERSCORE != ''
@@ -397,12 +430,21 @@ const CapCustPhoto = () => {
                         } else {
 
 
-                            GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
-                            GlobalPOIModel.default.setFM_UPPERSCORE(getValueFromAuthConfigList("FM_HV_UPPERSCORE"));
-                            GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            // GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE("30");
+
+                            // GlobalPOIModel.default.setFM_UPPERSCORE(getValueFromAuthConfigList("FM_HV_UPPERSCORE"));
+                            GlobalPOIModel.default.setFM_UPPERSCORE("50");
+
+                            // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
+                            GlobalPOIModel.default.setFM_LOWERSCORE_AR("A");
+
                             //for non aadhaar journey
-                            GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA(getValueFromAuthConfigList("FM_HV_LOWERSCORE_NA"));
-                            GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
+                            // GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA(getValueFromAuthConfigList("FM_HV_LOWERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA("10");
+
+                            // GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
+                            GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA("60");
 
 
                             if (GlobalPOIModel.default.isAadharKYC) {
@@ -505,7 +547,7 @@ const CapCustPhoto = () => {
     const proceed = (e) => {
         e.preventDefault();
 
-        var GlobalPOIModel = require('../Model/POIModel')
+        var GlobalPOIModel = require('../../Model/POIModel')
         if (GlobalPOIModel.default.custPhotoCaptureTime != null
             && GlobalPOIModel.default.custPOATime != null &&
             GlobalPOIModel.default.custPhotoCaptureTime != ''

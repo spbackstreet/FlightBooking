@@ -14,7 +14,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/commonMethod';
 import uploadDocuments from "../../txnUploadData/uploadDocuments"
 import CAFRequest from "../../txnUploadData/cafRequest"
-import GlobalPOIModel from '../../Model/POIModel'
+import GlobalPOIModel from '../../Model/POIModel';
+import Webcam from "react-webcam";
 
 var GSON = require('gson');
 
@@ -24,6 +25,16 @@ const display = {
 const hide = {
     display: 'none'
 };
+
+const videoConstraints = {
+    width: 280,
+    height: 420,
+    // facingMode: { exact: "environment" }
+    facingMode: "user"
+};
+
+
+
 
 const POICapture = () => {
 
@@ -44,8 +55,50 @@ const POICapture = () => {
     const [FaceMatch_SDK_NA, setFaceMatch_SDK_NA] = useState('');
     const [selectedDocJourney, setSelectedDocJourney] = useState('vishwam');
     const [showDialog, setShowDialog] = useState(false);
+    let [showWebcam, setShowWebcam] = useState(true);
+    const [frontsrc, setFrontsrc] = useState('');
+    const [backsrc, setBacksrc] = useState('');
+    let [side, setSide] = useState('Front Side')
 
     console.log('selectedDocObject : ', selectedDocObject);
+
+    const updateShowWebcam = (bool, vside) => {
+        setShowWebcam(!showWebcam)
+        setSide(vside)
+        side= vside
+        setReqCode("Front Side")
+        debugger;
+    }
+
+    const closeWebcam = (e) => {
+        e.preventDefault()
+        setShowWebcam(false)
+        // showWebcam = !showWebcam
+    }
+
+
+    //strt
+    const webcamRef = React.useRef(null);
+    const capture = React.useCallback(
+        (e) => {
+            e.preventDefault()
+            const imageSrc = webcamRef.current.getScreenshot();
+            console.log("imageSrc : ", imageSrc);
+            debugger;
+            if(side === "Front Side"){
+            setFrontsrc(imageSrc)
+            setShowPhotoView(true)
+            }
+            else if(side === "Back Side"){
+                setBacksrc(imageSrc)
+            }
+            // updateShowWebcam(false , '')
+            closeWebcam(e)
+
+        },
+        [webcamRef]
+    );
+
 
     useEffect(() => {
 
@@ -64,6 +117,9 @@ const POICapture = () => {
         var Finaldate = (date + "-" + '0' + month + "-" + year + " " + hours + ":" + min + ":" + sec);
 
         setDeviceDate(Finaldate)
+
+
+        // setShowWebcam(false)
 
         //tbd
         // let HV_ACCURACY = getValueFromAuthConfigList('HV_ACCURACY').toString()
@@ -92,16 +148,19 @@ const POICapture = () => {
     const previewClicked = (e, str) => {
         e.preventDefault();
         if (str == "FRONT") {
-            var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poiImage;
-            document.getElementById("previewImage").src = base64Icon;
+            // var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poiImage;
+            // document.getElementById("previewImage").src = base64Icon;
+            console.log('frontsrc : ', frontsrc);
+            document.getElementById("previewImage").src = frontsrc
         } else {
-            var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poaImage;
-            document.getElementById("previewImage").src = base64Icon;
+            // var base64Icon = 'data:image/png;base64,' + GlobalPOIModel.poaImage;
+            // document.getElementById("previewImage").src = base64Icon;
+            console.log('backsrc : ', backsrc);
+            document.getElementById("previewImage").src = backsrc
         }
+
         setShowDialog(true)
     }
-
-
 
     const onValueSet = (test, param) => {
         //frm.preventDefault();
@@ -676,8 +735,6 @@ const POICapture = () => {
 
     }
 
-
-
     const verifyAlignment = (uri, param, number) => {
         console.log("1", uri);
         console.log("2", param);
@@ -789,14 +846,14 @@ const POICapture = () => {
         }
         if (reqCode == "Back Side") {
             let DG_POA = "POA;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-            selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+                selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POA)
             CAFRequest.DG_POA = DG_POA
         }
         else if (reqCode == "Front Side") {
             let DG_POI = "POI;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-            selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+                selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POI)
 
@@ -987,7 +1044,7 @@ const POICapture = () => {
 
             // var apptimeout = getValueFromAuthConfigList("HV_TIMEOUT")
             var apptimeout = "30;119;119;A";
-            
+
             console.log("HV_AppId", appId)
             console.log("HV_AppKey", appKey)
             console.log("HV_MIX_PANEL", appMixPanel)
@@ -1006,6 +1063,44 @@ const POICapture = () => {
 
     return (
         <div>
+
+            <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
+            >
+                <div class="modal-backdrop fade show"></div>
+                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                    <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                        <div class="text-center" style={{ "background": "#0D95A2" }}>
+
+                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click {side} photo</b></h6>
+                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => closeWebcam(e)} /></span>
+                        </div>
+
+                        <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+
+                            {/* <WebcamCapture /> */}
+
+                            <>
+                                <Webcam
+                                    audio={false}
+                                    height={420}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={280}
+                                    videoConstraints={videoConstraints}
+                                />
+                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={(e) => capture(e)}>Capture photo</button>
+                            </>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+           
+
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
@@ -1019,7 +1114,7 @@ const POICapture = () => {
             </div>
 
             <div style={{ height: "100vh" }}>
-                <form id="SdkReponseForm">
+                <div id="SdkReponseForm">
                     <div className="spin">
                         <Spinner visible={loading}
                             spinnerColor={"rgba(0, 0, 0, 0.3)"} />
@@ -1027,10 +1122,18 @@ const POICapture = () => {
                     <div>
                         <div class="my_app_container">
                             {FixedHeader()}
+
+                            {/* {showWebcam ?
+                                <WebcamCapture />
+                                : ''
+                            } */}
                             <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
                                 <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
                                 <div id="FrontView" class="photoPreviewFrame">
-                                    <button style={{ "padding": "20px" }} onClick={(e) => fetchLocation(e, "Front Side")}>
+                                    <button style={{ "padding": "20px" }} onClick={(e) =>
+                                        // fetchLocation(e, "Front Side")}
+                                        updateShowWebcam(true, "Front Side")}
+                                    >
                                         <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Front View"></img>
                                     </button>
                                     <div class="col-6 col-sm-6">
@@ -1050,7 +1153,10 @@ const POICapture = () => {
                                     <div id="BackView"
                                         class="photoPreviewFrame"
                                     >
-                                        <button style={{ "padding": "20px" }} onClick={(e) => fetchLocation(e, "Back Side")}>
+                                        <button style={{ "padding": "20px" }} onClick={(e) =>
+                                            // fetchLocation(e, "Back Side")}
+                                            updateShowWebcam(true, "Back Side")}
+                                        >
                                             <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"></img>
                                         </button>
                                         <div class="col-6 col-sm-6">
@@ -1101,7 +1207,9 @@ const POICapture = () => {
 
                         </div>
                         <div>
-                            <input class="mt-40" id="LAT" type="text" style={{ "display": "none" }} />
+                            <input class="mt-40" id="LAT" type="text"
+                            // style={{ "display": "none" }} 
+                            />
 
                         </div>
                         <div>
@@ -1114,7 +1222,7 @@ const POICapture = () => {
                         </div>
                     </div>
 
-                </form>
+                </div>
 
 
 

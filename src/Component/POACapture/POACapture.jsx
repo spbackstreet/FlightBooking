@@ -14,7 +14,8 @@ import { getValueFromAuthConfigList, logout, showErrorAlert, getCurrentDateTime 
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeSelectedDocObject, storeListPOA } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
-import {getHypervergeErrorMessage} from '../../commom/commonMethod'
+import { getHypervergeErrorMessage } from '../../commom/commonMethod'
+import Webcam from "react-webcam";
 
 const display = {
     display: 'block'
@@ -22,6 +23,18 @@ const display = {
 const hide = {
     display: 'none'
 };
+
+const permissionsToRequest = {
+    "permissions": ["geolocation"],
+    "origins": ["https://developer.mozilla.org/"]
+}
+
+const videoConstraints = {
+    width: 280,
+    height: 420,
+    facingMode: { exact: "environment" }
+};
+
 
 const POACapture = () => {
 
@@ -40,8 +53,50 @@ const POACapture = () => {
     const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, SelectedDocPOAObject } }, dispatch] = useGlobalState();
     const [showDialog, setShowDialog] = useState(false)
     const [selectedDocJourney, setSelectedDocJourney] = useState('vishwam')
+    let [showWebcam, setShowWebcam] = useState(true);
+    const [frontsrc, setFrontsrc] = useState('');
+    const [backsrc, setBacksrc] = useState('');
+    const [side, setSide] = useState('Front Side')
+
 
     const history = useHistory();
+
+    const updateShowWebcam = (bool, side) => {
+        setShowWebcam(!showWebcam)
+        setSide(side)
+        setReqCode("Front Side")
+        debugger;
+    }
+
+    const closeWebcam = (e) => {
+        e.preventDefault()
+        setShowWebcam(false)
+        // showWebcam = !showWebcam
+    }
+
+
+    //strt
+    const webcamRef = React.useRef(null);
+    const capture = React.useCallback(
+        (e) => {
+            e.stopPropagation()
+            const imageSrc = webcamRef.current.getScreenshot();
+            console.log("imageSrc : ", imageSrc);
+            debugger;
+            if(side === "Front Side"){
+                setFrontsrc(imageSrc)
+                // setShowPhotoView(true)
+            }
+            else if(side === "Back Side"){
+                setBacksrc(imageSrc)
+            }
+            // updateShowWebcam(false , '')
+            closeWebcam()
+            
+        },
+        [webcamRef]
+    );
+    //
 
     const onValueSet = (test, param) => {
 
@@ -714,6 +769,11 @@ const POACapture = () => {
 
     }
 
+    useEffect(() => {
+        // setFaceMatchIdfySDKAllowFlag("2");
+        // setFaceMatch_SDK_NA("4");
+    }, [])
+
 
     // const permissionsToRequest: {
     //     "permissions": ["geolocation"],
@@ -722,15 +782,54 @@ const POACapture = () => {
 
     //for test
     // setFaceMatchIdfySDKAllowFlag (getValueFromAuthConfigList('FaceMatch_SDK'));
-    setFaceMatchIdfySDKAllowFlag ("2");
+
 
     // setFaceMatch_SDK_NA (getValueFromAuthConfigList('FaceMatch_SDK_NA'));
-    setFaceMatch_SDK_NA ("4");
+
 
 
 
     return (
         <div>
+
+            <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
+            >
+                <div class="modal-backdrop fade show"></div>
+                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                    <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                        <div class="text-center" style={{ "background": "#0D95A2" }}>
+
+                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click front photo</b></h6>
+                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} 
+                            // onClick={(e) => closeWebcam()} 
+                            /></span>
+                        </div>
+
+                        <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+
+                            {/* <WebcamCapture /> */}
+
+                            <>
+                                <Webcam
+                                    audio={false}
+                                    height={420}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={280}
+                                    videoConstraints={videoConstraints}
+                                />
+                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={ (e) => capture(e)}>Capture photo</button>
+                            </>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >

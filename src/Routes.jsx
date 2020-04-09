@@ -7,7 +7,7 @@ const LocalReference= React.lazy(() => import('./Component/LocalRef/LocalReferen
 const DKYC= React.lazy(() => import('./Component/DKYC/DKYC'));
 const CustomerDetails = React.lazy(() => import('./Component/CustomerDetails/CustomerDetails'));
 const poicapture = React.lazy(() => import('./Component/POICapture/POICapture'));
-// const CapCustPhoto = React.lazy(() => import('./Component/CapCustPhoto/CapCustPhoto'));
+const CapCustPhoto = React.lazy(() => import('./Component/CapCustPhoto/CapCustPhoto'));
 const DKYCPOA = React.lazy(() => import('./Component/DKYCPOA/DKYCPOA'));
 
 const POACapture = React.lazy(() => import('./Component/POACapture/POACapture'));
@@ -25,7 +25,7 @@ const Routes = () => {
             <Route exact path="/POICapture" component={poicapture} />
             <Route exact path="/DKYCPOA" component={DKYCPOA} />
             <Route exact path="/POACapture" component={POACapture} />
-            {/* <Route exact path="/CapCustPhoto" component={CapCustPhoto} /> */}
+            <Route exact path="/CapCustPhoto" component={CapCustPhoto} />
             
             <Redirect to='/' />
         </Switch>
