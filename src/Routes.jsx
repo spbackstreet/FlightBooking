@@ -13,6 +13,10 @@ const DKYCPOA = React.lazy(() => import('./Component/DKYCPOA/DKYCPOA'));
 const POACapture = React.lazy(() => import('./Component/POACapture/POACapture'));
 // const LocalAddress = React.lazy(() => import('./components/LocalAddress/LocalAddress'));
 
+
+const VideoCapture = React.lazy(() => import('./Component/VideoCapture/VideoCapture'));
+  
+
 const Routes = () => {
     return (
         <Switch>
@@ -26,6 +30,7 @@ const Routes = () => {
             <Route exact path="/DKYCPOA" component={DKYCPOA} />
             <Route exact path="/POACapture" component={POACapture} />
             {/* <Route exact path="/CapCustPhoto" component={CapCustPhoto} /> */}
+            <Route exact path="/VideoCapture" component={VideoCapture} />
             
             <Redirect to='/' />
         </Switch>
