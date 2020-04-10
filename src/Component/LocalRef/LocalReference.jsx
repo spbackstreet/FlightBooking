@@ -666,7 +666,7 @@ const LocalReference = () => {
 
                                                             <div class="form-group text-center mt-5 mb-0">
                                                                 <button type="button" style={{ width: "50%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px", "background-color": "darkcyan", "color": "white" }}
-                                                                //onClick={() => this.searchMobile}
+                                                                onClick={(e) => history.push('/Planselection')}
                                                                 >NEXT</button>
                                                             </div>
                                                         </div>
