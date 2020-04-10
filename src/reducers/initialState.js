@@ -10,7 +10,10 @@ const initialState = {
         selectedDocPOAObject : {},
         poaList : [],
         ORN : '',
-        customerName : ''
+        customerName : '',
+        lstGrpMS : [],
+        lstAuth_Config : [],
+        guid : ""
     }
 }
 

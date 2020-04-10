@@ -60,6 +60,15 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+        case actions.STORE_INIT_DATA : {
+            return {
+                ...state,
+                lstGrpMS: action.lstGrpMS,
+                lstAuth_Config : action.lstAuth_Config,
+                guid : action.guid
+            }
+        }
+
         case actions.STORE_CUSTOMER_NUMBER: {
             return {
                 ...state,
