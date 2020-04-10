@@ -1073,6 +1073,8 @@ const  uploadFile =(e)=>{
     reader.onload = (e) => {
     //   console.warn("Data", e.target.result)
       setFrontsrc(e.target.result);
+      setShowPhotoView(true)
+
   //setinstructionUpload( 'File Uploaded Successfully' );
       //setinstructiondata(files);
     }
@@ -1101,7 +1103,7 @@ const  uploadFileBack =(e)=>{
 
     return (
         <div>
-
+{/* 
             <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
             >
                 <div class="modal-backdrop fade show"></div>
@@ -1115,8 +1117,7 @@ const  uploadFileBack =(e)=>{
 
                         <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
 
-                            {/* <WebcamCapture /> */}
-
+                            
                             <>
                                 <Webcam
                                     audio={false}
@@ -1135,7 +1136,7 @@ const  uploadFileBack =(e)=>{
 
                 </div>
 
-            </div>
+            </div> */}
 
            
 
@@ -1172,11 +1173,20 @@ const  uploadFileBack =(e)=>{
                                         // fetchLocation(e, "Front Side")}
                                         updateShowWebcam(true, "Front Side")}
                                     > */}
-                                    <input   id="files"
-                                    type="file"
-                                    capture="camera" onChange={(e)=>uploadFile(e)}  accept="image/*"/>
-                                     <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Front View"></img>
+
+
                                     {/* </button> */}
+
+<div style={{position:"relative",display: "block",width: "100%"}}>
+                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
+                            <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>                        
+                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
+
+                          </div>
+
+
+
+
                                     <div class="col-6 col-sm-6">
                                         <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn-block jio-btn jio-btn-primary" >Preview</button>
                                     </div>
@@ -1197,12 +1207,17 @@ const  uploadFileBack =(e)=>{
                                         {/* <button style={{ "padding": "20px" }} onClick={(e) =>
                                             // fetchLocation(e, "Back Side")}
                                             updateShowWebcam(true, "Back Side")}
-                                        > */}
-                                          <input   id="files"
-                                    type="file"
-                                    capture="camera" onChange={(e)=>uploadFileBack(e)}  accept="image/*"/>
-                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"></img>
-                                        {/* </button> */}
+                                        > */}  {/* </button> */}
+
+
+                                         
+
+                                            <div style={{position:"relative",display: "block",width: "100%"}}>
+                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
+                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" ></img>                        
+                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"onChange={(e)=>uploadFileBack(e)} />
+
+                          </div>
                                         <div class="col-6 col-sm-6">
                                             <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "BACK")} >Preview</button>
                                         </div>
