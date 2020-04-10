@@ -12,6 +12,8 @@ import '../../css/style.css';
 import checkDeDupeService from '../../services/checkDeDupeService';
 import sendLROTPService from '../../services/sendLROTPService';
 import { Scrollbars } from 'react-custom-scrollbars';
+import CAFRequest from "../../txnUploadData/cafRequest"
+
 
 
 const display = {
@@ -404,6 +406,13 @@ const LocalReference = () => {
             setDisplayotp(false)
         }
 
+
+
+        const  goToPlanSelection =(e)=>{
+            
+            CAFRequest.FirstName = firstName
+            history.push('/Planselection')
+        }
         return (
             <div class="my_app_container">
                 <div class="rechargehome_wrapper">
@@ -666,8 +675,9 @@ const LocalReference = () => {
 
                                                             <div class="form-group text-center mt-5 mb-0">
                                                                 <button type="button" style={{ width: "50%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px", "background-color": "darkcyan", "color": "white" }}
-                                                                onClick={(e) => history.push('/Planselection')}
-                                                                >NEXT</button>
+                                                             //   onClick={(e) => history.push('/Planselection')}
+                                                             onClick={(e) => goToPlanSelection(e)}
+                                >NEXT</button>
                                                             </div>
                                                         </div>
                                                     </div>

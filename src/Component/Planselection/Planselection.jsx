@@ -1835,6 +1835,7 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
+                {console.log(`firstName`,CAFRequest)}
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>

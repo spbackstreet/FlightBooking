@@ -8,6 +8,7 @@ import useGlobalState from '../../hooks/useGlobalState';
 import { confirmAlert } from 'react-confirm-alert';
 import '../../css/style.css';
 import { storeCustomerPermanent, storeCustomeroutstation } from '../../action';
+import CAFRequest from "../../txnUploadData/cafRequest"
 
 
 const PermanentAddress = () => {
@@ -160,7 +161,7 @@ const PermanentAddress = () => {
 
     const validateFields = async (e) => {
         if (isOutstation) {
-            if (houseNo && roadName && area && city && district && state) {
+            if (houseNo && roadName && area && city && district && state) { 
 
                 let permAddr = {
                     "houseNo": houseNo,
@@ -172,6 +173,16 @@ const PermanentAddress = () => {
                     "state": state,
                     "pincode": pincode
                 }
+
+// CAFRequest.FirstName=custName
+            // CAFRequest.DOB =dob
+            CAFRequest.District=district
+            CAFRequest.LandMark=landMark
+            CAFRequest.State=state
+            CAFRequest.City= city
+            CAFRequest.Localadd_pincode=pincode
+            CAFRequest.LocalAdd_landmark=roadName
+
                 await dispatch(storeCustomerPermanent(permAddr));
                 history.push('/localreference')
             }
