@@ -1,43 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { FixedHeader } from '../../commom/FixedHeader';
-import getpoilist from '../../services/getpoilist';
-import Spinner from 'react-spinner-material';
-import OtpDialogue from '../OtpDialogue/OtpDialogue';
-import '../../css/style.css';
-import useLoader from '../../hooks/useLoader';
-import config from '../../config';
-import { getValueFromAuthConfigList, logout, showErrorAlert } from '../../commom/commonMethod';
-import useGlobalState from '../../hooks/useGlobalState';
-import { storeSelectedDocObject, storeListPOA } from '../../action';
+import React, { useEffect, useState } from 'react';
+import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
 import { confirmAlert } from 'react-confirm-alert';
-import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/commonMethod';
-import uploadDocuments from "../../txnUploadData/uploadDocuments"
-import CAFRequest from "../../txnUploadData/cafRequest"
-import txnUploadData from '../../txnUploadData/txnUploadData';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { useHistory } from 'react-router-dom';
+import Spinner from 'react-spinner-material';
+import SimpleReactValidator from 'simple-react-validator';
+import { errorMsg } from '../../commom/errorMsg';
+import { FixedHeader } from '../../commom/FixedHeader';
+import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
+import config from '../../config';
+import '../../css/style.css';
+import useGlobalState from '../../hooks/useGlobalState';
+import useLoader from '../../hooks/useLoader';
+import GlobalPOAModel from '../../Model/POAModel';
 import GlobalPOIModel from '../../Model/POIModel';
-import { edtMobileChange } from '../../commom/commonvalidation';
-import './aadharSimcoonection.css';
-// import CustomerModel from '../../CustomerDetails/Model/CustomerModel';
-import validateICCIDservice from '../../services/validateICCIDservice';
-import vanityNumberservice from '../../services/vanityNumberservice';
 import BlockMSISDNservice from '../../services/BlockMSISDNservice';
 import getmobilityPlanservice from '../../services/getmobilityPlanservice';
 import SendValidateOTP_KYCservice from '../../services/SendValidateOTP_KYCservice';
-import SimpleReactValidator from 'simple-react-validator';
-import { errorMsg } from '../../commom/errorMsg';
-import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
-import { Scrollbars } from 'react-custom-scrollbars';
-import GlobalPOAModel from '../../Model/POAModel';
+// import CustomerModel from '../../CustomerDetails/Model/CustomerModel';
+import validateICCIDservice from '../../services/validateICCIDservice';
+import vanityNumberservice from '../../services/vanityNumberservice';
+import CAFRequest from "../../txnUploadData/cafRequest";
+import txnUploadData from '../../txnUploadData/txnUploadData';
+import uploadDocuments from "../../txnUploadData/uploadDocuments";
+import './aadharSimcoonection.css';
+import './Planselection.css';
 
 
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemHeading,
-    AccordionItemPanel,
-    AccordionItemButton,
-} from 'react-accessible-accordion';
 
 const display = {
     display: 'block'
@@ -957,7 +946,7 @@ const Planselection = () => {
             if (SendValidateOTP_KYC.Error_Code === "00") {
                 //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
                 setdisplayCustDet(!displayCustDet)
-                
+                console.log(`fgufhi`,CAFRequest)
                 PlanselectionModel.PRODUCT_ID = PRODUCT_ID
                 PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
                 PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
