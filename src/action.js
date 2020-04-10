@@ -44,6 +44,13 @@ const storeORN = (payload) => {
   }
 }
 
+const storeInitData = (payload) => {
+  return {
+    type: actions.STORE_INIT_DATA,
+    payload
+  }
+}
+
 const storeCustomeroutstation = (payload) => {
   return {
     type: actions.STORE_CUSTOMER_OUTSTATION,
@@ -82,5 +89,6 @@ export {
   storeSelectedDocObject,
   storeSelectedDocPOAObject,
   storeListPOA,
-  storeORN
+  storeORN,
+  storeInitData
 };

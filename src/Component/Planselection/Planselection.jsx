@@ -187,7 +187,8 @@ const Planselection = () => {
         setSearch(e.target.value)
 
     }
-    const showPlanselected = (PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
+    const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
+        debugger;
         if (lstFRC.length >= 1) {
             var FRC = []
             for (let x = 0; x < lstFRC.length; x++) {
@@ -199,6 +200,8 @@ const Planselection = () => {
             setlstFRC([...FRC])
             setselectPlan(false)
             setisPlanselected(true)
+
+            callVanityNumber()
         }
         else {
             confirmAlert({
@@ -218,8 +221,9 @@ const Planselection = () => {
     }
     const lstPlanFRCValidator = (frm, e) => {
 
+        debugger;
         var validator = new SimpleReactValidator();
-        validator.message('Plan', frm.lstFRC.value, 'required');
+        validator.message('Plan', document.getElementById('lstFRC').value, 'required');
 
         if (validator.allValid()) {
             return true;
@@ -245,9 +249,7 @@ const Planselection = () => {
     }
     const callValidator = (frm, e) => {
         var validator = new SimpleReactValidator();
-        validator.message('iccid', frm.FRCiccid.value, 'required');
-        validator.message('imsi', frm.FRCimsi.value, 'required');
-        validator.message('msisdn', frm.FRCmsisdn.value, 'required');
+        validator.message('msisdn', document.getElementById('FRCmsisdn').value, 'required');
 
         if (validator.allValid()) {
             return true;
@@ -274,6 +276,7 @@ const Planselection = () => {
     }
 
     const checkNextPlan = (frm, e) => {
+        debugger;
         e.preventDefault();
         var validationCheck = lstPlanFRCValidator(frm, e);
         if (validationCheck) {
@@ -790,10 +793,10 @@ const Planselection = () => {
         }
     }
 
-    const callVanityNumber = async (result) => {
+    const callVanityNumber = async () => {
 
         setloading(true)
-        const vanityReq = await triggerAction(() => vanityNumberservice(result.SIM.ICCID.toString()));
+        const vanityReq = await triggerAction(() => vanityNumberservice());
         setloading(false)
 
         if (vanityReq.errorCode === "00" && vanityReq.numbers) {
@@ -1580,7 +1583,7 @@ const Planselection = () => {
                     <Spinner visible={loading}
                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                 </div>
-                <form class="my_app_container" id="frm" onSubmit={(e) => checkNextPlan(e, document.getElementById('frm'), e)}>
+                <div class="my_app_container" id="frm" onSubmit={(e) => checkNextPlan(e, document.getElementById('frm'), e)}>
                     {FixedHeader()}
                     <div>
                         <div class="container">
@@ -1677,7 +1680,7 @@ const Planselection = () => {
                                     <div class="card shadow-sm mt-3">
                                         <div class="card-body p-3">
                                             <div class="formFrame">
-                                                <div class="row no-gutters">
+                                                {/* <div class="row no-gutters">
                                                     <div class="col-12 pt-2 pb-3">
                                                         <div>
 
@@ -1695,7 +1698,7 @@ const Planselection = () => {
                                                             <label for="FRCimsi" class="control-label" style={{ top: "-0.3rem" }}>IMSI</label>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                                 <div class="row no-gutters">
                                                     <div class="col-12 pt-2 pb-3">
@@ -1829,7 +1832,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary">NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e)=> checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1840,7 +1843,7 @@ const Planselection = () => {
                         <input class="mt-40" id="QRDATA" type="text" style={{ "display": "none" }} onClick={(e) => handleScan(e)} />
 
                     </div>
-                </form>
+                </div>
 
                 {/* added by cc */}
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
@@ -1957,10 +1960,10 @@ const Planselection = () => {
                 {/* end */}
 
                 {/* added by cc */}
-                {/* <form id= 'otpfrm'
+                {/* <div id= 'otpfrm'
                             onSubmit={(e) => child.validateDigitalKycOTP.bind((this.props, document.getElementById('otpfrm'), e))}> */}
 
-                {/* </form> */}
+                {/* </div> */}
                 {/* end */}
 
 

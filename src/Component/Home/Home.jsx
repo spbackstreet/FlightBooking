@@ -5,12 +5,13 @@ import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerNumber, storeORN } from '../../action';
+import { storeCustomerNumber, storeORN , storeInitData} from '../../action';
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
 import ServiceableAreaService from '../../services/ServiceableAreaService';
 import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
+import config from '../../config';
 
 
 const display = {
@@ -22,7 +23,7 @@ const hide = {
 
 const Home = () => {
 
-    const [ORN, dispatch] = useGlobalState();
+    const [{ app: { ORN, guid}}, dispatch] = useGlobalState();
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
     const [displayOTP, setDisplayOTP] = useState(false)
@@ -125,7 +126,7 @@ const Home = () => {
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
-            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
+            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin, guid));
             if (GetServiceableAreaBypincode.Errocode == "00") {
                 dispatch(storeCustomerNumber(msdn));
                 history.push('/DKYC')
@@ -156,8 +157,7 @@ const Home = () => {
         if (custOtp) {
             const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, ORN));
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-
-                setDisplayOTP(false)
+                dispatch(storeInitData(callValidateOTP));
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')
