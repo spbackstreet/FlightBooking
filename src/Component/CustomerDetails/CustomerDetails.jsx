@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
+import CAFRequest from "../../txnUploadData/cafRequest"
 
 
 
@@ -171,6 +172,19 @@ const updateHouseNo = (e) => {
                 "state": state,
                 "pincode":pincode
             }
+
+CAFRequest.FirstName=custName
+CAFRequest.DOB =dob
+CAFRequest.District=district
+CAFRequest.LandMark=landMark
+CAFRequest.State=state
+CAFRequest.City= city
+CAFRequest.Localadd_pincode=pincode
+CAFRequest.LocalAdd_landmark=roadName
+CAFRequest.Country=document.getElementById("nationality").value
+
+
+
             confirmAlert({
                 message: "Are you an outstation customer?",
                 buttons: [
@@ -279,7 +293,7 @@ const updateHouseNo = (e) => {
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Nationality<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="gender" type="text" required="required" name="gender" autocomplete="off" placeholder=" " value={"Indian"}
+                                                                    <input id="nationality" type="text" required="required" name="nationality" autocomplete="off" placeholder=" " value={"Indian"}
                                                                     
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />

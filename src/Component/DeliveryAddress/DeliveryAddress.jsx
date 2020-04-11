@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
+import CAFRequest from "../../txnUploadData/cafRequest"
 
 
 
@@ -122,6 +123,18 @@ const DeliveryAddress = () => {
                 "state": state,
                 "pincode":pincode
             }
+
+            // CAFRequest.FirstName=custName
+            // CAFRequest.DOB =dob
+            CAFRequest.District=district
+            CAFRequest.LandMark=landMark
+            CAFRequest.State=state
+            CAFRequest.City= city
+            CAFRequest.Localadd_pincode=pincode
+            CAFRequest.LocalAdd_landmark=roadName
+            
+
+
             confirmAlert({
                 message: "Are you an outstation customer?",
                 buttons: [

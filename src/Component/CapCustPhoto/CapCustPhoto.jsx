@@ -12,7 +12,7 @@ import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/comm
 import uploadDocuments from "../../txnUploadData/uploadDocuments"
 import { compareTwoDateTime } from '../../commom/commonMethod'
 import Webcam from "react-webcam";
-
+// import Resizer from "react-image-file-resizer";
 
 const display = {
     display: 'block'
@@ -30,6 +30,7 @@ const CapCustPhoto = () => {
         facingMode: "user"
     };
 
+    
 
     const [FM_NONAADHAAR_CHECK, setFM_NONAADHAAR_CHECK] = useState('');
     const [FaceMatchIdfySDKAllowFlag, setFaceMatchIdfySDKAllowFlag] = useState('');
@@ -50,22 +51,73 @@ const CapCustPhoto = () => {
     const [isFrontCam, setIsFrontCam] = useState(false)
     const [reqCode, setReqCode] = useState('Front Side')
 
-    let [showWebcam, setShowWebcam] = useState(true);
+    let [showWebcam, setShowWebcam] = useState(false);
     const [imgsrc, setImgsrc] = useState(true)
-    // const [frontsrc, setFrontsrc] = useState('');
-    // const [backsrc, setBacksrc] = useState('');
+    const [frontsrc, setFrontsrc] = useState('');
+    const [backsrc, setBacksrc] = useState('');
     let [side, setSide] = useState('Front Side')
+    const [captureMode, setCaptureMode] = useState("");
+    const [file, setFile] = useState("");
+    const [frontDone, setFrontDone] = useState(false)
 
     const history = useHistory();
 
     const camside = (param) => {
+        
         if (param === "back") {
-            videoConstraints.facingMode = { exact: "environment" }
+            videoConstraints.facingMode = { exact: "environment" };
+            setCaptureMode("environment");
         }
         else if (param === "front") {
-            videoConstraints.facingMode = "user"
+            videoConstraints.facingMode = "user";
+            setCaptureMode("user");
+           
         }
+        console.log("captureMode", captureMode);
     }
+
+    const  FileUploadFront = (e) => {
+    //     for (var k = 0; k < e.target.files.length; k++) {
+    //    /*    this.setState({
+    //         file: URL.createObjectURL(e.target.files[k])
+    //       }); */
+    //       setFile(URL.createObjectURL(e.target.files[k]))
+    //     }
+        
+       
+        var b = 0;
+        let files = e.target.files;
+        console.log("files", e);
+        if (
+          files[0].type == "image/jpg" ||
+          files[0].type == "image/jpeg" ||
+          files[0].type == "image/png"
+        ) {
+          console.log(`out`, files[0].type);
+          if (files[0].type == "image/jpeg" || files[0].type == "image/png") {
+            // Resizer.imageFileResizer(
+            //   files[0],
+            //   500,
+            //   500,
+            //   "JPEG",
+            //   100,
+            //   0,
+            //   uri => {
+            //     console.log(`uri`, uri);
+               
+                setImgsrc(e.target.files)
+             if (captureMode === "environment"){
+                setBacksrc(e.target.files)
+             }else{
+                setFrontsrc(e.target.files);
+                setFrontDone(true);
+             }
+            //   },
+            //   "base64"
+            // );
+          }
+        }
+      }
 
     const updateShowWebcam = () => {
         setShowWebcam(!showWebcam)
@@ -77,7 +129,6 @@ const CapCustPhoto = () => {
         setShowWebcam(false)
         // showWebcam = !showWebcam
     }
-
 
     //strt
     const webcamRef = React.useRef(null);
@@ -94,8 +145,6 @@ const CapCustPhoto = () => {
         },
         [webcamRef]
     );
-
-
 
     useEffect(() => {
         // var date = new Date().getDate();
@@ -139,7 +188,6 @@ const CapCustPhoto = () => {
 
     }, [])
 
-
     const onImageCaptureClicked = () => {
         //POI Clicks
 
@@ -166,7 +214,6 @@ const CapCustPhoto = () => {
         onImageCaptureClicked(lat, long);
     }
 
-
     const callNextScreen = () => {
 
         history.push('/deliveryAddress');
@@ -176,9 +223,7 @@ const CapCustPhoto = () => {
         // })
     }
 
-
     const onValueSet = (frm, param) => {
-
 
         if (param == "ERROR") {
             SDKError = document.getElementById(param).value
@@ -320,7 +365,6 @@ const CapCustPhoto = () => {
 
                     showErrorAlert("Live image not detected.")
 
-
                 }
             }
         } else if (document.getElementById("SUBMIT").value == 'VERIFYFM') {
@@ -369,7 +413,6 @@ const CapCustPhoto = () => {
                             }
                         } catch (e) {
                         }
-
 
                         var matchScore = obj_data["match-score"];
                         if ((JSON.stringify(obj_data)).includes("match"))
@@ -471,7 +514,6 @@ const CapCustPhoto = () => {
                                         GlobalPOIModel.default.shouldCallValidateHyperVerge = (true);
                                         callNextScreen();
 
-
                                     } else {
                                         showErrorAlert("Confidence/Score value not matched");
 
@@ -483,7 +525,6 @@ const CapCustPhoto = () => {
                                 }
                             }
                         } else {
-
 
                             // GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
                             GlobalPOIModel.default.setFM_LOWERSCORE("30");
@@ -500,7 +541,6 @@ const CapCustPhoto = () => {
 
                             // GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
                             GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA("60");
-
 
                             if (GlobalPOIModel.default.isAadharKYC) {
                                 if (GlobalPOIModel.default.FM_LOWERSCORE != null && GlobalPOIModel.default.FM_LOWERSCORE != ''
@@ -598,7 +638,6 @@ const CapCustPhoto = () => {
         }
     }
 
-
     const proceed = (e) => {
         e.preventDefault();
 
@@ -669,7 +708,6 @@ const CapCustPhoto = () => {
     const verifyFaceMatchVishwam = () => {
         SDKJourney = 'vishwam';
 
-
         var jsonBody = {
             "dataLogging": "yes",
             "type": "id",
@@ -688,7 +726,6 @@ const CapCustPhoto = () => {
 
         if (window.Mobile) {
 
-
             var appId = "dkyc"
 
             var appKey = "oljsGtPZWqQEjPcVKOrDBqNLLulfPDrhlvRHoNVRHkqkpjFPZWAOxlFugtYAAopO"
@@ -701,14 +738,12 @@ const CapCustPhoto = () => {
             console.log("VISHWAM_MIX_PANEL", appMixPanel)
             console.log("VISHWAM_TIMEOUT", apptimeout)
 
-
             //cc
             window.Mobile.verifyFaceMatch("vishwam", "verifyfacematch", '', GlobalPOIModel.Hyperverge_Cust_IMg_Path, GlobalPOIModel.Hyperverge_POI_1_Img_Path,
 
                 JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId,
                 appKey, appMixPanel, apptimeout);
             //end
-
 
         }
     }
@@ -735,12 +770,9 @@ const CapCustPhoto = () => {
                 appKey, appMixPanel, apptimeout);
             //end
 
-
         }
 
-
     }
-
 
     const startFaceCaptureActivityVishwam = () => {
 
@@ -794,7 +826,6 @@ const CapCustPhoto = () => {
             window.Mobile.processCustPhoto("vishwam", "facecapture", JSON.stringify(faceConfig), appId, appKey, appMixPanel, apptimeout);
             //end
 
-
         }
 
     }
@@ -840,7 +871,6 @@ const CapCustPhoto = () => {
 
             },
             "shouldUseBackCamera": !(isFrontCam),
-
 
             "dataLogging": true,
 
@@ -901,7 +931,6 @@ const CapCustPhoto = () => {
 
             </div>
 
-
             {/* <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
@@ -912,7 +941,6 @@ const CapCustPhoto = () => {
 
                         </div>
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
-
 
                     </div>
                 </div>
@@ -946,12 +974,15 @@ const CapCustPhoto = () => {
                                         // onClick={() => setIsFrontCam(true)}
                                         onClick={() => camside("front")}
                                         name="cameraSel" /> <label style={{ color: "black", marginRight: "40px" }}>Front Camera</label>
+                                        {frontDone === true ? 
+                                            <div>
                                     <input type="radio"
                                         // onClick={() => setIsFrontCam(false)} 
                                         onClick={() => camside("back")}
-                                        name="cameraSel" /> <label style={{ color: "black" }}>Back Camera</label><br />
+                                        name="cameraSel" /><label style={{ color: "black" }}>Back Camera</label>
+                                        </div> : null}
                                 </div>
-                                <div class="photoPreviewFrame">
+                              {/*   <div class="photoPreviewFrame">
                                     <button style={{ marginTop: "50px" }} id="custPhotoButton"
                                         // onClick={(e) => onPhotoClick(e, "lat", "long")}
                                         onClick={(e) => updateShowWebcam()}
@@ -961,9 +992,19 @@ const CapCustPhoto = () => {
                                     <div class="col-6 col-sm-6" style={{ marginTop: "40px" }}>
                                         <button type="button" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "FRONT")}>Preview</button>
                                     </div>
-                                </div>
-                            </div>
+                                </div> */}
+                                <div class="photoPreviewFrame">
+                                <div style={{position:"relative",display: "block",width: "100%"}}>
+                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
+                            <img id="custphoto" style={{ width: "110px", height: "110" }} src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>                        
+                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture={captureMode} onChange={(e)=>FileUploadFront(e)} />
 
+                          </div>
+                          <div class="col-6 col-sm-6" style={{ marginTop: "40px" }}>
+                          <button type="button" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "FRONT")}>Preview</button>
+                      </div>
+                  </div>
+                            </div>
 
                         </div>
                         <div>
@@ -1013,8 +1054,7 @@ const CapCustPhoto = () => {
         </div>
     );
 
-
 }
 
-
 export default CapCustPhoto;
+
