@@ -4,12 +4,13 @@ import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
 
 
-const checkMobile = async (msisdn) => {
+const checkMobile = async (msisdn, action) => {
 
     
     const Request = {
 
-        "msisdn": msisdn
+        "msisdn": msisdn,
+        "action" : action
     };
     console.log("Request : ", Request)
     const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;

@@ -19,6 +19,7 @@ import getmobilityPlanservice from '../../services/getmobilityPlanservice';
 import SendValidateOTP_KYCservice from '../../services/SendValidateOTP_KYCservice';
 // import CustomerModel from '../../CustomerDetails/Model/CustomerModel';
 import validateICCIDservice from '../../services/validateICCIDservice';
+import getMNPservice from '../../services/getMNPservice';
 import vanityNumberservice from '../../services/vanityNumberservice';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import txnUploadData from '../../txnUploadData/txnUploadData';
@@ -87,6 +88,7 @@ const Planselection = () => {
     const [isOpen, setisOpen] = useState(false)
     const [lstMNP, setlstMNP] = useState([])
     const [cocpselected, setcocpselected] = useState(false)
+    const [mnpSelect, setmnpSelect] = useState([])
 
     let validator = new SimpleReactValidator();
 
@@ -703,7 +705,7 @@ const Planselection = () => {
 
 
     // const handleScanSIM = async (data) => {
-        
+
     //     if (data) {
     //         var xml2js = require('xml2js');
 
@@ -910,7 +912,7 @@ const Planselection = () => {
 
         // console.log("validateDigitalKycOtpReq : ", validateDigitalKycOtpReq);
         // return validateDigitalKycOtpReq
-        sendDigitalKycOTP(action,  config.orderType)
+        sendDigitalKycOTP(action, config.orderType)
 
     }
     const callBlockMSISDN = async () => {
@@ -937,64 +939,64 @@ const Planselection = () => {
 
     }
 
-    const sendDigitalKycOTP = async(action,orderType) => {
+    const sendDigitalKycOTP = async (action, orderType) => {
 
         setloading(true)
         const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
         setloading(false)
 
-            if (SendValidateOTP_KYC.Error_Code === "00") {
-                //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
-                setdisplayCustDet(!displayCustDet)
-                console.log(`fgufhi`,CAFRequest)
-                PlanselectionModel.PRODUCT_ID = PRODUCT_ID
-                PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
-                PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
-                PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
-                PlanselectionModel.FRCmsisdn = document.getElementById('FRCmsisdn').value
-                CAFRequest.ICCID = document.getElementById('FRCiccid').value
-                CAFRequest.IMSI = document.getElementById('FRCimsi').value
-                CAFRequest.MSISDN = document.getElementById('FRCmsisdn').value
-                CAFRequest.PRODUCT_ID = PRODUCT_ID
-                CAFRequest.PLANID = document.getElementById('lstFRC').value
-                console.log('planselectionModel', PlanselectionModel)
-                // this.props.props.history.push({
-                //     pathname: '/AgentCustOTP'
-                // })
+        if (SendValidateOTP_KYC.Error_Code === "00") {
+            //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
+            setdisplayCustDet(!displayCustDet)
+            console.log(`fgufhi`, CAFRequest)
+            PlanselectionModel.PRODUCT_ID = PRODUCT_ID
+            PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
+            PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
+            PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
+            PlanselectionModel.FRCmsisdn = document.getElementById('FRCmsisdn').value
+            CAFRequest.ICCID = document.getElementById('FRCiccid').value
+            CAFRequest.IMSI = document.getElementById('FRCimsi').value
+            CAFRequest.MSISDN = document.getElementById('FRCmsisdn').value
+            CAFRequest.PRODUCT_ID = PRODUCT_ID
+            CAFRequest.PLANID = document.getElementById('lstFRC').value
+            console.log('planselectionModel', PlanselectionModel)
+            // this.props.props.history.push({
+            //     pathname: '/AgentCustOTP'
+            // })
 
-            }
-            else if (SendValidateOTP_KYC.Error_Code === '03' || SendValidateOTP_KYC.Error_Code === '3') {
-                confirmAlert({
-                    title: "Alert!",
-                    //Pending For confirmation of Error Msg
-                    message: "Session Expired",
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { 
-                                // logout(this, this.props, config); 
-                            }
+        }
+        else if (SendValidateOTP_KYC.Error_Code === '03' || SendValidateOTP_KYC.Error_Code === '3') {
+            confirmAlert({
+                title: "Alert!",
+                //Pending For confirmation of Error Msg
+                message: "Session Expired",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            // logout(this, this.props, config); 
                         }
-                    ]
-                });
+                    }
+                ]
+            });
 
-            }
-            else {
-                confirmAlert({
+        }
+        else {
+            confirmAlert({
 
-                    message: SendValidateOTP_KYC.Error_Msg,
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { return false }
-                        }
-                    ]
-                });
-            }
+                message: SendValidateOTP_KYC.Error_Msg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { return false }
+                    }
+                ]
+            });
+        }
 
 
 
-        
+
 
 
 
@@ -1036,7 +1038,7 @@ const Planselection = () => {
 
 
 
-    const fetchPlans = async(e)=> {
+    const fetchPlans = async (e) => {
         setplanType(e.target.value)
 
         let pType = '';
@@ -1049,180 +1051,103 @@ const Planselection = () => {
             CAFRequest.CAF_TYPE = 'prepaid'
         }
 
-        
-
         setloading(true)
         const GetmobilityPlan = await triggerAction(() => getmobilityPlanservice(pType));
         setloading(false)
 
-            if (GetmobilityPlan.ErrorCode === "00") {
-                setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
-                setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
-                setselectPlan(true)
-                
+        if (GetmobilityPlan.ErrorCode === "00") {
+            setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
+            setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
+            setselectPlan(true)
 
-            }
-            else if (GetmobilityPlan.ErrorCode === '03' || GetmobilityPlan.ErrorCode === '3') {
-                confirmAlert({
-                    title: "Alert!",
-                    message: GetmobilityPlan.ErrorMsg,
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { 
-                                // logout(this, this.props, config); 
-                            }
+
+        }
+        else if (GetmobilityPlan.ErrorCode === '03' || GetmobilityPlan.ErrorCode === '3') {
+            confirmAlert({
+                title: "Alert!",
+                message: GetmobilityPlan.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            // logout(this, this.props, config); 
                         }
-                    ]
-                });
+                    }
+                ]
+            });
 
-            }
-            else {
-                confirmAlert({
+        }
+        else {
+            confirmAlert({
 
-                    message: GetmobilityPlan.errorMsg,
-                    buttons: [
-                        {
-                            label: 'OK',
-                        }
-                    ]
-                });
-            }
+                message: GetmobilityPlan.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                    }
+                ]
+            });
+        }
 
-        
+
 
 
     }
 
 
 
-    // const mnpclick = async(e) => {
+    const mnpclick = async (e) => {
 
-    //     setisOpen(true)
+        setloading(true)
+        const GetMNP = await triggerAction(() => getMNPservice());
+        setloading(false)
+
+
+        if (GetMNP.ErrorCode === "00") {
+            setlstMNP(GetMNP.lstMNP);
+            setmnpSelect(GetMNP.lstMNP[0].mnpSelect)
+            setisOPen(true)
+            
+
+        }
+        else if (GetMNP.ErrorCode === '03' || GetMNP.ErrorCode === '3') {
+            confirmAlert({
+                title: "Alert!",
+                message: GetMNP.ErrorMessage,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { 
+                            // logout(this, this.props, config); 
+                            history.push('/home')
+                        }
+                    }
+                ]
+            });
+
+        }
+        else {
+            confirmAlert({
+
+                message: GetMNP.ErrorMessage,
+                buttons: [
+                    {
+                        label: 'OK',
+                    }
+                ]
+            });
+        }
+
+        txnUploadData.CAFRequest.VANITYFLAG = "N";
+        txnUploadData.CAFRequest.VanityType = "";
         
-    //     var Request =
-    //     {
-    //         "circlecode": "MU",
-    //         "guId": config.objDeviceSave.Msg,
-    //         "upccode": "AM555755",
-    //         "storeid": config.objSupervisorLogin.Circle_Response.org
-    //     }
+        openMNPDialog();
+       
 
-
-    //     var api = new APIRouter();
-    //     if (config.NewEncryption === true) {
-    //         that.props.setState({ loading: true });
-    //         var APIURL = config.lstGrpMS.filter(
-    //             (item) => item.MICROSERVICENAME == 'MNP');
-    //         var resData = await api.postApiCalNewEncryption(Request, APIURL[0].ZONEURL + APIURL[0].MICROSERVICENAME);
-    //     }
-    //     else {
-    //         that.props.setState({ loading: true });
-    //         var APIURL = config.lstGrpMS.filter(
-    //             (item) => item.MICROSERVICENAME == 'MNP');
-    //         var resData = await api.postApiCalStoreID(Request, APIURL[0].ZONEURL + APIURL[0].MICROSERVICENAME);
-    //     }
-    //     if (numcheck(resData)) {
-    //         that.props.setState({ loading: false });
-    //         confirmAlert({
-
-    //             message: getHttpStatus(resData),
-    //             buttons: [
-    //                 {
-    //                     label: 'OK',
-    //                     onClick: () => { return false }
-    //                 }
-    //             ]
-    //         });
-    //     }
-    //     else {
-    //         console.log('resData', resData)
-    //         that.props.setState({ loading: false });
-    //         if (resData.ErrorCode === "00") {
-    //             that.props.setState({
-    //                 MnpOpt: resData.lstMNP,
-    //                 isOpen: true
-    //             })
-
-    //         }
-    //         else if (resData.ErrorCode === '03' || resData.ErrorCode === '3') {
-    //             confirmAlert({
-    //                 title: "Alert!",
-    //                 message: resData.ErrorMessage,
-    //                 buttons: [
-    //                     {
-    //                         label: 'OK',
-    //                         onClick: () => { logout(this, this.props, config); }
-    //                     }
-    //                 ]
-    //             });
-
-    //         }
-    //         else {
-    //             confirmAlert({
-
-    //                 message: resData.ErrorMessage,
-    //                 buttons: [
-    //                     {
-    //                         label: 'OK',
-    //                     }
-    //                 ]
-    //             });
-    //         }
-
-    //     }
-
-    //     // this.clearEANData();
-    //     // this.clearLOAFiles();
-    //     // GlobalModelSell.paymentarray.CAFRequest.MSISDN = "";
-
-
-    //     // model.setIccidValidate(false);//not there in GlobalModelSell
-    //     // model.setMsisdnBlocked(false);//not there in GlobalModelSell
-
-
-    //     // document.getElementById("msisdn").value = "";
-
-
-
-    //     // rMNP.setChecked(true);
-    //     // rCOCP.setChecked(false);
-    //     // rVanity.setChecked(false);
-    //     txnUploadData.CAFRequest.VANITYFLAG = "N";
-    //     txnUploadData.CAFRequest.VanityType = "";
-    //     //for later
-    //     //model.setCocpTagNo("");//not there in GlobalModelSell
-    //     // if (CafPayment.response == null || !CafPayment.response.isMNP() && !frcEanModel.isPosMsgValidate()) {
-    //     //     validatePosMsg = new CafPayment(getActivity()) {
-    //     //         @Override
-    //     //         public void onSuccess() {
-    //     //         }
-    //     //         @Override
-    //     //         public void onFail() {
-
-    //     //         }
-
-    //     //         @Override
-    //     //         public void isMNPCoupon(boolean mnpCoupon) {
-    //     //             if (mnpCoupon) {
-    //     //                 CafPayment.isMNPCoupon = true;
-    //     //                 mnpPOSMSG();
-    //     //             } else {
-    //     //                 CafPayment.isMNPCoupon = false;
-    //     //                 openMNPDialog();
-    //     //             }
-    //     //         }
-    //     //     };
-    //     //     validatePosMsg.isMNPPOSMSG();
-    //     // } else {
-    //     //     CafPayment.isMNPCoupon = false;
-    //     this.openMNPDialog();
-    //     // }
-
-    // }
+    }
 
     // const vanityClick = (e) => {
-      
+
 
     //     clearLOAFiles();
 
@@ -1235,11 +1160,11 @@ const Planselection = () => {
     //    txnUploadData.CAFRequest.Service_provider_name = "";
     //     global_position = 0;
     //     openVanityDialog();
-       
+
     // }
 
     // cocpclick = (e) => {
-        
+
     //     clearLOAFiles();
 
 
@@ -1254,16 +1179,16 @@ const Planselection = () => {
     //     openCOCP_Dilog();
     // }
 
-    // openMNPDialog() {
-    //     //for later
-    // }
+    const openMNPDialog = () =>  {
+        //for later
+    }
 
     // openVanityDialog() {
     //     //for later
 
     //     this.setState({ categoryName: [] })
     //     this.setState({ categoryValue: [] })
-        
+
     // }
 
     // const openCOCP_Dilog = () => {
@@ -1497,10 +1422,10 @@ const Planselection = () => {
                                             <button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={() => setisOpen(false)}>Close</button>
                                         </div>
                                         <div class="col-6 col-sm-6">
-                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1" 
+                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1"
                                             // onClick={(e) => setMNPdata(e)}
                                             >
-                                            Save</button>
+                                                Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1712,13 +1637,13 @@ const Planselection = () => {
                                                             <div class="radio-wrap">
                                                                 <div class="custom-control custom-radio custom-control-inline">
                                                                     <input type="radio" id="vanity" name="onboardtype" value="vanity" class="custom-control-input" defaultChecked
-                                                                        // onClick={(e) => vanityClick(e)}
+                                                                    // onClick={(e) => vanityClick(e)}
                                                                     />
                                                                     <label class="custom-control-label" for="vanity">Vanity</label>
                                                                 </div>
                                                                 <div class="custom-control custom-radio custom-control-inline">
                                                                     <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
-                                                                        // onClick={(e) => mnpclick(e)}
+                                                                        onClick={(e) => mnpclick(e)}
                                                                     />
                                                                     {/* onClick={child.mnpclick () {
 .bind(this)} */}
@@ -1727,7 +1652,7 @@ const Planselection = () => {
                                                                 </div>
                                                                 <div class="custom-control custom-radio custom-control-inline">
                                                                     <input type="radio" id="cocp" name="onboardtype" value="cocp" class="custom-control-input"
-                                                                        // onClick={(e) => cocpclick(e)}
+                                                                    // onClick={(e) => cocpclick(e)}
                                                                     />
                                                                     <label class="custom-control-label" for="cocp">COCP</label>
                                                                 </div>
@@ -1745,12 +1670,12 @@ const Planselection = () => {
                                                                 <div class="radio-wrap">
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="Othr-yes" name="Othr-sel" value="yes" class="custom-control-input"
-                                                                            onClick={(e) => setdisplayOtrCon(true) } />
+                                                                            onClick={(e) => setdisplayOtrCon(true)} />
                                                                         <label class="custom-control-label" for="Othr-yes">Yes</label>
                                                                     </div>
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="Othr-no" name="Othr-sel" value="no" class="custom-control-input"
-                                                                            onClick={(e) => setdisplayOtrCon(false) } />
+                                                                            onClick={(e) => setdisplayOtrCon(false)} />
                                                                         <label class="custom-control-label" for="Othr-no">No</label>
                                                                     </div>
                                                                 </div>
@@ -1821,7 +1746,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e)=> checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1971,7 +1896,7 @@ const Planselection = () => {
                                 <h6 class="modal-title mt-10">
                                     <b style={{ "float": "left", "margin": "5px", color: "white" }}>Connection Details</b>
                                     <img style={{ "float": "right", "margin": "5px", "width": "10px", "height": "10px" }} src="./img/cross.png" onClick={() =>
-                                        setconnection_details_dialog(!connection_details_dialog )}>
+                                        setconnection_details_dialog(!connection_details_dialog)}>
                                     </img>
                                 </h6>
 

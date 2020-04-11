@@ -156,6 +156,8 @@ const Home = () => {
         setError(false)
         if (custOtp) {
             const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, ORN));
+
+            // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
                 dispatch(storeInitData(callValidateOTP));
                 setDisplayPIN(true)
@@ -182,7 +184,7 @@ const Home = () => {
 
         if (msdn) {
             setLoading(true)
-            const callCheckMobile = await triggerAction(() => checkMobile(msdn));
+            const callCheckMobile = await triggerAction(() => checkMobile(msdn, "AUTH"));
             setLoading(false)
 
             if (callCheckMobile.errorCode === "00" || callCheckMobile.errorCode === "0") {
