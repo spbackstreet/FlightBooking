@@ -28,7 +28,6 @@ import './aadharSimcoonection.css';
 import './Planselection.css';
 
 
-
 const display = {
     display: 'block'
 };
@@ -1787,6 +1786,25 @@ const Planselection = () => {
                                                         </div>
                                                     </div>
 
+
+
+                                                    <div class="row no-gutters">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <br/>
+                                                                    <br/>
+                                                                    <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
+                                                                            onClick={(e) => btnAdd(e)} >ADD</button>
+
+</div>
+</div>
+</div>
+
+</div>
+
+
+
                                                     <div class="row no-gutters">
                                                         <div class="col-12">
                                                             <div class="form-group">
@@ -1804,23 +1822,22 @@ const Planselection = () => {
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
-                                                                            onClick={(e) => btnAdd(e)} >ADD</button>
+                                                                          {/* <div style={{ marginTop: "20px" }}> */}
+
+                                                                        <button type="submit" class="btn btn-primary btn-login" style={{"margin-left": "150px", width: "100px","margin-top": "-56px"}} onClick={() => setdisplayCustDet(!displayCustDet)}>OK</button>
                                                                     </div>
-                                                                    <div style={{ marginTop: "20px" }}>
-
-                                                                        <button type="submit" class="btn btn-primary btn-login"
-
-                                                                            onClick={() =>
-
-                                                                                setdisplayCustDet(!displayCustDet)}
-
-                                                                        >OK</button>
-                                                                    </div>
+                                                                    {/* </div> */}
+                                                                  
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
+
+
+
+
+
                                                 </div>
 
                                             </div>
