@@ -57,7 +57,7 @@ const Planselection = () => {
     const [income_reason_layout, setincome_reason_layout] = useState(false)
     const [TelcoOperatorSelected, setTelcoOperatorSelected] = useState('')
     const [displayOtrCon, setdisplayOtrCon] = useState(false)
-    const [agentCircleJKorNE, setagentCircleJKorNE] = useState(false)
+    let [agentCircleJKorNE, setagentCircleJKorNE] = useState(false)
     let [noOfConnections, setnoOfConnections] = useState(0)
     const [otr, setotr] = useState(false)
     const [iccid, seticcid] = useState('')
@@ -71,7 +71,6 @@ const Planselection = () => {
     const [lstFRC, setlstFRC] = useState([])
     const [loading, setloading] = useState(false)
     const [isPlanselected, setisPlanselected] = useState(false)
-    const [isOPen, setisOPen] = useState(false)
     const [DeviceDate, setDeviceDate] = useState('')
     const [time, settime] = useState({})
     const [timeA, settimeA] = useState({})
@@ -89,6 +88,7 @@ const Planselection = () => {
     const [lstMNP, setlstMNP] = useState([])
     const [cocpselected, setcocpselected] = useState(false)
     const [mnpSelect, setmnpSelect] = useState([])
+    const [msg, setmsg] = useState('')
 
     let validator = new SimpleReactValidator();
 
@@ -195,6 +195,7 @@ const Planselection = () => {
             callVanityNumber()
         }
         else {
+            setselectPlan(false)
             confirmAlert({
                 message: 'Failed to fetch FRC.',
                 buttons: [
@@ -212,7 +213,6 @@ const Planselection = () => {
     }
     const lstPlanFRCValidator = (frm, e) => {
 
-        debugger;
         var validator = new SimpleReactValidator();
         validator.message('Plan', document.getElementById('lstFRC').value, 'required');
 
@@ -267,7 +267,6 @@ const Planselection = () => {
     }
 
     const checkNextPlan = (frm, e) => {
-        debugger;
         e.preventDefault();
         var validationCheck = lstPlanFRCValidator(frm, e);
         if (validationCheck) {
@@ -278,7 +277,28 @@ const Planselection = () => {
                     rYesOtherConnection(e)
                 }
                 else {
-                    setdisplayCustDet(true)
+                    if (planType === "Postpaid Plans") {
+                        if (document.getElementById('FRCEmail')) {
+                            setdisplayCustDet(true)
+                        }
+                        else {
+                            confirmAlert({
+                                message: "Please Enter EmailID",
+                                buttons: [
+                                    {
+                                        label: 'Ok',
+                                        onClick: () => document.getElementById('FRCEmail').focus()
+                                    },
+
+                                ]
+
+                            });
+                        }
+                    }
+                    else {
+                        setdisplayCustDet(true)
+                    }
+
 
                 }
             }
@@ -337,7 +357,7 @@ const Planselection = () => {
                     .getNoofConnections());
         }
         //for test
-        //agentCircleJKorNE = true;
+        agentCircleJKorNE = true;
         if (agentCircleJKorNE) {
             if (parseInt(noOfConnections)
                 + parseInt(document.getElementById('et_connection').value) > 5) {
@@ -392,97 +412,112 @@ const Planselection = () => {
     const btnSave = (e) => {
         var continueflag = true;
         var msg = "";
+        debugger;
         if (document.getElementById('edtMobile').value.length != 10) {
-            msg = "Mobile Number lenght should be 10."
-            confirmAlert({
-                message: "Mobile Number lenght should be 10.",
-                buttons: [
-                    {
-                        label: 'Ok',
-                        onClick: () => { continueflag = false }
-                    },
-                ]
-            });
+            setmsg("Mobile Number lenght should be 10.")
+            continueflag = false
+            // confirmAlert({
+            //     message: "Mobile Number lenght should be 10.",
+            //     buttons: [
+            //         {
+            //             label: 'Ok',
+            //             onClick: () => { continueflag = false }
+            //         },
+            //     ]
+            // });
 
 
         }
         else if (document.getElementById('edtName') === undefined
             || document.getElementById('edtName').value.trim === "") {
-            confirmAlert({
-                message: "Please Enter Customer Name(Self/Family Members.",
-                buttons: [
-                    {
-                        label: 'Ok',
-                        onClick: () => { continueflag = false; }
-                    },
-                ]
-            });
+
+                continueflag = false
+                setmsg("Please Enter Customer Name(Self/Family Members.")
+            // confirmAlert({
+            //     message: "Please Enter Customer Name(Self/Family Members.",
+            //     buttons: [
+            //         {
+            //             label: 'Ok',
+            //             onClick: () => { continueflag = false; }
+            //         },
+            //     ]
+            // });
 
         } else if (document.getElementById('edtMobile') === undefined
             || document.getElementById('edtMobile').value.trim === "" && document.getElementById('edtMobile').value.length != 10) {
-            confirmAlert({
-                message: "Please enter valid mobile number",
-                buttons: [
-                    {
-                        label: 'Ok',
-                        onClick: () => { continueflag = false; }
-                    },
-                ]
-            });
+                continueflag = false;
+                setmsg("Please enter valid mobile number")
+            // confirmAlert({
+            //     message: "Please enter valid mobile number",
+            //     buttons: [
+            //         {
+            //             label: 'Ok',
+            //             onClick: () => { continueflag = false; }
+            //         },
+            //     ]
+            // });
 
         }
 
         else if (!isIncomeAndReasonCaptured) {
             if (document.getElementById('edtCustomerIndividualIncome') === undefined
                 || document.getElementById('edtCustomerIndividualIncome').value === "") {
-                confirmAlert({
-                    message: "Please Enter Customer Individual Income.",
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            onClick: () => { continueflag = false; }
-                        },
-                    ]
-                });
+                    continueflag = false;
+                    setmsg("Please Enter Customer Individual Income.")
+                // confirmAlert({
+                //     message: "Please Enter Customer Individual Income.",
+                //     buttons: [
+                //         {
+                //             label: 'Ok',
+                //             onClick: () => { continueflag = false; }
+                //         },
+                //     ]
+                // });
 
             }
             else if (document.getElementById('edtCustomerFamilyIncome') === undefined
                 || document.getElementById('edtCustomerFamilyIncome').value.trim === "") {
-                confirmAlert({
-                    message: "Please Enter Customer Family Income.",
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            onClick: () => { continueflag = false; }
-                        },
-                    ]
-                });
+                    continueflag = false;
+                    setmsg("Please Enter Customer Family Income.")
+                // confirmAlert({
+                //     message: "Please Enter Customer Family Income.",
+                //     buttons: [
+                //         {
+                //             label: 'Ok',
+                //             onClick: () => { continueflag = false; }
+                //         },
+                //     ]
+                // });
 
             }
             else if (document.getElementById('edtReasonForMultipleConnections') === undefined
                 || document.getElementById('edtReasonForMultipleConnections').value.trim === "") {
-                confirmAlert({
-                    message: "Please Enter Reason For Multiple Connections.",
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            onClick: () => { continueflag = false; }
-                        },
-                    ]
-                });
+                    continueflag = false;
+                    setmsg("Please Enter Reason For Multiple Connections.")
+                // confirmAlert({
+                //     message: "Please Enter Reason For Multiple Connections.",
+                //     buttons: [
+                //         {
+                //             label: 'Ok',
+                //             onClick: () => { continueflag = false; }
+                //         },
+                //     ]
+                // });
 
             }
             else if (document.getElementById('edtCustomerFamilyIncome').value.trim != "" && document.getElementById('edtCustomerIndividualIncome').value.trim != "") {
                 if (parseFloat(document.getElementById('edtCustomerFamilyIncome').value) < parseFloat(document.getElementById('edtCustomerIndividualIncome').value)) {
-                    confirmAlert({
-                        message: "Customer family income cannot be less than individual income.",
-                        buttons: [
-                            {
-                                label: 'Ok',
-                                onClick: () => { continueflag = false; }
-                            },
-                        ]
-                    });
+                    continueflag = false;
+                    setmsg("Customer family income cannot be less than individual income.")
+                    // confirmAlert({
+                    //     message: "Customer family income cannot be less than individual income.",
+                    //     buttons: [
+                    //         {
+                    //             label: 'Ok',
+                    //             onClick: () => { continueflag = false; }
+                    //         },
+                    //     ]
+                    // });
 
                 }
 
@@ -492,15 +527,17 @@ const Planselection = () => {
             else if (document.getElementById('edtMobile') === undefined
                 || document.getElementById('edtMobile').value.trim === "" &&
                 document.getElementById('edtMobile').value.length != 10) {
-                confirmAlert({
-                    message: "Please enter valid mobile number",
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            onClick: () => { continueflag = false; }
-                        },
-                    ]
-                });
+                    continueflag = false;
+                    setmsg("Please enter valid mobile number")
+                // confirmAlert({
+                //     message: "Please enter valid mobile number",
+                //     buttons: [
+                //         {
+                //             label: 'Ok',
+                //             onClick: () => { continueflag = false; }
+                //         },
+                //     ]
+                // });
 
             } else {
                 //  if (!EnvironmentUtil.isFTTx()) { //for later
@@ -530,11 +567,17 @@ const Planselection = () => {
             }
 
 
-            txnUploadData.CAFRequest.CustIncome = document.getElementById('edtCustomerIndividualIncome').value;
+            //for test
+            // txnUploadData.CAFRequest.CustIncome = document.getElementById('edtCustomerIndividualIncome').value;
+            CAFRequest.CustIncome = document.getElementById('edtCustomerIndividualIncome').value;
 
-            txnUploadData.CAFRequest.CustFamilyIncome = document.getElementById('edtCustomerFamilyIncome').value;
 
-            txnUploadData.CAFRequest.ReasonMultipleConnection = document.getElementById('edtReasonForMultipleConnections').value;
+            // txnUploadData.CAFRequest.CustFamilyIncome = document.getElementById('edtCustomerFamilyIncome').value;
+            CAFRequest.CustFamilyIncome = document.getElementById('edtCustomerFamilyIncome').value;
+
+            // txnUploadData.CAFRequest.ReasonMultipleConnection = document.getElementById('edtReasonForMultipleConnections').value;
+            CAFRequest.ReasonMultipleConnection = document.getElementById('edtReasonForMultipleConnections').value;
+
 
             // this.addConnection(lv_Connection, et_connection, spnTelco,
             //         adapterTelco, edtMobile, edtName, relationShip,
@@ -1106,8 +1149,8 @@ const Planselection = () => {
         if (GetMNP.ErrorCode === "00") {
             setlstMNP(GetMNP.lstMNP);
             setmnpSelect(GetMNP.lstMNP[0].mnpSelect)
-            setisOPen(true)
-            
+            setisOpen(true)
+
 
         }
         else if (GetMNP.ErrorCode === '03' || GetMNP.ErrorCode === '3') {
@@ -1117,7 +1160,7 @@ const Planselection = () => {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => { 
+                        onClick: () => {
                             // logout(this, this.props, config); 
                             history.push('/home')
                         }
@@ -1138,11 +1181,14 @@ const Planselection = () => {
             });
         }
 
-        txnUploadData.CAFRequest.VANITYFLAG = "N";
-        txnUploadData.CAFRequest.VanityType = "";
-        
+        // for test
+        // txnUploadData.CAFRequest.VANITYFLAG = "N";
+        // txnUploadData.CAFRequest.VanityType = "";
+        CAFRequest.VANITYFLAG = "N";
+        CAFRequest.VanityType = "";
+
         openMNPDialog();
-       
+
 
     }
 
@@ -1179,7 +1225,7 @@ const Planselection = () => {
     //     openCOCP_Dilog();
     // }
 
-    const openMNPDialog = () =>  {
+    const openMNPDialog = () => {
         //for later
     }
 
@@ -1231,6 +1277,23 @@ const Planselection = () => {
     //     // if (f1.exists())
     //     //     f1.delete();
     // }
+
+    const setMNPdata = () => {
+        CAFRequest.VANITYFLAG = "N";
+        CAFRequest.VanityType = "";
+        CAFRequest.Upc_code = document.getElementById('UPCCode').value
+        setsimMSISDN(document.getElementById('MNPMsisdn').value)
+        CAFRequest.Mnp_type = document.getElementById('Prepaid1').checked ? 'Prepaid' : 'Postpaid'
+        const dateInput = new Date(document.getElementById("upcGenDate").value)
+        const extractedDay = dateInput.getDate()
+        let extractedMonth = dateInput.getMonth() + 1
+        if (extractedMonth < 10) {
+            extractedMonth = `0${extractedMonth}`
+        }
+        const extractedYear = dateInput.getFullYear()
+        CAFRequest.Generation_date = extractedDay + "-" + extractedMonth + '-' + extractedYear
+        setisOpen(false)
+    }
 
 
 
@@ -1352,7 +1415,10 @@ const Planselection = () => {
                 </div>
 
                 {/* {mnpModal} */}
-                <div class="modal fade show oy" style={isOpen ? display : hide} >
+
+                <div class="modal fade show oy"
+                    style={isOpen ? display : hide}
+                >
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
                         <div class="modal-content" style={{ marginTop: "170px", padding: "10px" }}>
@@ -1423,7 +1489,7 @@ const Planselection = () => {
                                         </div>
                                         <div class="col-6 col-sm-6">
                                             <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1"
-                                            // onClick={(e) => setMNPdata(e)}
+                                                onClick={(e) => setMNPdata(e)}
                                             >
                                                 Save</button>
                                         </div>
@@ -1433,6 +1499,7 @@ const Planselection = () => {
                         </div>
                     </div>
                 </div>
+
 
                 {/* {cocpModal} */}
                 <div class="modal fade show oy" style={cocpselected ? display : hide}>
@@ -1760,7 +1827,7 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`firstName`,CAFRequest)}
+                {console.log(`firstName`, CAFRequest)}
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
@@ -1896,7 +1963,7 @@ const Planselection = () => {
 
                                 <h6 class="modal-title mt-10">
                                     <b style={{ "float": "left", "margin": "5px", color: "white" }}>Connection Details</b>
-                                    <img style={{ "float": "right", "margin": "5px", "width": "10px", "height": "10px" }} src="./img/cross.png" onClick={() =>
+                                    <img style={{ "float": "right", "margin": "5px", "width": "17px", "height": "17px" }} src="./img/close_btn.png" onClick={() =>
                                         setconnection_details_dialog(!connection_details_dialog)}>
                                     </img>
                                 </h6>
@@ -1994,10 +2061,17 @@ const Planselection = () => {
                                                 </div>
                                                 : null}
                                             <br></br>
+                                            {msg ?
+                                                <>
+                                                    <label style={{ color: "#FF0000" }}>{msg}</label>
+                                                    <br></br>
+                                                </>
+                                                : ''
+                                            }
 
                                             <button type="submit" class="btn btn-primary btn-login" style={{ "marginLeft": "15px" }}
 
-                                                onClick={(e) => btnSave.bind(this)}
+                                                onClick={(e) => btnSave(e)}
 
                                             >SAVE</button>
 

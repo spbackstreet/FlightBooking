@@ -16,7 +16,9 @@ const getMNPservice = async () => {
     // const APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_CouponManagement/api/v1.0/GetPOAPOIMaster`;
     // const APIURL = "http://devfin.ril.com:8080/SelfDkycMobilityPlan/MNP";
 
-    const APIURL = "https://rpos.dev.jiolabs.com/Micro_MobilityPlan/api/v1.0/MNP"
+
+    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
+    // const APIURL = "https://rpos.dev.jiolabs.com/Micro_MobilityPlan/api/v1.0/MNP"
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

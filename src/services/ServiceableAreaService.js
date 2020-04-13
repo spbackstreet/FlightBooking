@@ -14,8 +14,8 @@ const ServiceableAreaService = async (pin) => {
         "callName": "getserviceableareasbypin",
         "leadSource": "2",
         "leadType": "22",
-        // "pin": pin,//for test
-        "pin": "400053",
+        "pin": pin,//for test
+        // "pin": "400053",
         "businessLine": "1",
         "dateTime": "1477479050396"
     };

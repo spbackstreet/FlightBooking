@@ -13,7 +13,8 @@ const initialState = {
         customerName : '',
         lstGrpMS : [],
         lstAuth_Config : [],
-        guid : ""
+        guid : "",
+        CAFRequest : {}
     }
 }
 
