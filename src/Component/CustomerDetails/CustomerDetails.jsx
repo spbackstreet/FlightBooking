@@ -155,7 +155,6 @@ const updateHouseNo = (e) => {
 
        var totalYears= new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
    console.log(`abc`,totalYears)
-   console.log(`altMobileNum[0]=="7"`,altMobileNum[0])
         if (custName && houseNo && roadName && area && city && district && state && dob 
             && (altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" || altMobileNum.length=="10"
          )) {
@@ -163,6 +162,8 @@ const updateHouseNo = (e) => {
             if(totalYears>=18 && totalYears<=100){
 
             let delAddr = {
+                "custName":custName,
+                "dob":dob,
                 "houseNo": houseNo,
                 "landMark": landMark,
                 "roadName": roadName,
@@ -170,18 +171,20 @@ const updateHouseNo = (e) => {
                 "city": city,
                 "district": district,
                 "state": state,
-                "pincode":pincode
+                "pincode":pincode,
+                "altMoNo":altMobileNum,
+                "ALT_Contact_Type":"Mobile" //hardcoded
             }
 
-CAFRequest.FirstName=custName
-CAFRequest.DOB =dob
-CAFRequest.District=district
-CAFRequest.LandMark=landMark
-CAFRequest.State=state
-CAFRequest.City= city
-CAFRequest.Localadd_pincode=pincode
-CAFRequest.LocalAdd_landmark=roadName
-CAFRequest.Country=document.getElementById("nationality").value
+// CAFRequest.FirstName=custName
+// CAFRequest.DOB =dob
+// CAFRequest.District=district
+// CAFRequest.LandMark=landMark
+// CAFRequest.State=state
+// CAFRequest.City= city
+// CAFRequest.Localadd_pincode=pincode
+// CAFRequest.LocalAdd_landmark=roadName
+// CAFRequest.Country=document.getElementById("nationality").value
 
 
 
@@ -191,8 +194,8 @@ CAFRequest.Country=document.getElementById("nationality").value
                     {
                         label: 'Yes',
                         onClick: async () => {
-                           // await dispatch(storeCustomerDelivery(delAddr));
-                           // await dispatch(storeCustomeroutstation(true));
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(true));
 
                             history.push('/permanentAddress')
                         }
@@ -200,8 +203,8 @@ CAFRequest.Country=document.getElementById("nationality").value
                     {
                         label: 'No',
                         onClick: async() => { 
-                            //await dispatch(storeCustomerDelivery(delAddr));
-                           // await dispatch(storeCustomeroutstation(false));
+                            await dispatch(storeCustomerDelivery(delAddr));
+                            await dispatch(storeCustomeroutstation(false));
 
                             history.push('/permanentAddress') }
                     }

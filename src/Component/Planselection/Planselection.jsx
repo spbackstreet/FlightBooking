@@ -1843,19 +1843,19 @@ const Planselection = () => {
                                             <img style={{ "marginLeft": "30%", width: '40%' }} src={uploadDocuments.CUST_IMG} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.FirstName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.custName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Customer DOB :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.DOB}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.dob}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Mobile number used <br></br>for customer signature :</label>
                                             <label style={{ "marginTop": "2px" }}>{CAFRequest.MSISDN}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Alternate Contact <br></br>Number :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custNumber}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.altMoNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Contact Type :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.ALT_Contact_Type}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.ALT_Contact_Type}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
 
