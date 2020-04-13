@@ -37,6 +37,7 @@
     "react-dom": "^16.13.1",
     "react-geolocated": "^3.0.1",
     "react-html5-camera-photo": "^1.5.4",
+    "react-image-file-resizer": "^0.2.3",
     "react-native": "^0.61.5",
     "react-qr-reader": "^2.2.1",
     "react-radio-buttons": "^1.2.2",
