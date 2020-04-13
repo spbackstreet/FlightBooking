@@ -89,6 +89,7 @@ const Planselection = () => {
     const [cocpselected, setcocpselected] = useState(false)
     const [mnpSelect, setmnpSelect] = useState([])
     const [msg, setmsg] = useState('')
+    const [msgCust, setmsgCust] = useState('');
 
     let validator = new SimpleReactValidator();
 
@@ -865,15 +866,16 @@ const Planselection = () => {
             send_Cust_Agent('send_Cust_Agent');
         }
         else {
-            confirmAlert({
-                title: 'Alert !',
-                message: "Please check the box before proceed",
-                buttons: [
-                    {
-                        label: 'Ok',
-                    },
-                ]
-            })
+            setmsgCust("Please check the box before proceed")
+            // confirmAlert({
+            //     title: 'Alert !',
+            //     message: "Please check the box before proceed",
+            //     buttons: [
+            //         {
+            //             label: 'Ok',
+            //         },
+            //     ]
+            // })
         }
 
     }
@@ -1365,33 +1367,45 @@ const Planselection = () => {
                                                                         (Search !== "") &&
                                                                         (xitem.POS_DESC.toLowerCase().indexOf(Search.toLowerCase()) === -1) &&
                                                                         (xitem.PRODUCT_ID.toLowerCase().indexOf(Search.toLowerCase()) === -1) &&
-                                                                        (xitem.SELLINGPRICE.toLowerCase().indexOf(Search.toLowerCase()) === -1)
+                                                                        (xitem.SELLINGPRICE.toLowerCase().indexOf(Search.toLowerCase()) === -1) &&
+                                                                        (xitem.lstFRC.length)
                                                                     ) {
                                                                         return null
                                                                     }
                                                                     return (
+                                                                        
                                                                         <div class="row plan_details" onClick={(e) => showPlanselected(e, xitem.PRODUCT_ID, xitem.POS_DESC, xitem.SELLINGPRICE, xitem.lstFRC)}>
                                                                             <div class="col col-3 plan_detail_list">
                                                                                 <div class="list_inline">
-                                                                                    <span class="big_tt">{xitem.PRODUCT_ID}</span>
+                                                                                {xitem.lstFRC.length?
+                                                                                    <span class="big_tt">{xitem.lstFRC[0].frcID}</span>
+                                                                                    : null}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-7 plan_detail_list">
                                                                                 <div class="list_inline">
-                                                                                    <span class="big_tt" >{xitem.POS_DESC}</span>
+                                                                                {xitem.lstFRC.length?
+                                                                                    <span class="big_tt" >{xitem.lstFRC[0].frcDesc}</span>
+                                                                                    : null}
                                                                                     {/* <span class="small_tt">{zitem.validity.split(" ")[1].toString()}</span> */}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-2 plan_detail_list">
                                                                                 <div class="plan-amt">
+                                                                                {xitem.lstFRC.length?
+                                                                                <>
                                                                                     <span className="rupee"></span>
                                                                                     <span class="big_tt f-16">
-                                                                                        {xitem.SELLINGPRICE}
+                                                                                        {xitem.lstFRC[0].frcPrice}
                                                                                     </span>
+                                                                                    </>
+                                                                                    :null}
                                                                                 </div>
                                                                             </div>
 
                                                                         </div>
+                                                                        
+                                                                        
 
 
 
@@ -1928,7 +1942,15 @@ const Planselection = () => {
                                             <input type="checkbox" id="chkVerified"></input>
                                             <label style={{ "marginTop": "2px", "fontSize": "13px" }}>Details verified by Customer </label>
                                             <br></br>
-                                            <button style={{ "color": "#fff", "background": "#03007f", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp.bind(this)}>
+                                            {msgCust ? 
+                                            <>
+                                            <label style={{ color: "#FF0000" }}>{msgCust}</label>
+                                                    <br></br>
+                                            </>
+                                            :
+                                            null
+                                        }
+                                            <button style={{ "color": "#fff", "background": "#03007f", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
                                                 PROCEED
                                                 </button>
                                             <br></br>
