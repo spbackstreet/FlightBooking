@@ -12,7 +12,8 @@ import '../../css/style.css';
 import checkDeDupeService from '../../services/checkDeDupeService';
 import sendLROTPService from '../../services/sendLROTPService';
 import { Scrollbars } from 'react-custom-scrollbars';
-import CAFRequest from "../../txnUploadData/cafRequest"
+import CAFRequest from "../../txnUploadData/cafRequest";
+import { storeCustomerLocal } from  '../../action';
 
 
 
@@ -408,10 +409,58 @@ const LocalReference = () => {
 
 
 
-        const  goToPlanSelection =(e)=>{
+        const  goToPlanSelection  = async (e) =>{
+            console.log(`lrMobile`,lrMobile[0])
+if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && city && district &&  state
+    )
+           { 
+               if(lrMobile.length < 10  ||  lrMobile[0]=="0" ||  lrMobile[0]=="1" ||  lrMobile[0]=="2" ||  lrMobile[0]=="3" || 
+                lrMobile[0]=="4" ||  lrMobile[0]=="5" )  {
+                confirmAlert({
+                    message: "Please enter valid mobile number.",
+                    buttons: [
+                        {
+                            label: 'Ok',
+                        },
+                    ]
+                })
+               }
+               else{
+            let  localref ={
+                "firstName":firstName,
+                "middleName":middleName,
+                "lastName":lastName,
+                "lrMobile":lrMobile,  
+                "houseNo":houseNo,
+                "landMark":landMark,
+                "roadName":roadName,  
+                 "area":area,
+                 "pincode":pincodeLocalRef,
+                 "city":city,
+                 "district":district,
+                 "state":state,
+                "callingNo":callingNo
             
-            CAFRequest.FirstName = firstName
-            history.push('/Planselection')
+            }
+            // CAFRequest.FirstName = firstName
+
+            console.log(`localref`,localref)
+            await dispatch(storeCustomerLocal(localref));
+            history.push('/planselection')
+        }
+
+        }
+        else{
+            confirmAlert({
+                message: "Please enter all the mandatory fields",
+                buttons: [
+                    {
+                        label: 'Ok',
+                    },
+                ]
+            })
+        }
+
         }
         return (
             <div class="my_app_container">
@@ -556,7 +605,7 @@ const LocalReference = () => {
                                                                     <div class="form-group">
 
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="customerName" type="number" required="required" name="customerName" autocomplete="off" placeholder=" "
+                                                                        <input id="localMobileNo" type="number" required="required" name="localMobileNo" autocomplete="off" placeholder=" " maxLength="10"
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                             onChange={(e) => updateLrMobile(e)} value={lrMobile}
 

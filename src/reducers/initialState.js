@@ -14,8 +14,17 @@ const initialState = {
         lstGrpMS : [],
         lstAuth_Config : [],
         guid : "",
-        CAFRequest : {}
+        CAFRequest : {},
+        custLocalRefAdd :{},
     }
 }
 
 export default initialState
+
+
+
+
+
+
+
+

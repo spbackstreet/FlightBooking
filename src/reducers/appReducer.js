@@ -83,7 +83,12 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
-        
+        case actions.STORE_CUSTOMER_LOCAL_REFERENCE :{
+            return {
+                ...state,
+                custLocalRefAdd:action.payload
+            }
+        }
 
         
 
