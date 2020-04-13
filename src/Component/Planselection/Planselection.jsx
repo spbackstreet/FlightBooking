@@ -39,7 +39,7 @@ const hide = {
 const Planselection = () => {
 
     const history = useHistory()
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd } }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
 
 
@@ -1866,28 +1866,28 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{CAFRequest.CareOf}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>House number/Flat Number/<br></br>Building/Appartment :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.BldgName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.houseNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Street/Address/Road Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.LocalAdd_landmark}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.roadName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Area/Sector/Locality :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.Locality}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.area}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Landmark :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.LandMark}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.landMark}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Village/Town/City :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.City}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.city}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>District :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.District}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.district}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>State/UT :</label>
                                             <label style={{ "marginTop": "2px" }}>{CAFRequest.Localadd_state}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Postal code :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.Localadd_pincode}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.pincode}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>POI Details:</label>
