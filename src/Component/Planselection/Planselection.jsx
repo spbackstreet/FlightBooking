@@ -39,7 +39,7 @@ const hide = {
 const Planselection = () => {
 
     const history = useHistory()
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd } }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
 
 
@@ -1240,6 +1240,7 @@ const Planselection = () => {
         <div>
             <div>
                 {/* {modal} */}
+                {console.log(`custLocalRefAdd`,custLocalRefAdd)}
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog">
                         <div className="modal-content">

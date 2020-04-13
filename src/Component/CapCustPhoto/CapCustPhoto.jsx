@@ -1277,7 +1277,7 @@ const CapCustPhoto = () => {
 
  
 
-        debugger;
+        // debugger;
 
         callNextScreen()
 

@@ -79,6 +79,14 @@ const storeListPOA = (payload) => {
   }
 }
 
+
+const storeCustomerLocal =(payload) =>{
+  return {
+    type :actions.STORE_CUSTOMER_LOCAL_REFERENCE,
+    payload 
+  }
+}
+
 export {
   performLoadingOperation, 
   storeCustomerCircle,
@@ -90,5 +98,6 @@ export {
   storeSelectedDocPOAObject,
   storeListPOA,
   storeORN,
-  storeInitData
+  storeInitData,
+  storeCustomerLocal
 };

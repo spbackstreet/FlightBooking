@@ -13,8 +13,17 @@ const initialState = {
         customerName : '',
         lstGrpMS : [],
         lstAuth_Config : [],
-        guid : ""
+        guid : "",
+        custLocalRefAdd :{},
     }
 }
 
 export default initialState
+
+
+
+
+
+
+
+
