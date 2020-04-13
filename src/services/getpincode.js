@@ -2,7 +2,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 
-const getStoreAdd = async (pincode) => {
+const getPincode = async (pincode) => {
     const Request = {
 
         "pincode": pincode,
@@ -20,4 +20,4 @@ const getStoreAdd = async (pincode) => {
 
 }
 
-export default getStoreAdd;
+export default getPincode;

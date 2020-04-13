@@ -5,10 +5,11 @@ import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerNumber, storeORN , storeInitData} from '../../action';
+import { storeCustomerNumber, storeORN , storeInitData, storeCustomerCircleHeader} from '../../action';
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
 import ServiceableAreaService from '../../services/ServiceableAreaService';
+import getpincode from '../../services/getpincode';
 import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
 import config from '../../config';
@@ -128,8 +129,15 @@ const Home = () => {
         if (pin) {
             const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin, guid));
             if (GetServiceableAreaBypincode.Errocode == "00") {
-                dispatch(storeCustomerNumber(msdn));
-                history.push('/DKYC')
+                const GetPincode = await triggerAction(() => getpincode(pin));
+                if(GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0"){
+                    dispatch(storeCustomerNumber(msdn));
+                    debugger
+                    dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
+                    config.custCircleHeader = GetPincode.pincodelist[0].area
+                    history.push('/DKYC')
+                }
+                
             }
             else{
                 setDisplayOTP(false)
@@ -159,6 +167,7 @@ const Home = () => {
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
+                config.guid = callValidateOTP.guid;
                 dispatch(storeInitData(callValidateOTP));
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));

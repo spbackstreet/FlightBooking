@@ -10,7 +10,7 @@ const ServiceableAreaService = async (pin) => {
 
     const Request = {
 
-        "guid": "523c3aa8-e59f-453f-bb74-167c9ac34d4b:INT9",
+        "guid": config.guid,
         "callName": "getserviceableareasbypin",
         "leadSource": "2",
         "leadType": "22",

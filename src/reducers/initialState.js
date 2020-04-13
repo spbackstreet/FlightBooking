@@ -16,6 +16,7 @@ const initialState = {
         guid : "",
         CAFRequest : {},
         custLocalRefAdd :{},
+        custCircleHeader : ''
     }
 }
 

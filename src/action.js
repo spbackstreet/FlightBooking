@@ -37,6 +37,13 @@ const storeCustomerNumber = (payload) => {
   }
 }
 
+const storeCustomerCircleHeader = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_CIRCLE_HEADER,
+    payload
+  }
+}
+
 const storeORN = (payload) => {
   return {
     type: actions.STORE_ORN,
@@ -99,5 +106,6 @@ export {
   storeListPOA,
   storeORN,
   storeInitData,
-  storeCustomerLocal
+  storeCustomerLocal,
+  storeCustomerCircleHeader
 };

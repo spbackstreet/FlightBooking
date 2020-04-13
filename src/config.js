@@ -11,6 +11,7 @@ const config = {
     MACID: '',
     IMEI: '',
     trainingMode: false,
+    custCircleHeader : '',
     objSupervisorLogin: {
         lstUrl: [
             {
@@ -380,7 +381,7 @@ const config = {
     rechargeValidity: '',
     rechargeCode: '',
     walletBalance: '0.00',
-    guid: '523c3aa8-e59f-453f-bb74-167c9ac34d4b:INT9',
+    guid: '',
     agentCircleId: '',
     Store_State: "Maharashtra",
     zone: '',

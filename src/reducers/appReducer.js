@@ -18,6 +18,13 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+        case actions.STORE_CUSTOMER_CIRCLE_HEADER: {
+            return {
+                ...state,
+                custCircleHeader: action.payload
+            }
+        }
+
         case actions.STORE_CUSTOMER_DELIVERY: {
             return {
                 ...state,
