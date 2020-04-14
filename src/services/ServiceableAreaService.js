@@ -8,19 +8,28 @@ import { basicAuth } from '../commom/basicAuth';
 
 const ServiceableAreaService = async (pin) => {
 
+    // const Request = {
+
+    //     "guid": config.guid,
+    //     "callName": "getserviceableareasbypin",
+    //     "leadSource": "2",
+    //     "leadType": "22",
+    //     "pin": pin,//for test
+    //     // "pin": "400053",
+    //     "businessLine": "1",
+    //     "dateTime": "1477479050396"
+    // };
+
     const Request = {
 
         "guid": config.guid,
-        "callName": "getserviceableareasbypin",
-        "leadSource": "2",
-        "leadType": "22",
-        "pin": pin,//for test
-        // "pin": "400053",
-        "businessLine": "1",
-        "dateTime": "1477479050396"
-    };
+        "Customer_RMN": "",
+        "Cust_pincode": pin
+
+    }
     console.log("Request : ", Request)
-    const APIURL = `${process.env.REACT_APP_API_URL}/MobilityPlan/GetServiceableAreaBypin`;
+    // const APIURL = `${process.env.REACT_APP_API_URL}/MobilityPlan/GetServiceableAreaBypin`;
+    const APIURL = `https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetServiceableAreaBypin`;
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

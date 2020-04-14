@@ -16,7 +16,8 @@ const sendLROTPService = async (mobileNo, action, name, lrOTP) => {
     };
     console.log("Request : ", Request)
 
-    const APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_CouponManagement/api/v1.0//SendLROTP`;
+    // const APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_CouponManagement/api/v1.0/SendLROTP`;
+    const APIURL = `https://devfin.ril.com:8443/SelfDkycCouponManagement/SendLROTP`;
 
     try {
         const response = await postApiCall(Request, APIURL);

@@ -858,11 +858,11 @@ const Planselection = () => {
     }
 
 
-    const callOtp = (e) => {
+    const callOtp = async(e) => {
 
         if (document.getElementById("chkVerified").checked) {
-            callBlockMSISDN()
-            send_Cust_Agent('send_Cust_Agent');
+            let BlockMSISD=  await callBlockMSISDN(); 
+            let send_Cust=  await send_Cust_Agent('send_Cust_Agent');
         }
         else {
             setmsgCust("Please check the box before proceed")
@@ -985,6 +985,7 @@ const Planselection = () => {
 
     const sendDigitalKycOTP = async (action, orderType) => {
 
+        debugger;
         setloading(true)
         const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
         setloading(false)
@@ -994,15 +995,15 @@ const Planselection = () => {
             setdisplayCustDet(!displayCustDet)
             console.log(`fgufhi`, CAFRequest)
             PlanselectionModel.PRODUCT_ID = PRODUCT_ID
-            PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
-            PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
-            PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
+            // PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
+            // PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
+            // PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
             PlanselectionModel.FRCmsisdn = document.getElementById('FRCmsisdn').value
-            CAFRequest.ICCID = document.getElementById('FRCiccid').value
-            CAFRequest.IMSI = document.getElementById('FRCimsi').value
+            // CAFRequest.ICCID = document.getElementById('FRCiccid').value
+            // CAFRequest.IMSI = document.getElementById('FRCimsi').value
             CAFRequest.MSISDN = document.getElementById('FRCmsisdn').value
             CAFRequest.PRODUCT_ID = PRODUCT_ID
-            CAFRequest.PLANID = document.getElementById('lstFRC').value
+            CAFRequest.PLANID = lstFRC[0].frcID
             console.log('planselectionModel', PlanselectionModel)
             // this.props.props.history.push({
             //     pathname: '/AgentCustOTP'
@@ -1624,7 +1625,7 @@ const Planselection = () => {
                                                             <div>
                                                                 <div class="radio-wrap f-18 w-100">
                                                                     <div class="custom-control custom-radio custom-control-inline col-5">
-                                                                        <input type="radio" id="Prepaid" name="SimType" value="Prepaid Plans" class="custom-control-input" onClick={(e) => fetchPlans(e)} checked />
+                                                                        <input type="radio" id="Prepaid" name="SimType" value="Prepaid Plans" class="custom-control-input" onClick={(e) => fetchPlans(e)}  />
                                                                         <label class="custom-control-label" for="Prepaid">Prepaid</label>
                                                                     </div>
                                                                     <div class="custom-control custom-radio custom-control-inline col-5">
@@ -1845,7 +1846,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>

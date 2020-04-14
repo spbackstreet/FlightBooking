@@ -9,7 +9,9 @@ const getPincode = async (pincode) => {
         "guid": config.guid,
     };
     console.log("Request : ", Request)
-    const APIURL = `${process.env.REACT_APP_API_URL}/AuthenticationAndAuthorization/getpincode`;
+    // const APIURL = `${process.env.REACT_APP_API_URL}/AuthenticationAndAuthorization/getpincode`;
+    const APIURL = "https://devfin.ril.com:8443/HealthService/GetPincode";
+
     try {
         const response = await postApiCall(Request, APIURL);
         return response;
