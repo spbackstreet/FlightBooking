@@ -333,7 +333,7 @@ const DKYCPOA = () => {
                             </div>
                             <div style={{ textAlign: "center", marginTop: "20px" }}>
 
-                                <button type="submit" style={{ width: "90%" }} onClick={(e) => submit(e)} class="jio-btn jio-btn-primary mb-2">NEXT</button>
+                                <button type="submit" style={{ width: "90%" }} onClick={(e) => submit(e)} class="btn jio-btn jio-btn-primary w-75 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
 
                             </div>
 

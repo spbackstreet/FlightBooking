@@ -28,7 +28,6 @@ import './aadharSimcoonection.css';
 import './Planselection.css';
 
 
-
 const display = {
     display: 'block'
 };
@@ -1788,6 +1787,25 @@ const Planselection = () => {
                                                         </div>
                                                     </div>
 
+
+
+                                                    <div class="row no-gutters">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <br/>
+                                                                    <br/>
+                                                                    <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
+                                                                            onClick={(e) => btnAdd(e)} >ADD</button>
+
+</div>
+</div>
+</div>
+
+</div>
+
+
+
                                                     <div class="row no-gutters">
                                                         <div class="col-12">
                                                             <div class="form-group">
@@ -1805,23 +1823,22 @@ const Planselection = () => {
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
-                                                                            onClick={(e) => btnAdd(e)} >ADD</button>
+                                                                          {/* <div style={{ marginTop: "20px" }}> */}
+
+                                                                        <button type="submit" class="btn btn-primary btn-login" style={{"margin-left": "150px", width: "100px","margin-top": "-56px"}} onClick={() => setdisplayCustDet(!displayCustDet)}>OK</button>
                                                                     </div>
-                                                                    <div style={{ marginTop: "20px" }}>
-
-                                                                        <button type="submit" class="btn btn-primary btn-login"
-
-                                                                            onClick={() =>
-
-                                                                                setdisplayCustDet(!displayCustDet)}
-
-                                                                        >OK</button>
-                                                                    </div>
+                                                                    {/* </div> */}
+                                                                  
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
+
+
+
+
+
                                                 </div>
 
                                             </div>
@@ -1829,7 +1846,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1858,19 +1875,19 @@ const Planselection = () => {
                                             <img style={{ "marginLeft": "30%", width: '40%' }} src={uploadDocuments.CUST_IMG} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.FirstName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.custName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Customer DOB :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.DOB}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.dob}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Mobile number used <br></br>for customer signature :</label>
                                             <label style={{ "marginTop": "2px" }}>{CAFRequest.MSISDN}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Alternate Contact <br></br>Number :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custNumber}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.altMoNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Contact Type :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.ALT_Contact_Type}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.ALT_Contact_Type}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
 
