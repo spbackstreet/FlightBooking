@@ -9,7 +9,7 @@ const getTransactionIdService = async () => {
         "guId": config.guid,
     };
     console.log("Request : ", Request)
-    const APIURL = "http://rpos.dev.jiolabs.com/Micro_TransactionManagement/api/v1.0/getTransactionId";
+    const APIURL = "http://devfin.ril.com:8080/SelfDkycTransactionManagement/GetTransactionId";
 
     try {
         const response = await postApiCall(Request, APIURL);

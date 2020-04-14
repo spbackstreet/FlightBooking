@@ -27,7 +27,7 @@ const DKYC = () => {
     const [selectJourney, setSelectJourney] = useState("Aadhar")
     const [poi, setPoi] = useState('Aadhar')
     const [isAadhaar, setIsAadhar] = useState(true)
-    const [{ app: { pincode, custLocalAdd, isOutstation } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation , guid} }, dispatch] = useGlobalState();
 
 
     const [poiList, setPoiList] = useState([])
@@ -42,6 +42,8 @@ const DKYC = () => {
     const [docNumber, setDocNumber] = useState('')
     const history = useHistory();
     const [triggerAction] = useLoader();
+
+    debugger;
 
     const updateDateOfIssue = (e) => {
         setDateOfIssue(e.target.value)

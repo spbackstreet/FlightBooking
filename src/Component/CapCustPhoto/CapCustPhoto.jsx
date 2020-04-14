@@ -357,6 +357,7 @@ const CapCustPhoto = () => {
         }
 
         // await dispatch(storeCustomerCapture(custCapture));
+        config.custCaptureImage = custCapture
  
         history.push('/deliveryAddress');
 

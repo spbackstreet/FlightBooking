@@ -38,7 +38,7 @@ const CustOTP = () => {
     const [displayConsent, setdisplayConsent] = useState(false)
     const [displayOTPSuccess, setdisplayOTPSuccess] = useState(false)
     let [timer, settimer] = useState(0)
-    const [{ app: { pincode, custNumber, ORN } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custNumber, ORN, poiImage } }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
     const [loading, setloading] = useState(false)
     const [TxnID,setTxnID] = useState('')
@@ -169,6 +169,7 @@ const CustOTP = () => {
                 ]
             });
         }
+        openOtpValidationSuccessDialog();
     }
 
     const openOtpValidationSuccessDialog = (e) => {
@@ -264,39 +265,32 @@ const CustOTP = () => {
 
     const getCAFNumber = async () => {
 
-        setloading(true)
-        GlobalORNModel.setGuid(config.objDeviceSave.Msg);
-        GlobalORNModel.setStoreid(config.objGetStore.StoreID);
-        GlobalORNModel.setTransName('CF');
+        // setloading(true)
+        // GlobalORNModel.setGuid(config.objDeviceSave.Msg);
+        // GlobalORNModel.setStoreid(config.objGetStore.StoreID);
+        // GlobalORNModel.setTransName('CF');
 
-        const getORNViaTibco = await triggerAction(() => getORNViaTibcoService());
+        // const getORNViaTibco = await triggerAction(() => getORNViaTibcoService());
 
-        setloading(false);
-        if (getORNViaTibco.ErrorCode === "00") {
-            CAFRequest.CAF_NUMBER = config.agentCircleId + getORNViaTibco.ORN
+        // setloading(false);
+        // if (getORNViaTibco.ErrorCode === "00") {
+        //     CAFRequest.CAF_NUMBER = config.agentCircleId + getORNViaTibco.ORN
             callTransactionAPIs();
-        }
-        else {
-            confirmAlert({
-                message: getORNViaTibco.ErrorMsg,
-                buttons: [
-                    {
-                        label: 'OK',
-                    }
-                ]
-            });
-        }
+        // }
+        // else {
+        //     confirmAlert({
+        //         message: getORNViaTibco.ErrorMsg,
+        //         buttons: [
+        //             {
+        //                 label: 'OK',
+        //             }
+        //         ]
+        //     });
+        // }
 
     }
 
     const callTransactionAPIs = async () => {
-
-        var Request = {
-            "StoreID": config.objSupervisorLogin.Circle_Response.org,
-            "PosID": config.posid,
-            "guId": config.objDeviceSave.Msg,
-
-        }
 
         const getTransactionId = await triggerAction(() => getTransactionIdService());
 
@@ -328,7 +322,8 @@ const CustOTP = () => {
 
     const uploadDocuments = async() =>{
 
-        const getTransactionId = await triggerAction(() => uploadDocumentService("CUST_EKYC",));
+        const uploadPOIFront = await triggerAction(() => uploadDocumentService("CUST_EKYC",poiImage.frontImage));
+        const uploadPOIBack = await triggerAction(() => uploadDocumentService("CUST_EKYC_CONSENT",poiImage.backImage));
         
        
     }

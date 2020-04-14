@@ -588,6 +588,8 @@ console.log()
             "imagePoa": frontsrc
         }
         await dispatch(storeCustomerPOAcapture(poaCapture));
+        config.poaCaptureImage = poaCapture
+        
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
