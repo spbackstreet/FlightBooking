@@ -16,6 +16,7 @@ const POACapture = React.lazy(() => import('./Component/POACapture/POACapture'))
 
 
 const VideoCapture = React.lazy(() => import('./Component/VideoCapture/VideoCapture'));
+const OrderPlaced =  React.lazy(() => import('./Component/OrderPlaced/OrderPlaced'));
   
 
 const Routes = () => {
@@ -34,7 +35,8 @@ const Routes = () => {
             <Route exact path="/VideoCapture" component={VideoCapture} />
             <Route exact path="/CapCustPhoto" component={CapCustPhoto} />
             <Route exact path="/Planselection" component={Planselection} />
-            
+            <Route exact path  ="/OrderPlaced" component ={OrderPlaced}/>
+             
             <Redirect to='/' />
         </Switch>
     );
