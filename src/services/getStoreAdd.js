@@ -2,20 +2,15 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 
-const getMNPservice = async () => {
-    const Request = 
-        {
-            "circlecode": "MU",
-            "guId": config.guid,
-            "upccode": "AM555755",
-            "storeid": "INT9"
-        }
+const getStoreAdd = async (pincode, storeNo) => {
+    const Request = {
 
-    
+        "pincode": pincode,
+        // "guId": config.guid,
+        "store_ID": storeNo
+    };
     console.log("Request : ", Request)
-   
-
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
+    const APIURL = `${process.env.REACT_APP_API_URL}/ECommerce/GetPincode`;
     try {
         const response = await postApiCall(Request, APIURL);
         return response;
@@ -26,4 +21,4 @@ const getMNPservice = async () => {
 
 }
 
-export default getMNPservice;
+export default getStoreAdd;

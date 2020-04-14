@@ -18,7 +18,8 @@ const initialState = {
         custLocalRefAdd :{},
         custCircleHeader : '',
         poaCaptureImage: {},
-        custCaptureImage: {}
+        custCaptureImage: {},
+        poiImage:{},
     }
 }
 

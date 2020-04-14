@@ -25,7 +25,7 @@ const vanityNumberservice = async () => {
         }
     }
     console.log("Request : ", Request)
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/GetVanityNumbers";
+    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetVanityNumbers";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

@@ -10,12 +10,14 @@ const poicapture = React.lazy(() => import('./Component/POICapture/POICapture'))
 const CapCustPhoto = React.lazy(() => import('./Component/CapCustPhoto/CapCustPhoto'));
 const DKYCPOA = React.lazy(() => import('./Component/DKYCPOA/DKYCPOA'));
 const Planselection = React.lazy(() => import('./Component/Planselection/Planselection'));
+const CustOTP = React.lazy(() => import('./Component/CustOTP/CustOTP'))
 
 const POACapture = React.lazy(() => import('./Component/POACapture/POACapture'));
 // const LocalAddress = React.lazy(() => import('./components/LocalAddress/LocalAddress'));
 
 
 const VideoCapture = React.lazy(() => import('./Component/VideoCapture/VideoCapture'));
+const OrderPlaced =  React.lazy(() => import('./Component/OrderPlaced/OrderPlaced'));
   
 
 const Routes = () => {
@@ -34,6 +36,9 @@ const Routes = () => {
             <Route exact path="/VideoCapture" component={VideoCapture} />
             <Route exact path="/CapCustPhoto" component={CapCustPhoto} />
             <Route exact path="/Planselection" component={Planselection} />
+            <Route exact path  ="/OrderPlaced" component ={OrderPlaced}/>
+             
+            <Route exact path="/CustOTP" component={CustOTP} />
             
             <Redirect to='/' />
         </Switch>

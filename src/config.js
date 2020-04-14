@@ -12,6 +12,7 @@ const config = {
     IMEI: '',
     trainingMode: false,
     custCircleHeader : '',
+    custNumber : '',
     objSupervisorLogin: {
         lstUrl: [
             {
@@ -381,7 +382,7 @@ const config = {
     rechargeValidity: '',
     rechargeCode: '',
     walletBalance: '0.00',
-    guid: '',
+    guid: '523c3aa8-e59f-453f-bb74-167c9ac34d4b:INT9',
     agentCircleId: '',
     Store_State: "Maharashtra",
     zone: '',
