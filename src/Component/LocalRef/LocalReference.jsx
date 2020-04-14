@@ -446,7 +446,7 @@ if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && ci
 
             console.log(`localref`,localref)
             await dispatch(storeCustomerLocal(localref));
-            history.push('/planselection')
+            history.push('/customerdetails')
         }
 
         }

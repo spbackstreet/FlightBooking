@@ -202,7 +202,7 @@ const PermanentAddress = () => {
 
         }
         else{
-            history.push('/planselection')
+            history.push('/customerdetails')
         }
     }
 
