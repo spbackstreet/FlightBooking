@@ -21,7 +21,8 @@ const validateICCID = async (iccid) => {
         "imsi": "Y"
     };
     console.log("Request : ", Request)
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/ValidateICCID";
+    // const APIURL = "http://devfin.ril.com:8080/MobilityPlan/ValidateICCID";
+    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/ValidateICCID";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

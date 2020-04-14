@@ -167,7 +167,8 @@ const Home = () => {
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                config.guid = callValidateOTP.guid;
+                //config.guid = callValidateOTP.guid; // for test
+                config.custNumber = msdn
                 dispatch(storeInitData(callValidateOTP));
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));

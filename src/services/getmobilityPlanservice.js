@@ -53,7 +53,8 @@ const getmobilityPlanservice = async (pType) => {
             "storeid": "INT9"
         }
     console.log("Request : ", Request)
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/GetmobilityPlan";
+    // const APIURL = "http://devfin.ril.com:8080/MobilityPlan/GetmobilityPlan";
+    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetmobilityPlan";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

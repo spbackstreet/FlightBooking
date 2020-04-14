@@ -22,7 +22,7 @@ const BlockMSISDNservice = async (MSISDN) => {
 
     }
     console.log("Request : ", Request)
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/BlockMSISDN";
+    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/BlockMSISDN";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;
