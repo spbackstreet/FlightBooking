@@ -1916,7 +1916,7 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{custPermAdd.district}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>State/UT :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.Localadd_state}</label>
+                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.state}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Postal code :</label>
                                             <label style={{ "marginTop": "2px" }}>{custPermAdd.pincode}</label>

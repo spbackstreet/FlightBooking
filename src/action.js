@@ -2,6 +2,20 @@ import * as actions from './actionTypes';
 import { Encrypt } from './commom/Encryption-Decryption';
 import { postApiCall } from './commom/ApiRouter';
 
+const storeCustomerPOAcapture = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_POA_CAPTURE,
+    payload
+  }
+}
+
+const storeCustomerCapture = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_CAPTURE,
+    payload
+  }
+}
+
 const performLoadingOperation = (payload) => {
   return {
     type: actions.LOADING_OPERATION,
@@ -40,6 +54,14 @@ const storeCustomerNumber = (payload) => {
 const storeCustomerCircleHeader = (payload) => {
   return {
     type: actions.STORE_CUSTOMER_CIRCLE_HEADER,
+    payload
+  }
+}
+
+
+const storeCustomerPOImage = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_POI_IMAGE,
     payload
   }
 }
@@ -95,6 +117,7 @@ const storeCustomerLocal =(payload) =>{
 }
 
 export {
+  storeCustomerPOAcapture,
   performLoadingOperation, 
   storeCustomerCircle,
   storeCustomerDelivery,
@@ -107,5 +130,6 @@ export {
   storeORN,
   storeInitData,
   storeCustomerLocal,
-  storeCustomerCircleHeader
+  storeCustomerCircleHeader,
+  storeCustomerPOImage
 };

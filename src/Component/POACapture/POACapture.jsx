@@ -18,6 +18,7 @@ import { getHypervergeErrorMessage } from '../../commom/commonMethod'
 import Webcam from "react-webcam";
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+import { storeCustomerPOAcapture } from '../../action';
 
 const display = {
     display: 'block'
@@ -564,6 +565,12 @@ console.log()
         var GlobalPOAModel = require("../../Model/POAModel")
         var GlobalPOIModel = require("../../Model/POIModel")
 
+        if(frontsrc === ''){
+            showErrorAlert("Please Capture Image");
+        }else{
+            callUserPhotoCaptureScreen();
+            
+        }
 
         //for test
         // if ((GlobalPOIModel.default.Hyperverge_POI_2_Img_Path == null || GlobalPOIModel.default.Hyperverge_POI__Img_Path == '')) {
@@ -572,11 +579,15 @@ console.log()
 
         //     callUserPhotoCaptureScreen();
         // }
-        callUserPhotoCaptureScreen();
+        
 
     }
 
-    const callUserPhotoCaptureScreen = () => {
+    const callUserPhotoCaptureScreen = async(e) => {
+        let poaCapture = {
+            "imagePoa": frontsrc
+        }
+        await dispatch(storeCustomerPOAcapture(poaCapture));
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
