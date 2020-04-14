@@ -2,20 +2,14 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 
-const getPincode = async (doctype, image) => {
-
+const getORNViaTibcoService = async () => {
     const Request = {
-        "guid": config.guid,
-        "agentid": config.userID,
-        "storeid": config.storeID,
-        "orn": "NO00000123",
-        "doctype": doctype,
-        "image": image
-    }
-
+        "TransName" : "CF",
+        "Guid" : config.guid,
+        "Storeid": config.storeID
+    };
     console.log("Request : ", Request)
-
-    const APIURL = "http://devfin.ril.com:8080/SelfDkycRDService/UploadDocument";
+    const APIURL = "https://rpos.dev.jiolabs.com/Micro_MobilityPlan/api/v1.0/GetORNViaTibco";
 
     try {
         const response = await postApiCall(Request, APIURL);
@@ -27,4 +21,4 @@ const getPincode = async (doctype, image) => {
 
 }
 
-export default getPincode;
+export default getORNViaTibcoService;

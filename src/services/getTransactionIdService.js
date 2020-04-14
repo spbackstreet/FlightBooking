@@ -2,20 +2,14 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 
-const getPincode = async (doctype, image) => {
-
+const getTransactionIdService = async () => {
     const Request = {
-        "guid": config.guid,
-        "agentid": config.userID,
-        "storeid": config.storeID,
-        "orn": "NO00000123",
-        "doctype": doctype,
-        "image": image
-    }
-
+        "StoreID": config.storeID,
+        "PosID": config.posid,
+        "guId": config.guid,
+    };
     console.log("Request : ", Request)
-
-    const APIURL = "http://devfin.ril.com:8080/SelfDkycRDService/UploadDocument";
+    const APIURL = "http://rpos.dev.jiolabs.com/Micro_TransactionManagement/api/v1.0/getTransactionId";
 
     try {
         const response = await postApiCall(Request, APIURL);
@@ -27,4 +21,4 @@ const getPincode = async (doctype, image) => {
 
 }
 
-export default getPincode;
+export default getTransactionIdService;
