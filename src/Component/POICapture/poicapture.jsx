@@ -16,7 +16,7 @@ import uploadDocuments from "../../txnUploadData/uploadDocuments"
 import CAFRequest from "../../txnUploadData/cafRequest"
 import GlobalPOIModel from '../../Model/POIModel';
 import Webcam from "react-webcam";
-
+import {storeCustomerPOImage} from  '../../action';
 var GSON = require('gson');
 
 const display = {
@@ -702,7 +702,7 @@ const POICapture = () => {
 
     }
 
-    const callDigKYCPoaFragment = () => {
+    const callDigKYCPoaFragment = async() => {
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -730,9 +730,23 @@ const POICapture = () => {
         // var lon = that.props.state.coords && that.props.state.coords.longitude;
         // console.log("lat : ", lat);
         // console.log("lon : ", lon);
+console.log(`inside`)
 
-        history.push('/DKYCPOA')
-
+if(frontsrc && backsrc)
+{
+    
+let poiCaptureImage={
+    "frontImage":frontsrc,
+    "backImage":backsrc
+    }
+    
+    await dispatch(storeCustomerPOImage(poiCaptureImage));
+            history.push('/DKYCPOA')
+   
+}
+else{
+    showErrorAlert("Please upload image.")
+}
     }
 
     const verifyAlignment = (uri, param, number) => {

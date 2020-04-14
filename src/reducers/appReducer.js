@@ -32,6 +32,13 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+
+        case action.STORE_CUSTOMER_POI_IMAGE:{
+            return {
+                ...state,
+                poiImage:action.payload
+            }
+        }
         case actions.STORE_CUSTOMER_PERMANENT: {
             return {
                 ...state,

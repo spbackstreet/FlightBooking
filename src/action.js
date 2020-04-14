@@ -44,6 +44,14 @@ const storeCustomerCircleHeader = (payload) => {
   }
 }
 
+
+const storeCustomerPOImage = (payload) => {
+  return {
+    type: actions.STORE_CUSTOMER_POI_IMAGE,
+    payload
+  }
+}
+
 const storeORN = (payload) => {
   return {
     type: actions.STORE_ORN,
@@ -107,5 +115,6 @@ export {
   storeORN,
   storeInitData,
   storeCustomerLocal,
-  storeCustomerCircleHeader
+  storeCustomerCircleHeader,
+  storeCustomerPOImage
 };
