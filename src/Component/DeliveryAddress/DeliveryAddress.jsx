@@ -306,7 +306,7 @@ const DeliveryAddress = () => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
-                                                                onClick={(e) => validateFields(e)}
+                                                            style={{ "background": "#0D95A2" }}  onClick={(e) => validateFields(e)}
                                                             >Submit</button>
                                                         </div>
                                                     </div>

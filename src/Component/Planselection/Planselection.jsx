@@ -1845,7 +1845,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>

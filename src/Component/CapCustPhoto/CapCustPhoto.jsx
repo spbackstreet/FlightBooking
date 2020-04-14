@@ -1947,7 +1947,7 @@ const CapCustPhoto = () => {
 
                             <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
 
-                            <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>                        
+                            <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>                        
 
                                 <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
 
@@ -1957,9 +1957,9 @@ const CapCustPhoto = () => {
 
  
 
-                                    <div class="col-6 col-sm-6">
+                                    <div class="col-sm-6">
 
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn-block jio-btn jio-btn-primary" >Preview</button>
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
 
                                     </div>
 
@@ -2007,7 +2007,7 @@ const CapCustPhoto = () => {
 
                             <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
 
-                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" ></img>                        
+                            <img id="BackImage" height="100" width="100" src={require("../../img/add_new.png")} alt="Capture Back View" ></img>                        
 
                                 <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"onChange={(e)=>uploadFileBack(e)} />
 
@@ -2015,9 +2015,9 @@ const CapCustPhoto = () => {
 
                           </div>
 
-                                        <div class="col-6 col-sm-6">
+                                        <div class="col-sm-6">
 
-                                            <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e, "BACK")} >Preview</button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
 
                                         </div>
 
@@ -2107,7 +2107,7 @@ const CapCustPhoto = () => {
 
                     <div class="col-12 p-2">
 
-                        <button type="button" onClick={(e) => proceed(e)} class="btn-block jio-btn jio-btn-primary">NEXT</button>
+                        <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
 
                     </div>
 

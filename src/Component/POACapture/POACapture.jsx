@@ -897,7 +897,7 @@ const  openCameraFunction =(e)=>{
                           </div>
 
                           <div class="col-6 col-sm-6">
-                                        <button type="submit" class="btn-block jio-btn jio-btn-primary" onClick={(e) => previewClicked(e)} >Preview</button>
+                                        <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => previewClicked(e)} >Preview</button>
                                     </div>
 
                                         {/* <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." onClick={(e)=>openCamera(e)}></img> */}
@@ -909,7 +909,7 @@ const  openCameraFunction =(e)=>{
                                     <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="button" onClick={(e) => validateAndNext(e)} class="btn-block jio-btn jio-btn-primary">NEXT</button>
+                                            <button type="button" onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
                                         </div>
                                     </div>
                                 </div>
