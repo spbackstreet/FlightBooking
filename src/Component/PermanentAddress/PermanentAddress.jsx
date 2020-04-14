@@ -201,6 +201,9 @@ const PermanentAddress = () => {
             }
 
         }
+        else{
+            history.push('/planselection')
+        }
     }
 
 

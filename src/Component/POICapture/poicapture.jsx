@@ -16,7 +16,7 @@ import uploadDocuments from "../../txnUploadData/uploadDocuments"
 import CAFRequest from "../../txnUploadData/cafRequest"
 import GlobalPOIModel from '../../Model/POIModel';
 import Webcam from "react-webcam";
-import {storeCustomerPOImage} from  '../../action';
+import { storeCustomerPOImage } from '../../action';
 var GSON = require('gson');
 
 const display = {
@@ -59,13 +59,15 @@ const POICapture = () => {
     const [frontsrc, setFrontsrc] = useState('');
     const [backsrc, setBacksrc] = useState('');
     let [side, setSide] = useState('Front Side')
+    const [triggerAction] = useLoader();
+
 
     console.log('selectedDocObject : ', selectedDocObject);
 
     const updateShowWebcam = (bool, vside) => {
         setShowWebcam(!showWebcam)
         setSide(vside)
-        side= vside
+        side = vside
         setReqCode("Front Side")
         debugger;
     }
@@ -85,11 +87,11 @@ const POICapture = () => {
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
             debugger;
-            if(side === "Front Side"){
-            setFrontsrc(imageSrc)
-            setShowPhotoView(true)
+            if (side === "Front Side") {
+                setFrontsrc(imageSrc)
+                setShowPhotoView(true)
             }
-            else if(side === "Back Side"){
+            else if (side === "Back Side") {
                 setBacksrc(imageSrc)
             }
             // updateShowWebcam(false , '')
@@ -702,7 +704,7 @@ const POICapture = () => {
 
     }
 
-    const callDigKYCPoaFragment = async(e) => {
+    const callDigKYCPoaFragment = async () => {
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -730,22 +732,25 @@ const POICapture = () => {
         // var lon = that.props.state.coords && that.props.state.coords.longitude;
         // console.log("lat : ", lat);
         // console.log("lon : ", lon);
+        console.log(`inside`)
 
- if(frontsrc && backsrc)
- {
-    
-let poiCaptureImage={
-    "frontImage":frontsrc,
-    "backImage":backsrc
+        if(frontsrc && backsrc) {
+
+            let poiCaptureImage = {
+                "frontImage": frontsrc,
+                "backImage": backsrc
+            }
+
+           
+            const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
+            config.poiImage = poiCaptureImage
+            history.push('/DKYCPOA')
+
+        }
+        else {
+            showErrorAlert("Please upload image.")
+        }
     }
- await dispatch(storeCustomerPOImage(poiCaptureImage));
-  history.push('/DKYCPOA')
-   
-}
-else{
-    showErrorAlert("Please upload image.")
- }
-   }
 
     const verifyAlignment = (uri, param, number) => {
         console.log("1", uri);
@@ -848,7 +853,7 @@ else{
 
 
 
-        
+
         console.log(document.getElementById('LAT').value)
         console.log(document.getElementById('LON').value)
 
@@ -1076,46 +1081,46 @@ else{
         }
 
     }
-const  uploadFile =(e)=>{
-    let files = e.target.files;
+    const uploadFile = (e) => {
+        let files = e.target.files;
 
-    let reader = new FileReader();
-  
-    reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
-    //   console.warn("Data", e.target.result)
-      setFrontsrc(e.target.result);
-      setShowPhotoView(true)
+        let reader = new FileReader();
 
-  //setinstructionUpload( 'File Uploaded Successfully' );
-      //setinstructiondata(files);
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) => {
+            //   console.warn("Data", e.target.result)
+            setFrontsrc(e.target.result);
+            setShowPhotoView(true)
+
+            //setinstructionUpload( 'File Uploaded Successfully' );
+            //setinstructiondata(files);
+        }
+
+
     }
 
 
-}
 
 
+    const uploadFileBack = (e) => {
+        let files = e.target.files;
+
+        let reader = new FileReader();
+
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) => {
+            //   console.warn("Data", e.target.result)
+            setBacksrc(e.target.result);
+            //setinstructionUpload( 'File Uploaded Successfully' );
+            //setinstructiondata(files);
+        }
 
 
-const  uploadFileBack =(e)=>{
-    let files = e.target.files;
-
-    let reader = new FileReader();
-  
-    reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
-    //   console.warn("Data", e.target.result)
-      setBacksrc(e.target.result);
-  //setinstructionUpload( 'File Uploaded Successfully' );
-      //setinstructiondata(files);
     }
-
-
-}
 
     return (
         <div>
-{/* 
+            {/* 
             <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
             >
                 <div class="modal-backdrop fade show"></div>
@@ -1150,7 +1155,7 @@ const  uploadFileBack =(e)=>{
 
             </div> */}
 
-           
+
 
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
@@ -1189,12 +1194,12 @@ const  uploadFileBack =(e)=>{
 
                                     {/* </button> */}
 
-<div style={{position:"relative",display: "block",width: "100%"}}>
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
-                            <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>                        
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
+                                    <div style={{ position: "relative", display: "block", width: "100%" }}>
+                                        <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>
+                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} />
 
-                          </div>
+                                    </div>
 
 
 
@@ -1222,14 +1227,14 @@ const  uploadFileBack =(e)=>{
                                         > */}  {/* </button> */}
 
 
-                                         
 
-                                            <div style={{position:"relative",display: "block",width: "100%"}}>
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
-                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" ></img>                        
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"onChange={(e)=>uploadFileBack(e)} />
 
-                          </div>
+                                        <div style={{ position: "relative", display: "block", width: "100%" }}>
+                                            <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
+                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" ></img>
+                                            <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} />
+
+                                        </div>
                                         <div class="col-6 col-sm-6">
                                             <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
                                         </div>
@@ -1284,7 +1289,7 @@ const  uploadFileBack =(e)=>{
 
                         </div>
                         <div>
-                            <input class="mt-40" id="LON" type="text"  />
+                            <input class="mt-40" id="LON" type="text" />
 
                         </div>
                         <div>

@@ -1,20 +1,15 @@
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
-import { basicAuth } from '../commom/basicAuth';
 
-
-const checkMobile = async (msisdn, action) => {
-
-    
+const getORNViaTibcoService = async () => {
     const Request = {
-
-        "msisdn": '7008124658',
-        "action" : action
+        "TransName" : "CF",
+        "Guid" : config.guid,
+        "Storeid": config.storeID
     };
     console.log("Request : ", Request)
-    const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
-    // const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
+    const APIURL = "https://rpos.dev.jiolabs.com/Micro_MobilityPlan/api/v1.0/GetORNViaTibco";
 
     try {
         const response = await postApiCall(Request, APIURL);
@@ -26,6 +21,4 @@ const checkMobile = async (msisdn, action) => {
 
 }
 
-
-
-export default checkMobile;
+export default getORNViaTibcoService;
