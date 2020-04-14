@@ -38,7 +38,7 @@ const hide = {
 const Planselection = () => {
 
     const history = useHistory()
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd ,custCaptureImage} }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
 
 
@@ -1860,7 +1860,10 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`firstName`, CAFRequest)}
+                {console.log(`custLocalAdd`, custLocalAdd)}
+                {/* {console.log(`front `,custCaptureImage.frontCustImg)} */}
+               
+
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
@@ -1872,7 +1875,7 @@ const Planselection = () => {
                                 <Scrollbars style={{ height: "80vh" }}>
                                     <div class="text-left display-linebreak">
                                         <p style={{ color: "black" }}>
-                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={uploadDocuments.CUST_IMG} alt="cust img"></img>
+                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={custCaptureImage.frontCustImg} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
                                             <label style={{ "marginTop": "2px" }}>{custLocalAdd.custName}</label>

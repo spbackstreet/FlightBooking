@@ -702,7 +702,7 @@ const POICapture = () => {
 
     }
 
-    const callDigKYCPoaFragment = async() => {
+    const callDigKYCPoaFragment = async(e) => {
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -730,24 +730,22 @@ const POICapture = () => {
         // var lon = that.props.state.coords && that.props.state.coords.longitude;
         // console.log("lat : ", lat);
         // console.log("lon : ", lon);
-console.log(`inside`)
 
-if(frontsrc && backsrc)
-{
+ if(frontsrc && backsrc)
+ {
     
 let poiCaptureImage={
     "frontImage":frontsrc,
     "backImage":backsrc
     }
-    
-    await dispatch(storeCustomerPOImage(poiCaptureImage));
-            history.push('/DKYCPOA')
+ await dispatch(storeCustomerPOImage(poiCaptureImage));
+  history.push('/DKYCPOA')
    
 }
 else{
     showErrorAlert("Please upload image.")
-}
-    }
+ }
+   }
 
     const verifyAlignment = (uri, param, number) => {
         console.log("1", uri);
