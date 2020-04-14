@@ -32,7 +32,6 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
-<<<<<<< HEAD
         case actions.STORE_CUSTOMER_POA_CAPTURE: {
             return {
                 ...state,
@@ -47,7 +46,6 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
-=======
 
         case action.STORE_CUSTOMER_POI_IMAGE:{
             return {
@@ -55,7 +53,6 @@ const reducer = (state = initialState.app, action) => {
                 poiImage:action.payload
             }
         }
->>>>>>> e98e727062d15364c578106a43dc5864cb7d033e
         case actions.STORE_CUSTOMER_PERMANENT: {
             return {
                 ...state,
