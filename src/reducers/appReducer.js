@@ -32,6 +32,20 @@ const reducer = (state = initialState.app, action) => {
             }
         }
 
+        case actions.STORE_CUSTOMER_POA_CAPTURE: {
+            return {
+                ...state,
+                poaCaptureImage: action.payload
+            }
+        }
+
+        case actions.STORE_CUSTOMER_CAPTURE: {
+            return {
+                ...state,
+                custCaptureImage: action.payload
+            }
+        }
+
         case actions.STORE_CUSTOMER_PERMANENT: {
             return {
                 ...state,

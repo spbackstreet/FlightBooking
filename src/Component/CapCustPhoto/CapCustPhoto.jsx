@@ -28,7 +28,7 @@ import Webcam from "react-webcam";
 
 // import Resizer from "react-image-file-resizer";
 
- 
+ import { storeCustomerCapture } from '../../action';
 
 const display = {
 
@@ -349,10 +349,15 @@ const CapCustPhoto = () => {
 
  
 
-    const callNextScreen = () => {
+    const callNextScreen = async(e) => {
 
+        let custCapture = {
+            "frontCustImg": frontsrc,
+            "backCustImg": backsrc
+        }
+
+        // await dispatch(storeCustomerCapture(custCapture));
  
-
         history.push('/deliveryAddress');
 
         // that.props.props.history.push({
@@ -1275,13 +1280,20 @@ const CapCustPhoto = () => {
 
         e.preventDefault();
 
- 
+    if( frontsrc === '' && backsrc === ''){
+   
+        showErrorAlert("Please Capture Images");
+
+ }else{
+
+    callNextScreen()
+    
+    
+ }
 
         // debugger;
 
-        callNextScreen()
-
- 
+      
 
         // var GlobalPOIModel = require('../../Model/POIModel')
 
