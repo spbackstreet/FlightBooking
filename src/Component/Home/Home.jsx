@@ -24,7 +24,7 @@ const hide = {
 
 const Home = () => {
 
-    const [{ app: { ORN, guid}}, dispatch] = useGlobalState();
+    // const [{ app: { ORN, guid}}, dispatch] = useGlobalState();
     const [msdn, setMsdn] = useState('')
     const [loading, setLoading] = useState(false)
     const [displayOTP, setDisplayOTP] = useState(false)
@@ -127,13 +127,15 @@ const Home = () => {
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
-            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin, guid));
+            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
             if (GetServiceableAreaBypincode.Errocode == "00") {
                 const GetPincode = await triggerAction(() => getpincode(pin));
                 if(GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0"){
-                    dispatch(storeCustomerNumber(msdn));
-                    dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
+                    // dispatch(storeCustomerNumber(msdn));
+                    config.custNumber = msdn
+                    // dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
                     config.custCircleHeader = GetPincode.pincodelist[0].area
+                    
                     history.push('/DKYC')
                 }    
             }
@@ -161,13 +163,17 @@ const Home = () => {
     const validateCustOTP = async (e) => {
         setError(false)
         if (custOtp) {
-            const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, ORN));
+            const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, config.ORN));
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                //config.guid = callValidateOTP.guid; // for test
+                
                 config.custNumber = msdn
-                dispatch(storeInitData(callValidateOTP));
+                // dispatch(storeInitData(callValidateOTP));
+                config.lstGrpMS = callValidateOTP.lstGrpMS
+                // config.guid = callValidateOTP.guid //for later in new encryption
+                config.lstAuth_Config = callValidateOTP.lstAuth_Config
+
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')
@@ -196,7 +202,10 @@ console.log(`sdjos`,msdn.length)
             setLoading(false)
 
             if (callCheckMobile.errorCode === "00" || callCheckMobile.errorCode === "0") {
-                dispatch(storeORN(callCheckMobile.ORN));
+
+                // dispatch(storeORN(callCheckMobile.ORN));
+                config.ORN = callCheckMobile.ORN
+
                 setDisplayOTP(true)
                 let timeLeftVar = secondsToTime(seconds);
                 setTime(timeLeftVar)

@@ -39,7 +39,7 @@ const hide = {
 const Planselection = () => {
 
     const history = useHistory()
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd ,custCaptureImage} }, dispatch] = useGlobalState();
+    // const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd } }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
 
 
@@ -180,7 +180,7 @@ const Planselection = () => {
 
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
-        // debugger;
+       
         if (lstFRC.length >= 1) {
             var FRC = []
             for (let x = 0; x < lstFRC.length; x++) {
@@ -413,8 +413,7 @@ const Planselection = () => {
     const btnSave = (e) => {
         var continueflag = true;
         var msg = "";
-        
-       // debugger;
+       
         if (document.getElementById('edtMobile').value.length != 10) {
             setmsg("Mobile Number lenght should be 10.")
             continueflag = false
@@ -640,7 +639,7 @@ const Planselection = () => {
             document.getElementById('edtMName').readOnly = true;
             document.getElementById('edtLName').readOnly = true;
 
-            document.getElementById('edtName').value = customerName;
+            document.getElementById('edtName').value = config.customerName;
 
         } else {
             document.getElementById('edtName').value = "";
@@ -987,10 +986,9 @@ const Planselection = () => {
 
     const sendDigitalKycOTP = async (action, orderType) => {
 
-        //debugger;
         setloading(true)
         // const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
-        const SendValidateOTP_KYC = await triggerAction(() => checkMobile(custNumber, "AUTH"));
+        const SendValidateOTP_KYC = await triggerAction(() => checkMobile(config.custNumber, "AUTH"));
         setloading(false)
 
         if (SendValidateOTP_KYC.errorCode === "00") {
@@ -1087,6 +1085,8 @@ const Planselection = () => {
     const fetchPlans = async (e) => {
         setplanType(e.target.value)
 
+        CAFRequest.CAF_NUMBER = config.custCircleHeader + config.ORN
+        
         let pType = '';
         if (e.target.value == "Postpaid Plans") {
             CAFRequest.CAF_TYPE = 'postpaid'
@@ -1306,7 +1306,7 @@ const Planselection = () => {
         <div>
             <div>
                 {/* {modal} */}
-                {console.log(`custLocalRefAdd`,custLocalRefAdd)}
+                {console.log(`custLocalRefAdd`,config.custLocalRefAdd)}
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -1877,22 +1877,22 @@ const Planselection = () => {
                                 <Scrollbars style={{ height: "80vh" }}>
                                     <div class="text-left display-linebreak">
                                         <p style={{ color: "black" }}>
-                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={custCaptureImage.frontCustImg} alt="cust img"></img>
+                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={config.custCaptureImage.frontCustImg} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.custName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.custName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Customer DOB :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.dob}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.dob}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Mobile number used <br></br>for customer signature :</label>
-                                            <label style={{ "marginTop": "2px" }}>{CAFRequest.MSISDN}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custNumber}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Alternate Contact <br></br>Number :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.altMoNo}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.altMoNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Contact Type :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custLocalAdd.ALT_Contact_Type}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.ALT_Contact_Type}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
 
@@ -1903,28 +1903,28 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{CAFRequest.CareOf}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>House number/Flat Number/<br></br>Building/Appartment :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.houseNo}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.houseNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Street/Address/Road Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.roadName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.roadName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Area/Sector/Locality :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.area}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.area}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Landmark :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.landMark}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.landMark}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Village/Town/City :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.city}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.city}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>District :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.district}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.district}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>State/UT :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.state}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.state}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Postal code :</label>
-                                            <label style={{ "marginTop": "2px" }}>{custPermAdd.pincode}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custPermAdd.pincode}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>POI Details:</label>
@@ -1958,8 +1958,8 @@ const Planselection = () => {
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label>
                                             <br></br>
-                                            <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>from modal - </label>
-                                            <label style={{ "marginTop": "2px" }}>from modal</label>
+                                            {/* <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>from modal - </label>
+                                            <label style={{ "marginTop": "2px" }}>from modal</label> */}
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <input type="checkbox" id="chkVerified"></input>

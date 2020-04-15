@@ -62,14 +62,13 @@ const POICapture = () => {
     const [triggerAction] = useLoader();
 
 
-    console.log('selectedDocObject : ', selectedDocObject);
-
+    debugger;
+    
     const updateShowWebcam = (bool, vside) => {
         setShowWebcam(!showWebcam)
         setSide(vside)
         side = vside
         setReqCode("Front Side")
-        //debugger;
     }
 
     const closeWebcam = (e) => {
@@ -671,8 +670,9 @@ const POICapture = () => {
     }
 
     const validateAndNext = (e) => {
+        debugger;
         e.preventDefault();
-        var GlobalPOIModel = require("../../commom/Modal/POIModel").default
+        // var GlobalPOIModel = require("../../commom/Modal/POIModel").default
         // for test
         // if (GlobalPOIModel.PhotoCount > 1) {
         //     if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
@@ -741,8 +741,8 @@ const POICapture = () => {
                 "backImage": backsrc
             }
 
-           
-         //   const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
+
+            // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
             config.poiImage = poiCaptureImage
             history.push('/DKYCPOA')
 
@@ -866,15 +866,15 @@ const POICapture = () => {
             currentMonth = currentDateTime.getMonth()
         }
         if (reqCode == "Back Side") {
-            let DG_POA = "POA;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-                selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+            let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
+                config.selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POA)
             CAFRequest.DG_POA = DG_POA
         }
         else if (reqCode == "Front Side") {
-            let DG_POI = "POI;" + selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
-                selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
+            let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";;;" +
+                config.selectedDocObject.issuingauth + ";" + document.getElementById('LAT').value + "," + document.getElementById('LON').value + ";" +
                 currentDateTime.getFullYear() + "-" + currentMonth + "-" + currentDateTime.getDate() + "T" + currentDateTime.getHours() + ":" + currentDateTime.getMinutes() + ":" + currentDateTime.getSeconds() + ";hyperverge;"
             console.log(DG_POI)
 
@@ -997,18 +997,18 @@ const POICapture = () => {
             "allowedTiltPitch": ''
         }
 
-        if (selectedDocObject.doctypecode === "Z00005" || selectedDocObject.doctypecode === "Z00001") {
+        if (config.selectedDocObject.doctypecode === "Z00005" || config.selectedDocObject.doctypecode === "Z00001") {
             HyperVerge_Data = "CARD";
 
         } else
 
-            if (selectedDocObject.doctypecode === "FS0002") {
+            if (config.selectedDocObject.doctypecode === "FS0002") {
                 HyperVerge_Data = "PASSPORT";
 
 
             } else
 
-                if (selectedDocObject.doctypecode === "Z00008") {
+                if (config.selectedDocObject.doctypecode === "Z00008") {
                     HyperVerge_Data = "OTHER";
 
 
@@ -1020,7 +1020,7 @@ const POICapture = () => {
 
         if (HyperVerge_Data === "CARD" || HyperVerge_Data === "PASSPORT" || HyperVerge_Data === "OTHER") {
 
-            aspectRatio = selectedDocObject.Aspect_ratio
+            aspectRatio = config.selectedDocObject.Aspect_ratio
 
         }
         else {
@@ -1307,7 +1307,7 @@ const POICapture = () => {
                 <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>
                 <div class="row m-0 mt-4">
                     <div class="col-12 p-2">
-                        <button type="button" onClick={validateAndNext.bind(this)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                        <button type="button" onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
                     </div>
                 </div>
             </div>

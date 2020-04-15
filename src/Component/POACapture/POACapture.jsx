@@ -54,7 +54,7 @@ const POACapture = () => {
     const [SDKURI, setSDKURI] = useState('')
     const [FaceMatchIdfySDKAllowFlag, setFaceMatchIdfySDKAllowFlag] = useState('')
     const [FaceMatch_SDK_NA, setFaceMatch_SDK_NA] = useState('')
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, SelectedDocPOAObject } }, dispatch] = useGlobalState();
+    // const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, SelectedDocPOAObject } }, dispatch] = useGlobalState();
     const [showDialog, setShowDialog] = useState(false)
     const [selectedDocJourney, setSelectedDocJourney] = useState('vishwam')
     let [showWebcam, setShowWebcam] = useState(true);
@@ -70,7 +70,6 @@ const POACapture = () => {
         setShowWebcam(!showWebcam)
         setSide(side)
         setReqCode("Front Side")
-       // debugger;
     }
 
     const closeWebcam = (e) => {
@@ -87,7 +86,6 @@ const POACapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-            //debugger;
             if(side === "Front Side"){
             setFrontsrc(imageSrc)
             // setShowPhotoView(true)
@@ -587,7 +585,8 @@ console.log()
         let poaCapture = {
             "imagePoa": frontsrc
         }
-       // await dispatch(storeCustomerPOAcapture(poaCapture));
+        // await dispatch(storeCustomerPOAcapture(poaCapture));
+
         config.poaCaptureImage = poaCapture
         
         // this.requestPermissions()
@@ -688,18 +687,18 @@ console.log()
 
         }
 
-        if (SelectedDocPOAObject.doctypecode === "Z00005" || SelectedDocPOAObject.doctypecode === "Z00001") {
+        if (config.SelectedDocPOAObject.doctypecode === "Z00005" || config.SelectedDocPOAObject.doctypecode === "Z00001") {
             HyperVerge_Data = "CARD";
 
         } else
 
-            if (SelectedDocPOAObject.doctypecode === "FS0002") {
+            if (config.SelectedDocPOAObject.doctypecode === "FS0002") {
                 HyperVerge_Data = "PASSPORT";
 
 
             } else
 
-                if (SelectedDocPOAObject.doctypecode === "Z00008") {
+                if (config.SelectedDocPOAObject.doctypecode === "Z00008") {
                     HyperVerge_Data = "OTHER";
 
 
@@ -711,7 +710,7 @@ console.log()
 
         if (HyperVerge_Data === "CARD" || HyperVerge_Data === "PASSPORT" || HyperVerge_Data === "OTHER") {
 
-            aspectRatio = SelectedDocPOAObject.Aspect_ratio
+            aspectRatio = config.SelectedDocPOAObject.Aspect_ratio
 
         }
         else {

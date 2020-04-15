@@ -27,7 +27,7 @@ const DKYC = () => {
     const [selectJourney, setSelectJourney] = useState("Aadhar")
     const [poi, setPoi] = useState('Aadhar')
     const [isAadhaar, setIsAadhar] = useState(true)
-    const [{ app: { pincode, custLocalAdd, isOutstation , guid} }, dispatch] = useGlobalState();
+    // const [{ app: {ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid} }, dispatch] = useGlobalState();
 
 
     const [poiList, setPoiList] = useState([])
@@ -43,7 +43,7 @@ const DKYC = () => {
     const history = useHistory();
     const [triggerAction] = useLoader();
 
-    debugger;
+ debugger;
 
     const updateDateOfIssue = (e) => {
         setDateOfIssue(e.target.value)
@@ -211,8 +211,10 @@ const DKYC = () => {
             GlobalPOIModel.setRed = (true);
         }
 
-        await dispatch(storeSelectedDocObject(selectedDocObject));
-        await dispatch(storeListPOA(poaList));
+        // await dispatch(storeSelectedDocObject(selectedDocObject));
+        config.selectedDocObject = selectedDocObject
+        // await dispatch(storeListPOA(poaList));
+        config.poaList = poaList
 
         history.push('/POICapture')
 

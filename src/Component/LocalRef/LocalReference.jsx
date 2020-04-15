@@ -14,6 +14,7 @@ import sendLROTPService from '../../services/sendLROTPService';
 import { Scrollbars } from 'react-custom-scrollbars';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import { storeCustomerLocal } from  '../../action';
+import config from '../../config';
 
 
 
@@ -57,7 +58,7 @@ const LocalReference = () => {
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
 
-    const [{ app: { pincode, custLocalAdd, custNumber } }, dispatch] = useGlobalState();
+    // const [{ app: { pincode, custLocalAdd, custNumber } }, dispatch] = useGlobalState();
 
 
     const secondsToTime = (secs) => {
@@ -129,7 +130,7 @@ const LocalReference = () => {
 
         if (e.currentTarget.value.substring(0, 6).length === 6) {
 
-            if (pincode != e.currentTarget.value.substring(0, 6)) {
+            if (config.pincode != e.currentTarget.value.substring(0, 6)) {
                 confirmAlert({
                     title: <h3 style={{ "color": "red" }}>Error</h3>,
                     message: "Customer Local Address Pincode and Local Reference Pincode should be same",
@@ -199,7 +200,7 @@ const LocalReference = () => {
         setLrMobile(e.currentTarget.value.substring(0, 10))
 
         if (e.currentTarget.value.substring(0, 10).length === 10) {
-            if (custNumber === e.currentTarget.value.substring(0, 10)) {
+            if (config.custNumber === e.currentTarget.value.substring(0, 10)) {
                 confirmAlert({
                     title: <h3 style={{ "color": "red" }}>Error</h3>,
                     message: "Customer Mobile number and Local Reference number cannot be same",
@@ -445,8 +446,9 @@ if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && ci
             // CAFRequest.FirstName = firstName
 
             console.log(`localref`,localref)
-            await dispatch(storeCustomerLocal(localref));
-            history.push('/customerdetails')
+            // await dispatch(storeCustomerLocal(localref));
+            config.custLocalRefAdd = localref;
+            history.push('/planselection')
         }
 
         }

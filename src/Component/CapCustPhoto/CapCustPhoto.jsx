@@ -195,24 +195,12 @@ const CapCustPhoto = () => {
             const imageSrc = webcamRef.current.getScreenshot();
 
             console.log("imageSrc : ", imageSrc);
-
-
             setImgsrc(imageSrc)
-
             // updateShowWebcam(false , '')
-
             closeWebcam(e)
-
- 
-
         },
-
         [webcamRef]
-
     );
-
-
-
 
     useEffect(() => {
 
