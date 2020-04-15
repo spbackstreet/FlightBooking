@@ -12,6 +12,7 @@ import config from '../../config';
 import { getValueFromAuthConfigList, logout, showErrorAlert } from '../../commom/commonMethod';
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeSelectedDocObject, storeListPOA } from '../../action';
+import CAFRequest from "../../txnUploadData/cafRequest"
 
 
 const display = {
@@ -215,6 +216,7 @@ const DKYC = () => {
         config.selectedDocObject = selectedDocObject
         // await dispatch(storeListPOA(poaList));
         config.poaList = poaList
+        CAFRequest.DocumentId = docNumber
 
         history.push('/POICapture')
 

@@ -9,7 +9,7 @@ const checkMobile = async (msisdn, action) => {
     
     const Request = {
 
-        "msisdn": '8104912752',
+        "msisdn": msisdn,
         "action" : action
     };
     console.log("Request : ", Request)

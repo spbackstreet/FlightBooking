@@ -27,7 +27,7 @@ const CustomerDetails = () => {
     const [loading, setLoading] = useState(false)
     const [pincode, setPincode] = useState('')
     const [triggerAction] = useLoader();
-    const [, dispatch] = useGlobalState();
+    // const [, dispatch] = useGlobalState();
     const [cityLst, setCityLst] = useState([])
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
@@ -57,7 +57,7 @@ const CustomerDetails = () => {
             setLoading(false)
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
                 // dispatch(storeCustomerCircle(getCustomerCircle));
-                dispatch(storeCustomerCircle(vpincode));
+                // dispatch(storeCustomerCircle(vpincode));
 
                 let vcityLst = [];
                 let vdistrictLst = [];
@@ -148,76 +148,107 @@ const CustomerDetails = () => {
         setState(e.target.value)
     }
 
-    const validateFields = async(e) => {
-       
-        console.log(`dob`,dob)
-       
-     var   birthday = new Date(dob);
-      
+    const validateFields = async (e) => {
 
-       var totalYears= new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
-   console.log(`abc`,totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob 
-            ) {
-if(altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" || altMobileNum.length=="10"){
-            if(totalYears>=18 && totalYears<=100){
+        console.log(`dob`, dob)
 
-            let delAddr = {
-                "custName":custName,
-                "dob":dob,
-                "houseNo": houseNo,
-                "landMark": landMark,
-                "roadName": roadName,
-                "area": area,
-                "city": city,
-                "district": district,
-                "state": state,
-                "pincode":pincode,
-                "altMoNo":altMobileNum,
-                "ALT_Contact_Type":"Mobile" //hardcoded
-            }
+        var birthday = new Date(dob);
 
-// CAFRequest.FirstName=custName
-// CAFRequest.DOB =dob
-// CAFRequest.District=district
-// CAFRequest.LandMark=landMark
-// CAFRequest.State=state
-// CAFRequest.City= city
-// CAFRequest.Localadd_pincode=pincode
-// CAFRequest.LocalAdd_landmark=roadName
-// CAFRequest.Country=document.getElementById("nationality").value
-const  abc= await dispatch(storeCustomerDelivery(delAddr));
-config.custDelAdd= delAddr
-//await dispatch(storeCustomeroutstation(true));
-//await dispatch(storeCustomeroutstation(false));
-                 history.push('/planselection')
 
-        }
-        else{
-            confirmAlert({
-                title: "Error",
-                message: "Please enter correct date of birth",
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => { return false; }
+        var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
+        console.log(`abc`, totalYears)
+        if (custName && houseNo && roadName && area && city && district && state && dob
+        ) {
+            if (altMobileNum[0] == "6" || altMobileNum[0] == "7" || altMobileNum[0] == "8" || altMobileNum[0] == "9" || altMobileNum.length == "10") {
+                if (totalYears >= 18 && totalYears <= 100) {
+
+                    let delAddr = {
+                        "custName": custName,
+                        "dob": dob,
+                        "houseNo": houseNo,
+                        "landMark": landMark,
+                        "roadName": roadName,
+                        "area": area,
+                        "city": city,
+                        "district": district,
+                        "state": state,
+                        "pincode": pincode,
+                        "altMoNo": altMobileNum,
+                        "ALT_Contact_Type": "Mobile" //hardcoded
                     }
-                ]
-            });
-        }
-    }
-    else{
-        confirmAlert({
-            title: "Error",
-            message: "Please enter valid Mobile No.",
-            buttons: [
-                {
-                    label: 'OK',
-                    onClick: () => { return false; }
+
+                    const dateInput = new Date(document.getElementById("dob").value)
+                    const extractedDay = dateInput.getDate()
+                    let extractedMonth = dateInput.getMonth() + 1
+                    if (extractedMonth < 10) {
+                        extractedMonth = `0${extractedMonth}`
+                    }
+                    const extractedYear = dateInput.getFullYear()
+                    // CAFRequest.DocumentId = document.getElementById('docNumber').value
+                    CAFRequest.BldgName = document.getElementById('houseNo').value;
+                    CAFRequest.BuildingId = document.getElementById('houseNo').value;
+                    CAFRequest.City = document.getElementById('village').value;
+                    CAFRequest.Country = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
+                    CAFRequest.DOB = extractedDay + "-" + extractedMonth + '-' + extractedYear;
+                    CAFRequest.District = document.getElementById('district').value;
+                    CAFRequest.Email = document.getElementById('email').value;
+                    CAFRequest.FirstName = document.getElementById('custName').value;
+                    CAFRequest.Gender = document.getElementById('gender').value;
+                    CAFRequest.LandMark = document.getElementById('landMark').value;
+                    CAFRequest.LocalAdd_Street = document.getElementById('roadName').value;
+                    CAFRequest.StreetName = document.getElementById('roadName').value;
+                    CAFRequest.LocalAdd_buildingName = document.getElementById('houseNo').value;
+                    CAFRequest.LocalAdd_landmark = document.getElementById('landMark').value;
+                    CAFRequest.LocalAdd_locality = document.getElementById('area').value;
+                    //CAFRequest.LocalRef_callingpartyNo=document.getElementById('mobileNo').value;
+                    CAFRequest.Localadd_City = document.getElementById('village').value;
+                    CAFRequest.Localadd_postoffice = document.getElementById('village').value;
+                    CAFRequest.Localadd_district = document.getElementById('district').value;
+                    CAFRequest.Localadd_pincode = document.getElementById('pinCode').value;
+                    CAFRequest.Localadd_state = document.getElementById('state').value;
+                    CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
+                    CAFRequest.Locality = document.getElementById('area').value;
+                    CAFRequest.PostCode = document.getElementById('pinCode').value;
+                    // CAFRequest.RMN = document.getElementById('altMobileNo').value;
+                    CAFRequest.RMN_relationship = relationShipType;
+                    CAFRequest.Locality = document.getElementById('area').value;
+                    CAFRequest.Locality = document.getElementById('area').value;
+                    CAFRequest.Locality = document.getElementById('area').value;
+                    CAFRequest.Locality = document.getElementById('area').value;
+                    CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
+
+                    // const abc = await dispatch(storeCustomerDelivery(delAddr));
+                    config.custDelAdd = delAddr
+                    //await dispatch(storeCustomeroutstation(true));
+                    //await dispatch(storeCustomeroutstation(false));
+                    history.push('/planselection')
+
                 }
-            ]
-        });
-    }
+                else {
+                    confirmAlert({
+                        title: "Error",
+                        message: "Please enter correct date of birth",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => { return false; }
+                            }
+                        ]
+                    });
+                }
+            }
+            else {
+                confirmAlert({
+                    title: "Error",
+                    message: "Please enter valid Mobile No.",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
         }
 
         else {
@@ -332,7 +363,7 @@ config.custDelAdd= delAddr
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Relationship  Type<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" "
+                                                                    <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" " id="relationType"
                                                                         onChange={(e) => changeRelationType(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
@@ -372,13 +403,13 @@ config.custDelAdd= delAddr
 
 
 
-                                                                {/* <div class="form-group">
-                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Email Id<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                                <input id="email" type="text" required="required" name="email" autocomplete="off" placeholder=" "
-                                                                              
-                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                                   />
-                                                                               </div> */}
+                                                                <div class="form-group">
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Email Id<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <input id="email" type="text" required="required" name="email" autocomplete="off" placeholder=" "
+
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                    />
+                                                                </div>
 
 
                                                                 <div class="form-group">
@@ -457,6 +488,17 @@ config.custDelAdd= delAddr
                                                                             (<option>{element}</option>))}
 
                                                                     </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Sub-District<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <input id="subDistrict" type="text" required="required" name="subDistrict" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                    // onChange={(e) => updatePincode(e, "custOtp")}
+                                                                    // pattern="^[1-9]\d*$"
+                                                                    // value={pincode}
+                                                                    />
+
                                                                 </div>
 
 

@@ -41,12 +41,8 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
-<<<<<<< HEAD
     debugger;
     // const [{ app: { ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid, selectedDocObject, poaList } }, dispatch] = useGlobalState();
-=======
-    const [{ app: { selectedDocObject } }, dispatch] = useGlobalState();
->>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
