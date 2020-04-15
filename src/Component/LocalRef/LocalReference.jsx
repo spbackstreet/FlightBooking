@@ -444,11 +444,24 @@ if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && ci
             
             }
             // CAFRequest.FirstName = firstName
+            CAFRequest.Ref_fName = firstName
+            CAFRequest.Ref_MName = middleName
+            CAFRequest.Ref_LName = lastName
+            CAFRequest.Ref_AddType = "Reference"
+            CAFRequest.Ref_ContactNumber = lrMobile
+            CAFRequest.Ref_buildingName = houseNo
+            CAFRequest.Ref_locality = area
+            CAFRequest.Ref_postcode = pincodeLocalRef
+            CAFRequest.Ref_district= district
+            CAFRequest.Ref_city = city
+            CAFRequest.Ref_state = state
+            CAFRequest.Ref_country = "IN"
 
             console.log(`localref`,localref)
             // await dispatch(storeCustomerLocal(localref));
             config.custLocalRefAdd = localref;
-            history.push('/planselection')
+            // history.push('/planselection')
+            history.push('/CustomerDetails')
         }
 
         }
