@@ -41,8 +41,12 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
+<<<<<<< HEAD
     debugger;
     // const [{ app: { ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid, selectedDocObject, poaList } }, dispatch] = useGlobalState();
+=======
+    const [{ app: { selectedDocObject } }, dispatch] = useGlobalState();
+>>>>>>> 9b65ea7db42bc7a4064962f9bef04cd41ab69cda
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
@@ -86,10 +90,7 @@ const POICapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-<<<<<<< HEAD
-=======
            // debugger;
->>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
             if (side === "Front Side") {
                 setFrontsrc(imageSrc)
                 setShowPhotoView(true)
@@ -745,14 +746,8 @@ const POICapture = () => {
                 "backImage": backsrc
             }
 
-<<<<<<< HEAD
-            // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
-            config.poiImage = poiCaptureImage
 
-=======
-           
-            const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
->>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
+            // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
             config.poiImage = poiCaptureImage
             history.push('/DKYCPOA')
 

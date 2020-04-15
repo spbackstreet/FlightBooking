@@ -1861,7 +1861,7 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`custLocalAdd`, config.custLocalAdd)}
+                {console.log(`custLocalAdd`, config.custCaptureImage)}
                 {/* {console.log(`front `,custCaptureImage.frontCustImg)} */}
                
 
