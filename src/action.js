@@ -132,6 +132,5 @@ export {
   storeInitData,
   storeCustomerLocal,
   storeCustomerCircleHeader,
-  storeCustomerPOImage,
-  storeCustomerCapture
+  storeCustomerPOImage
 };

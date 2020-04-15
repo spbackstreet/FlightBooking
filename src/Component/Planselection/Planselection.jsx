@@ -180,7 +180,7 @@ const Planselection = () => {
 
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
-        debugger;
+        // debugger;
         if (lstFRC.length >= 1) {
             var FRC = []
             for (let x = 0; x < lstFRC.length; x++) {
@@ -413,7 +413,7 @@ const Planselection = () => {
     const btnSave = (e) => {
         var continueflag = true;
         var msg = "";
-        debugger;
+        // debugger;
         if (document.getElementById('edtMobile').value.length != 10) {
             setmsg("Mobile Number lenght should be 10.")
             continueflag = false
@@ -986,7 +986,7 @@ const Planselection = () => {
 
     const sendDigitalKycOTP = async (action, orderType) => {
 
-        debugger;
+        // debugger;
         setloading(true)
         // const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
         const SendValidateOTP_KYC = await triggerAction(() => checkMobile(custNumber, "AUTH"));
@@ -1309,7 +1309,7 @@ const Planselection = () => {
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header1">
+                            <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                                 <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>{planType}</h5>
 
                                 <a className="close" style={{ color: "#ffffff" }} onClick={() => setselectPlan(false)}>X</a>
@@ -1868,7 +1868,7 @@ const Planselection = () => {
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
                         <div class="modal-content">
-                            <div class="modal-header1" style={{ "background": "#03007f" }}>
+                            <div class="modal-header1" style={{ "background": "#0D95A2" }}>
                                 <h6 class="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}><b>Customer Details</b></h6>
                                 <a className="close" style={{ color: "#ffffff" }} onClick={() => setdisplayCustDet(false)}>X</a>
                             </div>
@@ -1972,7 +1972,7 @@ const Planselection = () => {
                                             :
                                             null
                                         }
-                                            <button style={{ "color": "#fff", "background": "#03007f", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
+                                            <button style={{ "color": "#fff", "background": "#0D95A2", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
                                                 PROCEED
                                                 </button>
                                             <br></br>
