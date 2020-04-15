@@ -186,7 +186,7 @@ if((altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || al
 // CAFRequest.Localadd_pincode=pincode
 // CAFRequest.LocalAdd_landmark=roadName
 // CAFRequest.Country=document.getElementById("nationality").value
-const  abc= await dispatch(storeCustomerDelivery(delAddr));
+//const  abc= await dispatch(storeCustomerDelivery(delAddr));
 config.custDelAdd= delAddr
 //await dispatch(storeCustomeroutstation(true));
 //await dispatch(storeCustomeroutstation(false));
@@ -324,7 +324,7 @@ config.custDelAdd= delAddr
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
-                                                                        value={custNumber}
+                                                                        value={config.custNumber}
                                                                         disabled
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
@@ -343,8 +343,8 @@ config.custDelAdd= delAddr
                                                                 {relationShipType ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                            maxLength="10" value={custNumber} disabled
+                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "    maxlength="10"
+                                                                          value={config.custNumber} disabled
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>
@@ -352,8 +352,8 @@ config.custDelAdd= delAddr
                                                                     :
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                            maxLength="10" onChange={(e) => changeMobileNumber(e)}
+                                                                        <input id="alternate"  type="number"  required="required" name="alternate" autocomplete="off" placeholder=" "  
+                                                                            onChange={(e) => changeMobileNumber(e)}  maxlength="10" 
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>

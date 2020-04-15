@@ -27,6 +27,7 @@ import txnUploadData from '../../txnUploadData/txnUploadData';
 import uploadDocuments from "../../txnUploadData/uploadDocuments";
 import './aadharSimcoonection.css';
 import './Planselection.css';
+import { showErrorAlert } from '../../commom/commonMethod';
 
 
 const display = {
@@ -90,6 +91,8 @@ const Planselection = () => {
     const [mnpSelect, setmnpSelect] = useState([])
     const [msg, setmsg] = useState('')
     const [msgCust, setmsgCust] = useState('');
+    const [noOFConnectionValueOperator,setNoOFConnectionValueOperator]=useState('')
+    const [operatorName,setOperatorName]=useState('')
 
     let validator = new SimpleReactValidator();
 
@@ -268,6 +271,21 @@ const Planselection = () => {
     }
 
     const checkNextPlan = (frm, e) => {
+// if(noOFConnectionValueOperator=="Select"){
+//     showErrorAlert("Please select no of connections.")
+// }else{
+
+// }
+// if(operatorName=="Select"){
+//     showErrorAlert("Please select operator.")
+
+// }
+//     else{
+
+//     }
+   
+
+       
         e.preventDefault();
         var validationCheck = lstPlanFRCValidator(frm, e);
         if (validationCheck) {
@@ -1298,8 +1316,14 @@ const Planselection = () => {
         setisOpen(false)
     }
 
+const noOfConnectionsforoperator =(e)=>{
+    setNoOFConnectionValueOperator(e.target.value)
+}
 
 
+const  operatorNameFor =(e)=>{
+    setOperatorName(e.target.value)
+}
 
     return (
 
@@ -1776,7 +1800,8 @@ const Planselection = () => {
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="custom-select-wrap">
-                                                                            <select class="custom-select rounded-0 p-1">
+                                                                            <select class="custom-select rounded-0 p-1" id="operator" onChange={(e)=>operatorNameFor(e)}>
+                                                                               <option>Select</option>
                                                                                 <option value="Jio">Jio</option>
                                                                                 <option value="Airtel">Airtel</option>
                                                                                 <option value="BSNL">BSNL</option>
@@ -1817,7 +1842,8 @@ const Planselection = () => {
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="custom-select-wrap">
-                                                                                <select class="custom-select rounded-0 p-1" id="et_connection">
+                                                                                <select class="custom-select rounded-0 p-1" id="et_connection" onChange={(e)=>noOfConnectionsforoperator(e)}>
+                                                                                  <option>Select</option>
                                                                                     <option value="1">1</option>
                                                                                     <option value="2">2</option>
                                                                                     <option value="3">3</option>
@@ -1861,10 +1887,6 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`custLocalAdd`, config.custCaptureImage)}
-                {/* {console.log(`front `,custCaptureImage.frontCustImg)} */}
-               
-
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
@@ -1880,19 +1902,19 @@ const Planselection = () => {
                                             <img style={{ "marginLeft": "30%", width: '40%' }} src={config.custCaptureImage.frontCustImg} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
-                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.custName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custDelAdd.custName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Customer DOB :</label>
-                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.dob}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custDelAdd.dob}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Mobile number used <br></br>for customer signature :</label>
                                             <label style={{ "marginTop": "2px" }}>{config.custNumber}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Alternate Contact <br></br>Number :</label>
-                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.altMoNo}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custDelAdd.altMoNo}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Contact Type :</label>
-                                            <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.ALT_Contact_Type}</label>
+                                            <label style={{ "marginTop": "2px" }}>{config.custDelAdd.ALT_Contact_Type}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
 
@@ -1958,8 +1980,9 @@ const Planselection = () => {
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label>
                                             <br></br>
-                                            {/* <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>from modal - </label>
-                                            <label style={{ "marginTop": "2px" }}>from modal</label> */}
+                                            
+                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>operator-number </label>
+                                            <label style={{ "marginTop": "2px" }}>     {operatorName}-{noOFConnectionValueOperator}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <input type="checkbox" id="chkVerified"></input>

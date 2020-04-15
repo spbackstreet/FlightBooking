@@ -1970,7 +1970,7 @@ const CapCustPhoto = () => {
 
  
 
-                                {showPhotoView ?
+                                {/* {showPhotoView ?
 
                                     <p class="mt-40" style={{
 
@@ -1980,17 +1980,17 @@ const CapCustPhoto = () => {
 
                                     }}>Capture Back View</p>
 
-                                    : null}
+                                    : null} */}
 
  
 
-                                {showPhotoView ?
+                                {/* {showPhotoView ?
 
                                     <div id="BackView"
 
                                         class="photoPreviewFrame"
 
-                                    >
+                                    > */}
 
                                         {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
@@ -2006,7 +2006,7 @@ const CapCustPhoto = () => {
 
  
 
-                                            <div style={{position:"relative",display: "block",width: "100%"}}>
+                                            {/* <div style={{position:"relative",display: "block",width: "100%"}}>
 
                             <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
 
@@ -2026,7 +2026,7 @@ const CapCustPhoto = () => {
 
                                     </div>
 
-                                    : null}
+                                    : null} */}
 
  
 
