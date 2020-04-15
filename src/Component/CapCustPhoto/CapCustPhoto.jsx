@@ -30,7 +30,6 @@ import Webcam from "react-webcam";
 
  import { storeCustomerCapture } from '../../action';
 
-
  import useGlobalState from '../../hooks/useGlobalState';
 
 const display = {
@@ -197,7 +196,6 @@ const CapCustPhoto = () => {
 
             console.log("imageSrc : ", imageSrc);
 
-            debugger;
 
             setImgsrc(imageSrc)
 

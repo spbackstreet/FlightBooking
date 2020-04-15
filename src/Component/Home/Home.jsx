@@ -132,7 +132,6 @@ const Home = () => {
                 const GetPincode = await triggerAction(() => getpincode(pin));
                 if(GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0"){
                     dispatch(storeCustomerNumber(msdn));
-                    debugger
                     dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
                     config.custCircleHeader = GetPincode.pincodelist[0].area
                     history.push('/DKYC')
@@ -190,8 +189,8 @@ const Home = () => {
     }, []);
 
     const SendOtp = async () => {
-
-        if (msdn) {
+console.log(`sdjos`,msdn.length)
+        if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn[0]==9)) {
             setLoading(true)
             const callCheckMobile = await triggerAction(() => checkMobile(msdn, "AUTH"));
             setLoading(false)
@@ -438,7 +437,7 @@ const Home = () => {
                                                             <div class="login">
                                                                 <div class="form-group">
                                                                     <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
-                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)}
+                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10"
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
                                                                     <label for="msdn" class="control-label">Enter alternate Mobile No.</label>

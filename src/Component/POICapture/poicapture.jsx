@@ -41,7 +41,7 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject } }, dispatch] = useGlobalState();
+    const [{ app: { selectedDocObject } }, dispatch] = useGlobalState();
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
@@ -69,7 +69,7 @@ const POICapture = () => {
         setSide(vside)
         side = vside
         setReqCode("Front Side")
-        debugger;
+        //debugger;
     }
 
     const closeWebcam = (e) => {
@@ -86,7 +86,7 @@ const POICapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-            debugger;
+           // debugger;
             if (side === "Front Side") {
                 setFrontsrc(imageSrc)
                 setShowPhotoView(true)

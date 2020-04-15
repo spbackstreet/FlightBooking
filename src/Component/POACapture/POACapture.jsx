@@ -70,7 +70,7 @@ const POACapture = () => {
         setShowWebcam(!showWebcam)
         setSide(side)
         setReqCode("Front Side")
-        debugger;
+       // debugger;
     }
 
     const closeWebcam = (e) => {
@@ -87,7 +87,7 @@ const POACapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-            debugger;
+            //debugger;
             if(side === "Front Side"){
             setFrontsrc(imageSrc)
             // setShowPhotoView(true)
