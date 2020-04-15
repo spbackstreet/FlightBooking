@@ -30,6 +30,8 @@ import Webcam from "react-webcam";
 
  import { storeCustomerCapture } from '../../action';
 
+ import useGlobalState from '../../hooks/useGlobalState';
+
 const display = {
 
     display: 'block'
@@ -120,6 +122,7 @@ const CapCustPhoto = () => {
 
     const [showPhotoView, setShowPhotoView] = useState(false);
 
+    const [{ app: {  poaList } }, dispatch] = useGlobalState();
  
 
     const history = useHistory();
@@ -356,7 +359,7 @@ const CapCustPhoto = () => {
             "backCustImg": backsrc
         }
 
-        // await dispatch(storeCustomerCapture(custCapture));
+         await dispatch(storeCustomerCapture(custCapture));
  
         history.push('/deliveryAddress');
 

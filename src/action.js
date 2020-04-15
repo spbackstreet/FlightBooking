@@ -120,6 +120,7 @@ export {
   storeCustomerPOAcapture,
   performLoadingOperation, 
   storeCustomerCircle,
+  storeCustomerCapture,
   storeCustomerDelivery,
   storeCustomerNumber,
   storeCustomeroutstation,

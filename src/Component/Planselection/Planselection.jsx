@@ -1865,8 +1865,9 @@ const Planselection = () => {
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
                         <div class="modal-content">
-                            <div class="text-center" style={{ "background": "#03007f" }}>
-                                <h6 class="modal-title mt-10" style={{ color: "white" }}><b>Customer Details</b></h6>
+                            <div class="modal-header1" style={{ "background": "#03007f" }}>
+                                <h6 class="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}><b>Customer Details</b></h6>
+                                <a className="close" style={{ color: "#ffffff" }} onClick={() => setdisplayCustDet(false)}>X</a>
                             </div>
                             <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
                                 <Scrollbars style={{ height: "80vh" }}>
