@@ -1,20 +1,15 @@
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
-import { basicAuth } from '../commom/basicAuth';
 
-
-const checkMobile = async (msisdn, action) => {
-
-    
+const getTransactionIdService = async () => {
     const Request = {
-
-        "msisdn": '7008124658',
-        "action" : action
+        "StoreID": config.storeID,
+        "PosID": config.posid,
+        "guId": config.guid,
     };
     console.log("Request : ", Request)
-    const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
-    // const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
+    const APIURL = "http://devfin.ril.com:8080/SelfDkycTransactionManagement/GetTransactionId";
 
     try {
         const response = await postApiCall(Request, APIURL);
@@ -26,6 +21,4 @@ const checkMobile = async (msisdn, action) => {
 
 }
 
-
-
-export default checkMobile;
+export default getTransactionIdService;

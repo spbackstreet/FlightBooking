@@ -9,9 +9,19 @@ import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
 import useLoader from '../../hooks/useLoader';
 import * as constants from '../../commom/constants';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
+
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
+import CAFRequest from "../../txnUploadData/cafRequest";
+import txnUploadData from '../../txnUploadData/txnUploadData';
+import useGeolocation from 'react-hook-geolocation'
+import GlobalORNModel from '../../Model/ORNModel';
+import getORNViaTibcoService from '../../services/getORNViaTibcoService';
+import getTransactionIdService from '../../services/getTransactionIdService';
+import uploadDocumentService from '../../services/uploadDocumentService';
 
+var GSON = require('gson');
 
 const display = {
     display: 'block'
@@ -24,14 +34,17 @@ const CustOTP = () => {
     const [doneC, setdoneC] = useState(false)
     const [time, settime] = useState({})
     const [custOtp, setcustOtp] = useState('')
-    const [seconds, setseconds] = useState(30)
+    let [seconds, setseconds] = useState(30)
     const [displayConsent, setdisplayConsent] = useState(false)
     const [displayOTPSuccess, setdisplayOTPSuccess] = useState(false)
-    const [timer, settimer] = useState(0)
-    const [{ app: { pincode, custNumber, ORN } }, dispatch] = useGlobalState();
+    let [timer, settimer] = useState(0)
+    const [{ app: { pincode, custNumber, ORN, poiImage } }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
+    const [loading, setloading] = useState(false)
+    const [TxnID,setTxnID] = useState('')
 
     const history = useHistory();
+    const geolocation = useGeolocation()
 
     useEffect(() => {
         let CountdownTimer = initializeTimer()
@@ -73,9 +86,31 @@ const CustOTP = () => {
 
     const startTimer = (e) => {
         if (timer == 0 && seconds > 0) {
-            settimer(setInterval(this.countDown, 1000));
+            settimer(setInterval(countDown, 1000));
         }
 
+    }
+
+    const countDown = () => {
+        seconds = seconds - 1;
+        if (seconds >= 0) {
+            if (seconds.toString().length > 1) {
+                settime(secondsToTime(seconds))
+                setseconds(seconds)
+
+            }
+            else {
+                seconds = 0 + seconds;
+                settime(secondsToTime('0' + seconds))
+                setseconds('0' + seconds)
+            }
+        }
+        if (seconds == 0) {
+            console.log("endedA")
+            setdoneC(true)
+            clearInterval(timer);
+
+        }
     }
 
     const setOtp = (evt, param) => {
@@ -86,26 +121,26 @@ const CustOTP = () => {
         }
     }
 
-    const send_Cust_Agent = (action) => {
+    const send_Cust_Agent = () => {
         sendDigitalKycOTP(config.orderType)
     }
 
     const sendDigitalKycOTP = async (orderType) => {
         // setLoading(true)
-        const callCheckMobile = await triggerAction(() => checkMobile(custNumber, "VALID"));
+        const callValidateOTP = await triggerAction(() => validateOTP(custNumber, custOtp, ORN));
         // setLoading(false)
 
-        if (callCheckMobile.Error_Code === "00") {
+        if (callValidateOTP.errorCode === "00") {
 
-            //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
-            this.props.setState({ displayCustDet: !this.state.displayCustDet })
+            const currentDateTime = getCurrentDateForPOAPOI()
 
-            this.props.props.history.push({
-                pathname: '/AgentCustOTP'
-            })
+            CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
+            CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
+
+            openOtpValidationSuccessDialog();
 
         }
-        else if (callCheckMobile.Error_Code === '03' || callCheckMobile.Error_Code === '3') {
+        else if (callValidateOTP.errorCode === '03' || callValidateOTP.errorCode === '3') {
             confirmAlert({
                 title: "Alert!",
                 //Pending For confirmation of Error Msg
@@ -125,7 +160,7 @@ const CustOTP = () => {
         else {
             confirmAlert({
 
-                message: callCheckMobile.Error_Msg,
+                message: callValidateOTP.errorMsg,
                 buttons: [
                     {
                         label: 'OK',
@@ -134,13 +169,33 @@ const CustOTP = () => {
                 ]
             });
         }
+        openOtpValidationSuccessDialog();
     }
+
+    const openOtpValidationSuccessDialog = (e) => {
+        setdisplayOTPSuccess(!displayOTPSuccess)
+    }
+
 
     const validateDigitalKycOTP = async () => {
-        const callValidateOTP = await triggerAction(() => validateOTP(custNumber, custOtp, ORN));
+        if (custOtp && document.getElementById('chkC').checked === true) {
+            send_Cust_Agent()
+        }
+        else {
+            confirmAlert({
+                message: 'Please Enter OTP and accept customer consent.',
+                buttons: [
+                    {
+                        label: 'Ok',
+                    },
+
+                ]
+            });
+        }
+        // const callValidateOTP = await triggerAction(() => validateOTP(custNumber, custOtp, ORN));
     }
 
-    const cafValidation = async() => {
+    const cafValidation = async () => {
 
     }
 
@@ -207,6 +262,71 @@ const CustOTP = () => {
 
     //     }
     // }
+
+    const getCAFNumber = async () => {
+
+        // setloading(true)
+        // GlobalORNModel.setGuid(config.objDeviceSave.Msg);
+        // GlobalORNModel.setStoreid(config.objGetStore.StoreID);
+        // GlobalORNModel.setTransName('CF');
+
+        // const getORNViaTibco = await triggerAction(() => getORNViaTibcoService());
+
+        // setloading(false);
+        // if (getORNViaTibco.ErrorCode === "00") {
+        //     CAFRequest.CAF_NUMBER = config.agentCircleId + getORNViaTibco.ORN
+            callTransactionAPIs();
+        // }
+        // else {
+        //     confirmAlert({
+        //         message: getORNViaTibco.ErrorMsg,
+        //         buttons: [
+        //             {
+        //                 label: 'OK',
+        //             }
+        //         ]
+        //     });
+        // }
+
+    }
+
+    const callTransactionAPIs = async () => {
+
+        const getTransactionId = await triggerAction(() => getTransactionIdService());
+
+        if (getTransactionId.ErrorCode === "00"
+            //&& DecryptedResponse.availabilityStatus == "1"
+        ) {
+
+            setTxnID(getTransactionId.TxnID)
+            config.TxnID = getTransactionId.TxnID
+            config.TaxInvoice = getTransactionId.TaxInvoice;
+            txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
+            txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
+            // callGetItemMrpDetailsRPOS(getTransactionId); /for test
+            // uploadDocuments()
+        }
+        else {
+            confirmAlert({
+
+                message: getTransactionId.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                    }
+                ]
+            });
+        }
+
+    }
+
+    const uploadDocuments = async() =>{
+
+        const uploadPOIFront = await triggerAction(() => uploadDocumentService("CUST_EKYC",poiImage.frontImage));
+        const uploadPOIBack = await triggerAction(() => uploadDocumentService("CUST_EKYC_CONSENT",poiImage.backImage));
+        
+       
+    }
 
 
 
@@ -410,7 +530,7 @@ const CustOTP = () => {
                                                         <div class="row m-0 mt-4">
                                                             <div class="col-12 p-2">
                                                                 <button type="button"
-                                                                    // onClick={(e) => getCAFNumber(e)} 
+                                                                    onClick={(e) => getCAFNumber(e)}
                                                                     class="btn-block jio-btn jio-btn-primary">PROCEED</button>
                                                             </div>
                                                         </div>

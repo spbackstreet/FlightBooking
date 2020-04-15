@@ -30,6 +30,10 @@ import Webcam from "react-webcam";
 
  import { storeCustomerCapture } from '../../action';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fe995cd6c3312d3049b3b804099a9778939a0464
  import useGlobalState from '../../hooks/useGlobalState';
 
 const display = {
@@ -122,8 +126,12 @@ const CapCustPhoto = () => {
 
     const [showPhotoView, setShowPhotoView] = useState(false);
 
+<<<<<<< HEAD
     const [{ app: {  poaList } }, dispatch] = useGlobalState();
  
+=======
+    const [{ app: { poaList } }, dispatch] = useGlobalState();
+>>>>>>> fe995cd6c3312d3049b3b804099a9778939a0464
 
     const history = useHistory();
 
@@ -359,7 +367,12 @@ const CapCustPhoto = () => {
             "backCustImg": backsrc
         }
 
+<<<<<<< HEAD
          await dispatch(storeCustomerCapture(custCapture));
+=======
+        // await dispatch(storeCustomerCapture(custCapture));
+        config.custCaptureImage = custCapture
+>>>>>>> fe995cd6c3312d3049b3b804099a9778939a0464
  
         history.push('/deliveryAddress');
 

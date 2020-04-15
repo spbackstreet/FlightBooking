@@ -20,9 +20,9 @@ function App() {
       <React.Suspense fallback={<LazyLoader />}>
         <StateProvider>
           <Router>
-            <Layout>
+            {/* <Layout> */}
               <Routes />
-            </Layout>
+            {/* </Layout> */}
           </Router>
         </StateProvider>
       </React.Suspense>

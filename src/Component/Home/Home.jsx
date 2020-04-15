@@ -136,8 +136,7 @@ const Home = () => {
                     dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
                     config.custCircleHeader = GetPincode.pincodelist[0].area
                     history.push('/DKYC')
-                }
-                
+                }    
             }
             else{
                 setDisplayOTP(false)

@@ -15,6 +15,7 @@ import useLoader from '../../hooks/useLoader';
 import GlobalPOAModel from '../../Model/POAModel';
 import GlobalPOIModel from '../../Model/POIModel';
 import BlockMSISDNservice from '../../services/BlockMSISDNservice';
+import checkMobile from '../../services/checkMobile';
 import getmobilityPlanservice from '../../services/getmobilityPlanservice';
 import SendValidateOTP_KYCservice from '../../services/SendValidateOTP_KYCservice';
 // import CustomerModel from '../../CustomerDetails/Model/CustomerModel';
@@ -38,7 +39,7 @@ const hide = {
 const Planselection = () => {
 
     const history = useHistory()
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd } }, dispatch] = useGlobalState();
+    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList, ORN, customerName, custNumber,custLocalRefAdd,custPermAdd ,custCaptureImage} }, dispatch] = useGlobalState();
     const [triggerAction] = useLoader();
 
 
@@ -987,10 +988,11 @@ const Planselection = () => {
 
         debugger;
         setloading(true)
-        const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
+        // const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
+        const SendValidateOTP_KYC = await triggerAction(() => checkMobile(custNumber, "AUTH"));
         setloading(false)
 
-        if (SendValidateOTP_KYC.Error_Code === "00") {
+        if (SendValidateOTP_KYC.errorCode === "00") {
             //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
             setdisplayCustDet(!displayCustDet)
             console.log(`fgufhi`, CAFRequest)
@@ -1005,12 +1007,10 @@ const Planselection = () => {
             CAFRequest.PRODUCT_ID = PRODUCT_ID
             CAFRequest.PLANID = lstFRC[0].frcID
             console.log('planselectionModel', PlanselectionModel)
-            // this.props.props.history.push({
-            //     pathname: '/AgentCustOTP'
-            // })
-
+            history.push('/CustOTP')
+            
         }
-        else if (SendValidateOTP_KYC.Error_Code === '03' || SendValidateOTP_KYC.Error_Code === '3') {
+        else if (SendValidateOTP_KYC.errorCode === '03' || SendValidateOTP_KYC.errorCode === '3') {
             confirmAlert({
                 title: "Alert!",
                 //Pending For confirmation of Error Msg
@@ -1029,7 +1029,7 @@ const Planselection = () => {
         else {
             confirmAlert({
 
-                message: SendValidateOTP_KYC.Error_Msg,
+                message: SendValidateOTP_KYC.errorMsg,
                 buttons: [
                     {
                         label: 'OK',
@@ -1860,7 +1860,10 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`firstName`, CAFRequest)}
+                {console.log(`custLocalAdd`, custLocalAdd)}
+                {/* {console.log(`front `,custCaptureImage.frontCustImg)} */}
+               
+
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
@@ -1873,7 +1876,7 @@ const Planselection = () => {
                                 <Scrollbars style={{ height: "80vh" }}>
                                     <div class="text-left display-linebreak">
                                         <p style={{ color: "black" }}>
-                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={uploadDocuments.CUST_IMG} alt="cust img"></img>
+                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={custCaptureImage.frontCustImg} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
                                             <label style={{ "marginTop": "2px" }}>{custLocalAdd.custName}</label>

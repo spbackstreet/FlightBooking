@@ -6,6 +6,7 @@ import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeCustomerCircle, storeCustomerDelivery , storeCustomeroutstation} from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
+import config from '../../config';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
@@ -185,31 +186,12 @@ const updateHouseNo = (e) => {
 // CAFRequest.Localadd_pincode=pincode
 // CAFRequest.LocalAdd_landmark=roadName
 // CAFRequest.Country=document.getElementById("nationality").value
+const  abc= await dispatch(storeCustomerDelivery(delAddr));
+config.custDelAdd= delAddr
+//await dispatch(storeCustomeroutstation(true));
+//await dispatch(storeCustomeroutstation(false));
+                 history.push('/planselection')
 
-
-
-            confirmAlert({
-                message: "Are you an outstation customer?",
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: async () => {
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(true));
-
-                            history.push('/permanentAddress')
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: async() => { 
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(false));
-
-                            history.push('/permanentAddress') }
-                    }
-                ]
-            });
         }
         else{
             confirmAlert({

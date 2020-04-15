@@ -11,8 +11,11 @@ const config = {
     MACID: '',
     IMEI: '',
     trainingMode: false,
-    custCircleHeader : '',
-    custNumber : '',
+    custCircleHeader: '',
+    custNumber: '',
+    poaCaptureImage: {},
+    custCaptureImage: {},
+    poiImage: {},
     objSupervisorLogin: {
         lstUrl: [
             {
@@ -316,9 +319,9 @@ const config = {
     userID: '10051311',
     userPass: 'Jan@2020',
 
-    userIDDevfin : 'O!mU$er',
+    userIDDevfin: 'O!mU$er',
     userPassDevfin: 'P@ssw0rd',
-    
+
     journeyTypeForMOP: '',
     objGetStore: {},
     objGetTenderListResp: {
@@ -416,7 +419,8 @@ const config = {
     RefundDetailModel: "",
     //ModelTxnHeader : new ModelTxnHeader();
     propertyCountEmbedded: 0,
-    prodAddedMsg:'Product has been added successfully in cart.'
+    prodAddedMsg: 'Product has been added successfully in cart.',
+    custDelAdd:{}
 };
 
 export default config;
