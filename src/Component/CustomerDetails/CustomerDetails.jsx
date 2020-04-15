@@ -158,7 +158,7 @@ const updateHouseNo = (e) => {
    console.log(`abc`,totalYears)
         if (custName && houseNo && roadName && area && city && district && state && dob 
             ) {
-if(altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" || altMobileNum.length=="10"){
+if((altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" ) && altMobileNum.length=="10"){
             if(totalYears>=18 && totalYears<=100){
 
             let delAddr = {

@@ -587,7 +587,7 @@ console.log()
         let poaCapture = {
             "imagePoa": frontsrc
         }
-        await dispatch(storeCustomerPOAcapture(poaCapture));
+       // await dispatch(storeCustomerPOAcapture(poaCapture));
         config.poaCaptureImage = poaCapture
         
         // this.requestPermissions()

@@ -742,7 +742,7 @@ const POICapture = () => {
             }
 
            
-            const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
+         //   const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
             config.poiImage = poiCaptureImage
             history.push('/DKYCPOA')
 
