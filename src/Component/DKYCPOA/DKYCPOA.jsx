@@ -16,7 +16,7 @@ import { storeSelectedDocPOAObject } from '../../action';
 const DKYCPOA = () => {
 
     const [DeviceDate, setDeviceDate] = useState('');
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList } }, dispatch] = useGlobalState();
+    const [{ app: { selectedDocObject, poaList } }, dispatch] = useGlobalState();
     const [sameAsPOI, setSameAsPOI] = useState(false);
     let [SelectedDocPOAObject, setSelectedDocPOAObject] = useState({});
     const [isFirstTime, setIsFirstTime] = useState(true);

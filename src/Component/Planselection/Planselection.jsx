@@ -180,7 +180,7 @@ const Planselection = () => {
 
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
-        debugger;
+        // debugger;
         if (lstFRC.length >= 1) {
             var FRC = []
             for (let x = 0; x < lstFRC.length; x++) {
@@ -413,7 +413,7 @@ const Planselection = () => {
     const btnSave = (e) => {
         var continueflag = true;
         var msg = "";
-        debugger;
+       // debugger;
         if (document.getElementById('edtMobile').value.length != 10) {
             setmsg("Mobile Number lenght should be 10.")
             continueflag = false
@@ -986,7 +986,7 @@ const Planselection = () => {
 
     const sendDigitalKycOTP = async (action, orderType) => {
 
-        debugger;
+        //debugger;
         setloading(true)
         // const SendValidateOTP_KYC = await triggerAction(() => SendValidateOTP_KYCservice(custOtp, agOtp, action, ORN));
         const SendValidateOTP_KYC = await triggerAction(() => checkMobile(custNumber, "AUTH"));
@@ -1935,7 +1935,7 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.DocName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Issuing Authority :</label>
-                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.issuingauth}</label>
+                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.issuingAuthority}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Place Of Issue :</label>
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.placeOfIssue}</label>
@@ -1949,7 +1949,7 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.DocName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Issuing Authority :</label>
-                                            <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.issuingAuthority}</label>
+                                            <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.issuingauth}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Place Of Issue :</label>
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.placeOfIssue}</label>

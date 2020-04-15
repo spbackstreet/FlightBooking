@@ -1564,7 +1564,7 @@ class PlanselectionChild extends React.Component {
 
      async mnpclick (e) {
 
-        debugger;
+      //  debugger;
         this.setState({ isOpen: true })
         // added
 

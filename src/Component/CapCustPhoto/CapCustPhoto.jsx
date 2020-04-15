@@ -196,7 +196,6 @@ const CapCustPhoto = () => {
 
             console.log("imageSrc : ", imageSrc);
 
-            debugger;
 
             setImgsrc(imageSrc)
 
