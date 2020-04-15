@@ -16,6 +16,16 @@ const config = {
     poaCaptureImage: {},
     custCaptureImage: {},
     poiImage: {},
+    lstGrpMS : [],
+    poaList : [],
+    lstAuth_Config : [],  
+    deviceId : 'INT9999',
+    pincode :'',
+    custLocalAdd : {},
+    custPermAdd : {},
+    custLocalRefAdd :{},
+    isOutstation : false,
+    customerName :'',
     objSupervisorLogin: {
         lstUrl: [
             {
@@ -23,12 +33,13 @@ const config = {
                 Value: ""
             }
         ],
-        lstAuth_Config: [
-            {
-                Key: "",
-                Value: ""
-            }
-        ],
+        // lstAuth_Config: [
+        //     {
+        //         Key: "",
+        //         Value: ""
+        //     }
+        // ],
+        
         lstDND: [
             {
                 Name: "",
@@ -308,14 +319,14 @@ const config = {
         SUPER_TID: "",
         SUPER_ACTIVATION_CODE: ""
     },
-    lstGrpMS: [
-        {
-            MICROSERVICENAME: "",
-            ZONEURL: "",
-            SOAP_ACTION: "",
-            NAMESPACE: ""
-        }
-    ],
+    // lstGrpMS: [
+    //     {
+    //         MICROSERVICENAME: "",
+    //         ZONEURL: "",
+    //         SOAP_ACTION: "",
+    //         NAMESPACE: ""
+    //     }
+    // ],
     userID: '10051311',
     userPass: 'Jan@2020',
 
@@ -385,7 +396,7 @@ const config = {
     rechargeValidity: '',
     rechargeCode: '',
     walletBalance: '0.00',
-    guid: '523c3aa8-e59f-453f-bb74-167c9ac34d4b:INT9',
+    guid: '7341ec33-be23-437a-8138-00739a55bf5a:INT9',
     agentCircleId: '',
     Store_State: "Maharashtra",
     zone: '',

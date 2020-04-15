@@ -4,12 +4,13 @@ import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerCircle, storeCustomerDelivery , storeCustomeroutstation} from '../../action';
+import { storeCustomerCircle, storeCustomerDelivery, storeCustomeroutstation } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
 import CAFRequest from "../../txnUploadData/cafRequest"
+import config from '../../config';
 
 
 
@@ -31,18 +32,18 @@ const CustomerDetails = () => {
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
     const [houseNo, setHouseNo] = useState('')
-    const [custName,setCustName]= useState('')
+    const [custName, setCustName] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
     const [area, setArea] = useState('');
     const [city, setCity] = useState('');
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
-    const [rel,setRelation]  = useState(false)
-    const [relationShipType,setRelationshipType] =useState(true)
-    const  [altMobileNum,setAltMobileNum] =useState ('')
-    const [dob,setDOB] =useState('')
-    const [{ app: {  custLocalAdd, custNumber } }, ] = useGlobalState();
+    const [rel, setRelation] = useState(false)
+    const [relationShipType, setRelationshipType] = useState(true)
+    const [altMobileNum, setAltMobileNum] = useState('')
+    const [dob, setDOB] = useState('')
+    const [{ app: { custLocalAdd, custNumber } },] = useGlobalState();
 
     const history = useHistory()
 
@@ -87,38 +88,39 @@ const CustomerDetails = () => {
         }
 
     }
-const updateCustomerName= (e) =>{
-    setCustName(e.target.value)
-}
-
-const  changeRelationType =(e)=>{
-    console.log(`relation`,e.target.value)
-    if(e.target.value=="Self"){
-        setRelationshipType(true)
-
+    const updateCustomerName = (e) => {
+        setCustName(e.target.value)
     }
-    else{
-        setRelationshipType(false)
-    }
-}
-const changeGenderName= (e)=>{
-    console.log(e.target.value)
-    if(e.target.value=="Female"){
-    setRelation(true)}
-    else{
-        setRelation(false) 
-    }
-}
 
-const changeMobileNumber =(e)=>{
-    setAltMobileNum(e.target.value)
-}
+    const changeRelationType = (e) => {
+        console.log(`relation`, e.target.value)
+        if (e.target.value == "Self") {
+            setRelationshipType(true)
 
-const updateHouseNo = (e) => {
+        }
+        else {
+            setRelationshipType(false)
+        }
+    }
+    const changeGenderName = (e) => {
+        console.log(e.target.value)
+        if (e.target.value == "Female") {
+            setRelation(true)
+        }
+        else {
+            setRelation(false)
+        }
+    }
+
+    const changeMobileNumber = (e) => {
+        setAltMobileNum(e.target.value)
+    }
+
+    const updateHouseNo = (e) => {
         setHouseNo(e.target.value)
     }
 
-    const updateDOB = (e) =>{
+    const updateDOB = (e) => {
         setDOB(e.target.value)
     }
 
@@ -146,83 +148,86 @@ const updateHouseNo = (e) => {
         setState(e.target.value)
     }
 
-    const validateFields = async(e) => {
-       
-        console.log(`dob`,dob)
-       
-     var   birthday = new Date(dob);
-      
+    const validateFields = async (e) => {
 
-       var totalYears= new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
-   console.log(`abc`,totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob 
-            && (altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" || altMobileNum.length=="10"
-         )) {
+        console.log(`dob`, dob)
 
-            if(totalYears>=18 && totalYears<=100){
-
-            let delAddr = {
-                "custName":custName,
-                "dob":dob,
-                "houseNo": houseNo,
-                "landMark": landMark,
-                "roadName": roadName,
-                "area": area,
-                "city": city,
-                "district": district,
-                "state": state,
-                "pincode":pincode,
-                "altMoNo":altMobileNum,
-                "ALT_Contact_Type":"Mobile" //hardcoded
-            }
-
-// CAFRequest.FirstName=custName
-// CAFRequest.DOB =dob
-// CAFRequest.District=district
-// CAFRequest.LandMark=landMark
-// CAFRequest.State=state
-// CAFRequest.City= city
-// CAFRequest.Localadd_pincode=pincode
-// CAFRequest.LocalAdd_landmark=roadName
-// CAFRequest.Country=document.getElementById("nationality").value
+        var birthday = new Date(dob);
 
 
+        var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
+        console.log(`abc`, totalYears)
+        if (custName && houseNo && roadName && area && city && district && state && dob
+            && (altMobileNum[0] == "6" || altMobileNum[0] == "7" || altMobileNum[0] == "8" || altMobileNum[0] == "9" || altMobileNum.length == "10"
+            )) {
 
-            confirmAlert({
-                message: "Are you an outstation customer?",
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: async () => {
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(true));
+            if (totalYears >= 18 && totalYears <= 100) {
 
-                            history.push('/permanentAddress')
+                let delAddr = {
+                    "custName": custName,
+                    "dob": dob,
+                    "houseNo": houseNo,
+                    "landMark": landMark,
+                    "roadName": roadName,
+                    "area": area,
+                    "city": city,
+                    "district": district,
+                    "state": state,
+                    "pincode": pincode,
+                    "altMoNo": altMobileNum,
+                    "ALT_Contact_Type": "Mobile" //hardcoded
+                }
+
+                CAFRequest.FirstName = custName
+                CAFRequest.DOB = dob
+                CAFRequest.District = district
+                CAFRequest.LandMark = landMark
+                CAFRequest.State = state
+                CAFRequest.City = city
+                CAFRequest.Localadd_pincode = pincode
+                CAFRequest.LocalAdd_landmark = roadName
+                CAFRequest.Country = document.getElementById("nationality").value
+
+                config.customerName = custName
+
+
+
+                confirmAlert({
+                    message: "Are you an outstation customer?",
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: async () => {
+                                await dispatch(storeCustomerDelivery(delAddr));
+                                await dispatch(storeCustomeroutstation(true));
+
+                                history.push('/permanentAddress')
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: async () => {
+                                await dispatch(storeCustomerDelivery(delAddr));
+                                await dispatch(storeCustomeroutstation(false));
+
+                                history.push('/permanentAddress')
+                            }
                         }
-                    },
-                    {
-                        label: 'No',
-                        onClick: async() => { 
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(false));
-
-                            history.push('/permanentAddress') }
-                    }
-                ]
-            });
-        }
-        else{
-            confirmAlert({
-                title: "Error",
-                message: "Please enter correct date of birth",
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => { return false; }
-                    }
-                ]
-            });
-        }
+                    ]
+                });
+            }
+            else {
+                confirmAlert({
+                    title: "Error",
+                    message: "Please enter correct date of birth",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
         }
 
         else {
@@ -263,11 +268,11 @@ const updateHouseNo = (e) => {
                                                         <form action="" class="">
                                                             <div class="login">
 
-                                                            <div class="form-group">
+                                                                <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Customer Name<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="custName" type="text" required="required" name="custName" autocomplete="off" placeholder=" "
-                                                                       value={custName} 
-                                                                      onChange={(e) => updateCustomerName(e)}
+                                                                        value={custName}
+                                                                        onChange={(e) => updateCustomerName(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
                                                                 </div>
@@ -275,7 +280,7 @@ const updateHouseNo = (e) => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Date of Birth<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="doB" type="date" required="required" name="doB" autocomplete="off" placeholder=" "
-                                                                      onChange={(e)=>updateDOB(e)}
+                                                                        onChange={(e) => updateDOB(e)}
                                                                         style={{ width: "100%", padding: "4px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
                                                                 </div>
@@ -285,89 +290,89 @@ const updateHouseNo = (e) => {
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Gender<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="gender" type="text" required="required" name="gender" autocomplete="off" placeholder=" "
-                                                                   onChange={(e) => changeGenderName(e)}
+                                                                        onChange={(e) => changeGenderName(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
                                                                         <option>Male</option>
                                                                         <option>Female</option>
                                                                         <option>Transgender</option>
-                                                                        </select>
+                                                                    </select>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Nationality<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="nationality" type="text" required="required" name="nationality" autocomplete="off" placeholder=" " value={"Indian"}
-                                                                    
+
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
                                                                 </div>
 
 
-    
-                                                                                          <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
-                                                                                    
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="mnp">Father Name</label>
-                                                                                </div>
-                                                                                {rel?
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="cocp" name="onboardtype" value="cocp" class="custom-control-input"
-                                                                                    
-                                                                                    />
-                                                                                    <label class="custom-control-label" for="cocp">Husband Name</label>
-                                                                                </div>:null}
 
-                                                                                 <div class="form-group">
-                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Name<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                                <input id="fname" type="text" required="required" name="fname" autocomplete="off" placeholder=" "
-                                                                             
-                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                                   />
-                                                                               </div>
+                                                                <div class="custom-control custom-radio custom-control-inline">
+                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
 
-                                                                               <div class="form-group">
-                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                                <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
-                                                                              value={custNumber}
-                                                                               disabled
-                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                                   />
-                                                                               </div>
+                                                                    />
+                                                                    <label class="custom-control-label" for="mnp">Father Name</label>
+                                                                </div>
+                                                                {rel ?
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="cocp" name="onboardtype" value="cocp" class="custom-control-input"
 
-                                                                               <div class="form-group">
+                                                                        />
+                                                                        <label class="custom-control-label" for="cocp">Husband Name</label>
+                                                                    </div> : null}
+
+                                                                <div class="form-group">
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Name<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <input id="fname" type="text" required="required" name="fname" autocomplete="off" placeholder=" "
+
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                    />
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
+                                                                        value={custNumber}
+                                                                        disabled
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                    />
+                                                                </div>
+
+                                                                <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Relationship  Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" "
-                                                                    onChange={(e)=>changeRelationType(e)}
+                                                                        onChange={(e) => changeRelationType(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
                                                                         <option>Self</option>
                                                                         <option>Others</option>
-                                                                        </select>
+                                                                    </select>
                                                                 </div>
-{relationShipType ? 
-                                                                <div class="form-group">
-                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                                <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                              maxLength="10"  value ={custNumber}  disabled
-                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                                   />
-                                                                               </div>
+                                                                {relationShipType ?
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
+                                                                            maxLength="10" value={custNumber} disabled
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                        />
+                                                                    </div>
 
-:
-                                                                <div class="form-group">
-                                                                             <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                                <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                              maxLength="10" onChange={(e)=>changeMobileNumber(e)} 
-                                                                                   style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                                   />
-                                                                               </div>
-                                                                            }
+                                                                    :
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
+                                                                            maxLength="10" onChange={(e) => changeMobileNumber(e)}
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                        />
+                                                                    </div>
+                                                                }
 
-                                                                               <div class="form-group">
+                                                                <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="Mtype" type="text" required="required" name="Mtype" autocomplete="off" placeholder=" "
-                                                                    
+
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
                                                                         <option>Mobile</option>
@@ -494,7 +499,7 @@ const updateHouseNo = (e) => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
-                                                            style={{ "background": "#0D95A2" }} onClick={(e) => validateFields(e)}
+                                                                style={{ "background": "#0D95A2" }} onClick={(e) => validateFields(e)}
                                                             >Submit</button>
                                                         </div>
                                                     </div>

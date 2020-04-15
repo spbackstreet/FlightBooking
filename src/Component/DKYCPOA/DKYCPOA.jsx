@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { confirmAlert } from 'react-confirm-alert'; // Import
 import { useHistory } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Button from 'react-bootstrap/Button';
 import { FixedHeader } from '../../commom/FixedHeader';
 import { fips } from 'crypto';
 import GlobalPOAModel from '../../Model/POAModel';
-import GlobalPOIModel from '../../Model/POIModel';
 import config from '../../config';
-import useGlobalState from '../../hooks/useGlobalState';
 import { showErrorAlert } from '../../commom/commonMethod';
 import { storeSelectedDocPOAObject } from '../../action';
+
+import '../../css/style.css';
+import useLoader from '../../hooks/useLoader';
+import useGlobalState from '../../hooks/useGlobalState';
+import GlobalPOIModel from '../../Model/POIModel';
 
 
 const DKYCPOA = () => {
 
     const [DeviceDate, setDeviceDate] = useState('');
-    const [{ app: { pincode, custLocalAdd, isOutstation, selectedDocObject, poaList } }, dispatch] = useGlobalState();
+    debugger;
+    // const [{ app: { selectedDocObject, poaList } }, dispatch] = useGlobalState();
     const [sameAsPOI, setSameAsPOI] = useState(false);
     let [SelectedDocPOAObject, setSelectedDocPOAObject] = useState({});
     const [isFirstTime, setIsFirstTime] = useState(true);
@@ -24,7 +27,8 @@ const DKYCPOA = () => {
     const [disabled, setDisabled] = useState(false);
     const history = useHistory()
 
-    console.log('selectedDocObject : ', selectedDocObject);
+    debugger;
+
 
     useEffect(() => {
 
@@ -62,9 +66,9 @@ const DKYCPOA = () => {
     const getSpinnerSelectedValue = () => {
         var isFound = false;
         if (sameAsPOI) {
-            for (let index = 0; index < poaList.length; index++) {
-                const element = poaList[index];
-                if (selectedDocObject.doctypecode === element.doctypecode) {
+            for (let index = 0; index < config.poaList.length; index++) {
+                const element = config.poaList[index];
+                if (config.selectedDocObject.doctypecode === element.doctypecode) {
                     isFound = true;
                     console.log("POADOC1", SelectedDocPOAObject.DocName);
                     setSelectedDocPOAObject(element)
@@ -80,18 +84,18 @@ const DKYCPOA = () => {
             setDisabled(false);
             setSameAsPOI(false)
         }
-        if (selectedDocObject.doctypecode == "Z00005") {
+        if (config.selectedDocObject.doctypecode == "Z00005") {
             setVisibleCB('hidden')
         }
     }
 
     const handleSpinnerChange = (event) => {
         console.log("Event", event.target.value)
-        for (let index = 0; index < poaList.length; index++) {
-            let element = poaList[index];
+        for (let index = 0; index < config.poaList.length; index++) {
+            let element = config.poaList[index];
             if (event.target.value === element.DocName) {
                 SelectedDocPOAObject = element;
-                if (selectedDocObject.doctypecode == element.doctypecode) {
+                if (config.selectedDocObject.doctypecode == element.doctypecode) {
                     setSameAsPOI(true);
                     setDisabled(true);
                     setVisibleCB(true)
@@ -124,7 +128,7 @@ const DKYCPOA = () => {
             document.getElementById("authority").value = GlobalPOIModel.issuingauth
         } else {
             setDisabled(false);
-            setSelectedDocPOAObject(poaList[0])
+            setSelectedDocPOAObject(config.poaList[0])
             try {
                 document.getElementById("docNumber").value = ""
                 document.getElementById("placeOfIssue").value = ""
@@ -241,7 +245,8 @@ const DKYCPOA = () => {
             history.push('/CapCustPhoto')
         }
         else {
-            await dispatch(storeSelectedDocPOAObject(SelectedDocPOAObject));
+            // await dispatch(storeSelectedDocPOAObject(SelectedDocPOAObject));
+            config.SelectedDocPOAObject = SelectedDocPOAObject
             history.push('/POACapture');
         }
     }
@@ -268,7 +273,7 @@ const DKYCPOA = () => {
                             <div class="form-group col-12">
 
                                 <select class="custom-select rounded-0 p-1" disabled={disabled ? "disabled" : ""} id="spinnerPOA" onChange={(e) => handleSpinnerChange(e)} >
-                                    {poaList.map((element) => (<option selected={SelectedDocPOAObject == element}>{element.DocName}</option>))}
+                                    {config.poaList.map((element) => (<option selected={SelectedDocPOAObject == element}>{element.DocName}</option>))}
 
                                 </select>
                             </div>

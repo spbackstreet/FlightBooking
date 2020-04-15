@@ -10,7 +10,7 @@ import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
 import CAFRequest from "../../txnUploadData/cafRequest"
-
+import config from '../../config';
 
 
 const display = {
@@ -26,7 +26,7 @@ const DeliveryAddress = () => {
     const [loading, setLoading] = useState(false)
     const [pincode, setPincode] = useState('')
     const [triggerAction] = useLoader();
-    const [, dispatch] = useGlobalState();
+    // const [, dispatch] = useGlobalState();
     const [cityLst, setCityLst] = useState([])
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
@@ -49,8 +49,8 @@ const DeliveryAddress = () => {
             const getCustomerCircle = await triggerAction(() => getpincode(vpincode));
             setLoading(false)
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
-                // dispatch(storeCustomerCircle(getCustomerCircle));
-                dispatch(storeCustomerCircle(vpincode));
+                // dispatch(storeCustomerCircle(vpincode));
+                config.pincode = vpincode
 
                 let vcityLst = [];
                 let vdistrictLst = [];
@@ -141,19 +141,24 @@ const DeliveryAddress = () => {
                     {
                         label: 'Yes',
                         onClick: async () => {
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(true));
-
+                            // await dispatch(storeCustomerDelivery(delAddr));
+                            config.custLocalAdd = delAddr;
+                            // await dispatch(storeCustomeroutstation(true));
+                            config.isOutstation = true
                             history.push('/permanentAddress')
+                            CAFRequest.CUSTOMER_TYPE = '0005'
                         }
                     },
                     {
                         label: 'No',
                         onClick: async() => { 
-                            await dispatch(storeCustomerDelivery(delAddr));
-                            await dispatch(storeCustomeroutstation(false));
-
+                            // await dispatch(storeCustomerDelivery(delAddr));
+                            config.custLocalAdd = delAddr;
+                            // await dispatch(storeCustomeroutstation(false));
+                            config.isOutstation = false
+                            CAFRequest.CUSTOMER_TYPE = '0001'
                             history.push('/permanentAddress') }
+                            
                     }
                 ]
             });

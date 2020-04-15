@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import '../../css/style.css';
 import { storeCustomerPermanent, storeCustomeroutstation } from '../../action';
 import CAFRequest from "../../txnUploadData/cafRequest"
+import config from '../../config';
 
 
 const PermanentAddress = () => {
@@ -16,7 +17,7 @@ const PermanentAddress = () => {
     const [loading, setLoading] = useState(false)
     const [pincodePerm, setPincodePerm] = useState('')
     const [triggerAction] = useLoader();
-    const [{ app: { pincode, custLocalAdd, isOutstation } }, dispatch] = useGlobalState();
+    // const [{ app: { pincode, custLocalAdd, isOutstation } }, dispatch] = useGlobalState();
     const [houseNo, setHouseNo] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
@@ -31,16 +32,10 @@ const PermanentAddress = () => {
 
     const history = useHistory()
 
-    console.log(pincode)
-
-    console.log(custLocalAdd)
-
-    console.log(isOutstation)
-
     useEffect(() => {
-        if (!isOutstation) {
+        if (!config.isOutstation) {
             (async () => {
-                const getCustomerCircle = await triggerAction(() => getpincode(custLocalAdd.pincode));
+                const getCustomerCircle = await triggerAction(() => getpincode(config.custLocalAdd.pincode));
                 setLoading(false)
                 if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
 
@@ -70,7 +65,7 @@ const PermanentAddress = () => {
 
         if (e.currentTarget.value.substring(0, 6).length === 6) {
             setLoading(true);
-            if (e.currentTarget.value != pincode) {
+            if (e.currentTarget.value != config.pincode) {
 
                 const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
                 setLoading(false)
@@ -110,17 +105,18 @@ const PermanentAddress = () => {
                     buttons: [
                         {
                             label: 'Yes',
-                            onClick: async() => { 
-                                await dispatch(storeCustomeroutstation(false));
-                                history.push('/localreference') 
+                            onClick: async () => {
+                                // await dispatch(storeCustomeroutstation(false));
+                                config.isOutstation = false;
+                                history.push('/localreference')
                             }
                         },
                         {
                             label: 'No',
-                            onClick: () => { 
+                            onClick: () => {
                                 setLoading(false)
                                 setPincodePerm('')
-                                return false; 
+                                return false;
                             }
                         }
 
@@ -160,8 +156,8 @@ const PermanentAddress = () => {
     }
 
     const validateFields = async (e) => {
-        if (isOutstation) {
-            if (houseNo && roadName && area && city && district && state) { 
+        if (config.isOutstation) {
+            if (houseNo && roadName && area && city && district && state) {
 
                 let permAddr = {
                     "houseNo": houseNo,
@@ -171,19 +167,20 @@ const PermanentAddress = () => {
                     "city": city,
                     "district": district,
                     "state": state,
-                    "pincode": pincode
+                    "pincode": config.pincode
                 }
 
-// CAFRequest.FirstName=custName
-            // CAFRequest.DOB =dob
-            CAFRequest.District=district
-            CAFRequest.LandMark=landMark
-            CAFRequest.State=state
-            CAFRequest.City= city
-            CAFRequest.Localadd_pincode=pincode
-            CAFRequest.LocalAdd_landmark=roadName
+                // CAFRequest.FirstName=custName
+                // CAFRequest.DOB =dob
+                CAFRequest.District = district
+                CAFRequest.LandMark = landMark
+                CAFRequest.State = state
+                CAFRequest.City = city
+                CAFRequest.Localadd_pincode = config.pincode
+                CAFRequest.LocalAdd_landmark = roadName
 
-                await dispatch(storeCustomerPermanent(permAddr));
+                // await dispatch(storeCustomerPermanent(permAddr));
+                config.custPermAdd = permAddr
                 history.push('/localreference')
             }
 
@@ -201,7 +198,7 @@ const PermanentAddress = () => {
             }
 
         }
-        else{
+        else {
             history.push('/planselection')
         }
     }
@@ -232,7 +229,7 @@ const PermanentAddress = () => {
                                                             <div class="login">
 
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
@@ -250,7 +247,7 @@ const PermanentAddress = () => {
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <input id="customerName" type="text" required="required" name="customerName" autocomplete="off" placeholder=" "
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                            value={custLocalAdd.houseNo} readOnly
+                                                                            value={config.custLocalAdd.houseNo} readOnly
                                                                         />
                                                                     </div>
 
@@ -258,7 +255,7 @@ const PermanentAddress = () => {
 
 
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
                                                                         <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -279,7 +276,7 @@ const PermanentAddress = () => {
                                                                         <input id="landMark" type="text" required="required" name="landMark" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
 
-                                                                            value={custLocalAdd.landMark} disabled
+                                                                            value={config.custLocalAdd.landMark} disabled
 
                                                                         //  onChange = { (e) => updateMsdn(e)}
                                                                         //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
@@ -289,7 +286,7 @@ const PermanentAddress = () => {
 
                                                                 }
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
@@ -305,13 +302,13 @@ const PermanentAddress = () => {
                                                                         <input id="roadName" type="text" required="required" name="roadName" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
 
-                                                                            value={custLocalAdd.roadName} disabled
+                                                                            value={config.custLocalAdd.roadName} disabled
                                                                         />
                                                                     </div>
                                                                 }
 
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
@@ -331,7 +328,7 @@ const PermanentAddress = () => {
                                                                         <input id="area" type="text" required="required" name="area" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
 
 
-                                                                            value={custLocalAdd.area} disabled
+                                                                            value={config.custLocalAdd.area} disabled
 
                                                                         //  onChange = { (e) => updateMsdn(e)}
                                                                         //onChange={(e) =>this.validateMobile(e.target.value)} value={msdn}
@@ -340,7 +337,7 @@ const PermanentAddress = () => {
 
                                                                 }
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
 
@@ -365,14 +362,14 @@ const PermanentAddress = () => {
                                                                             pattern="^[1-9]\d*$"
 
 
-                                                                            value={custLocalAdd.pincode} disabled
+                                                                            value={config.custLocalAdd.pincode} disabled
                                                                         />
 
                                                                     </div>
                                                                 }
 
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
@@ -392,8 +389,8 @@ const PermanentAddress = () => {
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <select id="village" type="number" required="required" name="village" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                             onChange={(e) => updateCity(e)}
-                                                                            value={custLocalAdd.city} disabled
-                                                                            selected={custLocalAdd.city} disabled
+                                                                            value={config.custLocalAdd.city} disabled
+                                                                            selected={config.custLocalAdd.city} disabled
                                                                         >
                                                                             <option></option>
                                                                             {cityLst.map((element) =>
@@ -404,7 +401,7 @@ const PermanentAddress = () => {
                                                                 }
 
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
@@ -426,7 +423,7 @@ const PermanentAddress = () => {
                                                                         <select id="district" type="number" required="required" name="district" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                             onChange={(e) => updateDistrict(e)}
 
-                                                                            value={custLocalAdd.district} disabled
+                                                                            value={config.custLocalAdd.district} disabled
                                                                         >
                                                                             <option></option>
                                                                             {districtLst.map((element) =>
@@ -445,7 +442,7 @@ const PermanentAddress = () => {
                                                                     />
                                                                 </div> */}
 
-                                                                {isOutstation ?
+                                                                {config.isOutstation ?
 
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
@@ -471,7 +468,7 @@ const PermanentAddress = () => {
                                                                             onChange={(e) => updateState(e)}
 
 
-                                                                            value={custLocalAdd.state} disabled
+                                                                            value={config.custLocalAdd.state} disabled
                                                                         >
                                                                             <option></option>
                                                                             {stateLst.map((element) =>
@@ -485,7 +482,7 @@ const PermanentAddress = () => {
                                                         </form>
 
                                                         <div class="form-group text-center mt-5 mb-0">
-                                                            <button class="btn jio-btn jio-btn-primary w-100 plan-btn "type="button" style={{ "background": "#0D95A2" }}
+                                                            <button class="btn jio-btn jio-btn-primary w-100 plan-btn " type="button" style={{ "background": "#0D95A2" }}
                                                                 onClick={(e) => validateFields(e)}
                                                             >NEXT</button>
                                                         </div>
