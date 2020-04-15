@@ -430,7 +430,8 @@ const config = {
     RefundDetailModel: "",
     //ModelTxnHeader : new ModelTxnHeader();
     propertyCountEmbedded: 0,
-    prodAddedMsg: 'Product has been added successfully in cart.'
+    prodAddedMsg: 'Product has been added successfully in cart.',
+    custDelAdd:{}
 };
 
 export default config;

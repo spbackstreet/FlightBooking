@@ -30,6 +30,8 @@ import Webcam from "react-webcam";
 
  import { storeCustomerCapture } from '../../action';
 
+ import useGlobalState from '../../hooks/useGlobalState';
+
 const display = {
 
     display: 'block'
@@ -120,7 +122,7 @@ const CapCustPhoto = () => {
 
     const [showPhotoView, setShowPhotoView] = useState(false);
 
- 
+    const [{ app: { poaList } }, dispatch] = useGlobalState();
 
     const history = useHistory();
 
@@ -343,6 +345,7 @@ const CapCustPhoto = () => {
             "backCustImg": backsrc
         }
 
+         await dispatch(storeCustomerCapture(custCapture));
         // await dispatch(storeCustomerCapture(custCapture));
         config.custCaptureImage = custCapture
  
@@ -1895,7 +1898,7 @@ const CapCustPhoto = () => {
 
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
 
-                        <div className="modal-header1">
+                        <div className="modal-header1" style={{ "background": "#0D95A2" }}>
 
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
 

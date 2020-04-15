@@ -41,8 +41,12 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
+<<<<<<< HEAD
     debugger;
     // const [{ app: { ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid, selectedDocObject, poaList } }, dispatch] = useGlobalState();
+=======
+    const [{ app: { selectedDocObject } }, dispatch] = useGlobalState();
+>>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
@@ -86,6 +90,10 @@ const POICapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
+<<<<<<< HEAD
+=======
+           // debugger;
+>>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
             if (side === "Front Side") {
                 setFrontsrc(imageSrc)
                 setShowPhotoView(true)
@@ -734,16 +742,21 @@ const POICapture = () => {
         // console.log("lon : ", lon);
         console.log(`inside`)
 
-        if (frontsrc && backsrc) {
+        if(frontsrc && backsrc) {
 
             let poiCaptureImage = {
                 "frontImage": frontsrc,
                 "backImage": backsrc
             }
 
+<<<<<<< HEAD
             // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
             config.poiImage = poiCaptureImage
 
+=======
+           
+            const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
+>>>>>>> fee24cb4bc555cd157b99590714229d8d4ca25a3
             config.poiImage = poiCaptureImage
             history.push('/DKYCPOA')
 
@@ -1161,7 +1174,7 @@ const POICapture = () => {
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
-                        <div className="modal-header1">
+                        <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
                         </div>

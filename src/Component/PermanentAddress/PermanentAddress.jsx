@@ -157,7 +157,7 @@ const PermanentAddress = () => {
 
     const validateFields = async (e) => {
         if (config.isOutstation) {
-            if (houseNo && roadName && area && city && district && state) {
+            if (houseNo && roadName && config.pincode && area && city && district && state) { 
 
                 let permAddr = {
                     "houseNo": houseNo,
@@ -198,8 +198,8 @@ const PermanentAddress = () => {
             }
 
         }
-        else {
-            history.push('/planselection')
+        else{
+            history.push('/customerdetails')
         }
     }
 

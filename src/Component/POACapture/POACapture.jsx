@@ -864,7 +864,7 @@ const  openCameraFunction =(e)=>{
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
-                        <div className="modal-header1">
+                        <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
 
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>

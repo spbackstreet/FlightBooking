@@ -6,11 +6,11 @@ import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeCustomerCircle, storeCustomerDelivery, storeCustomeroutstation } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
+import config from '../../config';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
 import CAFRequest from "../../txnUploadData/cafRequest"
-import config from '../../config';
 
 
 
@@ -148,86 +148,76 @@ const CustomerDetails = () => {
         setState(e.target.value)
     }
 
-    const validateFields = async (e) => {
+    const validateFields = async(e) => {
+       
+        console.log(`dob`,dob)
+       
+     var   birthday = new Date(dob);
+      
 
-        console.log(`dob`, dob)
+       var totalYears= new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
+   console.log(`abc`,totalYears)
+        if (custName && houseNo && roadName && area && city && district && state && dob 
+            ) {
+if(altMobileNum[0] == "6" || altMobileNum[0]=="7" || altMobileNum[0]=="8" || altMobileNum[0]=="9" || altMobileNum.length=="10"){
+            if(totalYears>=18 && totalYears<=100){
 
-        var birthday = new Date(dob);
+            let delAddr = {
+                "custName":custName,
+                "dob":dob,
+                "houseNo": houseNo,
+                "landMark": landMark,
+                "roadName": roadName,
+                "area": area,
+                "city": city,
+                "district": district,
+                "state": state,
+                "pincode":pincode,
+                "altMoNo":altMobileNum,
+                "ALT_Contact_Type":"Mobile" //hardcoded
+            }
 
+// CAFRequest.FirstName=custName
+// CAFRequest.DOB =dob
+// CAFRequest.District=district
+// CAFRequest.LandMark=landMark
+// CAFRequest.State=state
+// CAFRequest.City= city
+// CAFRequest.Localadd_pincode=pincode
+// CAFRequest.LocalAdd_landmark=roadName
+// CAFRequest.Country=document.getElementById("nationality").value
+const  abc= await dispatch(storeCustomerDelivery(delAddr));
+config.custDelAdd= delAddr
+//await dispatch(storeCustomeroutstation(true));
+//await dispatch(storeCustomeroutstation(false));
+                 history.push('/planselection')
 
-        var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
-        console.log(`abc`, totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob
-            && (altMobileNum[0] == "6" || altMobileNum[0] == "7" || altMobileNum[0] == "8" || altMobileNum[0] == "9" || altMobileNum.length == "10"
-            )) {
-
-            if (totalYears >= 18 && totalYears <= 100) {
-
-                let delAddr = {
-                    "custName": custName,
-                    "dob": dob,
-                    "houseNo": houseNo,
-                    "landMark": landMark,
-                    "roadName": roadName,
-                    "area": area,
-                    "city": city,
-                    "district": district,
-                    "state": state,
-                    "pincode": pincode,
-                    "altMoNo": altMobileNum,
-                    "ALT_Contact_Type": "Mobile" //hardcoded
+        }
+        else{
+            confirmAlert({
+                title: "Error",
+                message: "Please enter correct date of birth",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { return false; }
+                    }
+                ]
+            });
+        }
+    }
+    else{
+        confirmAlert({
+            title: "Error",
+            message: "Please enter valid Mobile No.",
+            buttons: [
+                {
+                    label: 'OK',
+                    onClick: () => { return false; }
                 }
-
-                CAFRequest.FirstName = custName
-                CAFRequest.DOB = dob
-                CAFRequest.District = district
-                CAFRequest.LandMark = landMark
-                CAFRequest.State = state
-                CAFRequest.City = city
-                CAFRequest.Localadd_pincode = pincode
-                CAFRequest.LocalAdd_landmark = roadName
-                CAFRequest.Country = document.getElementById("nationality").value
-
-                config.customerName = custName
-
-
-
-                confirmAlert({
-                    message: "Are you an outstation customer?",
-                    buttons: [
-                        {
-                            label: 'Yes',
-                            onClick: async () => {
-                                await dispatch(storeCustomerDelivery(delAddr));
-                                await dispatch(storeCustomeroutstation(true));
-
-                                history.push('/permanentAddress')
-                            }
-                        },
-                        {
-                            label: 'No',
-                            onClick: async () => {
-                                await dispatch(storeCustomerDelivery(delAddr));
-                                await dispatch(storeCustomeroutstation(false));
-
-                                history.push('/permanentAddress')
-                            }
-                        }
-                    ]
-                });
-            }
-            else {
-                confirmAlert({
-                    title: "Error",
-                    message: "Please enter correct date of birth",
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { return false; }
-                        }
-                    ]
-                });
-            }
+            ]
+        });
+    }
         }
 
         else {

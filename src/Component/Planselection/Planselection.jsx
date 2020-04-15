@@ -1310,7 +1310,7 @@ const Planselection = () => {
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header1">
+                            <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                                 <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>{planType}</h5>
 
                                 <a className="close" style={{ color: "#ffffff" }} onClick={() => setselectPlan(false)}>X</a>
@@ -1861,19 +1861,23 @@ const Planselection = () => {
                 </div>
 
                 {/* added by cc */}
-                {console.log(`firstName`, CAFRequest)}
+                {console.log(`custLocalAdd`, config.custLocalAdd)}
+                {/* {console.log(`front `,custCaptureImage.frontCustImg)} */}
+               
+
                 <div class="modal fade show oy" id="custDetModal" style={displayCustDet ? display : hide}>
                     <div class="modal-backdrop fade show"></div>
                     <div class="modal-dialog" style={{ zIndex: "inherit" }}>
                         <div class="modal-content">
-                            <div class="text-center" style={{ "background": "#03007f" }}>
-                                <h6 class="modal-title mt-10" style={{ color: "white" }}><b>Customer Details</b></h6>
+                            <div class="modal-header1" style={{ "background": "#0D95A2" }}>
+                                <h6 class="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}><b>Customer Details</b></h6>
+                                <a className="close" style={{ color: "#ffffff" }} onClick={() => setdisplayCustDet(false)}>X</a>
                             </div>
                             <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
                                 <Scrollbars style={{ height: "80vh" }}>
                                     <div class="text-left display-linebreak">
                                         <p style={{ color: "black" }}>
-                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={uploadDocuments.CUST_IMG} alt="cust img"></img>
+                                            <img style={{ "marginLeft": "30%", width: '40%' }} src={config.custCaptureImage.frontCustImg} alt="cust img"></img>
                                             <br></br>
                                             <label style={{ "fontWeight": "bold", "marginTop": "2px" }}>Customer Name :</label>
                                             <label style={{ "marginTop": "2px" }}>{config.custLocalAdd.custName}</label>
@@ -1932,7 +1936,7 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.DocName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Issuing Authority :</label>
-                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.issuingauth}</label>
+                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.issuingAuthority}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Place Of Issue :</label>
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.placeOfIssue}</label>
@@ -1946,7 +1950,7 @@ const Planselection = () => {
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.DocName}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Issuing Authority :</label>
-                                            <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.issuingAuthority}</label>
+                                            <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.issuingauth}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Place Of Issue :</label>
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.placeOfIssue}</label>
@@ -1969,7 +1973,7 @@ const Planselection = () => {
                                             :
                                             null
                                         }
-                                            <button style={{ "color": "#fff", "background": "#03007f", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
+                                            <button style={{ "color": "#fff", "background": "#0D95A2", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
                                                 PROCEED
                                                 </button>
                                             <br></br>

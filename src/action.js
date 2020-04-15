@@ -120,6 +120,7 @@ export {
   storeCustomerPOAcapture,
   performLoadingOperation, 
   storeCustomerCircle,
+  storeCustomerCapture,
   storeCustomerDelivery,
   storeCustomerNumber,
   storeCustomeroutstation,
@@ -131,5 +132,6 @@ export {
   storeInitData,
   storeCustomerLocal,
   storeCustomerCircleHeader,
-  storeCustomerPOImage
+  storeCustomerPOImage,
+  
 };
