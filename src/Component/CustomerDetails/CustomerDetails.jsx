@@ -96,6 +96,7 @@ const CustomerDetails = () => {
         console.log(`relation`, e.target.value)
         if (e.target.value == "Self") {
             setRelationshipType(true)
+            setAltMobileNum(config.custNumber)
 
         }
         else {
@@ -151,7 +152,8 @@ const CustomerDetails = () => {
     const validateFields = async (e) => {
 
         console.log(`dob`, dob)
-
+console.log(`altMobileNum[0]`,altMobileNum[0])
+console.log(`altMobileNum`,altMobileNum.length)
         var birthday = new Date(dob);
 
 
@@ -159,7 +161,8 @@ const CustomerDetails = () => {
         console.log(`abc`, totalYears)
         if (custName && houseNo && roadName && area && city && district && state && dob
         ) {
-            if (altMobileNum[0] == "6" || altMobileNum[0] == "7" || altMobileNum[0] == "8" || altMobileNum[0] == "9" || altMobileNum.length == "10") {
+            // {relationShipType ? '':}
+            if ((altMobileNum[0] == 6 || altMobileNum[0] == 7 || altMobileNum[0] == 8 || altMobileNum[0] == 9 ) && altMobileNum.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
 
                     let delAddr = {
