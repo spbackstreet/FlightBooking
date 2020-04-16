@@ -371,7 +371,7 @@ const CustOTP = () => {
             CAFRequest.CreditScoredate + "|" +
             //---------------------Code added for DKYC--------------
             CAFRequest.DG_APIC + "|" +
-            CAFRequest.DG_LTP + "|" +
+            config.DG_LTP + "|" +
             CAFRequest.DG_LRI + "|" +
             CAFRequest.DG_LRA + "|" +
             CAFRequest.RMN_RELATIONSHIP + "|" +

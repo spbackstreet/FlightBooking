@@ -382,8 +382,8 @@ const CustomerDetails = () => {
                                                                 {relationShipType ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                            maxLength="10" value={config.custNumber} disabled
+                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "    maxlength="10"
+                                                                          value={config.custNumber} disabled
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>
@@ -391,8 +391,8 @@ const CustomerDetails = () => {
                                                                     :
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                            maxLength="10" onChange={(e) => changeMobileNumber(e)}
+                                                                        <input id="alternate"  type="number"  required="required" name="alternate" autocomplete="off" placeholder=" "  
+                                                                            onChange={(e) => changeMobileNumber(e)}  maxlength="10" 
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>

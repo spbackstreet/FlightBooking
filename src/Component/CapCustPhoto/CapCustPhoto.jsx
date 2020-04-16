@@ -1794,29 +1794,56 @@ const CapCustPhoto = () => {
 
 
 
+
+ 
+
         <div>
 
-            {/* 
+ 
+
+{/*
+
+ 
 
             <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
 
+ 
+
             >
+
+ 
 
                 <div class="modal-backdrop fade show"></div>
 
+ 
+
                 <div class="modal-dialog" style={{ zIndex: "inherit" }}>
 
+ 
+
                     <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+
+ 
 
                         <div class="text-center" style={{ "background": "#0D95A2" }}>
 
  
 
+
+ 
+
                             <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click photo</b></h6>
+
+ 
 
                             <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => closeWebcam(e)} /></span>
 
+ 
+
                         </div>
+
+ 
+
 
  
 
@@ -1824,35 +1851,67 @@ const CapCustPhoto = () => {
 
  
 
-                            
+
+ 
+
+                           
+
+ 
+
 
  
 
                             <>
 
+ 
+
                                 <Webcam
+
+ 
 
                                     audio={false}
 
+ 
+
                                     height={420}
+
+ 
 
                                     ref={webcamRef}
 
+ 
+
                                     screenshotFormat="image/jpeg"
+
+ 
 
                                     width={280}
 
+ 
+
                                     videoConstraints={videoConstraints}
+
+ 
 
                                 />
 
+ 
+
                                 <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={(e) => capture(e)}>Capture photo</button>
+
+ 
 
                             </>
 
  
 
+
+ 
+
                         </div>
+
+ 
+
 
  
 
@@ -1860,23 +1919,43 @@ const CapCustPhoto = () => {
 
  
 
+
+ 
+
                 </div>
+
+ 
+
 
  
 
             </div> */}
 
+ 
 
+
+ 
 
             {/* <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
+ 
+
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
+
+ 
 
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
 
+ 
+
                         <div className="modal-header1">
 
+ 
+
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
+
+ 
+
 
  
 
@@ -1884,251 +1963,473 @@ const CapCustPhoto = () => {
 
  
 
+
+ 
+
                         </div>
+
+ 
 
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
 
  
 
+
+ 
+
                     </div>
 
+ 
+
                 </div>
+
+ 
+
 
  
 
             </div> */}
 
+ 
 
+
+ 
 
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
+ 
+
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
+
+ 
 
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
 
+ 
+
                         <div className="modal-header1" style={{ "background": "#0D95A2" }}>
+
+ 
 
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
 
+ 
+
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
 
+ 
+
                         </div>
+
+ 
 
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
 
+ 
+
                     </div>
+
+ 
 
                 </div>
 
+ 
+
             </div>
 
+ 
 
+          
+
+ 
 
             <div class="back-color" style={{ height: "100vh" }}>
 
+ 
+
                 <div id="custphotoform">
+
+ 
 
                     <div class="my_app_container">
 
+ 
+
                         {FixedHeader()}
 
+ 
 
+
+ 
 
                         <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
 
-                            <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
+ 
 
-                            <div id="FrontView" class="photoPreviewFrame">
+                                <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
 
-                                {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+ 
 
-                                        // fetchLocation(e, "Front Side")}
+                                <div id="FrontView" class="photoPreviewFrame">
 
-                                        updateShowWebcam(true, "Front Side")}
-
-                                    > */}
-
-
-
-                                {/* </button> */}
-
-
-
-                                <div style={{ position: "relative", display: "block", width: "100%" }}>
-
-                                    <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-
-                                    <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>
-
-                                    <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} />
-
-
-
-                                </div>
-
-
-
-                                <div class="col-sm-6">
-
-                                    <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
-
-                                </div>
-
-                            </div>
-
-
-
-                            {showPhotoView ?
-
-                                <p class="mt-40" style={{
-
-                                    color: "black", "fontWeight": "bolder",
-
-
-
-                                }}>Capture Back View</p>
-
-                                : null}
-
-
-
-                            {showPhotoView ?
-
-                                <div id="BackView"
-
-                                    class="photoPreviewFrame"
-
-                                >
+ 
 
                                     {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
-                                            // fetchLocation(e, "Back Side")}
+ 
 
-                                            updateShowWebcam(true, "Back Side")}
+                                        // fetchLocation(e, "Front Side")}
 
-                                        > */}  {/* </button> */}
+ 
 
+                                        updateShowWebcam(true, "Front Side")}
 
+ 
 
+                                    > */}
 
-
-
-
-                                    <div style={{ position: "relative", display: "block", width: "100%" }}>
-
-                                        <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-
-                                        <img id="BackImage" height="100" width="100" src={require("../../img/add_new.png")} alt="Capture Back View" ></img>
-
-                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} />
+ 
 
 
+ 
 
-                                    </div>
+                                    {/* </button> */}
+
+ 
+
+
+ 
+
+<div style={{position:"relative",display: "block",width: "100%"}}>
+
+ 
+
+                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
+
+ 
+
+                            <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>                       
+
+ 
+
+                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
+
+ 
+
+
+ 
+
+                          </div>
+
+ 
+
+
+ 
 
                                     <div class="col-sm-6">
 
-                                        <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
+ 
+
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
+
+ 
 
                                     </div>
 
+ 
+
                                 </div>
 
-                                : null}
+ 
 
 
+ 
 
-                            <div>
+                                {/* {showPhotoView ?
 
-                                <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+ 
 
-                                    "ERROR")} />
+                                    <p class="mt-40" style={{
 
+ 
 
+                                        color: "black", "fontWeight": "bolder",
 
-                            </div>
-
-                            <div>
-
-                                <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
-
-                                    "RESULT")} />
+ 
 
 
+ 
 
-                            </div>
+                                    }}>Capture Back View</p>
 
-                            <div>
+ 
 
-                                <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+                                    : null} */}
 
-                                    ,
-
-                                    "IMAGE")} />
-
+ 
 
 
-                            </div>
+ 
 
-                            <div>
+                                {/* {showPhotoView ?
 
-                                <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+ 
 
-                                    ,
+                                    <div id="BackView"
 
-                                    "HEADER")} />
+ 
+
+                                        class="photoPreviewFrame"
+
+ 
+
+                                    > */}
+
+ 
+
+                                        {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+
+ 
+
+                                            // fetchLocation(e, "Back Side")}
+
+ 
+
+                                            updateShowWebcam(true, "Back Side")}
+
+ 
+
+                                        > */}  {/* </button> */}
+
+ 
 
 
+ 
 
-                            </div>
+                                        
 
-                            <div>
-
-                                <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
-
+ 
 
 
-                                    ,
+ 
 
-                                    "URI")} />
+                                            {/* <div style={{position:"relative",display: "block",width: "100%"}}>
+
+ 
+
+                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
+
+ 
+
+                            <img id="BackImage" height="100" width="100" src={require("../../img/add_new.png")} alt="Capture Back View" ></img>                       
+
+ 
+
+                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"onChange={(e)=>uploadFileBack(e)} />
+
+ 
 
 
+ 
 
-                            </div>
+                          </div>
+
+                                        <div class="col-sm-6">
+
+ 
+
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
+
+ 
+
+                                        </div>
+
+ 
+
+                                    </div>
+
+ 
+
+                                    : null} */}
+
+ 
 
 
+ 
 
-                            <div>
+                        <div>
 
-                                <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
+ 
+
+                            <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+
+ 
+
+                                "ERROR")} />
+
+ 
 
 
-
-                            </div>
+ 
 
                         </div>
 
-                    </div>
+ 
 
-                </div>
+                        <div>
 
-                <div class="bottom-fixed-btn">
+ 
 
-                    <div class="row m-0 mt-4">
+                            <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
 
-                        <div class="col-12 p-2">
+ 
 
-                            <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                                "RESULT")} />
+
+ 
+
+
+ 
 
                         </div>
 
+ 
+
+                        <div>
+
+ 
+
+                            <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+ 
+
+                                ,
+
+ 
+
+                                "IMAGE")} />
+
+ 
+
+
+ 
+
+                        </div>
+
+ 
+
+                        <div>
+
+ 
+
+                            <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+ 
+
+                                ,
+
+ 
+
+                                "HEADER")} />
+
+ 
+
+
+ 
+
+                        </div>
+
+ 
+
+                        <div>
+
+ 
+
+                            <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+ 
+
+
+ 
+
+                                ,
+
+ 
+
+                                "URI")} />
+
+ 
+
+
+ 
+
+                        </div>
+
+ 
+
+
+ 
+
+                        <div>
+
+ 
+
+                            <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
+
+ 
+
+
+ 
+
+                        </div>
+
+ 
+
                     </div>
 
+ 
+
                 </div>
+
+ 
 
             </div>
 
+ 
+
+            <div class="bottom-fixed-btn">
+
+ 
+
+                <div class="row m-0 mt-4">
+
+ 
+
+                    <div class="col-12 p-2">
+
+ 
+
+                        <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+
+ 
+
+                    </div>
+
+ 
+
+                </div>
+
+ 
+
+            </div>
+
+ 
+
         </div>
+
+ 
+
+    </div>   
 
     );
 

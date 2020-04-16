@@ -172,12 +172,12 @@ const PermanentAddress = () => {
 
                 // CAFRequest.FirstName=custName
                 // CAFRequest.DOB =dob
-                CAFRequest.District = district
-                CAFRequest.LandMark = landMark
-                CAFRequest.State = state
-                CAFRequest.City = city
-                CAFRequest.Localadd_pincode = config.pincode
-                CAFRequest.LocalAdd_landmark = roadName
+                // CAFRequest.District = district
+                // CAFRequest.LandMark = landMark
+                // CAFRequest.State = state
+                // CAFRequest.City = city
+                // CAFRequest.Localadd_pincode = config.pincode
+                // CAFRequest.LocalAdd_landmark = roadName
 
                 // await dispatch(storeCustomerPermanent(permAddr));
                 config.custPermAdd = permAddr
@@ -199,8 +199,25 @@ const PermanentAddress = () => {
 
         }
         else{
-            history.push('/customerdetails')
-        }
+
+            let permAddr = {
+                "houseNo": config.custLocalAdd.houseNo,
+                "landMark": config.custLocalAdd.landMark,
+                "roadName": config.custLocalAdd.roadName,
+                "area": config.custLocalAdd.area,
+                "city": config.custLocalAdd.city,
+                "district": config.custLocalAdd.district,
+                "state": config.custLocalAdd.state,
+                "pincode": config.pincode
+            }
+
+                // await dispatch(storeCustomerPermanent(permAddr));
+                console.log(`permAddr`,permAddr)
+                config.custPermAdd = permAddr
+                history.push('/customerdetails')
+           
+        } 
+       
     }
 
 

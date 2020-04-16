@@ -751,14 +751,14 @@ const POICapture = () => {
             // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
             config.poiImage = poiCaptureImage
             history.push('/DKYCPOA')
-
+        
         }
         else {
             showErrorAlert("Please upload image.")
         }
     }
 
-    const verifyAlignment = (uri, param, number) => {
+  const verifyAlignment = (uri, param, number) => {
         console.log("1", uri);
         console.log("2", param);
         console.log("3", number);

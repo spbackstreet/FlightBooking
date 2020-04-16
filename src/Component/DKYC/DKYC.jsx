@@ -44,7 +44,6 @@ const DKYC = () => {
     const history = useHistory();
     const [triggerAction] = useLoader();
 
- debugger;
 
     const updateDateOfIssue = (e) => {
         setDateOfIssue(e.target.value)
@@ -100,7 +99,6 @@ const DKYC = () => {
     }, [isAadhaar]);
 
     const handleSpinnerChange = (e) => {
-// debugger;
         for (let index = 0; index < poiList.length; index++) {
             const element = poiList[index];
             if (e.target.value === element.DocName) {
@@ -183,7 +181,7 @@ const DKYC = () => {
 
     const transferToNext = async (e) => {
         console.log("Success", "Next Screem")
-
+console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
         GlobalPOIModel.setDocName = selectedDocObject.DocName
         GlobalPOIModel.PhotoCount = selectedDocObject.PhotoCount;
         GlobalPOIModel.ViewToCapture = selectedDocObject.ViewToCapture;
