@@ -161,8 +161,8 @@ console.log(`altMobileNum`,altMobileNum.length)
         console.log(`abc`, totalYears)
         if (custName && houseNo && roadName && area && city && district && state && dob
         ) {
-            // {relationShipType ? '':}
-            if ((altMobileNum[0] == 6 || altMobileNum[0] == 7 || altMobileNum[0] == 8 || altMobileNum[0] == 9 ) && altMobileNum.length == "10") {
+            if (document.getElementById('alternate').value.startsWith('6') ||document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
+            ||document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
 
                     let delAddr = {
@@ -180,12 +180,15 @@ console.log(`altMobileNum`,altMobileNum.length)
                         "ALT_Contact_Type": "Mobile" //hardcoded
                     }
 
-                    const dateInput = new Date(document.getElementById("dob").value)
+                    const dateInput = new Date(document.getElementById("doB").value)
                     const extractedDay = dateInput.getDate()
                     let extractedMonth = dateInput.getMonth() + 1
                     if (extractedMonth < 10) {
                         extractedMonth = `0${extractedMonth}`
                     }
+
+                    CAFRequest.Aadharaddrsameinstalltion = 'N';
+
                     const extractedYear = dateInput.getFullYear()
                     // CAFRequest.DocumentId = document.getElementById('docNumber').value
                     CAFRequest.BldgName = document.getElementById('houseNo').value;
@@ -219,6 +222,10 @@ console.log(`altMobileNum`,altMobileNum.length)
                     CAFRequest.Locality = document.getElementById('area').value;
                     CAFRequest.Locality = document.getElementById('area').value;
                     CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
+
+                    CAFRequest.CareOf = "C/O Rajat"
+                    CAFRequest.Localadd_careof = "C/O Rajat"
+                    CAFRequest.FFN = document.getElementById('fname').value
 
                     // const abc = await dispatch(storeCustomerDelivery(delAddr));
                     config.custDelAdd = delAddr
@@ -317,9 +324,9 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                         onChange={(e) => changeGenderName(e)}
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     >
-                                                                        <option>Male</option>
-                                                                        <option>Female</option>
-                                                                        <option>Transgender</option>
+                                                                        <option>M</option>
+                                                                        <option>F</option>
+                                                                        <option>T</option>
                                                                     </select>
                                                                 </div>
 

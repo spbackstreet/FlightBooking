@@ -13,6 +13,7 @@ import '../../css/style.css';
 import useLoader from '../../hooks/useLoader';
 import useGlobalState from '../../hooks/useGlobalState';
 import GlobalPOIModel from '../../Model/POIModel';
+// import CAFRequest from "../../txnUploadData/cafRequest"
 
 
 const DKYCPOA = () => {
@@ -158,6 +159,10 @@ const DKYCPOA = () => {
         GlobalPOAModel.setIS_OCR(SelectedDocPOAObject.IS_OCR);
         GlobalPOAModel.setAspect_ratio(SelectedDocPOAObject.Aspect_ratio);
         GlobalPOAModel.setSdkUsed(GlobalPOIModel.sdkUsed);
+
+        // CAFRequest.Aadhar_Number(document.getElementById("docNumber").value)
+
+        config.Aadhar_Number = document.getElementById("docNumber").value
 
         transferToNextFragment();
     }

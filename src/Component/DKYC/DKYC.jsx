@@ -62,8 +62,10 @@ const DKYC = () => {
         setPoi(e.target.value);
         if (e.target.value === "NonAadhar") {
             setIsAadhar(false)
+            config.DG_KYC = "O"
         }
         else {
+            config.DG_KYC = "A"
             setIsAadhar(true)
         }
     }

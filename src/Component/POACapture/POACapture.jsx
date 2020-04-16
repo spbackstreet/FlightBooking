@@ -19,6 +19,9 @@ import Webcam from "react-webcam";
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import { storeCustomerPOAcapture } from '../../action';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
+import useGeolocation from 'react-hook-geolocation'
+
 
 const display = {
     display: 'block'
@@ -61,9 +64,9 @@ const POACapture = () => {
     const [frontsrc, setFrontsrc] = useState('');
     const [backsrc, setBacksrc] = useState('');
     const [side, setSide] = useState('Front Side')
-    const [previewWindow,setPreviewWindow]=useState('')
+    const [previewWindow, setPreviewWindow] = useState('')
 
-
+    const geolocation = useGeolocation()
     const history = useHistory();
 
     const updateShowWebcam = (bool, side) => {
@@ -86,11 +89,11 @@ const POACapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-            if(side === "Front Side"){
-            setFrontsrc(imageSrc)
-            // setShowPhotoView(true)
+            if (side === "Front Side") {
+                setFrontsrc(imageSrc)
+                // setShowPhotoView(true)
             }
-            else if(side === "Back Side"){
+            else if (side === "Back Side") {
                 setBacksrc(imageSrc)
             }
             // updateShowWebcam(false , '')
@@ -156,7 +159,7 @@ const POACapture = () => {
 
     const previewClicked = (e) => {
         e.preventDefault();
-console.log()
+        console.log()
         // var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.poaImage;
         // document.getElementById("previewImage").src = base64Icon;
         document.getElementById("previewImage").src = frontsrc
@@ -563,11 +566,11 @@ console.log()
         var GlobalPOAModel = require("../../Model/POAModel")
         var GlobalPOIModel = require("../../Model/POIModel")
 
-        if(frontsrc === ''){
+        if (frontsrc === '') {
             showErrorAlert("Please Capture Image");
-        }else{
+        } else {
             callUserPhotoCaptureScreen();
-            
+
         }
 
         //for test
@@ -577,18 +580,18 @@ console.log()
 
         //     callUserPhotoCaptureScreen();
         // }
-        
+
 
     }
 
-    const callUserPhotoCaptureScreen = async(e) => {
+    const callUserPhotoCaptureScreen = async (e) => {
         let poaCapture = {
             "imagePoa": frontsrc
         }
         // await dispatch(storeCustomerPOAcapture(poaCapture));
 
         config.poaCaptureImage = poaCapture
-        
+
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -608,6 +611,17 @@ console.log()
         //             console.log('geolocation permission state has changed to ', that.props);
         //         };
         //     });
+
+
+
+        const currentDateTime = getCurrentDateForPOAPOI()
+
+        let DG_POA = "POA;" + config.SelectedDocPOAObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+            config.SelectedDocPOAObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            currentDateTime + ";hyperverge;"
+        console.log(DG_POA)
+        config.DG_POA = DG_POA
+
 
         history.push('/CapCustPhoto')
     }
@@ -803,26 +817,26 @@ console.log()
 
     // setFaceMatch_SDK_NA (getValueFromAuthConfigList('FaceMatch_SDK_NA'));
 
-const  openCameraFunction =(e)=>{
-    let files = e.target.files;
-    let reader = new FileReader();
-  
-    reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
-      console.warn("Data", e.target.result)
-      setFrontsrc(e.target.result);
-  //setinstructionUpload( 'File Uploaded Successfully' );
-     // setinstructiondata(files);
-      //console.warn("ByteArray", this.state.previewData)
+    const openCameraFunction = (e) => {
+        let files = e.target.files;
+        let reader = new FileReader();
+
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) => {
+            console.warn("Data", e.target.result)
+            setFrontsrc(e.target.result);
+            //setinstructionUpload( 'File Uploaded Successfully' );
+            // setinstructiondata(files);
+            //console.warn("ByteArray", this.state.previewData)
+        }
+
+
     }
-
-
-}
 
 
     return (
         <div>
-{/* 
+            {/* 
             <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
             >
                 <div class="modal-backdrop fade show"></div>
@@ -901,21 +915,21 @@ const  openCameraFunction =(e)=>{
 
 
 
-<div style={{position:"relative",display: "block",width: "100%"}}>
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
-                            <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>                        
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"  onChange={(e) => openCameraFunction(e)}/>
+                                    <div style={{ position: "relative", display: "block", width: "100%" }}>
+                                        <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>
+                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} />
 
-                          </div>
+                                    </div>
 
-                          <div class="col-6 col-sm-6">
+                                    <div class="col-6 col-sm-6">
                                         <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => previewClicked(e)} >Preview</button>
                                     </div>
 
-                                        {/* <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." onClick={(e)=>openCamera(e)}></img> */}
-                                    
-                               {/* </button> */}
-                                   
+                                    {/* <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." onClick={(e)=>openCamera(e)}></img> */}
+
+                                    {/* </button> */}
+
                                 </div>
                                 <div class="bottom-fixed-btn">
                                     <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>

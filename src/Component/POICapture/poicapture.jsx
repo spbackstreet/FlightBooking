@@ -17,6 +17,10 @@ import CAFRequest from "../../txnUploadData/cafRequest"
 import GlobalPOIModel from '../../Model/POIModel';
 import Webcam from "react-webcam";
 import { storeCustomerPOImage } from '../../action';
+import useGeolocation from 'react-hook-geolocation'
+import GlobalPOAModel from '../../Model/POAModel';
+
+
 var GSON = require('gson');
 
 const display = {
@@ -41,7 +45,8 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
-    const [{ app: { selectedDocObject } }, dispatch] = useGlobalState();
+    debugger;
+    // const [{ app: { ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid, selectedDocObject, poaList } }, dispatch] = useGlobalState();
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
     const [reqCode, setReqCode] = useState('');
@@ -61,9 +66,10 @@ const POICapture = () => {
     let [side, setSide] = useState('Front Side')
     const [triggerAction] = useLoader();
 
+    const geolocation = useGeolocation()
 
     debugger;
-    
+
     const updateShowWebcam = (bool, vside) => {
         setShowWebcam(!showWebcam)
         setSide(vside)
@@ -85,7 +91,7 @@ const POICapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-           // debugger;
+            // debugger;
             if (side === "Front Side") {
                 setFrontsrc(imageSrc)
                 setShowPhotoView(true)
@@ -734,7 +740,7 @@ const POICapture = () => {
         // console.log("lon : ", lon);
         console.log(`inside`)
 
-        if(frontsrc && backsrc) {
+        if (frontsrc && backsrc) {
 
             let poiCaptureImage = {
                 "frontImage": frontsrc,
@@ -1096,6 +1102,21 @@ const POICapture = () => {
             //setinstructiondata(files);
         }
 
+        const currentDateTime = new Date()
+        let currentMonth = ''
+        if (currentDateTime.getMonth().length == 1) {
+            currentMonth = '0' + currentDateTime.getMonth()
+        }
+        else {
+            currentMonth = currentDateTime.getMonth()
+        }
+        let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
+            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            currentDateTime + ";hyperverge;"
+        console.log(DG_POI)
+
+        config.DG_POI = DG_POI
+
 
     }
 
@@ -1113,6 +1134,20 @@ const POICapture = () => {
             setBacksrc(e.target.result);
             //setinstructionUpload( 'File Uploaded Successfully' );
             //setinstructiondata(files);
+
+            const currentDateTime = new Date()
+            let currentMonth = ''
+            if (currentDateTime.getMonth().length == 1) {
+                currentMonth = '0' + currentDateTime.getMonth()
+            }
+            else {
+                currentMonth = currentDateTime.getMonth()
+            }
+            let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+                currentDateTime + ";hyperverge;"
+            console.log(DG_POA)
+            config.DG_POA = DG_POA
         }
 
 

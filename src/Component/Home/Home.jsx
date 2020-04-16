@@ -135,6 +135,7 @@ const Home = () => {
                     config.custNumber = msdn
                     // dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
                     config.custCircleHeader = GetPincode.pincodelist[0].area
+                    config.CAF_NUMBER = GetPincode.cafNumber
                     
                     history.push('/DKYC')
                 }    
