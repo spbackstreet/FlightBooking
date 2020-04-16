@@ -27,6 +27,9 @@ import txnUploadData from '../../txnUploadData/txnUploadData';
 import uploadDocuments from "../../txnUploadData/uploadDocuments";
 import './aadharSimcoonection.css';
 import './Planselection.css';
+import useGeolocation from 'react-hook-geolocation'
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
+
 
 
 const display = {
@@ -90,6 +93,7 @@ const Planselection = () => {
     const [mnpSelect, setmnpSelect] = useState([])
     const [msg, setmsg] = useState('')
     const [msgCust, setmsgCust] = useState('');
+    const geolocation = useGeolocation()
 
     let validator = new SimpleReactValidator();
 
@@ -1004,8 +1008,14 @@ const Planselection = () => {
             // CAFRequest.IMSI = document.getElementById('FRCimsi').value
             CAFRequest.MSISDN = document.getElementById('FRCmsisdn').value
             CAFRequest.PRODUCT_ID = PRODUCT_ID
-            CAFRequest.PLANID = lstFRC[0].frcID
+            // CAFRequest.PLANID = lstFRC[0].frcID
+            CAFRequest.PLANID=document.getElementById('lstFRC').value
             console.log('planselectionModel', PlanselectionModel)
+
+            const currentDateTime = getCurrentDateForPOAPOI()
+            config.OTPGenTime=currentDateTime
+            config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + geolocation.longitude + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
+                
             history.push('/CustOTP')
             
         }
@@ -1085,7 +1095,7 @@ const Planselection = () => {
     const fetchPlans = async (e) => {
         setplanType(e.target.value)
 
-        CAFRequest.CAF_NUMBER = config.custCircleHeader + config.ORN
+        
         
         let pType = '';
         if (e.target.value == "Postpaid Plans") {

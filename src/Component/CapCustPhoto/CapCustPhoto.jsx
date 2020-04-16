@@ -23,14 +23,17 @@ import { getHypervergeErrorMessage, getCurrentDateTime } from '../../commom/comm
 import uploadDocuments from "../../txnUploadData/uploadDocuments"
 
 import { compareTwoDateTime } from '../../commom/commonMethod'
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
 
 import Webcam from "react-webcam";
 
 // import Resizer from "react-image-file-resizer";
 
- import { storeCustomerCapture } from '../../action';
+import { storeCustomerCapture } from '../../action';
 
- import useGlobalState from '../../hooks/useGlobalState';
+import useGlobalState from '../../hooks/useGlobalState';
+import useGeolocation from 'react-hook-geolocation'
+
 
 const display = {
 
@@ -44,11 +47,11 @@ const hide = {
 
 };
 
- 
+
 
 const CapCustPhoto = () => {
 
- 
+
 
     let videoConstraints = {
 
@@ -62,11 +65,11 @@ const CapCustPhoto = () => {
 
     };
 
- 
 
-    
 
- 
+
+
+
 
     const [FM_NONAADHAAR_CHECK, setFM_NONAADHAAR_CHECK] = useState('');
 
@@ -104,7 +107,7 @@ const CapCustPhoto = () => {
 
     const [reqCode, setReqCode] = useState('Front Side')
 
- 
+
 
     let [showWebcam, setShowWebcam] = useState(false);
 
@@ -126,11 +129,11 @@ const CapCustPhoto = () => {
 
     const history = useHistory();
 
- 
+    const geolocation = useGeolocation()
 
     const camside = (param) => {
 
-        
+
 
         if (param === "back") {
 
@@ -146,7 +149,7 @@ const CapCustPhoto = () => {
 
             setCaptureMode("user");
 
-           
+
 
         }
 
@@ -154,21 +157,21 @@ const CapCustPhoto = () => {
 
     }
 
- 
 
-   
 
- 
+
+
+
 
     const updateShowWebcam = () => {
 
         setShowWebcam(!showWebcam)
 
- 
+
 
     }
 
- 
+
 
     const closeWebcam = (e) => {
 
@@ -180,7 +183,7 @@ const CapCustPhoto = () => {
 
     }
 
- 
+
 
     //strt
 
@@ -220,77 +223,77 @@ const CapCustPhoto = () => {
 
         // setDeviceDate(Finaldate)
 
- 
+
 
         // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
 
         setFM_NONAADHAAR_CHECK("0");
 
- 
+
 
         // setFaceMatchIdfySDKAllowFlag(getValueFromAuthConfigList('FaceMatch_SDK'));
 
         setFaceMatchIdfySDKAllowFlag("2");
 
- 
+
 
         // setFaceMatch_SDK_NA(getValueFromAuthConfigList('FaceMatch_SDK_NA'));
 
         setFaceMatch_SDK_NA("4");
 
- 
+
 
         // setHV_WHITE(getValueFromAuthConfigList("HV_WHITE"));
 
         setHV_WHITE("");
 
- 
+
 
         // setappId(getValueFromAuthConfigList("HV_AppId"));
 
         setAppId("6db63e");
 
- 
+
 
         // setappKey(getValueFromAuthConfigList("HV_AppKey"));
 
         setAppKey("a227e76e6e0a4c26c353");
 
- 
+
 
         // setappMixPanel(getValueFromAuthConfigList("HV_MIX_PANEL"));
 
         setAppMixPanel("ecc8fa0c0d3255b9c51c0ccfe193cf06");
 
- 
+
 
         // setapptimeout(getValueFromAuthConfigList("HV_TIMEOUT"));
 
         setApptimeout("30;119;119;A");
 
- 
+
 
         // setORC_STRING(getValueFromAuthConfigList("OCR_ALLOWED"));
 
         setORC_STRING("0010001");
 
- 
+
 
         // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
 
         setFM_NONAADHAAR_CHECK("0");
 
- 
+
 
     }, [])
 
- 
+
 
     const onImageCaptureClicked = () => {
 
         //POI Clicks
 
- 
+
 
         if (GlobalPOIModel.isAadharKYC) {
 
@@ -326,7 +329,7 @@ const CapCustPhoto = () => {
 
     }
 
- 
+
 
     const onPhotoClick = (lat, long, e) => {
 
@@ -336,42 +339,47 @@ const CapCustPhoto = () => {
 
     }
 
- 
 
-    const callNextScreen = async(e) => {
+
+    const callNextScreen = async (e) => {
 
         let custCapture = {
             "frontCustImg": frontsrc,
             "backCustImg": backsrc
         }
 
-    
+
         // await dispatch(storeCustomerCapture(custCapture));
         config.custCaptureImage = custCapture
- 
+        const currentDateTime = getCurrentDateForPOAPOI()
+        let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";"
+        config.DG_PIC = DG_PIC
+
+
+
         history.push('/deliveryAddress');
 
         // that.props.props.history.push({
 
         //     pathname: '/CapAgentPhoto',
 
- 
+
 
         // })
 
     }
 
- 
+
 
     const onValueSet = (frm, param) => {
 
- 
+
 
         if (param == "ERROR") {
 
             SDKError = document.getElementById(param).value
 
- 
+
 
             console.log("Error", SDKError);
 
@@ -427,7 +435,7 @@ const CapCustPhoto = () => {
 
                 .replace(/\"\>/, "\\\">")
 
- 
+
 
             setSDKResult(modifiedString)
 
@@ -461,7 +469,7 @@ const CapCustPhoto = () => {
 
     }
 
- 
+
 
     const previewClicked = (e, str) => {
 
@@ -489,77 +497,77 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         setShowDialog(true)
 
     }
 
- 
 
-    const  uploadFileBack =(e)=>{
+
+    const uploadFileBack = (e) => {
 
         let files = e.target.files;
 
-    
+
 
         let reader = new FileReader();
 
-      
+
 
         reader.readAsDataURL(files[0]);
 
         reader.onload = (e) => {
 
-        //   console.warn("Data", e.target.result)
+            //   console.warn("Data", e.target.result)
 
-          setBacksrc(e.target.result);
+            setBacksrc(e.target.result);
 
-      //setinstructionUpload( 'File Uploaded Successfully' );
+            //setinstructionUpload( 'File Uploaded Successfully' );
 
-          //setinstructiondata(files);
+            //setinstructiondata(files);
 
         }
 
-    
+
 
     }
 
- 
 
-    const  uploadFile =(e)=>{
+
+    const uploadFile = (e) => {
 
         let files = e.target.files;
 
-    
+
 
         let reader = new FileReader();
 
-      
+
 
         reader.readAsDataURL(files[0]);
 
         reader.onload = (e) => {
 
-        //   console.warn("Data", e.target.result)
+            //   console.warn("Data", e.target.result)
 
-          setFrontsrc(e.target.result);
+            setFrontsrc(e.target.result);
 
-          setShowPhotoView(true)
+            setShowPhotoView(true)
 
-    
 
-      //setinstructionUpload( 'File Uploaded Successfully' );
 
-          //setinstructiondata(files);
+            //setinstructionUpload( 'File Uploaded Successfully' );
+
+            //setinstructiondata(files);
 
         }
 
-    
+
 
     }
 
- 
+
 
     const onSubmit = (frm, e) => {
 
@@ -599,7 +607,7 @@ const CapCustPhoto = () => {
 
                 showErrorAlert(errorMessage)
 
- 
+
 
             } else {
 
@@ -609,11 +617,11 @@ const CapCustPhoto = () => {
 
                 var isLiveCheckEnable = "0";
 
- 
+
 
                 var GlobalPOIModel = require('../../Model/POIModel')
 
- 
+
 
                 if (isLiveCheckEnable == '' || config.Environment == "RR" || config.Environment == ("PRODUCTION")) {
 
@@ -639,15 +647,15 @@ const CapCustPhoto = () => {
 
                     userCapturePhotoURI = jsonSucess.imageUri;
 
- 
+
 
                     if (userCapturePhotoURI == null || userCapturePhotoURI == '') {
 
- 
+
 
                         showErrorAlert("Please capture photo again.")
 
- 
+
 
                         return;
 
@@ -659,7 +667,7 @@ const CapCustPhoto = () => {
 
                     console.log("jsonSucess2", jsonSucess)
 
- 
+
 
                     var base64Icon = 'data:image/jpg;base64,' + SDKImage;
 
@@ -681,13 +689,13 @@ const CapCustPhoto = () => {
 
                     var headers = SDKHeader;
 
- 
+
 
                     if (headers.includes("X-HV-Request-Id")) {
 
                         requestID = JSON.parse(headers)["X-HV-Request-Id"];
 
- 
+
 
                     }
 
@@ -697,29 +705,29 @@ const CapCustPhoto = () => {
 
                     }
 
- 
+
 
                     jsonSucess.requestId = requestID;
 
                     jsonSucess.referenceId = referenceId;
 
- 
+
 
                     GlobalPOIModel.default.setFace_liveliness(JSON.stringify(jsonSucess));
 
                     GlobalPOIModel.default.setFace_live(jsonSucess.result.live);
 
- 
+
 
                 } else {
 
                     console.log("jsonSucess3", jsonSucess)
 
- 
+
 
                     showErrorAlert("Live image not detected.")
 
- 
+
 
                 }
 
@@ -749,7 +757,7 @@ const CapCustPhoto = () => {
 
                 showErrorAlert(errorMessage)
 
- 
+
 
             } else {
 
@@ -773,7 +781,7 @@ const CapCustPhoto = () => {
 
                             requestID = JSON.parse(headers)["X-HV-Request-Id"];
 
- 
+
 
                         }
 
@@ -783,13 +791,13 @@ const CapCustPhoto = () => {
 
                         }
 
- 
+
 
                         jsonSucess.requestId = requestID;
 
                         jsonSucess.referenceId = referenceId;
 
- 
+
 
                         var obj_data = jsonSucess.result;
 
@@ -817,7 +825,7 @@ const CapCustPhoto = () => {
 
                         }
 
- 
+
 
                         var matchScore = obj_data["match-score"];
 
@@ -825,11 +833,11 @@ const CapCustPhoto = () => {
 
                             GlobalPOIModel.default.setFace_match(obj_data.match);
 
- 
+
 
                         GlobalPOIModel.default.setFace_match_Response(JSON.stringify(jsonSucess));
 
- 
+
 
                         if (SDKJourney == 'vishwam') {
 
@@ -837,13 +845,13 @@ const CapCustPhoto = () => {
 
                             GlobalPOIModel.default.setFM_VM_LOWERSCORE("30");
 
- 
+
 
                             // GlobalPOIModel.default.setFM_VM_UPPERSCORE(getValueFromAuthConfigList("FM_VM_UPPERSCORE"));
 
                             GlobalPOIModel.default.setFM_VM_UPPERSCORE("70");
 
- 
+
 
                             // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
 
@@ -855,11 +863,11 @@ const CapCustPhoto = () => {
 
                             GlobalPOIModel.default.setFM_VM_LOWERSCORE_NA('');
 
- 
+
 
                             GlobalPOIModel.default.setFM_VM_UPPERSCORE_NA('');
 
- 
+
 
                             if (GlobalPOIModel.default.isAadharKYC) {
 
@@ -889,7 +897,7 @@ const CapCustPhoto = () => {
 
                                             }
 
- 
+
 
                                         } else {
 
@@ -919,7 +927,7 @@ const CapCustPhoto = () => {
 
                                         }
 
- 
+
 
                                     } else if (matchScore >= parseFloat(GlobalPOIModel.default.FM_VM_UPPERSCORE)) {
 
@@ -939,7 +947,7 @@ const CapCustPhoto = () => {
 
                                         }
 
- 
+
 
                                     } else {
 
@@ -947,7 +955,7 @@ const CapCustPhoto = () => {
 
                                     }
 
- 
+
 
                                 } else {
 
@@ -967,7 +975,7 @@ const CapCustPhoto = () => {
 
                                             GlobalPOIModel.default.isRed = (true);
 
- 
+
 
                                             // non aadhar journey
 
@@ -975,7 +983,7 @@ const CapCustPhoto = () => {
 
                                             callNextScreen();
 
- 
+
 
                                         } else {
 
@@ -991,7 +999,7 @@ const CapCustPhoto = () => {
 
                                         GlobalPOIModel.default.isRed = (true);
 
- 
+
 
                                         // non aadhar journey
 
@@ -1001,13 +1009,13 @@ const CapCustPhoto = () => {
 
                                         callNextScreen();
 
- 
+
 
                                     } else if (matchScore >= parseFloat(GlobalPOIModel.default.FM_VM_UPPERSCORE_NA)) {
 
                                         GlobalPOIModel.default.isRed = (true);//as discussed with nisha maam always on red bucket for on journey
 
- 
+
 
                                         // non aadhar journey
 
@@ -1017,23 +1025,23 @@ const CapCustPhoto = () => {
 
                                         callNextScreen();
 
- 
+
 
                                     } else {
 
                                         showErrorAlert("Confidence/Score value not matched");
 
- 
+
 
                                     }
 
- 
+
 
                                 } else {
 
                                     showErrorAlert("Lowerscore/Upperscore is empty");
 
- 
+
 
                                 }
 
@@ -1041,25 +1049,25 @@ const CapCustPhoto = () => {
 
                         } else {
 
- 
+
 
                             // GlobalPOIModel.default.setFM_LOWERSCORE(getValueFromAuthConfigList("FM_HV_LOWERSCORE"));
 
                             GlobalPOIModel.default.setFM_LOWERSCORE("30");
 
- 
+
 
                             // GlobalPOIModel.default.setFM_UPPERSCORE(getValueFromAuthConfigList("FM_HV_UPPERSCORE"));
 
                             GlobalPOIModel.default.setFM_UPPERSCORE("50");
 
- 
+
 
                             // GlobalPOIModel.default.setFM_LOWERSCORE_AR(getValueFromAuthConfigList("FM_LOWERSCORE_AR"));
 
                             GlobalPOIModel.default.setFM_LOWERSCORE_AR("A");
 
- 
+
 
                             //for non aadhaar journey
 
@@ -1067,13 +1075,13 @@ const CapCustPhoto = () => {
 
                             GlobalPOIModel.default.setFM_HV_LOWERSCORE_NA("10");
 
- 
+
 
                             // GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA(getValueFromAuthConfigList("FM_HV_UPPERSCORE_NA"));
 
                             GlobalPOIModel.default.setFM_HV_UPPERSCORE_NA("60");
 
- 
+
 
                             if (GlobalPOIModel.default.isAadharKYC) {
 
@@ -1103,7 +1111,7 @@ const CapCustPhoto = () => {
 
                                             }
 
- 
+
 
                                         } else {
 
@@ -1133,7 +1141,7 @@ const CapCustPhoto = () => {
 
                                         }
 
- 
+
 
                                     } else if (matchScore >= parseFloat(GlobalPOIModel.default.getFM_UPPERSCORE)) {
 
@@ -1153,7 +1161,7 @@ const CapCustPhoto = () => {
 
                                         }
 
- 
+
 
                                     } else {
 
@@ -1161,7 +1169,7 @@ const CapCustPhoto = () => {
 
                                     }
 
- 
+
 
                                 } else {
 
@@ -1181,7 +1189,7 @@ const CapCustPhoto = () => {
 
                                             GlobalPOIModel.default.isRed = (true);
 
- 
+
 
                                             // non aadhar journey
 
@@ -1189,7 +1197,7 @@ const CapCustPhoto = () => {
 
                                             callNextScreen();
 
- 
+
 
                                         } else {
 
@@ -1205,7 +1213,7 @@ const CapCustPhoto = () => {
 
                                         GlobalPOIModel.default.isRed = (true);
 
- 
+
 
                                         // non aadhar journey
 
@@ -1215,13 +1223,13 @@ const CapCustPhoto = () => {
 
                                         callNextScreen();
 
- 
+
 
                                     } else if (matchScore >= parseFloat(GlobalPOIModel.default.FM_HV_UPPERSCORE_NA)) {
 
                                         GlobalPOIModel.default.isRed = (true);//as discussed with nisha maam always on red bucket for on journey
 
- 
+
 
                                         // non aadhar journey
 
@@ -1237,7 +1245,7 @@ const CapCustPhoto = () => {
 
                                     }
 
- 
+
 
                                 } else {
 
@@ -1253,38 +1261,38 @@ const CapCustPhoto = () => {
 
                 } catch (e) {
 
- 
+
 
                 }
 
             }
 
- 
+
 
         }
 
     }
 
- 
+
 
     const proceed = (e) => {
 
         e.preventDefault();
 
-    if( frontsrc === '' && backsrc === ''){
-   
-        showErrorAlert("Please Capture Images");
+        if (frontsrc === '' && backsrc === '') {
 
- }else{
+            showErrorAlert("Please Capture Images");
 
-    callNextScreen()
-    
-    
- }
+        } else {
+
+            callNextScreen()
+
+
+        }
 
         // debugger;
 
-      
+
 
         // var GlobalPOIModel = require('../../Model/POIModel')
 
@@ -1302,11 +1310,11 @@ const CapCustPhoto = () => {
 
         //     showErrorAlert("User photo capture time should be greater than POA submission time.");
 
- 
+
 
         // } else {
 
- 
+
 
         //     if (GlobalPOIModel.default.custImage == null || GlobalPOIModel.default.custImage == '') {
 
@@ -1314,7 +1322,7 @@ const CapCustPhoto = () => {
 
         //     } else
 
- 
+
 
         //         if ((FaceMatchIdfySDKAllowFlag == ("2") || FaceMatch_SDK_NA == ("4") ||
 
@@ -1388,7 +1396,7 @@ const CapCustPhoto = () => {
 
         //             }
 
- 
+
 
         //             //////
 
@@ -1400,19 +1408,19 @@ const CapCustPhoto = () => {
 
         // }
 
-    
 
-    
+
+
 
     }
 
- 
+
 
     const verifyFaceMatchVishwam = () => {
 
         SDKJourney = 'vishwam';
 
- 
+
 
         var jsonBody = {
 
@@ -1432,11 +1440,11 @@ const CapCustPhoto = () => {
 
             "store_id": config.objGetStore.StoreID
 
- 
+
 
         }
 
- 
+
 
         var jsonHeader = {
 
@@ -1444,23 +1452,23 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         if (window.Mobile) {
 
- 
+
 
             var appId = "dkyc"
 
- 
+
 
             var appKey = "oljsGtPZWqQEjPcVKOrDBqNLLulfPDrhlvRHoNVRHkqkpjFPZWAOxlFugtYAAopO"
 
- 
+
 
             var appMixPanel = "0"
 
- 
+
 
             var apptimeout = ""
 
@@ -1472,13 +1480,13 @@ const CapCustPhoto = () => {
 
             console.log("VISHWAM_TIMEOUT", apptimeout)
 
- 
+
 
             //cc
 
             window.Mobile.verifyFaceMatch("vishwam", "verifyfacematch", '', GlobalPOIModel.Hyperverge_Cust_IMg_Path, GlobalPOIModel.Hyperverge_POI_1_Img_Path,
 
- 
+
 
                 JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId,
 
@@ -1486,7 +1494,7 @@ const CapCustPhoto = () => {
 
             //end
 
- 
+
 
         }
 
@@ -1496,7 +1504,7 @@ const CapCustPhoto = () => {
 
         SDKJourney = 'hyperverge';
 
- 
+
 
         var jsonBody = {
 
@@ -1508,11 +1516,11 @@ const CapCustPhoto = () => {
 
             "allowMultipleFaces": "no"
 
- 
+
 
         }
 
- 
+
 
         var jsonHeader = {
 
@@ -1520,7 +1528,7 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         if (window.Mobile) {
 
@@ -1528,7 +1536,7 @@ const CapCustPhoto = () => {
 
             window.Mobile.verifyFaceMatch("hyperverge", "verifyfacematch", 'https://jio-faceid-staging.hyperverge.co/v1/photo/verifyPair', GlobalPOIModel.Hyperverge_Cust_IMg_Path, GlobalPOIModel.Hyperverge_POI_1_Img_Path,
 
- 
+
 
                 JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId,
 
@@ -1536,19 +1544,19 @@ const CapCustPhoto = () => {
 
             //end
 
- 
+
 
         }
 
- 
+
 
     }
 
- 
+
 
     const startFaceCaptureActivityVishwam = () => {
 
- 
+
 
         SDKJourney = 'vishwam';
 
@@ -1564,11 +1572,11 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         var whiteCheck = 'no'
 
- 
+
 
         if (HV_WHITE != undefined && HV_WHITE != '' && HV_WHITE.includes("C")) {
 
@@ -1576,13 +1584,13 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         var jsonHeader = {
 
             "referenceId": GlobalPOIModel.mOrnNumber
 
- 
+
 
         }
 
@@ -1614,21 +1622,21 @@ const CapCustPhoto = () => {
 
         }
 
- 
+
 
         if (window.Mobile) {
 
             var appId = "dkyc"
 
- 
+
 
             var appKey = "oljsGtPZWqQEjPcVKOrDBqNLLulfPDrhlvRHoNVRHkqkpjFPZWAOxlFugtYAAopO"
 
- 
+
 
             var appMixPanel = "0"
 
- 
+
 
             var apptimeout = ""
 
@@ -1640,7 +1648,7 @@ const CapCustPhoto = () => {
 
             console.log("VISHWAM_TIMEOUT", apptimeout)
 
- 
+
 
             //cc
 
@@ -1648,21 +1656,21 @@ const CapCustPhoto = () => {
 
             //end
 
- 
+
 
         }
 
- 
+
 
     }
 
- 
+
 
     const startFaceCaptureActivity = () => {
 
         SDKJourney = 'hyperverge';
 
- 
+
 
         GlobalPOIModel.setFace_liveliness("");
 
@@ -1670,11 +1678,11 @@ const CapCustPhoto = () => {
 
         var jsonBody;
 
- 
+
 
         var whiteCheck = 'no'
 
- 
+
 
         if (HV_WHITE != undefined && HV_WHITE != '' && HV_WHITE.includes("C")) {
 
@@ -1688,7 +1696,7 @@ const CapCustPhoto = () => {
 
                 "signed": "yes",
 
- 
+
 
             }
 
@@ -1702,53 +1710,53 @@ const CapCustPhoto = () => {
 
                 "allowOnlyWhiteBackground": whiteCheck
 
- 
+
 
             }
 
         }
 
- 
+
 
         var jsonHeader = {
 
             "referenceId": GlobalPOIModel.mOrnNumber
 
- 
+
 
         }
 
- 
+
 
         var faceConfig = {
 
- 
+
 
             "faceCaptureTitle": true,
 
- 
+
 
             "document": {
 
- 
+
 
                 "aspectRatio": ""
 
- 
+
 
             },
 
             "shouldUseBackCamera": !(isFrontCam),
 
- 
+
 
             "dataLogging": true,
 
- 
+
 
             "shouldSetPadding": true,
 
- 
+
 
             "headers": JSON.stringify(jsonHeader),
 
@@ -1756,13 +1764,13 @@ const CapCustPhoto = () => {
 
             "livenessEndpoint": "https://ind.faceid.hyperverge.co/v1/photo/liveness"
 
- 
+
 
         }
 
         if (window.Mobile) {
 
- 
+
 
             //cc
 
@@ -1772,23 +1780,23 @@ const CapCustPhoto = () => {
 
             //end
 
- 
+
 
         }
 
- 
+
 
     }
 
- 
+
 
     return (
 
- 
+
 
         <div>
 
-{/* 
+            {/* 
 
             <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
 
@@ -1858,7 +1866,7 @@ const CapCustPhoto = () => {
 
             </div> */}
 
- 
+
 
             {/* <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
@@ -1890,7 +1898,7 @@ const CapCustPhoto = () => {
 
             </div> */}
 
- 
+
 
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
@@ -1914,7 +1922,7 @@ const CapCustPhoto = () => {
 
             </div>
 
-           
+
 
             <div class="back-color" style={{ height: "100vh" }}>
 
@@ -1924,15 +1932,15 @@ const CapCustPhoto = () => {
 
                         {FixedHeader()}
 
- 
+
 
                         <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
 
-                                <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
+                            <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
 
-                                <div id="FrontView" class="photoPreviewFrame">
+                            <div id="FrontView" class="photoPreviewFrame">
 
-                                    {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+                                {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
                                         // fetchLocation(e, "Front Side")}
 
@@ -1940,59 +1948,59 @@ const CapCustPhoto = () => {
 
                                     > */}
 
- 
 
-                                    {/* </button> */}
 
- 
+                                {/* </button> */}
 
-<div style={{position:"relative",display: "block",width: "100%"}}>
 
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
 
-                            <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>                        
+                                <div style={{ position: "relative", display: "block", width: "100%" }}>
 
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
+                                    <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
 
- 
+                                    <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>
 
-                          </div>
+                                    <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} />
 
- 
 
-                                    <div class="col-sm-6">
-
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
-
-                                    </div>
 
                                 </div>
 
- 
 
-                                {showPhotoView ?
 
-                                    <p class="mt-40" style={{
+                                <div class="col-sm-6">
 
-                                        color: "black", "fontWeight": "bolder",
+                                    <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
 
- 
+                                </div>
 
-                                    }}>Capture Back View</p>
+                            </div>
 
-                                    : null}
 
- 
 
-                                {showPhotoView ?
+                            {showPhotoView ?
 
-                                    <div id="BackView"
+                                <p class="mt-40" style={{
 
-                                        class="photoPreviewFrame"
+                                    color: "black", "fontWeight": "bolder",
 
-                                    >
 
-                                        {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+
+                                }}>Capture Back View</p>
+
+                                : null}
+
+
+
+                            {showPhotoView ?
+
+                                <div id="BackView"
+
+                                    class="photoPreviewFrame"
+
+                                >
+
+                                    {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
                                             // fetchLocation(e, "Back Side")}
 
@@ -2000,101 +2008,103 @@ const CapCustPhoto = () => {
 
                                         > */}  {/* </button> */}
 
- 
 
-                                         
 
- 
 
-                                            <div style={{position:"relative",display: "block",width: "100%"}}>
 
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
 
-                            <img id="BackImage" height="100" width="100" src={require("../../img/add_new.png")} alt="Capture Back View" ></img>                        
 
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera"onChange={(e)=>uploadFileBack(e)} />
+                                    <div style={{ position: "relative", display: "block", width: "100%" }}>
 
- 
+                                        <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
 
-                          </div>
+                                        <img id="BackImage" height="100" width="100" src={require("../../img/add_new.png")} alt="Capture Back View" ></img>
 
-                                        <div class="col-sm-6">
+                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} />
 
-                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
 
-                                        </div>
 
                                     </div>
 
-                                    : null}
+                                    <div class="col-sm-6">
 
- 
+                                        <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
 
-                        <div>
+                                    </div>
 
-                            <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+                                </div>
 
-                                "ERROR")} />
+                                : null}
 
- 
 
-                        </div>
 
-                        <div>
+                            <div>
 
-                            <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+                                <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
 
-                                "RESULT")} />
+                                    "ERROR")} />
 
- 
 
-                        </div>
 
-                        <div>
+                            </div>
 
-                            <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+                            <div>
 
-                                ,
+                                <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
 
-                                "IMAGE")} />
+                                    "RESULT")} />
 
- 
 
-                        </div>
 
-                        <div>
+                            </div>
 
-                            <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+                            <div>
 
-                                ,
+                                <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
 
-                                "HEADER")} />
+                                    ,
 
- 
+                                    "IMAGE")} />
 
-                        </div>
 
-                        <div>
 
-                            <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+                            </div>
 
- 
+                            <div>
 
-                                ,
+                                <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
 
-                                "URI")} />
+                                    ,
 
- 
+                                    "HEADER")} />
 
-                        </div>
 
- 
 
-                        <div>
+                            </div>
 
-                            <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
+                            <div>
 
- 
+                                <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+
+
+                                    ,
+
+                                    "URI")} />
+
+
+
+                            </div>
+
+
+
+                            <div>
+
+                                <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
+
+
+
+                            </div>
 
                         </div>
 
@@ -2102,15 +2112,15 @@ const CapCustPhoto = () => {
 
                 </div>
 
-            </div>
+                <div class="bottom-fixed-btn">
 
-            <div class="bottom-fixed-btn">
+                    <div class="row m-0 mt-4">
 
-                <div class="row m-0 mt-4">
+                        <div class="col-12 p-2">
 
-                    <div class="col-12 p-2">
+                            <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
 
-                        <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                        </div>
 
                     </div>
 
@@ -2120,14 +2130,12 @@ const CapCustPhoto = () => {
 
         </div>
 
-    </div>    
-
     );
 
- 
+
 
 }
 
- 
+
 
 export default CapCustPhoto;

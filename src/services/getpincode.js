@@ -6,7 +6,8 @@ const getPincode = async (pincode) => {
     const Request = {
 
         "pincode": pincode,
-        "guid": config.guid,
+        // "guid": config.guid,
+        "caf_rqrd":"Y"
     };
     console.log("Request : ", Request)
     // const APIURL = `${process.env.REACT_APP_API_URL}/AuthenticationAndAuthorization/getpincode`;

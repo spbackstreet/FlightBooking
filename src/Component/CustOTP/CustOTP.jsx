@@ -141,6 +141,7 @@ const CustOTP = () => {
             CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
             CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
+            
             openOtpValidationSuccessDialog();
 
         }
@@ -208,12 +209,16 @@ const CustOTP = () => {
         debugger;
         let caffields =
             CAFRequest.CAF_TYPE + "|" +
-            CAFRequest.CAF_NUMBER + "|" +
+            // CAFRequest.CAF_NUMBER + "|" +
+            config.CAF_NUMBER + "|" +
             CAFRequest.CUSTOMER_TYPE + "|" +
             CAFRequest.PRODUCT_ID + "|" +
-            CAFRequest.RMN + "|" +
-            CAFRequest.ICCID + "|" +
-            CAFRequest.IMSI + "|" +
+            // CAFRequest.RMN + "|" + //for test
+            "7008124658" + "|" +
+            // CAFRequest.ICCID + "|" +
+            "NA" + "|" +
+            // CAFRequest.IMSI + "|" +
+            "NA" + "|" +
             CAFRequest.MSISDN + "|" +
             CAFRequest.VANITYFLAG + "|" +
             CAFRequest.CUPON_CODE + "|" +
@@ -259,7 +264,8 @@ const CustOTP = () => {
             CAFRequest.CustomerId + "|" +
             CAFRequest.R4GID + "|" +
             CAFRequest.Caf_Category + "|" +
-            CAFRequest.Aadhar_Number + "|" +
+            // CAFRequest.Aadhar_Number + "|" +
+            config.Aadhar_Number + "|" +
             CAFRequest.BldgName + "|" +
             CAFRequest.Locality + "|" +
             CAFRequest.LandMark + "|" +
@@ -349,11 +355,16 @@ const CustOTP = () => {
             CAFRequest.IMEI + "|" +
             CAFRequest.EID + "|" +
             CAFRequest.QR_XML + "|" +
-            CAFRequest.DG_POA + "|" +
-            CAFRequest.DG_POI + "|" +
-            CAFRequest.DG_KYC + "|" +
-            CAFRequest.DG_PIC + "|" +
-            CAFRequest.DG_ATP + "|" +
+            // CAFRequest.DG_POA + "|" +
+            config.DG_POA + "|" +
+            // CAFRequest.DG_POI + "|" +
+            config.DG_POI + "|" +
+            // CAFRequest.DG_KYC + "|" +
+            config.DG_KYC + "|" +
+            // CAFRequest.DG_PIC + "|" +
+            config.DG_PIC + "|" +
+            // CAFRequest.DG_ATP + "|" +
+            "NA" + "|" +
             CAFRequest.DG_OTP + "|" +
             CAFRequest.QR_SCAN_FLAG + "|" + "|" +
             CAFRequest.customerCreditScore + "|" +

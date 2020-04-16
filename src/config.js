@@ -26,6 +26,14 @@ const config = {
     custLocalRefAdd :{},
     isOutstation : false,
     customerName :'',
+    Aadhar_Number : '',
+    DG_POA : '',
+    DG_POI : '',
+    DG_KYC : '',
+    selectedDocObject : {},
+    selectedDocPOAObject : {},
+    OTPGenTime : '',
+    DG_LTP : '',
     objSupervisorLogin: {
         lstUrl: [
             {

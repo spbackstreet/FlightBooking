@@ -8,7 +8,8 @@ const cAFValidationService = async (caffields) => {
         "CAFFields": caffields,
         "GuId": config.guid,
         "DeviceId": config.deviceId,
-        "storeno": config.storeID
+        "storeno": config.storeID,
+        "cafType":"SE"
     };
     console.log("Request : ", Request)
     const APIURL = "http://devfin.ril.com:8080/SelfDkycTransactionManagement/CAFValidation";
