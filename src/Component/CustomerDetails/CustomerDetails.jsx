@@ -41,7 +41,7 @@ const CustomerDetails = () => {
     const [state, setState] = useState('');
     const [rel, setRelation] = useState(false)
     const [relationShipType, setRelationshipType] = useState(true)
-    const [altMobileNum, setAltMobileNum] = useState('')
+    const [altMobileNum, setAltMobileNum] = useState(config.custNumber)
     const [dob, setDOB] = useState('')
     const [{ app: { custLocalAdd, custNumber } },] = useGlobalState();
 
@@ -101,6 +101,7 @@ const CustomerDetails = () => {
         }
         else {
             setRelationshipType(false)
+            setAltMobileNum('')
         }
     }
     const changeGenderName = (e) => {
@@ -385,7 +386,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "    maxlength="10"
-                                                                          value={config.custNumber} disabled
+                                                                          value={config.custNumber} disabled 
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>

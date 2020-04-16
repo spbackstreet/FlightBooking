@@ -1965,7 +1965,7 @@ const  operatorNameFor =(e)=>{
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.docNumber}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>POI Type :</label>
-                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.DocName}</label>
+                                            <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.docdesc}</label>
                                             <br></br>
                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>Issuing Authority :</label>
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOIModel.issuingAuthority}</label>
