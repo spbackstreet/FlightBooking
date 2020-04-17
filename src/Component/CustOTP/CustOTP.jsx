@@ -130,9 +130,9 @@ const CustOTP = () => {
     }
 
     const sendDigitalKycOTP = async (orderType) => {
-        // setLoading(true)
+         setloading(true)
         const callValidateOTP = await triggerAction(() => validateOTP(config.custNumber, custOtp, config.ORN));
-        // setLoading(false)
+        setloading(false)
 
         if (callValidateOTP.errorCode === "00") {
 
@@ -382,9 +382,9 @@ const CustOTP = () => {
 
         // for test
         // caffields = "postpaid|MUH000C6KV|0001|1400382|8828206787|8991874101888906862|406874502073542|7021156193|Y|01||0|Sameer Shekhar Patkar|||19-03-1991||1000649|NO00000B882Q|6d1f7a51-2624-44c9-9253-22c826b2f2d2|0|0||MH||||||||||||||||||N||||s@m.com||||EKYC|215542599440|1053|Pat Highschool |SAKLESHWAR MANDIR|PAT HIGH SCHOOL|416522|MAHARASHTRA|Goa-Panaji|Maharashtra|IN|||M|NORMAL||Z02#1#####|IN| Shekhar Raghunath Patkar|||||||0001|S/O Shekhar Raghunath Patkar|836938402566|MUMBAI|INT9||||||||N|||1053|Pat Highschool |SAKLESHWAR MANDIR|PAT HIGH SCHOOL|Sindhu|MAHARASHTRA|416522|MAHARASHTRA|Goa-Panaji|MAHARASHTRA|S/O Shekhar Raghunath Patkar||||||MOBILITY|1053|0.00|Mayuri Pendhari||Y||||||||||||||||||||215542599440||||||||||POA;Z00081;GRAMPANCHAYAT;09-04-2020;Mangaon;Gram Panchayat;19.1518428,73.0789819;2020-04-10T10:04:50;hyperverge;|POI;Z00079;DRIVINGLICENCE;10-03-2020;Kudal;Regional Transport Office (RTO);19.1519316,73.0790339;2020-04-10T10:04:45;hyperverge;|O|PIC;Z00091;0;19.1518512,73.0789991;2020-04-10T10:04:55;||OTP;Z00092;423504;19.151854,73.078953;2020-04-10T11:04:22;8828206787;2020-04-10T11:04:18;|0|||||LTP;Z00092;156932;19.1518945,73.0789651;2020-04-10T11:04:18;9096284056;2020-04-10T11:04:18;|undefined|undefined|KNOWN PERSON|Mobile|N|H"
-
+setloading(true)
         const cAFValidation = await triggerAction(() => cAFValidationService(caffields));
-
+setloading(false)
         if (cAFValidation.ErrorCode == "00") {
             // this.props.props.history.push({
             //     pathname: '/PaymentMode',
@@ -451,9 +451,9 @@ const CustOTP = () => {
     }
 
     const callTransactionAPIs = async () => {
-
+setloading(true)
         const getTransactionId = await triggerAction(() => getTransactionIdService());
-
+setloading(false)
         if (getTransactionId.ErrorCode === "00"
             //&& DecryptedResponse.availabilityStatus == "1"
         ) {
@@ -484,9 +484,9 @@ const CustOTP = () => {
     const callGetItemMrpDetailsRPOS = async (txnRes) => {
 
         console.log('planselectionMode', PlanselectionModel);
-
+setloading(true)
         const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.PRODUCT_ID));
-
+setloading(false)
         if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
             const arrayResponse = []
             arrayResponse.push(getItemMrpDetailsRPOS)
