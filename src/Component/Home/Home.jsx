@@ -454,7 +454,7 @@ console.log(`sdjos`,msdn.length)
                                                             <div class="login">
                                                                 <div class="form-group">
                                                                     <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
-                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10" autoComplete= "off"
+                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10" autoComplete= "off"         
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
                                                                     <label for="msdn" class="control-label">Enter alternate Mobile No.</label>
