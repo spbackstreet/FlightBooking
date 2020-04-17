@@ -127,9 +127,13 @@ const Home = () => {
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
+            setLoading(true)
             const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
+            setLoading(false)
             if (GetServiceableAreaBypincode.Errocode == "00") {
+                setLoading(true)
                 const GetPincode = await triggerAction(() => getpincode(pin));
+                setLoading(false)
                 if(GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0"){
                     // dispatch(storeCustomerNumber(msdn));
                     config.custNumber = msdn
@@ -143,6 +147,7 @@ const Home = () => {
             else{
                 setDisplayOTP(false)
                 setDisplayPIN(false)
+                setLoading(false)
                 confirmAlert({
                     title: <h3 style={{ "color": "red" }}>Sorry!!</h3>,
                     message: GetServiceableAreaBypincode.Erromessage,
@@ -164,7 +169,9 @@ const Home = () => {
     const validateCustOTP = async (e) => {
         setError(false)
         if (custOtp) {
+            setLoading(true)
             const callValidateOTP = await triggerAction(() => validateOTP(msdn, custOtp, config.ORN));
+            setLoading(false)
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
