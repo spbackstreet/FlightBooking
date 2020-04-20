@@ -13,6 +13,7 @@ import getpincode from '../../services/getpincode';
 import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
 import config from '../../config';
+import { apiCall } from '../../commom/commonApiCalling';
 
 
 const display = {
@@ -182,6 +183,7 @@ const Home = () => {
                 // config.guid = callValidateOTP.guid //for later in new encryption
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
                 config.JCID = callValidateOTP.storeID
+                apiCall()
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')

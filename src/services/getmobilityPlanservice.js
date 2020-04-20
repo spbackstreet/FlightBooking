@@ -2,7 +2,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
-
+import { apiCall } from '../commom/commonApiCalling';
 
 const getmobilityPlanservice = async (pType) => {
 
@@ -53,8 +53,15 @@ const getmobilityPlanservice = async (pType) => {
             "storeid": "INT9"
         }
     console.log("Request : ", Request)
-    // const APIURL = "http://devfin.ril.com:8080/MobilityPlan/GetmobilityPlan";
-    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetmobilityPlan";
+    
+
+
+
+    const  service =apiCall("GetmobilityPlan")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
+   // const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetmobilityPlan";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

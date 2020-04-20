@@ -235,8 +235,12 @@ const DKYC = () => {
             {FixedHeader()}
             <div class="rechargehome_wrapper">
                 <div>
-
+                <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
                     <div class="container">
+                   
                         <div class="row">
                             <div class="col">
                                 <div class="date-title bold-font mt-3  mb-2 ml-3 mr-3 f-16">Mode of Activation</div>

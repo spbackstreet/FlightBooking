@@ -766,7 +766,9 @@ const CustOTP = () => {
             <div class="my_app_container">
                 {FixedHeader()}
                 <div class="rechargehome_wrapper">
+               
                     <div class="container">
+                        
                         <div class="">
                             <div class="row">
                                 <div class="col">
@@ -774,6 +776,10 @@ const CustOTP = () => {
                                         <div class="md-font f-16 pl-3 pb-2">Customer OTP validation</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
+                                            <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
                                                 <div class="row no-gutters">
                                                     <div class="col-12">
                                                         <form action="" class="">

@@ -275,6 +275,7 @@ const DKYCPOA = () => {
                 <div class="top-fixed-header">
                     {FixedHeader()}
                     <div>
+                    
                         <label style={{ color: "black", "fontWeight": "bolder", "marginTop": "10px", "marginLeft": "20px" }}>Select POA</label>
                         <label style={{ color: "#FF0000" }}>*</label>
                         <form id="DkycPOAForm">

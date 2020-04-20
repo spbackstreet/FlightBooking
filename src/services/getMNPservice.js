@@ -1,6 +1,7 @@
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
+import { apiCall } from '../commom/commonApiCalling';
 
 const getMNPservice = async () => {
     const Request = 
@@ -13,9 +14,13 @@ const getMNPservice = async () => {
 
     
     console.log("Request : ", Request)
-   
+    const  service =apiCall("MNP")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
 
-    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
+
+  //  const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
     try {
         const response = await postApiCall(Request, APIURL);
         return response;
