@@ -40,7 +40,8 @@ const CustomerDetails = () => {
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
     const [rel, setRelation] = useState(false)
-    const [relationShipType, setRelationshipType] = useState(true)
+    const [relationShipType, setRelationshipType] = useState(true);
+    const [relName, setRelName] = useState("");
     const [altMobileNum, setAltMobileNum] = useState(config.custNumber)
     const [dob, setDOB] = useState('')
     const [{ app: { custLocalAdd, custNumber } },] = useGlobalState();
@@ -118,6 +119,10 @@ const CustomerDetails = () => {
         setAltMobileNum(e.target.value)
     }
 
+    const changeRelativeName = (e) => {
+        setRelName(e.target.value)
+    }
+
     const updateHouseNo = (e) => {
         setHouseNo(e.target.value)
     }
@@ -159,11 +164,11 @@ console.log(`altMobileNum`,altMobileNum.length)
 
 
         console.log(`check1`, document.getElementById("mnp").checked )
-        //console.log(`check2`, document.getElementById("cocp").checked )
+        console.log(`check2`, document.getElementById("cocp").checked )
 
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob )
+        if (custName && houseNo && roadName && area && city && district && state && dob && relName)
          {
             if (document.getElementById('alternate').value.startsWith('6') ||document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
             ||document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
@@ -360,7 +365,7 @@ console.log(`altMobileNum`,altMobileNum.length)
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Name<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="fname" type="text" required="required" name="fname" autocomplete="off" placeholder=" "
+                                                                    <input id="fname" type="text" required="required" name="fname" autocomplete="off" placeholder=" " onChange={(e) => changeRelativeName(e)}
 
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />

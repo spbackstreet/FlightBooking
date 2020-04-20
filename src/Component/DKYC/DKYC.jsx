@@ -303,7 +303,7 @@ console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
-                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " 
+                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " max="31-12-9999"
                                                 // value={dateOfIssue} 
                                                 // onchange={(e) => updateDateOfIssue(e)} 
                                                 />
