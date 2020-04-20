@@ -19,6 +19,7 @@ import Webcam from "react-webcam";
 import { storeCustomerPOImage } from '../../action';
 import useGeolocation from 'react-hook-geolocation'
 import GlobalPOAModel from '../../Model/POAModel';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
 
 
 var GSON = require('gson');
@@ -1102,14 +1103,14 @@ const POICapture = () => {
             //setinstructiondata(files);
         }
 
-        const currentDateTime = new Date()
-        let currentMonth = ''
-        if (currentDateTime.getMonth().length == 1) {
-            currentMonth = '0' + currentDateTime.getMonth()
-        }
-        else {
-            currentMonth = currentDateTime.getMonth()
-        }
+        const currentDateTime = getCurrentDateForPOAPOI()
+        // let currentMonth = ''
+        // if (currentDateTime.getMonth().length == 1) {
+        //     currentMonth = '0' + currentDateTime.getMonth()
+        // }
+        // else {
+        //     currentMonth = currentDateTime.getMonth()
+        // }
         let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
             config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             currentDateTime + ";hyperverge;"
@@ -1213,7 +1214,10 @@ const POICapture = () => {
                     <div>
                         <div class="my_app_container">
                             {FixedHeader()}
-
+                            <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
                             {/* {showWebcam ?
                                 <WebcamCapture />
                                 : ''

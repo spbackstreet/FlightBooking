@@ -13,6 +13,7 @@ import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/Comm
 
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
+import getTaxSummaryGSTService from '../../services/getTaxSummaryGSTService';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import txnUploadData from '../../txnUploadData/txnUploadData';
 import useGeolocation from 'react-hook-geolocation'
@@ -23,6 +24,7 @@ import uploadDocumentService from '../../services/uploadDocumentService';
 import getItemMrpDetailsRPOSService from '../../services/getItemMrpDetailsRPOSService';
 import cAFValidationService from '../../services/cAFValidationService';
 import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
+import getBilldeskQueryStr from '../../services/getBilldeskQueryStr';
 
 
 var GSON = require('gson');
@@ -130,7 +132,7 @@ const CustOTP = () => {
     }
 
     const sendDigitalKycOTP = async (orderType) => {
-         setloading(true)
+        setloading(true)
         const callValidateOTP = await triggerAction(() => validateOTP(config.custNumber, custOtp, config.ORN));
         setloading(false)
 
@@ -141,7 +143,7 @@ const CustOTP = () => {
             CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
             CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
-            
+
             openOtpValidationSuccessDialog();
 
         }
@@ -211,7 +213,8 @@ const CustOTP = () => {
             CAFRequest.CAF_TYPE + "|" +
             // CAFRequest.CAF_NUMBER + "|" +
             config.CAF_NUMBER + "|" +
-            CAFRequest.CUSTOMER_TYPE + "|" +
+            // CAFRequest.CUSTOMER_TYPE + "|" + //for test
+            "0001" + "|" +
             CAFRequest.PRODUCT_ID + "|" +
             // CAFRequest.RMN + "|" + //for test
             "7008124658" + "|" +
@@ -265,7 +268,8 @@ const CustOTP = () => {
             CAFRequest.R4GID + "|" +
             CAFRequest.Caf_Category + "|" +
             // CAFRequest.Aadhar_Number + "|" +
-            config.Aadhar_Number + "|" +
+            // config.Aadhar_Number + "|" + //for test
+            "215542599440" + "|" +
             CAFRequest.BldgName + "|" +
             CAFRequest.Locality + "|" +
             CAFRequest.LandMark + "|" +
@@ -293,7 +297,8 @@ const CustOTP = () => {
             CAFRequest.CareOf + "|" +
             CAFRequest.Agent_Aadhaar + "|" +
             CAFRequest.StoreCity + "|" +
-            CAFRequest.JCID + "|" +
+            // CAFRequest.JCID + "|" +
+            config.JCID + "|" +
             CAFRequest.VanityPrice + "|" +
             CAFRequest.VanityEAN + "|" +
             CAFRequest.TermCode + "|" +
@@ -320,7 +325,8 @@ const CustOTP = () => {
             CAFRequest.Localref_noCalled + "|" +
             CAFRequest.AgentAuthAadharTxnRefNo + "|" +
             CAFRequest.AgentAuthAadharTxnRefDateTime + "|" +
-            CAFRequest.ServiceType + "|" +
+            // CAFRequest.ServiceType + "|" + //for test
+            "MOBILITY" + "|" +
             CAFRequest.BuildingId + "|" +
             CAFRequest.InstallationCharges + "|" +
             CAFRequest.AgentName + "|" +
@@ -345,7 +351,8 @@ const CustOTP = () => {
             CAFRequest.SegmentSubTypename + "|" +
             CAFRequest.SegmentCodeValue + "|" +
             CAFRequest.SegmentCodeName + "|" +
-            CAFRequest.DocumentId + "|" +
+            // CAFRequest.DocumentId + "|" + //for test
+            "215542599440" + "|" +
             CAFRequest.CustIncome + "|" +
             CAFRequest.CustFamilyIncome + "|" +
             CAFRequest.ReasonMultipleConnection + "|" +
@@ -382,13 +389,11 @@ const CustOTP = () => {
 
         // for test
         // caffields = "postpaid|MUH000C6KV|0001|1400382|8828206787|8991874101888906862|406874502073542|7021156193|Y|01||0|Sameer Shekhar Patkar|||19-03-1991||1000649|NO00000B882Q|6d1f7a51-2624-44c9-9253-22c826b2f2d2|0|0||MH||||||||||||||||||N||||s@m.com||||EKYC|215542599440|1053|Pat Highschool |SAKLESHWAR MANDIR|PAT HIGH SCHOOL|416522|MAHARASHTRA|Goa-Panaji|Maharashtra|IN|||M|NORMAL||Z02#1#####|IN| Shekhar Raghunath Patkar|||||||0001|S/O Shekhar Raghunath Patkar|836938402566|MUMBAI|INT9||||||||N|||1053|Pat Highschool |SAKLESHWAR MANDIR|PAT HIGH SCHOOL|Sindhu|MAHARASHTRA|416522|MAHARASHTRA|Goa-Panaji|MAHARASHTRA|S/O Shekhar Raghunath Patkar||||||MOBILITY|1053|0.00|Mayuri Pendhari||Y||||||||||||||||||||215542599440||||||||||POA;Z00081;GRAMPANCHAYAT;09-04-2020;Mangaon;Gram Panchayat;19.1518428,73.0789819;2020-04-10T10:04:50;hyperverge;|POI;Z00079;DRIVINGLICENCE;10-03-2020;Kudal;Regional Transport Office (RTO);19.1519316,73.0790339;2020-04-10T10:04:45;hyperverge;|O|PIC;Z00091;0;19.1518512,73.0789991;2020-04-10T10:04:55;||OTP;Z00092;423504;19.151854,73.078953;2020-04-10T11:04:22;8828206787;2020-04-10T11:04:18;|0|||||LTP;Z00092;156932;19.1518945,73.0789651;2020-04-10T11:04:18;9096284056;2020-04-10T11:04:18;|undefined|undefined|KNOWN PERSON|Mobile|N|H"
-setloading(true)
+        setloading(true)
         const cAFValidation = await triggerAction(() => cAFValidationService(caffields));
-setloading(false)
+        setloading(false)
         if (cAFValidation.ErrorCode == "00") {
-            // this.props.props.history.push({
-            //     pathname: '/PaymentMode',
-            // });
+            callBillDesk()
 
         }
         else if (cAFValidation.ErrorCode === '03' || cAFValidation.ErrorCode === '3') {
@@ -398,7 +403,7 @@ setloading(false)
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => { 
+                        onClick: () => {
                             history.push('/home')
                             // logout(this, this.props, config); 
                         }
@@ -419,6 +424,11 @@ setloading(false)
                 ]
             });
         }
+    }
+
+    const callBillDesk = async () => {
+        let str = await triggerAction(() => getBilldeskQueryStr());
+        window.location.href = 'http://devfin.ril.com:8080/HealthService/GetBillDeskDetails/?data=' + str;
     }
 
 
@@ -451,12 +461,11 @@ setloading(false)
     }
 
     const callTransactionAPIs = async () => {
-setloading(true)
+        setloading(true)
         const getTransactionId = await triggerAction(() => getTransactionIdService());
-setloading(false)
-        if (getTransactionId.ErrorCode === "00"
-            //&& DecryptedResponse.availabilityStatus == "1"
-        ) {
+
+
+        if (getTransactionId.ErrorCode === "00") {
 
             setTxnID(getTransactionId.TxnID)
             config.TxnID = getTransactionId.TxnID
@@ -464,8 +473,7 @@ setloading(false)
             txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
             txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
             callGetItemMrpDetailsRPOS(getTransactionId); //for test
-            // uploadDocuments()
-            // cafValidation() //for test
+
         }
         else {
             confirmAlert({
@@ -481,17 +489,18 @@ setloading(false)
 
     }
 
+
     const callGetItemMrpDetailsRPOS = async (txnRes) => {
 
         console.log('planselectionMode', PlanselectionModel);
-setloading(true)
+        setloading(true)
         const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.PRODUCT_ID));
-setloading(false)
+        setloading(false)
         if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
             const arrayResponse = []
             arrayResponse.push(getItemMrpDetailsRPOS)
             setTxnitemList(arrayResponse, txnRes)
-            //uploadDocuments()
+            uploadDocuments()
         }
     }
 
@@ -708,16 +717,47 @@ setloading(false)
         txnUploadData.Guid = config.guid;//Done
         txnUploadData.StoreNo = config.storeCode;//Done
 
-        cafValidation()
+        // cafValidation()
+
+        calculateTax()
+    }
+
+    const calculateTax = async () => {
+        let lstProduct = []
+        for (let i = 0; i < txnUploadData.TxnInfo.TxnItemList.length; i++) {
+            const element = txnUploadData.TxnInfo.TxnItemList[i];
+            var pelement = {
+                "hsnCode": element.HSN_CODE,
+                "md_fg": element.MD_FG,
+                "qty": element.Quantity,
+                "selliingPrice": element.SellingPrice,
+                "seqNo": element.SequenceID,
+                "isInterState": false
+            }
+            lstProduct.push(pelement)
+
+        }
+
+        const GetTaxSummaryGST = await triggerAction(() => getTaxSummaryGSTService(lstProduct));
+
+        if (GetTaxSummaryGST.errorCode == "00" || GetTaxSummaryGST.errorCode == "0") {
+            txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(GetTaxSummaryGST.txnTotal);
+            config.amount = parseFloat(GetTaxSummaryGST.txnTotal);
+            txnUploadData.TxnInfo.TxnHeader.ItemCount = lstProduct.length
+            cafValidation()
+        }
+
     }
 
     const uploadDocuments = async () => {
 
         const uploadPOIFront = await triggerAction(() => uploadDocumentService("CUST_EKYC", config.poiImage.frontImage));
         const uploadPOIBack = await triggerAction(() => uploadDocumentService("CUST_EKYC_CONSENT", config.poiImage.backImage));
-
+        const uploadCustImg = await triggerAction(() => uploadDocumentService("CUST_IMG ", config.custCaptureImage));
 
     }
+
+
 
 
 
@@ -726,7 +766,9 @@ setloading(false)
             <div class="my_app_container">
                 {FixedHeader()}
                 <div class="rechargehome_wrapper">
+               
                     <div class="container">
+                        
                         <div class="">
                             <div class="row">
                                 <div class="col">
@@ -734,6 +776,10 @@ setloading(false)
                                         <div class="md-font f-16 pl-3 pb-2">Customer OTP validation</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
+                                            <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
                                                 <div class="row no-gutters">
                                                     <div class="col-12">
                                                         <form action="" class="">

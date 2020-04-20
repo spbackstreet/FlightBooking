@@ -13,6 +13,7 @@ import getpincode from '../../services/getpincode';
 import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
 import config from '../../config';
+import { apiCall } from '../../commom/commonApiCalling';
 
 
 const display = {
@@ -175,13 +176,14 @@ const Home = () => {
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                
+                // config.userID = msdn //for later in new encryption
                 config.custNumber = msdn
                 // dispatch(storeInitData(callValidateOTP));
                 config.lstGrpMS = callValidateOTP.lstGrpMS
                 // config.guid = callValidateOTP.guid //for later in new encryption
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
-
+                config.JCID = callValidateOTP.storeID
+                apiCall()
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')

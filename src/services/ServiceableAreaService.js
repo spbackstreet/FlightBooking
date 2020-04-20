@@ -4,6 +4,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
+import { apiCall } from '../commom/commonApiCalling';
 
 
 const ServiceableAreaService = async (pin) => {
@@ -29,7 +30,10 @@ const ServiceableAreaService = async (pin) => {
     }
     console.log("Request : ", Request)
     // const APIURL = `${process.env.REACT_APP_API_URL}/MobilityPlan/GetServiceableAreaBypin`;
-    const APIURL = `https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetServiceableAreaBypin`;
+    const  service =apiCall("GetServiceableAreaBypin")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

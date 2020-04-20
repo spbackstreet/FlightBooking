@@ -14,10 +14,11 @@ axios.interceptors.request.use(request => {
             return request;
         }
         if (process.env.REACT_APP_NEW_ENCRYPTION === "true") {
+            // if (config.REACT_APP_NEW_ENCRYPTION === "true") {
             let basicAuthVal = '';
             if (config.applicationType === 'React') {
-                // basicAuthVal = basicAuth(config.userID);
-                basicAuthVal = basicAuth(config.custNumber);
+                basicAuthVal = basicAuth(config.userID);
+                // basicAuthVal = basicAuth(config.custNumber);
                 basicAuthVal = 'Basic ' + basicAuthVal
             }
             else {
