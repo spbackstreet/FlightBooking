@@ -1988,11 +1988,13 @@ const  operatorNameFor =(e)=>{
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.placeOfIssue}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
-                                            <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label>
+                                           { displayOtrCon ? 
+                                            <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label> :''}
                                             <br></br>
-                                            
-                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>operator-number </label>
-                                            <label style={{ "marginTop": "2px" }}>     {operatorName}-{noOFConnectionValueOperator}</label>
+                                            { displayOtrCon ? 
+                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>operator-number </label> :''}
+                                             { displayOtrCon ? 
+                                            <label style={{ "marginTop": "2px" }}>     {operatorName}-{noOFConnectionValueOperator}</label> :''}
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <input type="checkbox" id="chkVerified"></input>
