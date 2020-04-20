@@ -184,16 +184,28 @@ console.log(`altMobileNum`,altMobileNum.length)
                         "ALT_Contact_Type": "Mobile" //hardcoded
                     }
 
-                    const dateInput = new Date(document.getElementById("doB").value)
+                    // const dateInput = new Date(document.getElementById("doB").value)
+                    // const extractedDay = dateInput.getDate()
+                    // let extractedMonth = dateInput.getMonth() + 1
+                    // if (extractedMonth < 10) {
+                    //     extractedMonth = `0${extractedMonth}`
+                    // }
+
+                    // CAFRequest.Aadharaddrsameinstalltion = 'N';
+
+                    const dateInput = new Date(document.getElementById("dob").value)
                     const extractedDay = dateInput.getDate()
                     let extractedMonth = dateInput.getMonth() + 1
                     if (extractedMonth < 10) {
-                        extractedMonth = `0${extractedMonth}`
+                      extractedMonth = `0${extractedMonth}`
                     }
-
-                    CAFRequest.Aadharaddrsameinstalltion = 'N';
-
                     const extractedYear = dateInput.getFullYear()
+        
+                    if (config.isAadharKYC) {
+                        CAFRequest.Aadhar_Number = document.getElementById('docNumber').value;
+                        CAFRequest.Aadharaddrsameinstalltion = 'Y';
+                    }
+                    
                     // CAFRequest.DocumentId = document.getElementById('docNumber').value
                     CAFRequest.BldgName = document.getElementById('houseNo').value;
                     CAFRequest.BuildingId = document.getElementById('houseNo').value;
@@ -220,6 +232,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                     CAFRequest.Locality = document.getElementById('area').value;
                     CAFRequest.PostCode = document.getElementById('pinCode').value;
                     // CAFRequest.RMN = document.getElementById('altMobileNo').value;
+                    CAFRequest.RMN = config.custNumber;
                     CAFRequest.RMN_relationship = relationShipType;
                     CAFRequest.Locality = document.getElementById('area').value;
                     CAFRequest.Locality = document.getElementById('area').value;
@@ -314,7 +327,7 @@ console.log(`altMobileNum`,altMobileNum.length)
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Date of Birth<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="doB" type="date" required="required" name="doB" autocomplete="off" placeholder=" "
+                                                                    <input id="dob" type="date" required="required" name="dob" autocomplete="off" placeholder=" "
                                                                         onChange={(e) => updateDOB(e)}
                                                                         style={{ width: "100%", padding: "4px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                     />
