@@ -748,10 +748,10 @@ const POICapture = () => {
                 "backImage": backsrc
             }
 
-
+            
             // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
-            config.poiImage = poiCaptureImage
-            history.push('/DKYCPOA')
+            config.poiImage = poiCaptureImage      
+                  history.push('/DKYCPOA')
         
         }
         else {

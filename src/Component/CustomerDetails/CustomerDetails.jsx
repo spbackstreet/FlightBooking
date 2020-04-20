@@ -41,7 +41,7 @@ const CustomerDetails = () => {
     const [state, setState] = useState('');
     const [rel, setRelation] = useState(false)
     const [relationShipType, setRelationshipType] = useState(true)
-    const [altMobileNum, setAltMobileNum] = useState('')
+    const [altMobileNum, setAltMobileNum] = useState(config.custNumber)
     const [dob, setDOB] = useState('')
     const [{ app: { custLocalAdd, custNumber } },] = useGlobalState();
 
@@ -96,15 +96,17 @@ const CustomerDetails = () => {
         console.log(`relation`, e.target.value)
         if (e.target.value == "Self") {
             setRelationshipType(true)
+            setAltMobileNum(config.custNumber)
 
         }
         else {
             setRelationshipType(false)
+            setAltMobileNum('')
         }
     }
     const changeGenderName = (e) => {
         console.log(e.target.value)
-        if (e.target.value == "Female") {
+        if (e.target.value == "F") {
             setRelation(true)
         }
         else {
@@ -112,7 +114,7 @@ const CustomerDetails = () => {
         }
     }
 
-    const changeMobileNumber = (e) => {
+    const changeMobileNumber = (e) => {  
         setAltMobileNum(e.target.value)
     }
 
@@ -151,14 +153,18 @@ const CustomerDetails = () => {
     const validateFields = async (e) => {
 
         console.log(`dob`, dob)
-
+console.log(`altMobileNum[0]`,altMobileNum[0])
+console.log(`altMobileNum`,altMobileNum.length)
         var birthday = new Date(dob);
 
 
+        console.log(`check1`, document.getElementById("mnp").checked )
+        //console.log(`check2`, document.getElementById("cocp").checked )
+
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob
-        ) {
+        if (custName && houseNo && roadName && area && city && district && state && dob )
+         {
             if (document.getElementById('alternate').value.startsWith('6') ||document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
             ||document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
@@ -396,7 +402,7 @@ const CustomerDetails = () => {
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
                                                                         <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "    maxlength="10"
-                                                                          value={config.custNumber} disabled
+                                                                          value={config.custNumber} disabled 
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>
@@ -404,8 +410,8 @@ const CustomerDetails = () => {
                                                                     :
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate"  type="number"  required="required" name="alternate" autocomplete="off" placeholder=" "  
-                                                                            onChange={(e) => changeMobileNumber(e)}  maxlength="10" 
+                                                                        <input id="alternate"  type="number"  maxLength="10" required="required" name="alternate" autocomplete="off" placeholder=" "  
+                                                                            onChange={(e) => changeMobileNumber(e)}  
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>

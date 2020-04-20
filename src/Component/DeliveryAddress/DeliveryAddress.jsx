@@ -245,7 +245,7 @@ const DeliveryAddress = () => {
                                                                 <div class="form-group">
 
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                    <input id="pinCode" type="number" required="required" name="pinCode" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
+                                                                    <input id="pinCode" type="number" required="required" name="pinCode" autoComplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                         onChange={(e) => updatePincode(e, "custOtp")}
                                                                         pattern="^[1-9]\d*$"
                                                                         value={pincode}
