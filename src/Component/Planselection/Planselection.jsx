@@ -1014,6 +1014,7 @@ const Planselection = () => {
         setloading(false)
 
         if (SendValidateOTP_KYC.errorCode === "00") {
+            config.ORN=SendValidateOTP_KYC.ORN
             //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
             setdisplayCustDet(!displayCustDet)
             console.log(`fgufhi`, CAFRequest)

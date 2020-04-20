@@ -10,6 +10,8 @@ import GlobalORNModel from '../../Model/ORNModel';
 import GlobalPOIModel from '../../Model/POIModel';
 import config from '../../config';
 import { getValueFromAuthConfigList, logout, showErrorAlert } from '../../commom/commonMethod';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn, docDateofIssue } from '../../commom/CommonMethods';
+
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeSelectedDocObject, storeListPOA } from '../../action';
 import CAFRequest from "../../txnUploadData/cafRequest"
@@ -103,11 +105,11 @@ const DKYC = () => {
             const element = poiList[index];
             if (e.target.value === element.DocName) {
                 setSelectedDocObject(element)
-              break
+                break
             }
-      
-          }
-        
+
+        }
+
     }
 
     const doScan = (e) => {
@@ -143,7 +145,7 @@ const DKYC = () => {
 
         else if (docNumber.value == '') {
             showErrorAlert('Please enter Doc Number')
-        } else if (selectedDocObject.IsDateOfIssue != '' && selectedDocObject.IsDateOfIssue == 'YES' && document.getElementById('dateOfIssue').value  == '') {
+        } else if (selectedDocObject.IsDateOfIssue != '' && selectedDocObject.IsDateOfIssue == 'YES' && document.getElementById('dateOfIssue').value == '') {
             showErrorAlert('Please enter Date Of Issue')
         } else if (placeOfIssue == '') {
             showErrorAlert('Please enter Place Of Issue')
@@ -180,8 +182,11 @@ const DKYC = () => {
     }
 
     const transferToNext = async (e) => {
+
+        const dateInput = docDateofIssue(document.getElementById("dateOfIssue").value)
+
         console.log("Success", "Next Screem")
-console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
+        console.log(`selectedDocObject.DocName`, GlobalPOIModel.setDocName)
         GlobalPOIModel.setDocName = selectedDocObject.DocName
         GlobalPOIModel.PhotoCount = selectedDocObject.PhotoCount;
         GlobalPOIModel.ViewToCapture = selectedDocObject.ViewToCapture;
@@ -198,7 +203,7 @@ console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
         } else {
             GlobalPOIModel.setAadharKYC(false);
             GlobalPOIModel.docNumber = (docNumber);
-            GlobalPOIModel.dateOfIssue = (document.getElementById('dateOfIssue').value);
+            GlobalPOIModel.dateOfIssue = dateInput;
             GlobalPOIModel.placeOfIssue = (placeOfIssue);
         }
 
@@ -273,7 +278,7 @@ console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
                                 {poiList.map((element) => (
                                     <option
                                         // selected={selectedDocObject == element}
-                                       defaultValue = {selectedDocObject}
+                                        defaultValue={selectedDocObject}
                                     >{element.DocName}</option>))}
 
                             </select>
@@ -303,7 +308,7 @@ console.log(`selectedDocObject.DocName`,GlobalPOIModel.setDocName)
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
-                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " 
+                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" "
                                                 // value={dateOfIssue} 
                                                 // onchange={(e) => updateDateOfIssue(e)} 
                                                 />

@@ -127,6 +127,8 @@ const Home = () => {
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
+            debugger;
+            config.REACT_APP_NEW_ENCRYPTION = true;
             const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
             if (GetServiceableAreaBypincode.Errocode == "00") {
                 const GetPincode = await triggerAction(() => getpincode(pin));
@@ -168,13 +170,13 @@ const Home = () => {
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                
+                // config.userID = msdn //for later in new encryption
                 config.custNumber = msdn
                 // dispatch(storeInitData(callValidateOTP));
                 config.lstGrpMS = callValidateOTP.lstGrpMS
                 // config.guid = callValidateOTP.guid //for later in new encryption
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
-
+                config.JCID = callValidateOTP.storeID
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')

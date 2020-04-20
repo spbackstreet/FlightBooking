@@ -13,6 +13,7 @@ import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/Comm
 
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
+import getTaxSummaryGSTService from '../../services/getTaxSummaryGSTService';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import txnUploadData from '../../txnUploadData/txnUploadData';
 import useGeolocation from 'react-hook-geolocation'
@@ -23,6 +24,7 @@ import uploadDocumentService from '../../services/uploadDocumentService';
 import getItemMrpDetailsRPOSService from '../../services/getItemMrpDetailsRPOSService';
 import cAFValidationService from '../../services/cAFValidationService';
 import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
+import getBilldeskQueryStr from '../../services/getBilldeskQueryStr';
 
 
 var GSON = require('gson');
@@ -141,7 +143,7 @@ const CustOTP = () => {
             CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
             CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
-            
+
             openOtpValidationSuccessDialog();
 
         }
@@ -211,7 +213,8 @@ const CustOTP = () => {
             CAFRequest.CAF_TYPE + "|" +
             // CAFRequest.CAF_NUMBER + "|" +
             config.CAF_NUMBER + "|" +
-            CAFRequest.CUSTOMER_TYPE + "|" +
+            // CAFRequest.CUSTOMER_TYPE + "|" + //for test
+            "0001" + "|" +
             CAFRequest.PRODUCT_ID + "|" +
             // CAFRequest.RMN + "|" + //for test
             "7008124658" + "|" +
@@ -265,7 +268,8 @@ const CustOTP = () => {
             CAFRequest.R4GID + "|" +
             CAFRequest.Caf_Category + "|" +
             // CAFRequest.Aadhar_Number + "|" +
-            config.Aadhar_Number + "|" +
+            // config.Aadhar_Number + "|" + //for test
+            "215542599440" + "|" +
             CAFRequest.BldgName + "|" +
             CAFRequest.Locality + "|" +
             CAFRequest.LandMark + "|" +
@@ -293,7 +297,8 @@ const CustOTP = () => {
             CAFRequest.CareOf + "|" +
             CAFRequest.Agent_Aadhaar + "|" +
             CAFRequest.StoreCity + "|" +
-            CAFRequest.JCID + "|" +
+            // CAFRequest.JCID + "|" +
+            config.JCID + "|" +
             CAFRequest.VanityPrice + "|" +
             CAFRequest.VanityEAN + "|" +
             CAFRequest.TermCode + "|" +
@@ -320,7 +325,8 @@ const CustOTP = () => {
             CAFRequest.Localref_noCalled + "|" +
             CAFRequest.AgentAuthAadharTxnRefNo + "|" +
             CAFRequest.AgentAuthAadharTxnRefDateTime + "|" +
-            CAFRequest.ServiceType + "|" +
+            // CAFRequest.ServiceType + "|" + //for test
+            "MOBILITY" + "|" +
             CAFRequest.BuildingId + "|" +
             CAFRequest.InstallationCharges + "|" +
             CAFRequest.AgentName + "|" +
@@ -345,7 +351,8 @@ const CustOTP = () => {
             CAFRequest.SegmentSubTypename + "|" +
             CAFRequest.SegmentCodeValue + "|" +
             CAFRequest.SegmentCodeName + "|" +
-            CAFRequest.DocumentId + "|" +
+            // CAFRequest.DocumentId + "|" + //for test
+            "215542599440" + "|" +
             CAFRequest.CustIncome + "|" +
             CAFRequest.CustFamilyIncome + "|" +
             CAFRequest.ReasonMultipleConnection + "|" +
@@ -386,9 +393,7 @@ const CustOTP = () => {
         const cAFValidation = await triggerAction(() => cAFValidationService(caffields));
 
         if (cAFValidation.ErrorCode == "00") {
-            // this.props.props.history.push({
-            //     pathname: '/PaymentMode',
-            // });
+            callBillDesk()
 
         }
         else if (cAFValidation.ErrorCode === '03' || cAFValidation.ErrorCode === '3') {
@@ -398,7 +403,7 @@ const CustOTP = () => {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => { 
+                        onClick: () => {
                             history.push('/home')
                             // logout(this, this.props, config); 
                         }
@@ -419,6 +424,11 @@ const CustOTP = () => {
                 ]
             });
         }
+    }
+    
+    const callBillDesk = async() => {
+        let str = await triggerAction(() => getBilldeskQueryStr());
+        window.location.href = 'http://devfin.ril.com:8080/HealthService/GetBillDeskDetails/?data=' + str ;
     }
 
 
@@ -453,10 +463,9 @@ const CustOTP = () => {
     const callTransactionAPIs = async () => {
 
         const getTransactionId = await triggerAction(() => getTransactionIdService());
+        
 
-        if (getTransactionId.ErrorCode === "00"
-            //&& DecryptedResponse.availabilityStatus == "1"
-        ) {
+        if (getTransactionId.ErrorCode === "00") {
 
             setTxnID(getTransactionId.TxnID)
             config.TxnID = getTransactionId.TxnID
@@ -464,8 +473,7 @@ const CustOTP = () => {
             txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
             txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
             callGetItemMrpDetailsRPOS(getTransactionId); //for test
-            // uploadDocuments()
-            // cafValidation() //for test
+           
         }
         else {
             confirmAlert({
@@ -480,6 +488,7 @@ const CustOTP = () => {
         }
 
     }
+    
 
     const callGetItemMrpDetailsRPOS = async (txnRes) => {
 
@@ -491,7 +500,7 @@ const CustOTP = () => {
             const arrayResponse = []
             arrayResponse.push(getItemMrpDetailsRPOS)
             setTxnitemList(arrayResponse, txnRes)
-            //uploadDocuments()
+            uploadDocuments()
         }
     }
 
@@ -708,16 +717,47 @@ const CustOTP = () => {
         txnUploadData.Guid = config.guid;//Done
         txnUploadData.StoreNo = config.storeCode;//Done
 
-        cafValidation()
+        // cafValidation()
+
+        calculateTax()
+    }
+
+    const calculateTax = async() => {
+        let lstProduct =[]
+        for (let i = 0; i < txnUploadData.TxnInfo.TxnItemList.length; i++) {
+            const element = txnUploadData.TxnInfo.TxnItemList[i];
+            var pelement = {
+                "hsnCode": element.HSN_CODE,
+                "md_fg": element.MD_FG,
+                "qty": element.Quantity,
+                "selliingPrice": element.SellingPrice,
+                "seqNo": element.SequenceID,
+                "isInterState": false
+            }
+            lstProduct.push(pelement)
+            
+        }
+
+        const GetTaxSummaryGST = await triggerAction(() => getTaxSummaryGSTService(lstProduct));
+
+        if (GetTaxSummaryGST.errorCode == "00" || GetTaxSummaryGST.errorCode == "0") {
+            txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(GetTaxSummaryGST.txnTotal);
+            config.amount = parseFloat(GetTaxSummaryGST.txnTotal);
+            txnUploadData.TxnInfo.TxnHeader.ItemCount =lstProduct.length
+            cafValidation()
+        }
+
     }
 
     const uploadDocuments = async () => {
 
         const uploadPOIFront = await triggerAction(() => uploadDocumentService("CUST_EKYC", config.poiImage.frontImage));
         const uploadPOIBack = await triggerAction(() => uploadDocumentService("CUST_EKYC_CONSENT", config.poiImage.backImage));
-
+        const uploadCustImg = await triggerAction(() => uploadDocumentService("CUST_IMG ", config.custCaptureImage));
 
     }
+
+    
 
 
 

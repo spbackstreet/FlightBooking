@@ -504,336 +504,144 @@ const CapCustPhoto = () => {
     }
 
 
-
-    const uploadFileBack = (e) => {
-
-        let files = e.target.files;
-
-
-
-        let reader = new FileReader();
-
-
-
-        reader.readAsDataURL(files[0]);
-
-        reader.onload = (e) => {
-
-            //   console.warn("Data", e.target.result)
-
-            setBacksrc(e.target.result);
-
-            //setinstructionUpload( 'File Uploaded Successfully' );
-
-            //setinstructiondata(files);
-
-        }
-
-
-
-    }
-
-
-
     const uploadFile = (e) => {
-
         let files = e.target.files;
-
-
-
         let reader = new FileReader();
-
-
-
         reader.readAsDataURL(files[0]);
-
         reader.onload = (e) => {
-
             //   console.warn("Data", e.target.result)
-
             setFrontsrc(e.target.result);
-
             setShowPhotoView(true)
-
-
-
             //setinstructionUpload( 'File Uploaded Successfully' );
-
             //setinstructiondata(files);
-
         }
-
-
-
     }
 
 
 
     const onSubmit = (frm, e) => {
-
         e.preventDefault();
-
         console.log("SubmitValue", "document")
-
         console.log("SubmitValue", document.getElementById("SUBMIT").value)
-
         console.log("ValueE", SDKError)
-
         console.log("ValueR", SDKResult)
-
         if (document.getElementById("SUBMIT").value == "FACE") {
-
             if (SDKError != null && SDKError != '') {
-
                 var jsonError = JSON.parse(SDKError)
-
                 console.log("JSON", jsonError)
-
                 var errorCode = jsonError.errorCode;
-
                 console.log("SubmitError", errorCode)
-
                 var errorMessage = ""
-
                 if (SDKJourney == "hyperverge") {
-
                     var errorMessage = getHypervergeErrorMessage(errorCode, jsonError.errMsg);
-
                 } else {
-
                     errorMessage = jsonError.errorMsg;
-
                 }
-
                 showErrorAlert(errorMessage)
-
-
-
             } else {
-
                 var isLiveCheckEnable = "1";
-
                 // var isLiveCheckEnable = getValueFromAuthConfigList("HV_LIVE");
-
                 var isLiveCheckEnable = "0";
-
-
-
                 var GlobalPOIModel = require('../../Model/POIModel')
-
-
-
                 if (isLiveCheckEnable == '' || config.Environment == "RR" || config.Environment == ("PRODUCTION")) {
-
                     isLiveCheckEnable = "1";// always checks liveness
-
                 }
-
                 if (config.isFTTX) {
-
                     isLiveCheckEnable = "1";// always checks liveness
-
                 }
-
                 var userCapturePhotoURI = '';
-
                 console.log("Json", SDKResult)
-
                 var jsonSucess = JSON.parse(SDKResult)
-
                 console.log("jsonSucess1", jsonSucess)
-
                 if (isLiveCheckEnable == ("0") || jsonSucess.result.live == ("yes")) {
-
                     userCapturePhotoURI = jsonSucess.imageUri;
-
-
-
                     if (userCapturePhotoURI == null || userCapturePhotoURI == '') {
-
-
-
                         showErrorAlert("Please capture photo again.")
-
-
-
                         return;
-
                     } else {
-
                         GlobalPOIModel.default.setHyperverge_Cust_IMg_Path(userCapturePhotoURI);
-
                     }
 
                     console.log("jsonSucess2", jsonSucess)
-
-
-
                     var base64Icon = 'data:image/jpg;base64,' + SDKImage;
-
                     document.getElementById("custphoto").src = base64Icon;
-
                     uploadDocuments.CUST_IMG = base64Icon;
-
                     //setDisplayImageHyperverge(ivPreview);
-
                     GlobalPOIModel.default.setcustImage(SDKImage);
-
                     GlobalPOIModel.default.setCustPhotoCaptureTime(getCurrentDateTime());
-
                     GlobalPOIModel.default.setCustLat("");
-
                     GlobalPOIModel.default.setCustLong("");
-
                     var requestID = "", referenceId = "";
-
                     var headers = SDKHeader;
-
-
-
                     if (headers.includes("X-HV-Request-Id")) {
-
                         requestID = JSON.parse(headers)["X-HV-Request-Id"];
-
-
-
                     }
-
                     if (headers.includes("X-HV-Reference-Id")) {
-
                         referenceId = JSON.parse(headers)["X-HV-Reference-Id"];
-
                     }
-
-
-
                     jsonSucess.requestId = requestID;
-
                     jsonSucess.referenceId = referenceId;
-
-
-
                     GlobalPOIModel.default.setFace_liveliness(JSON.stringify(jsonSucess));
-
                     GlobalPOIModel.default.setFace_live(jsonSucess.result.live);
-
-
-
                 } else {
-
                     console.log("jsonSucess3", jsonSucess)
-
-
-
                     showErrorAlert("Live image not detected.")
-
-
-
                 }
-
             }
-
         } else if (document.getElementById("SUBMIT").value == 'VERIFYFM') {
 
             if (SDKError != null && SDKError != '') {
-
                 var jsonError = JSON.parse(SDKError)
-
                 console.log("JSON", jsonError)
-
                 var errorCode = jsonError.errorCode;
-
                 console.log("SubmitError", errorCode)
-
                 if (SDKJourney == "hyperverge") {
-
                     var errorMessage = getHypervergeErrorMessage(errorCode, jsonError.errMsg);
-
                 } else {
-
                     errorMessage = jsonError.errorMsg;
-
                 }
-
                 showErrorAlert(errorMessage)
-
-
-
             } else {
-
                 console.log("Json", SDKResult)
-
                 var jsonSucess = JSON.parse(SDKResult)
-
                 console.log("jsonSucess", jsonSucess)
-
                 var headers = SDKHeader;
 
                 try {
-
                     if (jsonSucess.statusCode == ("200")) {
-
                         var qrData = "";
-
                         var requestID = "", referenceId = "";
-
                         if (headers.includes("X-HV-Request-Id")) {
-
                             requestID = JSON.parse(headers)["X-HV-Request-Id"];
-
-
-
                         }
-
                         if (headers.includes("X-HV-Reference-Id")) {
-
                             referenceId = JSON.parse(headers)["X-HV-Reference-Id"];
-
                         }
-
-
 
                         jsonSucess.requestId = requestID;
-
                         jsonSucess.referenceId = referenceId;
-
-
-
                         var obj_data = jsonSucess.result;
-
                         var GlobalPOIModel = require('../../Model/POIModel')
 
                         try {
-
                             var jsonObject2 = JSON.parse(GlobalPOIModel.default.POI_Response);
-
                             if (jsonObject2 != null && (JSON.stringify(jsonObject2)).includes("details")) {
 
                                 jsonObject2 = jsonObject2.details;
-
                                 if (jsonObject2 != null && (JSON.stringify(jsonObject2)).inlcudes("qr"))
-
                                     jsonObject2 = jsonObject2.qr;
 
                                 if (jsonObject2 != null && (JSON.stringify(jsonObject2)).includes("value"))
-
                                     qrData = jsonObject2.value;
-
                             }
 
                         } catch (e) {
 
                         }
 
-
-
                         var matchScore = obj_data["match-score"];
-
                         if ((JSON.stringify(obj_data)).includes("match"))
-
                             GlobalPOIModel.default.setFace_match(obj_data.match);
-
-
 
                         GlobalPOIModel.default.setFace_match_Response(JSON.stringify(jsonSucess));
 

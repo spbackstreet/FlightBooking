@@ -14,6 +14,7 @@ import useLoader from '../../hooks/useLoader';
 import useGlobalState from '../../hooks/useGlobalState';
 import GlobalPOIModel from '../../Model/POIModel';
 // import CAFRequest from "../../txnUploadData/cafRequest"
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn, docDateofIssue } from '../../commom/CommonMethods';
 
 
 const DKYCPOA = () => {
@@ -143,6 +144,8 @@ const DKYCPOA = () => {
     }
 
     const fillData = () => {
+        const dateInput = docDateofIssue(document.getElementById("dateOfIssue").value)
+
         GlobalPOAModel.setDocName(SelectedDocPOAObject.DocName);
         GlobalPOAModel.setPhotoCount(SelectedDocPOAObject.PhotoCount);
         GlobalPOAModel.setViewToCapture(SelectedDocPOAObject.ViewToCapture);
@@ -153,7 +156,7 @@ const DKYCPOA = () => {
         GlobalPOAModel.setIsPlaceOfIssue(GlobalPOIModel.IsPlaceOfIssue);
         GlobalPOAModel.setIsSameAsPOI(GlobalPOIModel.IsSameAsPOI);
         GlobalPOAModel.setDocNumber(document.getElementById("docNumber").value);
-        GlobalPOAModel.setDateOfIssue(document.getElementById("dateOfIssue").value);
+        GlobalPOAModel.setDateOfIssue(dateInput);
         GlobalPOAModel.setPlaceOfIssue(document.getElementById("placeOfIssue").value);
         GlobalPOAModel.setIssuingAuthority(SelectedDocPOAObject.issuingAuthority);
         GlobalPOAModel.setIS_OCR(SelectedDocPOAObject.IS_OCR);
