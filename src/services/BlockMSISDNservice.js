@@ -4,6 +4,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
+import { apiCall } from '../commom/commonApiCalling';
 
 
 const BlockMSISDNservice = async (MSISDN) => {
@@ -22,7 +23,14 @@ const BlockMSISDNservice = async (MSISDN) => {
 
     }
     console.log("Request : ", Request)
-    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/BlockMSISDN";
+    const  service =apiCall("BlockMSISDN")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
+
+
+
+    //const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/BlockMSISDN";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

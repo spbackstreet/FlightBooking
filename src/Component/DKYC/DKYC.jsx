@@ -235,8 +235,12 @@ const DKYC = () => {
             {FixedHeader()}
             <div class="rechargehome_wrapper">
                 <div>
-
+                <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
                     <div class="container">
+                   
                         <div class="row">
                             <div class="col">
                                 <div class="date-title bold-font mt-3  mb-2 ml-3 mr-3 f-16">Mode of Activation</div>
@@ -308,7 +312,11 @@ const DKYC = () => {
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
+<<<<<<< HEAD
+                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " max="31-12-9999"
+=======
                                                 <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" "
+>>>>>>> 2392e98a9ed4295917449f6c180889ec65d3a637
                                                 // value={dateOfIssue} 
                                                 // onchange={(e) => updateDateOfIssue(e)} 
                                                 />

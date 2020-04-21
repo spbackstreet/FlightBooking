@@ -2,7 +2,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
-
+import { apiCall } from '../commom/commonApiCalling';
 
 const validateICCID = async (iccid) => {
 
@@ -21,8 +21,14 @@ const validateICCID = async (iccid) => {
         "imsi": "Y"
     };
     console.log("Request : ", Request)
+    const  service =apiCall("ValidateICCID")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
+
+
     // const APIURL = "http://devfin.ril.com:8080/MobilityPlan/ValidateICCID";
-    const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/ValidateICCID";
+   //main const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/ValidateICCID";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

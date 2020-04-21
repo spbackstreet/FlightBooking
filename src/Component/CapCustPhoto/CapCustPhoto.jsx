@@ -34,6 +34,7 @@ import { storeCustomerCapture } from '../../action';
 import useGlobalState from '../../hooks/useGlobalState';
 import useGeolocation from 'react-hook-geolocation'
 
+import Spinner from 'react-spinner-material';
 
 const display = {
 
@@ -130,6 +131,8 @@ const CapCustPhoto = () => {
     const history = useHistory();
 
     const geolocation = useGeolocation()
+
+const  [loading,setLoading] =useState(false)
 
     const camside = (param) => {
 
@@ -1867,7 +1870,10 @@ const CapCustPhoto = () => {
 
  
 
-
+                        <div className="spin">
+                                                    <Spinner visible={loading}
+                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                                                        </div>
  
 
                         <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>

@@ -1,6 +1,8 @@
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
+import { apiCall } from '../commom/commonApiCalling';
+
 
 const cAFValidationService = async (caffields) => {
     const Request = {
@@ -12,7 +14,13 @@ const cAFValidationService = async (caffields) => {
         "cafType":"SE"
     };
     console.log("Request : ", Request)
-    const APIURL = "http://devfin.ril.com:8080/SelfDkycTransactionManagement/CAFValidation";
+
+    const  service =apiCall("CAFValidation")
+    const  name=service.MICROSERVICENAME
+    const  url=service.ZONEURL
+    const APIURL = `${url}${name}`;
+
+    //const APIURL = "http://devfin.ril.com:8080/SelfDkycTransactionManagement/CAFValidation";
 
     try {
         const response = await postApiCall(Request, APIURL);

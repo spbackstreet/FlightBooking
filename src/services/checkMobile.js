@@ -2,6 +2,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
+import { apiCall } from '../commom/commonApiCalling';
 
 
 const checkMobile = async (msisdn, action) => {
@@ -13,6 +14,11 @@ const checkMobile = async (msisdn, action) => {
         "action" : action
     };
     console.log("Request : ", Request)
+    // const  service =apiCall("CheckMobile")
+    // const  name=service.MICROSERVICENAME
+    // const  url=service.ZONEURL
+    // const APIURL = `${url}${name}`;
+
     const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
     // const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
 
