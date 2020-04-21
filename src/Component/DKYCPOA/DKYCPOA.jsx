@@ -20,7 +20,6 @@ import { getCurrentDateForPOAPOI, getCurrentDateForTxn, docDateofIssue } from '.
 const DKYCPOA = () => {
 
     const [DeviceDate, setDeviceDate] = useState('');
-    debugger;
     // const [{ app: { selectedDocObject, poaList } }, dispatch] = useGlobalState();
     const [sameAsPOI, setSameAsPOI] = useState(false);
     let [SelectedDocPOAObject, setSelectedDocPOAObject] = useState({});
@@ -29,7 +28,6 @@ const DKYCPOA = () => {
     const [disabled, setDisabled] = useState(false);
     const history = useHistory()
 
-    debugger;
 
 
     useEffect(() => {

@@ -89,7 +89,6 @@ const reducer = (state = initialState.app, action) => {
         }
 
         case actions.STORE_INIT_DATA : {
-            debugger;
             return {
                 ...state,
                 lstGrpMS: action.lstGrpMS,

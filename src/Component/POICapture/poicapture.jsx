@@ -46,7 +46,6 @@ const POICapture = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const [showPhotoView, setShowPhotoView] = useState(false);
-    debugger;
     // const [{ app: { ORN, custNumber, custCircleHeader, lstGrpMS, lstAuth_Config, guid, selectedDocObject, poaList } }, dispatch] = useGlobalState();
     const [APIKey, setAPIKey] = useState('');
     const [DeviceDate, setDeviceDate] = useState('');
@@ -69,7 +68,6 @@ const POICapture = () => {
 
     const geolocation = useGeolocation()
 
-    debugger;
 
     const updateShowWebcam = (bool, vside) => {
         setShowWebcam(!showWebcam)
@@ -92,7 +90,6 @@ const POICapture = () => {
             e.preventDefault()
             const imageSrc = webcamRef.current.getScreenshot();
             console.log("imageSrc : ", imageSrc);
-            // debugger;
             if (side === "Front Side") {
                 setFrontsrc(imageSrc)
                 setShowPhotoView(true)
@@ -136,12 +133,16 @@ const POICapture = () => {
         // let LATLONG_INTERVAL = getValueFromAuthConfigList('LATLONG_INTERVAL').toString()
         let LATLONG_INTERVAL = "500"
 
-        if (window.Mobile) {
-            window.Mobile.startLocationUpdates(HV_ACCURACY, LATLONG_INTERVAL)
-        }
+        // if (window.Mobile) {
+        //     window.Mobile.startLocationUpdates(HV_ACCURACY, LATLONG_INTERVAL)
+        // }
+
+        window.idSDK.init();
 
 
     }, []);
+
+   
 
 
     const fetchLocation = (e, param) => {
@@ -677,7 +678,6 @@ const POICapture = () => {
     }
 
     const validateAndNext = (e) => {
-        debugger;
         e.preventDefault();
         // var GlobalPOIModel = require("../../commom/Modal/POIModel").default
         // for test
@@ -1121,9 +1121,6 @@ const POICapture = () => {
 
     }
 
-
-
-
     const uploadFileBack = (e) => {
         let files = e.target.files;
 
@@ -1153,6 +1150,36 @@ const POICapture = () => {
 
 
     }
+
+    const capturePOIFront = () => {
+        window.idSDK.captureDocumentFront(false, myCallBackFunctionFront);
+    }
+    const capturePOIBack = () => {
+        window.idSDK.captureDocumentFront(false, myCallBackFunctionBack);
+    }
+
+    const myCallBackFunctionFront = (response) => {
+        if (response.success) {
+            let image = response.data.image;
+            setFrontsrc(image);
+            console.log("image : ", image)
+            console.log("response : ", response)
+        } else {
+            alert(response.message)
+        }
+    }
+
+    const myCallBackFunctionBack = (response) => {
+        if (response.success) {
+            let image = response.data.image;
+            setBacksrc(image);
+            console.log("image : ", image)
+            console.log("response : ", response)
+        } else {
+            alert(response.message)
+        }
+    }
+
 
     return (
         <div>
@@ -1235,8 +1262,11 @@ const POICapture = () => {
 
                                     <div style={{ position: "relative", display: "block", width: "100%" }}>
                                         <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>
-                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} />
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." 
+                                        onClick = {()=> capturePOIFront()}
+                                        ></img>
+
+                                        {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} /> */}
 
                                     </div>
 
@@ -1270,8 +1300,11 @@ const POICapture = () => {
 
                                         <div style={{ position: "relative", display: "block", width: "100%" }}>
                                             <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" ></img>
-                                            <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} />
+                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" 
+                                             onClick = {()=> capturePOIBack()}
+                                                ></img>
+                                            
+                                            {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} /> */}
 
                                         </div>
                                         <div class="col-6 col-sm-6">

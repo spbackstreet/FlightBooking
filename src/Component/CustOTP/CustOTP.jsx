@@ -9,10 +9,9 @@ import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
 import useLoader from '../../hooks/useLoader';
 import * as constants from '../../commom/constants';
-import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
-
-import checkMobile from '../../services/checkMobile';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn , getFourDigitsTxnId, getCurrentDateForReceipt} from '../../commom/CommonMethods';
 import validateOTP from '../../services/validateOTP';
+import uploadTxnDataNextGenService from '../../services/uploadTxnDataNextGenService';
 import getTaxSummaryGSTService from '../../services/getTaxSummaryGSTService';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import txnUploadData from '../../txnUploadData/txnUploadData';
@@ -202,13 +201,351 @@ const CustOTP = () => {
         // const callValidateOTP = await triggerAction(() => validateOTP(custNumber, custOtp, ORN));
     }
 
+
+
+    const getCAFNumber = async () => {
+
+        // setloading(true)
+        // GlobalORNModel.setGuid(config.objDeviceSave.Msg);
+        // GlobalORNModel.setStoreid(config.objGetStore.StoreID);
+        // GlobalORNModel.setTransName('CF');
+
+        // const getORNViaTibco = await triggerAction(() => getORNViaTibcoService());
+
+        // setloading(false);
+        // if (getORNViaTibco.ErrorCode === "00") {
+        //     CAFRequest.CAF_NUMBER = config.agentCircleId + getORNViaTibco.ORN
+        callTransactionAPIs();
+        // }
+        // else {
+        //     confirmAlert({
+        //         message: getORNViaTibco.ErrorMsg,
+        //         buttons: [
+        //             {
+        //                 label: 'OK',
+        //             }
+        //         ]
+        //     });
+        // }
+
+    }
+
+    const callTransactionAPIs = async () => {
+        setloading(true)
+        const getTransactionId = await triggerAction(() => getTransactionIdService());
+
+
+        if (getTransactionId.ErrorCode === "00") {
+
+            setTxnID(getTransactionId.TxnID)
+            config.TxnID = getTransactionId.TxnID
+            config.TaxInvoice = getTransactionId.TaxInvoice;
+            txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
+            txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
+            callGetItemMrpDetailsRPOS(getTransactionId); //for test
+
+        }
+        else {
+            confirmAlert({
+
+                message: getTransactionId.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                    }
+                ]
+            });
+        }
+
+    }
+
+
+    const callGetItemMrpDetailsRPOS = async (txnRes) => {
+
+        console.log('planselectionMode', PlanselectionModel);
+        setloading(true)
+        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.PRODUCT_ID));
+        setloading(false)
+        if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
+            const arrayResponse = []
+            arrayResponse.push(getItemMrpDetailsRPOS)
+            setTxnitemList(arrayResponse, txnRes)
+            uploadDocuments()
+        }
+    }
+
+    const setTxnitemList = (getItemMrpDetailsRes, txnRes) => {
+        const TxnItemList = []
+        let total = 0;
+
+        for (let i = 0; i < getItemMrpDetailsRes.length; i++) {
+            total = total + getItemMrpDetailsRes[i].RtlPrice;
+
+
+            let txnitem = {
+                BatchNumber: "",
+                Colorcode: "",
+                CouponID: "",
+                CouponSupervisorID: "",
+                CouponType: "",
+                CouponValue: "",
+                CouponValueParam: "",
+                CouponValueType: "",
+                DeliveryLocation: "",
+                DeliveryLocationId: "",
+                Description: getItemMrpDetailsRes[i].Desc,
+                DiscountAmount: "0.00",
+                DiscountID: "",
+                DiscountPercentage: "0.00",
+                DiscountWithQty: "0.00",
+                EffectivePrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
+                EmbeddedTotalPrice: "0.00",
+                EnterEANorSKU: getItemMrpDetailsRes[i].intenalID,
+                EntryMethod: "S",
+                ExpectedDeliveryDate: "",
+                ExpectedDeliveryTime: "",
+                ExpiryDate: "",
+                Extnd_bckt_nbr: "0",
+                Extnd_prom_nbr: "0",
+                HSN_CODE: getItemMrpDetailsRes[i].HSN_CODE,
+                IsCouponApplied: "0",
+                ItemDiscAppliedTime: "",
+                ItemEmpDiscSupervisorID: "",
+                ItemEmployeeDiscount: "0.00",
+                ItemMarkDownDescription: "",
+                ItemMarkDownDiscountFlag: "",
+                ItemMarkDownDiscountParam: "0.00",
+                ItemMarkDownDiscountValue: "0.00",
+                ItemMarkDownReason: "",
+                ItemMarkDownSupervisorID: "",
+                ItemMesurementType: getItemMrpDetailsRes[i].itemMeasurementType,
+                ItemSellingPrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
+                ItemType: getItemMrpDetailsRes[i].Itemtype,
+                ItemUnitPriceAfterDiscount: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
+                LnkItemList: [
+                ],
+                LocationType: "",
+                MDIAppliedDateTime: "",
+                MD_FG: "0",
+                MaximumQuantity: "1",
+                OrgPrice: getItemMrpDetailsRes[i].RtlPrice,
+                OrgSeqId: "",
+                OriginalBarcode: "",
+                OriginalPriceWithQty: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
+                OtherDiscounts: "0.00",
+                ParentReferenceID: "",
+                PosMsgDetails: [
+                ],
+                ProductID: getItemMrpDetailsRes[i].ProductID,
+                QtyChangeDateTime: "",
+                Quantity: "1",
+                QuantityAdded: "",
+                QuantityFlag: "0",
+                SalesManID: "",
+                ScanTime: getCurrentDateForTxn(),
+                SellingPrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
+                SequenceID: (i + 1),
+                Status: "",
+                StockCheckRequired: "0",
+                StockCount: "",
+                StoreID: config.storeID,
+                Stylecode: "0",
+                SupervisorID: "",
+                TaxDetails: {
+                    AddlDetailsList:[
+                    ],
+                    TaxCodeType: "",
+                    TaxGSTList:[
+                        // {
+                        //     HSN_TYPE : "",
+                        //     SEQUENCEID_TAX: "",
+                        //     TaxAmount: "",
+                        //     TaxRate: ""
+                        // },
+                        // {
+                        //     HSN_TYPE : "",
+                        //     SEQUENCEID_TAX: "",
+                        //     TaxAmount: "",
+                        //     TaxRate: "0"
+                        // }
+                    ],
+                    TaxType: "",
+                    TaxableAmount: ""
+                },
+                TxnItemPromoDetails: [
+                ],
+                UnitOfMeasure: "EA",
+                ValidatedPosMsgId: "",
+                VoidSupervisorID: "",
+                VoidedDateTime: "",
+                isDiscountApplied: "0",
+                isLinkedItemsPresentFlag: "1",
+                isMDIApplied: "0",
+                isPromotionAvailableFlag: "0",
+                isTradeInItem: "0",
+                isVoidAllowed: "0",
+                itm_point: "0",
+                prom_nbr: "0"
+            };
+            TxnItemList.push(txnitem)
+        }
+        config.amount = parseFloat(total);
+
+        txnUploadData.TxnInfo.TxnItemList = TxnItemList;
+
+        setTxnHeader(txnRes);
+    }
+
+    const setTxnHeader = (txnRes) => {
+
+        txnUploadData.TxnInfo.TxnHeader.Area = "";
+        txnUploadData.TxnInfo.TxnHeader.BalanceLoyaltyPoints = "";
+        txnUploadData.TxnInfo.TxnHeader.BillOfSupply = txnRes.BillOfSupply;
+        txnUploadData.TxnInfo.TxnHeader.BlockNo = "";
+        txnUploadData.TxnInfo.TxnHeader.BuildingName = "";
+        txnUploadData.TxnInfo.TxnHeader.ChangeDue = "0.00";
+        txnUploadData.TxnInfo.TxnHeader.City = "";
+        txnUploadData.TxnInfo.TxnHeader.ContactNumber = CAFRequest.MSISDN
+        txnUploadData.TxnInfo.TxnHeader.CouponID = "";
+        txnUploadData.TxnInfo.TxnHeader.CouponType = "";
+        txnUploadData.TxnInfo.TxnHeader.CouponValue = "";
+        txnUploadData.TxnInfo.TxnHeader.CouponValueParam = "";
+        txnUploadData.TxnInfo.TxnHeader.CouponValueType = "";
+        txnUploadData.TxnInfo.TxnHeader.CurReferenceID = "";
+        txnUploadData.TxnInfo.TxnHeader.CustomerID = "";
+        txnUploadData.TxnInfo.TxnHeader.CustomerName = CAFRequest.FirstName + " " + CAFRequest.MiddleName + " " + CAFRequest.LastName;
+        txnUploadData.TxnInfo.TxnHeader.DeviceId = config.storeID + config.posid; //add device id
+        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd1 = "";
+        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd2 = "";
+        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd3 = "";
+        txnUploadData.TxnInfo.TxnHeader.DoctorsName = "";
+        txnUploadData.TxnInfo.TxnHeader.ESOrderID = CAFRequest.ORN;
+        txnUploadData.TxnInfo.TxnHeader.EmailID = CAFRequest.Email
+        txnUploadData.TxnInfo.TxnHeader.EmailId = CAFRequest.Email
+        txnUploadData.TxnInfo.TxnHeader.FlatNo = "";
+        txnUploadData.TxnInfo.TxnHeader.FloorNo = "";
+        txnUploadData.TxnInfo.TxnHeader.IDProofCaptureStatus = "";
+        txnUploadData.TxnInfo.TxnHeader.IsAddressCaptured = "";
+        txnUploadData.TxnInfo.TxnHeader.IsCouponApplied = "";
+        txnUploadData.TxnInfo.TxnHeader.IsIDProofRequiredFlag = "";
+        txnUploadData.TxnInfo.TxnHeader.IsLoyaltyCardCaptured = "";
+        txnUploadData.TxnInfo.TxnHeader.IsLoyaltyRedeemed = "";
+        txnUploadData.TxnInfo.TxnHeader.IsValidLoyaltyRedemption = "";
+        txnUploadData.TxnInfo.TxnHeader.IsVatExtra = "";
+        txnUploadData.TxnInfo.TxnHeader.ItemCount = "2";
+        txnUploadData.TxnInfo.TxnHeader.LogonTime = "";
+        txnUploadData.TxnInfo.TxnHeader.LoyaltyCardNumber = "";
+        txnUploadData.TxnInfo.TxnHeader.MNP_MSISDN = "";
+        txnUploadData.TxnInfo.TxnHeader.OrderType = "DIB";
+        txnUploadData.TxnInfo.TxnHeader.PanCardNo = "";
+        txnUploadData.TxnInfo.TxnHeader.PatientsAdd1 = "";
+        txnUploadData.TxnInfo.TxnHeader.PatientsAdd2 = "";
+        txnUploadData.TxnInfo.TxnHeader.PatientsAdd3 = "";
+        txnUploadData.TxnInfo.TxnHeader.PatientsName = "";
+        // txnUploadData.TxnInfo.TxnHeader.PaymentEndTime= "";
+        // txnUploadData.TxnInfo.TxnHeader.PaymentStartTime= "";
+        txnUploadData.TxnInfo.TxnHeader.Pincode = "";
+        txnUploadData.TxnInfo.TxnHeader.PlotNo = "";
+        txnUploadData.TxnInfo.TxnHeader.ProductVersion = "10.4.7";
+        txnUploadData.TxnInfo.TxnHeader.PromoTotal = "";
+        txnUploadData.TxnInfo.TxnHeader.ReceiptRefID = "";
+        txnUploadData.TxnInfo.TxnHeader.ReceiptTextPath = "";
+        txnUploadData.TxnInfo.TxnHeader.RedeemAmount = "";
+        txnUploadData.TxnInfo.TxnHeader.RefundTxnSupervisorID = "";
+        txnUploadData.TxnInfo.TxnHeader.RoundOffAmount = "";
+        txnUploadData.TxnInfo.TxnHeader.RoundOffConfigValue = "";
+        txnUploadData.TxnInfo.TxnHeader.Sector = "";
+        txnUploadData.TxnInfo.TxnHeader.SocietyName = "";
+        txnUploadData.TxnInfo.TxnHeader.State = "";
+        txnUploadData.TxnInfo.TxnHeader.Street = "";
+        txnUploadData.TxnInfo.TxnHeader.Supply_State_Code = "";
+        txnUploadData.TxnInfo.TxnHeader.TaxInvoice = txnRes.TaxInvoice;
+        txnUploadData.TxnInfo.TxnHeader.TaxableAmount = "0.00";
+        txnUploadData.TxnInfo.TxnHeader.TransactionType = "SALE";
+        txnUploadData.TxnInfo.TxnHeader.TxnAppliedDiscValue = "0.00";
+        txnUploadData.TxnInfo.TxnHeader.TxnCouponSupervisorID = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnDiscAppliedTime = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnDiscSupervisorID = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnDiscValue = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnDiscValueFlag = "";
+        // txnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
+        //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
+        txnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID;
+        txnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
+        txnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";
+        //  txnUploadData.TxnInfo.TxnHeader.TxnStartTime: "",
+        txnUploadData.TxnInfo.TxnHeader.TxnStatus = "COMPLETED";
+        txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(config.amount);//this.state.Totalp
+        txnUploadData.TxnInfo.TxnHeader.UserId = config.userID;
+        txnUploadData.TxnInfo.TxnHeader.VoidTxnSupervisorID = "";
+        txnUploadData.TxnInfo.TxnHeader.ZONE = "WE";
+        txnUploadData.TxnInfo.TxnHeader.isMDTApplied = "";;
+
+
+        txnUploadData.CAF = "Y";//Done
+        txnUploadData.Guid = config.guid;//Done
+        txnUploadData.StoreNo = config.storeCode;//Done
+
+        // cafValidation()
+
+        calculateTax()
+    }
+
+    const calculateTax = async () => {
+        let lstProduct = []
+        for (let i = 0; i < txnUploadData.TxnInfo.TxnItemList.length; i++) {
+            const element = txnUploadData.TxnInfo.TxnItemList[i];
+            var pelement = {
+                "hsnCode": element.HSN_CODE,
+                "md_fg": element.MD_FG,
+                "qty": element.Quantity,
+                "selliingPrice": element.SellingPrice,
+                "seqNo": element.SequenceID,
+                "isInterState": false
+            }
+            lstProduct.push(pelement)
+
+        }
+
+        const GetTaxSummaryGST = await triggerAction(() => getTaxSummaryGSTService(lstProduct));
+
+        if (GetTaxSummaryGST.errorCode == "00" || GetTaxSummaryGST.errorCode == "0") {
+            debugger;
+            txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(GetTaxSummaryGST.txnTotal);
+            config.amount = parseFloat(GetTaxSummaryGST.txnTotal);
+            txnUploadData.TxnInfo.TxnHeader.ItemCount = lstProduct.length
+            txnUploadData.TxnInfo.TxnItemList[0].EffectivePrice = Object.values(GetTaxSummaryGST.taxMap)[0].sellingPriceAfterTax;
+            txnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxType = Object.values(GetTaxSummaryGST.taxMap)[0].taxType;
+            txnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxCodeType = Object.values(GetTaxSummaryGST.taxMap)[0].taxCodeType;
+
+           
+            for (let i = 0; i < Object.values(GetTaxSummaryGST.taxMap).length; i++) {
+                const element = Object.values(GetTaxSummaryGST.taxMap)[i];
+                let taxGST = {
+                    HSN_TYPE : element.hsnType,
+                    SEQUENCEID_TAX: element.sequenceID,
+                    TaxAmount: element.taxAmount,
+                    TaxRate: element.taxRate
+                }
+
+                txnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxGSTList.push(taxGST)
+            }
+            
+            debugger;
+
+
+            cafValidation()
+        }
+
+    }
+
     const cafValidation = async () => {
 
         let dtTime = new Date()
         let txnUploadDtTime = dtTime.getDate() + "/" + dtTime.getMonth() + 1 + "/" + dtTime.getFullYear() + " " + dtTime.getHours() + ":" + dtTime.getMinutes() + ":" + dtTime.getSeconds()
         // var api = new APIRouter();
 
-        debugger;
         let caffields =
             CAFRequest.CAF_TYPE + "|" +
             // CAFRequest.CAF_NUMBER + "|" +
@@ -424,330 +761,111 @@ const CustOTP = () => {
                 ]
             });
         }
+        UploadTxnData() //for test
+
     }
 
     const callBillDesk = async () => {
+        debugger;
+        txnUploadData.TxnInfo.TxnTenderList[0].Amount = config.amount;
+        txnUploadData.TxnInfo.TxnHeader.PaymentStartTime = getCurrentDateForTxn();
+        
         let str = await triggerAction(() => getBilldeskQueryStr());
-        window.location.href = 'http://devfin.ril.com:8080/HealthService/GetBillDeskDetails/?data=' + str;
-    }
+        // window.location.href = 'http://devfin.ril.com:8080/HealthService/GetBillDeskDetails/?data=' + str;
 
-
-
-    const getCAFNumber = async () => {
-
-        // setloading(true)
-        // GlobalORNModel.setGuid(config.objDeviceSave.Msg);
-        // GlobalORNModel.setStoreid(config.objGetStore.StoreID);
-        // GlobalORNModel.setTransName('CF');
-
-        // const getORNViaTibco = await triggerAction(() => getORNViaTibcoService());
-
-        // setloading(false);
-        // if (getORNViaTibco.ErrorCode === "00") {
-        //     CAFRequest.CAF_NUMBER = config.agentCircleId + getORNViaTibco.ORN
-        callTransactionAPIs();
-        // }
-        // else {
-        //     confirmAlert({
-        //         message: getORNViaTibco.ErrorMsg,
-        //         buttons: [
-        //             {
-        //                 label: 'OK',
-        //             }
-        //         ]
-        //     });
-        // }
+        UploadTxnData()
 
     }
 
-    const callTransactionAPIs = async () => {
+    //for after txn
+    const UploadTxnData = async() => {
+        txnUploadData.TxnInfo.TxnHeader.PaymentEndTime = getCurrentDateForTxn()
+        txnUploadData.TxnInfo.TxnHeader.TxnEndTime = getCurrentDateForTxn()
+        txnUploadData.TxnInfo.TxnHeader.receiptRefID = config.JCID + config.posid + getFourDigitsTxnId("1") + getCurrentDateForReceipt();
+        txnUploadData.TxnInfo.TxnHeader.ReceiptTextPath = "C:\\RPOSStoreReceipt\\" + getCurrentDateForReceipt() + "\\" + txnUploadData.TxnInfo.TxnHeader.receiptRefID + ".txt";
+
+        debugger;
+        var Request = {
+            "CAF": "Y",
+            CAFRequest: CAFRequest,
+            "Guid": config.guid,
+            "StoreNo": config.storeID,
+            "Toast": "98697523",
+            TxnInfo: txnUploadData.TxnInfo
+        }
+
+        // if (config.planType === 'B') {
+        //   config.OrderType = 'BILLPAY';
+        //   Request.BillPayRequest = this.props.props.globalState.BillPayRequest
+        // } else {
+        //   if (config.planType === 'R') {
+        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
+
+        //     config.OrderType = 'RECHARGE'
+        //   }
+        //   else if (config.planType === 'T') {
+        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
+
+        //     config.OrderType = 'TOPUP'
+        //   }
+        //   else if (config.planType === 'A') {
+        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
+
+        //     config.OrderType = 'ADDON'
+        //   }
+        //   else if (config.planType === 'C') {
+        config.OrderType = 'DIB'
+        //   }
+        // }
+
         setloading(true)
-        const getTransactionId = await triggerAction(() => getTransactionIdService());
+        const uploadTxnDataNextGen = await triggerAction(() => uploadTxnDataNextGenService(Request));
+        setloading(false)
 
 
-        if (getTransactionId.ErrorCode === "00") {
+        if (uploadTxnDataNextGen.Errorcode === '0' || uploadTxnDataNextGen.Errorcode === '00') {
+            this.props.props.history.push({
+                pathname: '/Thankyou',
+                state: {
 
-            setTxnID(getTransactionId.TxnID)
-            config.TxnID = getTransactionId.TxnID
-            config.TaxInvoice = getTransactionId.TaxInvoice;
-            txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
-            txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
-            callGetItemMrpDetailsRPOS(getTransactionId); //for test
+                }
+            })
 
         }
-        else {
+        else if (uploadTxnDataNextGen.ErrorCode === '03' || uploadTxnDataNextGen.ErrorCode === '3') {
             confirmAlert({
-
-                message: getTransactionId.ErrorMsg,
+                title: "Alert!",
+                message: uploadTxnDataNextGen.Statusmsg,
                 buttons: [
                     {
                         label: 'OK',
+                        onClick: () => { 
+                            history.push('/home') 
+                        }
                     }
                 ]
             });
-        }
-
-    }
-
-
-    const callGetItemMrpDetailsRPOS = async (txnRes) => {
-
-        console.log('planselectionMode', PlanselectionModel);
-        setloading(true)
-        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.PRODUCT_ID));
-        setloading(false)
-        if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
-            const arrayResponse = []
-            arrayResponse.push(getItemMrpDetailsRPOS)
-            setTxnitemList(arrayResponse, txnRes)
-            uploadDocuments()
-        }
-    }
-
-    const setTxnitemList = (getItemMrpDetailsRes, txnRes) => {
-        const TxnItemList = []
-        let total = 0;
-
-        for (let i = 0; i < getItemMrpDetailsRes.length; i++) {
-            total = total + getItemMrpDetailsRes[i].RtlPrice;
-
-
-            let txnitem = {
-                BatchNumber: "",
-                Colorcode: "",
-                CouponID: "",
-                CouponSupervisorID: "",
-                CouponType: "",
-                CouponValue: "",
-                CouponValueParam: "",
-                CouponValueType: "",
-                DeliveryLocation: "",
-                DeliveryLocationId: "",
-                Description: getItemMrpDetailsRes[i].Desc,
-                DiscountAmount: "0.00",
-                DiscountID: "",
-                DiscountPercentage: "0.00",
-                DiscountWithQty: "0.00",
-                EffectivePrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
-                EmbeddedTotalPrice: "0.00",
-                EnterEANorSKU: getItemMrpDetailsRes[i].intenalID,
-                EntryMethod: "S",
-                ExpectedDeliveryDate: "",
-                ExpectedDeliveryTime: "",
-                ExpiryDate: "",
-                Extnd_bckt_nbr: "0",
-                Extnd_prom_nbr: "0",
-                HSN_CODE: getItemMrpDetailsRes[i].HSN_CODE,
-                IsCouponApplied: "0",
-                ItemDiscAppliedTime: "",
-                ItemEmpDiscSupervisorID: "",
-                ItemEmployeeDiscount: "0.00",
-                ItemMarkDownDescription: "",
-                ItemMarkDownDiscountFlag: "",
-                ItemMarkDownDiscountParam: "0.00",
-                ItemMarkDownDiscountValue: "0.00",
-                ItemMarkDownReason: "",
-                ItemMarkDownSupervisorID: "",
-                ItemMesurementType: getItemMrpDetailsRes[i].itemMeasurementType,
-                ItemSellingPrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
-                ItemType: getItemMrpDetailsRes[i].Itemtype,
-                ItemUnitPriceAfterDiscount: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
-                LnkItemList: [
-                ],
-                LocationType: "",
-                MDIAppliedDateTime: "",
-                MD_FG: "0",
-                MaximumQuantity: "1",
-                OrgPrice: getItemMrpDetailsRes[i].RtlPrice,
-                OrgSeqId: "",
-                OriginalBarcode: "",
-                OriginalPriceWithQty: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
-                OtherDiscounts: "0.00",
-                ParentReferenceID: "",
-                PosMsgDetails: [
-                ],
-                ProductID: getItemMrpDetailsRes[i].ProductID,
-                QtyChangeDateTime: "",
-                Quantity: "1",
-                QuantityAdded: "",
-                QuantityFlag: "0",
-                SalesManID: "",
-                ScanTime: getCurrentDateForTxn(),
-                SellingPrice: parseFloat(getItemMrpDetailsRes[i].RtlPrice),
-                SequenceID: (i + 1),
-                Status: "",
-                StockCheckRequired: "0",
-                StockCount: "",
-                StoreID: config.storeID,
-                Stylecode: "0",
-                SupervisorID: "",
-                TaxDetails: {
-                    // AddlDetailsList:[
-                    // ],
-                    // TaxCodeType: "TAX_TYPE_INCL",
-                    // TaxGSTList:[
-                    //     // {
-                    //     //     HSN_TYPE : "JOSG",
-                    //     //     SEQUENCEID_TAX: "1",
-                    //     //     TaxAmount: "0",
-                    //     //     TaxRate: "0"
-                    //     // },
-                    //     // {
-                    //     //     HSN_TYPE : "JOCG",
-                    //     //     SEQUENCEID_TAX: "1",
-                    //     //     TaxAmount: "0",
-                    //     //     TaxRate: "0"
-                    //     // }
-                    // ],
-                    // TaxType: "TAX_TYPE_PERCENTAGE",
-                    // TaxableAmount: "0.00"
-                },
-                TxnItemPromoDetails: [
-                ],
-                UnitOfMeasure: "EA",
-                ValidatedPosMsgId: "",
-                VoidSupervisorID: "",
-                VoidedDateTime: "",
-                isDiscountApplied: "0",
-                isLinkedItemsPresentFlag: "1",
-                isMDIApplied: "0",
-                isPromotionAvailableFlag: "0",
-                isTradeInItem: "0",
-                isVoidAllowed: "0",
-                itm_point: "0",
-                prom_nbr: "0"
-            };
-            TxnItemList.push(txnitem)
-        }
-        config.amount = parseFloat(total);
-
-        txnUploadData.TxnInfo.TxnItemList = TxnItemList;
-
-        setTxnHeader(txnRes);
-    }
-
-    const setTxnHeader = (txnRes) => {
-
-        txnUploadData.TxnInfo.TxnHeader.Area = "";
-        txnUploadData.TxnInfo.TxnHeader.BalanceLoyaltyPoints = "";
-        txnUploadData.TxnInfo.TxnHeader.BillOfSupply = txnRes.BillOfSupply;
-        txnUploadData.TxnInfo.TxnHeader.BlockNo = "";
-        txnUploadData.TxnInfo.TxnHeader.BuildingName = "";
-        txnUploadData.TxnInfo.TxnHeader.ChangeDue = "0.00";
-        txnUploadData.TxnInfo.TxnHeader.City = "";
-        txnUploadData.TxnInfo.TxnHeader.ContactNumber = CAFRequest.MSISDN
-        txnUploadData.TxnInfo.TxnHeader.CouponID = "";
-        txnUploadData.TxnInfo.TxnHeader.CouponType = "";
-        txnUploadData.TxnInfo.TxnHeader.CouponValue = "";
-        txnUploadData.TxnInfo.TxnHeader.CouponValueParam = "";
-        txnUploadData.TxnInfo.TxnHeader.CouponValueType = "";
-        txnUploadData.TxnInfo.TxnHeader.CurReferenceID = "";
-        txnUploadData.TxnInfo.TxnHeader.CustomerID = "";
-        txnUploadData.TxnInfo.TxnHeader.CustomerName = CAFRequest.FirstName + " " + CAFRequest.MiddleName + " " + CAFRequest.LastName;
-        txnUploadData.TxnInfo.TxnHeader.DeviceId = config.storeID + config.posid; //add device id
-        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd1 = "";
-        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd2 = "";
-        txnUploadData.TxnInfo.TxnHeader.DoctorsAdd3 = "";
-        txnUploadData.TxnInfo.TxnHeader.DoctorsName = "";
-        txnUploadData.TxnInfo.TxnHeader.ESOrderID = CAFRequest.ORN;
-        txnUploadData.TxnInfo.TxnHeader.EmailID = CAFRequest.Email
-        txnUploadData.TxnInfo.TxnHeader.EmailId = CAFRequest.Email
-        txnUploadData.TxnInfo.TxnHeader.FlatNo = "";
-        txnUploadData.TxnInfo.TxnHeader.FloorNo = "";
-        txnUploadData.TxnInfo.TxnHeader.IDProofCaptureStatus = "";
-        txnUploadData.TxnInfo.TxnHeader.IsAddressCaptured = "";
-        txnUploadData.TxnInfo.TxnHeader.IsCouponApplied = "";
-        txnUploadData.TxnInfo.TxnHeader.IsIDProofRequiredFlag = "";
-        txnUploadData.TxnInfo.TxnHeader.IsLoyaltyCardCaptured = "";
-        txnUploadData.TxnInfo.TxnHeader.IsLoyaltyRedeemed = "";
-        txnUploadData.TxnInfo.TxnHeader.IsValidLoyaltyRedemption = "";
-        txnUploadData.TxnInfo.TxnHeader.IsVatExtra = "";
-        txnUploadData.TxnInfo.TxnHeader.ItemCount = "2";
-        txnUploadData.TxnInfo.TxnHeader.LogonTime = "";
-        txnUploadData.TxnInfo.TxnHeader.LoyaltyCardNumber = "";
-        txnUploadData.TxnInfo.TxnHeader.MNP_MSISDN = "";
-        txnUploadData.TxnInfo.TxnHeader.OrderType = "DIB";
-        txnUploadData.TxnInfo.TxnHeader.PanCardNo = "";
-        txnUploadData.TxnInfo.TxnHeader.PatientsAdd1 = "";
-        txnUploadData.TxnInfo.TxnHeader.PatientsAdd2 = "";
-        txnUploadData.TxnInfo.TxnHeader.PatientsAdd3 = "";
-        txnUploadData.TxnInfo.TxnHeader.PatientsName = "";
-        // txnUploadData.TxnInfo.TxnHeader.PaymentEndTime= "";
-        // txnUploadData.TxnInfo.TxnHeader.PaymentStartTime= "";
-        txnUploadData.TxnInfo.TxnHeader.Pincode = "";
-        txnUploadData.TxnInfo.TxnHeader.PlotNo = "";
-        txnUploadData.TxnInfo.TxnHeader.ProductVersion = "10.4.7";
-        txnUploadData.TxnInfo.TxnHeader.PromoTotal = "";
-        txnUploadData.TxnInfo.TxnHeader.ReceiptRefID = "";
-        txnUploadData.TxnInfo.TxnHeader.ReceiptTextPath = "";
-        txnUploadData.TxnInfo.TxnHeader.RedeemAmount = "";
-        txnUploadData.TxnInfo.TxnHeader.RefundTxnSupervisorID = "";
-        txnUploadData.TxnInfo.TxnHeader.RoundOffAmount = "";
-        txnUploadData.TxnInfo.TxnHeader.RoundOffConfigValue = "";
-        txnUploadData.TxnInfo.TxnHeader.Sector = "";
-        txnUploadData.TxnInfo.TxnHeader.SocietyName = "";
-        txnUploadData.TxnInfo.TxnHeader.State = "";
-        txnUploadData.TxnInfo.TxnHeader.Street = "";
-        txnUploadData.TxnInfo.TxnHeader.Supply_State_Code = "";
-        txnUploadData.TxnInfo.TxnHeader.TaxInvoice = txnRes.TaxInvoice;
-        txnUploadData.TxnInfo.TxnHeader.TaxableAmount = "0.00";
-        txnUploadData.TxnInfo.TxnHeader.TransactionType = "SALE";
-        txnUploadData.TxnInfo.TxnHeader.TxnAppliedDiscValue = "0.00";
-        txnUploadData.TxnInfo.TxnHeader.TxnCouponSupervisorID = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnDiscAppliedTime = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnDiscSupervisorID = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnDiscValue = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnDiscValueFlag = "";
-        // txnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
-        //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
-        txnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID;
-        txnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
-        txnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";
-        //  txnUploadData.TxnInfo.TxnHeader.TxnStartTime: "",
-        txnUploadData.TxnInfo.TxnHeader.TxnStatus = "COMPLETED";
-        txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(config.amount);//this.state.Totalp
-        txnUploadData.TxnInfo.TxnHeader.UserId = config.userID;
-        txnUploadData.TxnInfo.TxnHeader.VoidTxnSupervisorID = "";
-        txnUploadData.TxnInfo.TxnHeader.ZONE = "WE";
-        txnUploadData.TxnInfo.TxnHeader.isMDTApplied = "";;
-
-
-        txnUploadData.CAF = "Y";//Done
-        txnUploadData.Guid = config.guid;//Done
-        txnUploadData.StoreNo = config.storeCode;//Done
-
-        // cafValidation()
-
-        calculateTax()
-    }
-
-    const calculateTax = async () => {
-        let lstProduct = []
-        for (let i = 0; i < txnUploadData.TxnInfo.TxnItemList.length; i++) {
-            const element = txnUploadData.TxnInfo.TxnItemList[i];
-            var pelement = {
-                "hsnCode": element.HSN_CODE,
-                "md_fg": element.MD_FG,
-                "qty": element.Quantity,
-                "selliingPrice": element.SellingPrice,
-                "seqNo": element.SequenceID,
-                "isInterState": false
-            }
-            lstProduct.push(pelement)
 
         }
 
-        const GetTaxSummaryGST = await triggerAction(() => getTaxSummaryGSTService(lstProduct));
+        else {
 
-        if (GetTaxSummaryGST.errorCode == "00" || GetTaxSummaryGST.errorCode == "0") {
-            txnUploadData.TxnInfo.TxnHeader.TxnTotal = parseFloat(GetTaxSummaryGST.txnTotal);
-            config.amount = parseFloat(GetTaxSummaryGST.txnTotal);
-            txnUploadData.TxnInfo.TxnHeader.ItemCount = lstProduct.length
-            cafValidation()
+            confirmAlert({
+                title: "Alert!",
+                message: uploadTxnDataNextGen.Statusmsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { return false }
+                    }
+                ]
+            });
+
         }
 
+
     }
+
 
     const uploadDocuments = async () => {
 
