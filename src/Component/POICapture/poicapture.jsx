@@ -741,7 +741,7 @@ const POICapture = () => {
         // console.log("lon : ", lon);
         console.log(`inside`)
 
-        if (frontsrc && backsrc) {
+        // if (frontsrc && backsrc) {
 
             let poiCaptureImage = {
                 "frontImage": frontsrc,
@@ -753,10 +753,10 @@ const POICapture = () => {
             config.poiImage = poiCaptureImage      
                   history.push('/DKYCPOA')
         
-        }
-        else {
-            showErrorAlert("Please upload image.")
-        }
+        // }
+        // else {
+        //     showErrorAlert("Please upload image.")
+        // }
     }
 
   const verifyAlignment = (uri, param, number) => {

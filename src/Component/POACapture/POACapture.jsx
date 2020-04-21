@@ -803,6 +803,8 @@ const POACapture = () => {
     useEffect(() => {
         // setFaceMatchIdfySDKAllowFlag("2");
         // setFaceMatch_SDK_NA("4");
+        window.idSDK.init();
+
     }, [])
 
 
@@ -832,6 +834,25 @@ const POACapture = () => {
 
 
     }
+
+
+    const capturePOIFront = () => {
+        window.idSDK.captureDocumentFront(false, myCallBackFunctionFront);
+    }
+
+
+
+    const myCallBackFunctionFront = (response) => {
+        if (response.success) {
+            let image = response.data.image;
+            setFrontsrc(image);
+            console.log("image : ", image)
+            console.log("response : ", response)
+        } else {
+            alert(response.message)
+        }
+    }
+
 
 
     return (
@@ -917,8 +938,9 @@ const POACapture = () => {
 
                                     <div style={{ position: "relative", display: "block", width: "100%" }}>
                                         <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." ></img>
-                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} />
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."   onClick = {()=> capturePOIFront()}></img>
+
+                                        {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} /> */}
 
                                     </div>
 
