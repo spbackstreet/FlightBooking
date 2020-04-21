@@ -235,7 +235,7 @@ const DKYC = () => {
             {FixedHeader()}
             <div class="rechargehome_wrapper">
                 <div>
-                <div className="spin">
+                <div className="spin" style={{top: "30%"}}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                         </div>
