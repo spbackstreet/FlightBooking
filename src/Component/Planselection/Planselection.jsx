@@ -1611,7 +1611,7 @@ const  operatorNameFor =(e)=>{
                 </div>
 
 
-                <div className="spin" style={{ zIndex: 10 }}>
+                <div className="spin" style={{ zIndex: 10 ,top: "50%"}}>
                     <Spinner visible={loading}
                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                 </div>
