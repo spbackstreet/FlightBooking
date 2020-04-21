@@ -1111,10 +1111,14 @@ const POICapture = () => {
         // else {
         //     currentMonth = currentDateTime.getMonth()
         // }
+        // let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
+        //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+        //     currentDateTime + ";hyperverge;"
         let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
-            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
         console.log(DG_POI)
+        
 
         config.DG_POI = DG_POI
 
@@ -1141,10 +1145,14 @@ const POICapture = () => {
             else {
                 currentMonth = currentDateTime.getMonth()
             }
+            // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+            //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            //     currentDateTime + ";hyperverge;"
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
+           
             config.DG_POA = DG_POA
         }
 
@@ -1161,7 +1169,18 @@ const POICapture = () => {
     const myCallBackFunctionFront = (response) => {
         if (response.success) {
             let image = response.data.image;
+
             setFrontsrc(image);
+            setShowPhotoView(true)
+            const currentDateTime = getCurrentDateForPOAPOI()
+            let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
+            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
+            currentDateTime + ";hyperverge;"
+            console.log(DG_POI)
+        
+
+        config.DG_POI = DG_POI
+
             console.log("image : ", image)
             console.log("response : ", response)
         } else {
@@ -1172,7 +1191,18 @@ const POICapture = () => {
     const myCallBackFunctionBack = (response) => {
         if (response.success) {
             let image = response.data.image;
+
             setBacksrc(image);
+            const currentDateTime = getCurrentDateForPOAPOI()
+            // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+            //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            //     currentDateTime + ";hyperverge;"
+            let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
+                currentDateTime + ";hyperverge;"
+            console.log(DG_POA)
+           
+
             console.log("image : ", image)
             console.log("response : ", response)
         } else {

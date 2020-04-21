@@ -132,7 +132,7 @@ const CapCustPhoto = () => {
 
     const geolocation = useGeolocation()
 
-const  [loading,setLoading] =useState(false)
+    const [loading, setLoading] = useState(false)
 
     const camside = (param) => {
 
@@ -209,6 +209,8 @@ const  [loading,setLoading] =useState(false)
     );
 
     useEffect(() => {
+
+        window.idSDK.init();
 
         // var date = new Date().getDate();
 
@@ -355,7 +357,9 @@ const  [loading,setLoading] =useState(false)
         // await dispatch(storeCustomerCapture(custCapture));
         config.custCaptureImage = custCapture
         const currentDateTime = getCurrentDateForPOAPOI()
-        let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";"
+        // let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";"
+
+        let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + "73.07347" + ";" + currentDateTime + ";"
         config.DG_PIC = DG_PIC
 
 
@@ -517,6 +521,23 @@ const  [loading,setLoading] =useState(false)
             setShowPhotoView(true)
             //setinstructionUpload( 'File Uploaded Successfully' );
             //setinstructiondata(files);
+        }
+    }
+
+    const captureCust = () => {
+        window.idSDK.captureFace(false, myCallBackFunction);
+    }
+    const myCallBackFunction = (response) => {
+        if (response.success) {
+            let image = response.data.image;
+
+            setFrontsrc(image);
+            setShowPhotoView(true)
+
+            console.log("image : ", image)
+            console.log("response : ", response)
+        } else {
+            alert(response.message)
         }
     }
 
@@ -1606,13 +1627,13 @@ const  [loading,setLoading] =useState(false)
 
 
 
- 
+
 
         <div>
 
- 
 
-{/*
+
+            {/*
 
  
 
@@ -1742,10 +1763,10 @@ const  [loading,setLoading] =useState(false)
 
             </div> */}
 
- 
 
 
- 
+
+
 
             {/* <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
@@ -1801,94 +1822,94 @@ const  [loading,setLoading] =useState(false)
 
             </div> */}
 
- 
 
 
- 
+
+
 
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
 
- 
+
 
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
 
- 
+
 
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
 
- 
+
 
                         <div className="modal-header1" style={{ "background": "#0D95A2" }}>
 
- 
+
 
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
 
- 
+
 
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
 
- 
+
 
                         </div>
 
- 
+
 
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
 
- 
+
 
                     </div>
 
- 
+
 
                 </div>
 
- 
+
 
             </div>
 
- 
 
-          
 
- 
+
+
+
 
             <div class="back-color" style={{ height: "100vh" }}>
 
- 
+
 
                 <div id="custphotoform">
 
- 
+
 
                     <div class="my_app_container">
 
- 
+
 
                         {FixedHeader()}
 
- 
+
 
                         <div className="spin">
-                                                    <Spinner visible={loading}
-                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
-                                                        </div>
- 
+                            <Spinner visible={loading}
+                                spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                        </div>
+
 
                         <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
 
- 
 
-                                <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
 
- 
+                            <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Front View</p>
 
-                                <div id="FrontView" class="photoPreviewFrame">
 
- 
 
-                                    {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+                            <div id="FrontView" class="photoPreviewFrame">
+
+
+
+                                {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
  
 
@@ -1902,64 +1923,58 @@ const  [loading,setLoading] =useState(false)
 
                                     > */}
 
- 
 
 
- 
-
-                                    {/* </button> */}
-
- 
 
 
- 
 
-<div style={{position:"relative",display: "block",width: "100%"}}>
-
- 
-
-                            <input id="instructions" type="text" class="form-control" style={{padding:"6px 50px 6px 12px !important",width:"90% !important" ,filter: "alpha(opacity=0)"}} placeholder="Upload Instructions" hidden/>
-
- 
-
-                            <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="If POA is same as POI Click back side." ></img>                       
-
- 
-
-                                <input id="upload-instructions" type="file" name="Instruction-data" style={{position:"absolute", width:"100%",height:"100%",top:"0",left:"0", opacity: "0",filter: "alpha(opacity=0)"}}   accept="image/*" capture="camera" onChange={(e)=>uploadFile(e)} />
-
- 
+                                {/* </button> */}
 
 
- 
-
-                          </div>
-
- 
 
 
- 
 
-                                    <div class="col-sm-6">
 
- 
+                                {/* <div style={{ position: "relative", display: "block", width: "100%" }}>
 
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
+                                    <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
 
- 
+                                    <img id="FrontImage" height="100" width="100" src={require("../../img/add_new.png")} alt="capture customer photo"
+                                        onClick={(e) => captureCust()}
+                                    ></img>
 
-                                    </div>
-
- 
+                                    <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} /> 
 
                                 </div>
 
- 
+                                <div class="col-sm-6">
+                                    <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
+                                </div> */}
 
 
- 
+                                <div style={{ textAlign: "center", marginTop: "150px" }}>
+                <button 
+                onClick = {(e) => captureCust()}
+                >
+                    <img src={require("../../img/add_new.png")} style={{ width: "100px" }} alt="logo" />
+                </button>
+                <span>
 
-                                {/* {showPhotoView ?
+                    <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} style={{ "background": "#28a3ae", "color": "#fff", "width": "120px", "marginLeft": "20px", "padding": "10px" }}>preview</button>
+
+                </span>
+            </div>
+
+
+
+                            </div>
+
+
+
+
+
+
+                            {/* {showPhotoView ?
 
  
 
@@ -1980,12 +1995,12 @@ const  [loading,setLoading] =useState(false)
 
                                     : null} */}
 
- 
 
 
- 
 
-                                {/* {showPhotoView ?
+
+
+                            {/* {showPhotoView ?
 
  
 
@@ -1999,9 +2014,9 @@ const  [loading,setLoading] =useState(false)
 
                                     > */}
 
- 
 
-                                        {/* <button style={{ "padding": "20px" }} onClick={(e) =>
+
+                            {/* <button style={{ "padding": "20px" }} onClick={(e) =>
 
  
 
@@ -2015,19 +2030,19 @@ const  [loading,setLoading] =useState(false)
 
                                         > */}  {/* </button> */}
 
- 
 
 
- 
-
-                                        
-
- 
 
 
- 
 
-                                            {/* <div style={{position:"relative",display: "block",width: "100%"}}>
+
+
+
+
+
+
+
+                            {/* <div style={{position:"relative",display: "block",width: "100%"}}>
 
  
 
@@ -2066,184 +2081,184 @@ const  [loading,setLoading] =useState(false)
 
                                     : null} */}
 
- 
 
 
- 
-
-                        <div>
-
- 
-
-                            <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
-
- 
-
-                                "ERROR")} />
-
- 
 
 
- 
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="ERROR" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+
+
+
+                                    "ERROR")} />
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
+
+
+
+                                    "RESULT")} />
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+
+
+                                    ,
+
+
+
+                                    "IMAGE")} />
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+
+
+                                    ,
+
+
+
+                                    "HEADER")} />
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
+
+
+
+
+
+
+                                    ,
+
+
+
+                                    "URI")} />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div>
+
+
+
+                                <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
+
+
+
+
+
+
+                            </div>
+
+
 
                         </div>
 
- 
 
-                        <div>
-
- 
-
-                            <input class="mt-40" id="RESULT" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform"),
-
- 
-
-                                "RESULT")} />
-
- 
-
-
- 
-
-                        </div>
-
- 
-
-                        <div>
-
- 
-
-                            <input class="mt-40" id="IMAGE" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
-
- 
-
-                                ,
-
- 
-
-                                "IMAGE")} />
-
- 
-
-
- 
-
-                        </div>
-
- 
-
-                        <div>
-
- 
-
-                            <input class="mt-40" id="HEADER" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
-
- 
-
-                                ,
-
- 
-
-                                "HEADER")} />
-
- 
-
-
- 
-
-                        </div>
-
- 
-
-                        <div>
-
- 
-
-                            <input class="mt-40" id="URI" type="text" style={{ "display": "none" }} onClick={(e) => onValueSet(e, document.getElementById("custphotoform")
-
- 
-
-
- 
-
-                                ,
-
- 
-
-                                "URI")} />
-
- 
-
-
- 
-
-                        </div>
-
- 
-
-
- 
-
-                        <div>
-
- 
-
-                            <input class="mt-40" id="SUBMIT" type="text" style={{ "display": "none" }} onClick={(e) => onSubmit(e, document.getElementById("custphotoform"))} />
-
- 
-
-
- 
-
-                        </div>
-
- 
 
                     </div>
 
- 
+
 
                 </div>
 
- 
 
-            </div>
 
- 
+                <div class="bottom-fixed-btn">
 
-            <div class="bottom-fixed-btn">
 
- 
 
-                <div class="row m-0 mt-4">
+                    <div class="row m-0 mt-4">
 
- 
 
-                    <div class="col-12 p-2">
 
- 
+                        <div class="col-12 p-2">
 
-                        <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
 
- 
+
+                            <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+
+
+
+                        </div>
+
+
 
                     </div>
 
- 
+
 
                 </div>
 
- 
+
 
             </div>
 
- 
+
 
         </div>
-
- 
-
-    </div>   
 
     );
 

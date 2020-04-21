@@ -183,6 +183,7 @@ const Home = () => {
                 // config.guid = callValidateOTP.guid //for later in new encryption
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
                 config.JCID = callValidateOTP.storeID
+                config.deviceId = callValidateOTP.deviceID
                 apiCall()
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));

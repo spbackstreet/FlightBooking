@@ -51,6 +51,7 @@ const DeliveryAddress = () => {
             if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
                 // dispatch(storeCustomerCircle(vpincode));
                 config.pincode = vpincode
+                config.userCircelId = getCustomerCircle.pincodelist[0].statecode;
 
                 let vcityLst = [];
                 let vdistrictLst = [];

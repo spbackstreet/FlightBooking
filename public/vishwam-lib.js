@@ -6693,10 +6693,10 @@
         // camera stream area
         var cameraStreamArea = document.createElement('div');
         cameraStreamArea.id = 'proof-capture-area';
-        cameraStreamArea.style.marginTop = '50px';
+        cameraStreamArea.style.margin = '10% auto 10px';
         cameraStreamArea.style.padding = '10px';
         cameraStreamArea.style.textAlign = "center";
-        cameraStreamArea.style.height = '250px';
+        cameraStreamArea.style.height = '230px';
         cameraStreamArea.style.maxWidth = '400px';
         cameraStreamArea.style.position = 'relative';
         cameraStreamArea.classList.add('id-sdk-video-palyer-area');
@@ -7200,6 +7200,29 @@
         faceVideoDisplayArea.appendChild(hiddenCanvas);
         faceVideoDisplayArea.appendChild(faceVideoPlayer);
         container.appendChild(faceVideoDisplayArea);
+
+        /*******************************************/
+        /* Frontal face not found code starts here */
+        /*******************************************/
+
+        var textArea = document.createElement('div');
+        textArea.id = 'face-text-area';
+        textArea.style.display = 'block';
+
+        var frontalFaceText = document.createElement('p');
+        frontalFaceText.id = 'frontal-face-text';
+        frontalFaceText.style.textAlign = 'center';
+        frontalFaceText.style.color = '#dd0000';
+        frontalFaceText.style.display = 'none';
+        frontalFaceText.style.fontWeight = '300';
+        frontalFaceText.style.marginTop = '50px';
+        frontalFaceText.style.fontSize = 'x-large';
+        frontalFaceText.style.fontFamily = 'Arial, Helvetica, sans-serif';
+        frontalFaceText.innerHTML = 'Frontal Face not found';
+
+
+        // textArea.appendChild(frontalFaceText);
+        container.appendChild(textArea);
   
   
         /****************************************/
@@ -7651,21 +7674,30 @@
   
             var options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold });
             setInterval(async () => {
-                var detection = await faceapi.detectSingleFace(videoPlayer, options);
+                var detection = await faceapi.detectSingleFace(videoPlayer, options).withFaceLandmarks();
                 if (detection) {
-                    var size = faceapi.getMediaDimensions(videoPlayer)
-                    drawStuff(size._width, size._height, detection._box._x, detection._box._y, detection._box._width, detection._box._height);
+                    const isFrontal = await frontalFaceCheck(detection.landmarks.positions);
+                    console.log(isFrontal);
+                    if (isFrontal) {
+                        var size = faceapi.getMediaDimensions(videoPlayer)
+                        drawStuff(size._width, size._height, detection.detection._box._x, detection.detection._box._y, detection.detection._box._width, detection.detection._box._height);
+                    } else {
+                        faceNotDetected();
+
+                    }
                 } else {
                     // face not detected
                     faceNotDetected();
                 }
-            }, 100);
+            }, 500);
         }
   
         function faceDetected() {
             videoPlayer.style.borderColor = 'rgba(51,128,5,1)';
             var buttonElement = document.getElementById('capture-btn');
+            // let frontalFaceText = document.getElementById('frontal-face-text');
             if (idSDK.faceCaptureButton.style.display != 'block') {
+                // frontalFaceText.style.display = 'none';
                 idSDK.faceCaptureButton.disabled = false;
                 idSDK.faceCaptureButton.style.display = 'block';
             }
@@ -7674,6 +7706,8 @@
         function faceNotDetected() {
             videoPlayer.style.borderColor = 'rgba(255,0,0,1)';
             var buttonElement = document.getElementById('capture-btn');
+            // let frontalFaceText = document.getElementById('frontal-face-text');
+            // frontalFaceText.style.display = 'block';
             idSDK.faceCaptureButton.style.display = 'none';
         }
   
@@ -7783,8 +7817,57 @@
         idSDK.faceCaptureButton.addEventListener("click", captureSnapshot);
   
         Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri('../models')
+            faceapi.nets.tinyFaceDetector.loadFromUri('../models'),
+            faceapi.nets.faceLandmark68Net.loadFromUri('../models'),
+            faceapi.nets.faceLandmark68TinyNet.loadFromUri('../models')
         ]).then(startCamera());
+    }
+
+
+
+    /*****************************************/
+    /*     code for the functionalities      */
+    /*        check whether frotal face      */
+    /*****************************************/
+    /**
+     * calculates frontal face condition
+     * @param { object } landmarks
+     **/
+    async function frontalFaceCheck(landmarks) {
+
+        if (!landmarks || landmarks.length < 68) {
+            return false;
+        };
+
+        const leftEyeCenter = {
+            x: (landmarks[36].x + landmarks[39].x) / 2,
+            y: (landmarks[36].y + landmarks[39].y) / 2
+        };
+
+        const rightEyeCenter = {
+            x: (landmarks[42].x + landmarks[45].x) / 2,
+            y: (landmarks[42].y + landmarks[45].y) / 2
+        };
+
+        const faceMiddlePoint = {
+            x: (leftEyeCenter.x + rightEyeCenter.x) / 2,
+            y: (leftEyeCenter.y + rightEyeCenter.y) / 2
+        };
+
+
+        const ratio = {
+            x: (rightEyeCenter.x - landmarks[30].x) / (landmarks[30].x - leftEyeCenter.x),
+            y: (landmarks[66].y - landmarks[30].y) / (landmarks[30].y - faceMiddlePoint.y)
+        };
+
+        if ((ratio.x > 0.75 && ratio.x < 1.33) && (ratio.y > 0.56 && ratio.y < 1.56)) {
+            return true
+
+        }
+
+        return false
+
+
     }
   
     /*****************************************/
@@ -8197,4 +8280,3 @@
     // define namespace for the sdk
     window.idSDK = idSDK;
   })(window, undefined);
-  
