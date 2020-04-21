@@ -163,12 +163,12 @@ console.log(`altMobileNum`,altMobileNum.length)
         var birthday = new Date(dob);
 
 
-        console.log(`check1`, document.getElementById("mnp").checked )
-        console.log(`check2`, document.getElementById("cocp").checked )
+        // console.log(`check1`, document.getElementById("mnp").checked )
+        // console.log(`check2`, document.getElementById("cocp").checked )
 
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob && relName)
+        if (custName && houseNo && roadName && area && city && district && state && dob)
          {
             if (document.getElementById('alternate').value.startsWith('6') ||document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
             ||document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {

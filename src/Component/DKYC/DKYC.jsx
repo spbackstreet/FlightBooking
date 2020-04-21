@@ -312,11 +312,7 @@ const DKYC = () => {
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                             <div class="form-group">
-<<<<<<< HEAD
                                                 <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " max="31-12-9999"
-=======
-                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" "
->>>>>>> 2392e98a9ed4295917449f6c180889ec65d3a637
                                                 // value={dateOfIssue} 
                                                 // onchange={(e) => updateDateOfIssue(e)} 
                                                 />
