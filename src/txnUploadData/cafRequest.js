@@ -1,8 +1,8 @@
 const CAFRequest = {
     ACCESSTOKEN: "6d1f7a51-2624-44c9-9253-22c826b2f2d2",//Required for seco
     ALT_Contact_Type: "Mobile",
-    AadharDetails_CAF: "",
-    AadharTxnRefDateTime: "",
+    // AadharDetails_CAF: "",
+    // AadharTxnRefDateTime: "",
     AadharTxnRefNum: "",
     Aadhar_Number: "",//Done
     Aadharaddrsameinstalltion: "Y",//Done
@@ -21,6 +21,7 @@ const CAFRequest = {
     BuildingId: "",//Done
     CAF_NUMBER: "MUH000BJLI",
     CAF_TYPE: "",//Done
+    caf_uploaded : "N",
     CUPON_CODE: "01",
     CUSTOMER_TYPE: "",//Done
     Caf_Category: "EKYC",
@@ -43,6 +44,7 @@ const CAFRequest = {
     DG_PIC: "PIC;Z00091;0;19.1253091,73.0140539;2020-03-04T11:14:29;",
     DG_POA: "",//Done
     DG_POI: "",//Done
+    DG_VIDEO : "",
     DND: "",
     DOB: "",//Done
     District: "",//Done
@@ -157,7 +159,8 @@ const CAFRequest = {
     Inst_CareOf: "",
     AgentToken: "",
     CustomerToken: "",
-    RMN_RELATIONSHIP:"KNOWN PERSON"
+    transtype : "SE"
+    // RMN_RELATIONSHIP:"KNOWN PERSON"
 
 }
 

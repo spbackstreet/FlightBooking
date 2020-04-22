@@ -616,10 +616,17 @@ const POACapture = () => {
 
         const currentDateTime = getCurrentDateForPOAPOI()
 
+        // let DG_POA = "POA;" + config.SelectedDocPOAObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+        //     config.SelectedDocPOAObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+        //     currentDateTime + ";hyperverge;"
+
         let DG_POA = "POA;" + config.SelectedDocPOAObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-            config.SelectedDocPOAObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            config.SelectedDocPOAObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
+
+
         console.log(DG_POA)
+
         config.DG_POA = DG_POA
 
 
@@ -836,22 +843,49 @@ const POACapture = () => {
     }
 
 
-    const capturePOIFront = () => {
+    const capturePOAFront = () => {
         window.idSDK.captureDocumentFront(false, myCallBackFunctionFront);
     }
-
-
+    const capturePOABack = () => {
+        window.idSDK.captureDocumentFront(false, myCallBackFunctionBack);
+    }
 
     const myCallBackFunctionFront = (response) => {
         if (response.success) {
             let image = response.data.image;
+
             setFrontsrc(image);
+            
+
             console.log("image : ", image)
             console.log("response : ", response)
         } else {
             alert(response.message)
         }
     }
+
+    const myCallBackFunctionBack = (response) => {
+        if (response.success) {
+            let image = response.data.image;
+
+            setBacksrc(image);
+            const currentDateTime = getCurrentDateForPOAPOI()
+            // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+            //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
+            //     currentDateTime + ";hyperverge;"
+            let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
+                currentDateTime + ";hyperverge;"
+            console.log(DG_POA)
+
+
+            console.log("image : ", image)
+            console.log("response : ", response)
+        } else {
+            alert(response.message)
+        }
+    }
+
 
 
 
@@ -938,9 +972,11 @@ const POACapture = () => {
 
                                     <div style={{ position: "relative", display: "block", width: "100%" }}>
                                         <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."   onClick = {()=> capturePOIFront()}></img>
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."
+                                            // onClick={() => capturePOAFront()}
+                                        ></img>
 
-                                        {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} /> */}
+                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} />
 
                                     </div>
 

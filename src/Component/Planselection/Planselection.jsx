@@ -1033,8 +1033,10 @@ const Planselection = () => {
 
             const currentDateTime = getCurrentDateForPOAPOI()
             config.OTPGenTime=currentDateTime
-            config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + geolocation.longitude + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
+            // config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + geolocation.longitude + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
+            config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + "73.07347" + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
                 
+            
             history.push('/CustOTP')
             
         }
