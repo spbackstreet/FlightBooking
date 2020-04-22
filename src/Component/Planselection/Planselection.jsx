@@ -1139,9 +1139,20 @@ const Planselection = () => {
         if (GetmobilityPlan.ErrorCode === "00") {
             setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
             setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
-            setselectPlan(true)
+
+// for(let  i=0 ;i<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;i++ ){
+//     if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i].lstFRC.length!==0){
+       
+//        setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i])
+//     }
+//     else{
+//        console.log(`abcd`)
+//     }
+// }
+           
 
 
+             setselectPlan(true)
         }
         else if (GetmobilityPlan.ErrorCode === '03' || GetmobilityPlan.ErrorCode === '3') {
             confirmAlert({
@@ -1347,9 +1358,9 @@ const  operatorNameFor =(e)=>{
         <div>
             <div>
                 {/* {modal} */}
-                {console.log(`custLocalRefAdd`,config.custLocalRefAdd)}
+               
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
-                    <div className="modal-dialog">
+                    <div className="modal-dialog" style={{top:"4%"}}>
                         <div className="modal-content">
                             <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                                 <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>{planType}</h5>
@@ -1395,7 +1406,7 @@ const  operatorNameFor =(e)=>{
                                                                 </AccordionItemButton>
                                                             </AccordionItemHeading>
                                                             <AccordionItemPanel>
-
+                                                         
                                                                 <div class="row plan_heading title">
                                                                     <div class="col col-1  pr-0 plan_heading_list"></div>
                                                                     <div class="col col-3 plan_heading_list md-font text-plan-amount" >PLAN ID</div>
@@ -1403,7 +1414,7 @@ const  operatorNameFor =(e)=>{
                                                                     <div class="col col-2 plan_heading_list md-font text-plan-amount">AMOUNT<br /></div>
                                                                     {/* <div class="col col-2 pr-0 plan_heading_list md-font"></div> */}
                                                                 </div>
-
+                                                              
                                                                 {lstSegmentPlan[key].lstPlan.map(function (xitem, xkey) {
                                                                     if (
                                                                         (Search !== "") &&
@@ -1415,7 +1426,7 @@ const  operatorNameFor =(e)=>{
                                                                         return null
                                                                     }
                                                                     return (
-                                                                        
+                                                                      
                                                                         <div class="row plan_details" onClick={(e) => showPlanselected(e, xitem.PRODUCT_ID, xitem.POS_DESC, xitem.SELLINGPRICE, xitem.lstFRC)}>
                                                                             <div class="col col-3 plan_detail_list">
                                                                                 <div class="list_inline">
@@ -1428,8 +1439,8 @@ const  operatorNameFor =(e)=>{
                                                                                 <div class="list_inline">
                                                                                 {xitem.lstFRC.length?
                                                                                     <span class="big_tt" >{xitem.lstFRC[0].frcDesc}</span>
-                                                                                    : null}
-                                                                                    {/* <span class="small_tt">{zitem.validity.split(" ")[1].toString()}</span> */}
+                                                                                   : null} 
+                                                                                     {/* <span class="small_tt">{zitem.validity.split(" ")[1].toString()}</span> */}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-2 plan_detail_list">
@@ -1448,7 +1459,7 @@ const  operatorNameFor =(e)=>{
                                                                         </div>
                                                                         
                                                                         
-
+                                                                        
 
 
                                                                     )

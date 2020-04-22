@@ -194,7 +194,7 @@ const DeliveryAddress = () => {
                                         <div class="md-font f-16 pl-3 pb-2">Customer Delivery Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                                <div className="spin">
+                                                <div className="spin" style={{top: "50%"}}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
