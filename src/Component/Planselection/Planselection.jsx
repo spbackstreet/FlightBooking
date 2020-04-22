@@ -49,7 +49,7 @@ const Planselection = () => {
 
     const [userid, setUserid] = useState('')
     const [lstSegmentPlan, setlstSegmentPlan] = useState([])
-    const [lstPlan, setlstPlan] = useState([])
+    const [lstPlan, setLstPlan] = useState([])
     const [Search, setSearch] = useState('')
     const [displayCustDet, setdisplayCustDet] = useState(false)
     const [simCirclecode, setsimCirclecode] = useState('')
@@ -1137,19 +1137,19 @@ const Planselection = () => {
         setloading(false)
 
         if (GetmobilityPlan.ErrorCode === "00") {
-            setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
-            setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
+           setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
+        //     setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
 
-// for(let  i=0 ;i<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;i++ ){
-//     if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i].lstFRC.length!==0){
+for(let  a=0 ;a<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;a++ ){
+    if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[a].lstFRC.length!==0){
        
-//        setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i])
-//     }
-//     else{
-//        console.log(`abcd`)
-//     }
-// }
-           
+       lstPlan.push(GetmobilityPlan.lstSegmentPlan[0].lstPlan[a])
+    }
+    else{
+       console.log(`abcd`)
+    }
+}
+        //    console.log(`karanshah`,GetmobilityPlan.lstSegmentPlan)
 
 
              setselectPlan(true)
@@ -1182,7 +1182,7 @@ const Planselection = () => {
         }
 
 
-
+        
 
     }
 
@@ -1358,7 +1358,7 @@ const  operatorNameFor =(e)=>{
         <div>
             <div>
                 {/* {modal} */}
-               
+               {console.log(`karan`,lstPlan)}
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog" style={{top:"4%"}}>
                         <div className="modal-content">
@@ -1415,7 +1415,7 @@ const  operatorNameFor =(e)=>{
                                                                     {/* <div class="col col-2 pr-0 plan_heading_list md-font"></div> */}
                                                                 </div>
                                                               
-                                                                {lstSegmentPlan[key].lstPlan.map(function (xitem, xkey) {
+                                                                {lstPlan.map(function (xitem, xkey) {
                                                                     if (
                                                                         (Search !== "") &&
                                                                         (xitem.POS_DESC.toLowerCase().indexOf(Search.toLowerCase()) === -1) &&
@@ -1430,9 +1430,10 @@ const  operatorNameFor =(e)=>{
                                                                         <div class="row plan_details" onClick={(e) => showPlanselected(e, xitem.PRODUCT_ID, xitem.POS_DESC, xitem.SELLINGPRICE, xitem.lstFRC)}>
                                                                             <div class="col col-3 plan_detail_list">
                                                                                 <div class="list_inline">
-                                                                                {xitem.lstFRC.length?
+                                                                                {xitem.lstFRC.length !==0?
                                                                                     <span class="big_tt">{xitem.lstFRC[0].frcID}</span>
-                                                                                    : null}
+                                                                                    :''
+                                                                                }
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-7 plan_detail_list">
