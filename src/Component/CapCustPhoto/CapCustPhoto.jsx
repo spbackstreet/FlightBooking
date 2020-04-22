@@ -25,9 +25,7 @@ import uploadDocuments from "../../txnUploadData/uploadDocuments"
 import { compareTwoDateTime } from '../../commom/commonMethod'
 import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
 
-import Webcam from "react-webcam";
-
-// import Resizer from "react-image-file-resizer";
+import Resizer from "react-image-file-resizer";
 
 import { storeCustomerCapture } from '../../action';
 
@@ -35,6 +33,11 @@ import useGlobalState from '../../hooks/useGlobalState';
 import useGeolocation from 'react-hook-geolocation'
 
 import Spinner from 'react-spinner-material';
+import getLiveNessService from '../../services/getLiveNessService';
+import useLoader from '../../hooks/useLoader';
+
+var resizebase64 = require('resize-base64');
+
 
 const display = {
 
@@ -133,6 +136,9 @@ const CapCustPhoto = () => {
     const geolocation = useGeolocation()
 
     const [loading, setLoading] = useState(false)
+
+    const [triggerAction] = useLoader();
+
 
     const camside = (param) => {
 
@@ -359,20 +365,36 @@ const CapCustPhoto = () => {
         const currentDateTime = getCurrentDateForPOAPOI()
         // let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";"
 
-        let DG_PIC = "PIC;Z00091;0;" + geolocation.latitude + "," + "73.07347" + ";" + currentDateTime + ";"
+        let DG_PIC = "PIC;Z00091;0;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";"
         config.DG_PIC = DG_PIC
 
 
+        let resized = resizebase64(frontsrc, 300, 300);
 
-        history.push('/deliveryAddress');
+        debugger;
+        setLoading(true)
+        const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc"));
+        setLoading(false)
+        if (getLiveNess.errorCode === "00") {
+            history.push('/deliveryAddress');
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: getLiveNess.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
+        }
 
-        // that.props.props.history.push({
+        history.push('/deliveryAddress'); //for test
 
-        //     pathname: '/CapAgentPhoto',
-
-
-
-        // })
 
     }
 
@@ -1953,17 +1975,17 @@ const CapCustPhoto = () => {
 
 
                                 <div style={{ textAlign: "center", marginTop: "150px" }}>
-                <button 
-                onClick = {(e) => captureCust()}
-                >
-                    <img src={require("../../img/add_new.png")} style={{ width: "100px" }} alt="logo" />
-                </button>
-                <span>
+                                    <button
+                                        onClick={(e) => captureCust()}
+                                    >
+                                        <img src={require("../../img/add_new.png")} style={{ width: "100px" }} alt="logo" />
+                                    </button>
+                                    <span>
 
-                    <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} style={{ "background": "#28a3ae", "color": "#fff", "width": "120px", "marginLeft": "20px", "padding": "10px" }}>preview</button>
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} style={{ "background": "#28a3ae", "color": "#fff", "width": "120px", "marginLeft": "20px", "padding": "10px" }}>preview</button>
 
-                </span>
-            </div>
+                                    </span>
+                                </div>
 
 
 

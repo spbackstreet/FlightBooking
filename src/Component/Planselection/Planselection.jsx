@@ -97,6 +97,7 @@ const Planselection = () => {
     const geolocation = useGeolocation()
     const [noOFConnectionValueOperator,setNoOFConnectionValueOperator]=useState('')
     const [operatorName,setOperatorName]=useState('')
+    const [frcID,setFrcID] = useState('')
 
     let validator = new SimpleReactValidator();
 
@@ -187,6 +188,7 @@ const Planselection = () => {
 
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
+        debugger;
        
         if (lstFRC.length >= 1) {
             var FRC = []
@@ -197,6 +199,7 @@ const Planselection = () => {
             setPOS_DESC(POS_DESC);
             setSELLINGPRICE(SELLINGPRICE)
             setlstFRC([...FRC])
+            setFrcID(lstFRC.frcID)
             setselectPlan(false)
             setisPlanselected(true)
 
@@ -1019,6 +1022,7 @@ const Planselection = () => {
             setdisplayCustDet(!displayCustDet)
             console.log(`fgufhi`, CAFRequest)
             PlanselectionModel.PRODUCT_ID = PRODUCT_ID
+            PlanselectionModel.FRCID = frcID
             // PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
             // PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
             // PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
@@ -1034,7 +1038,7 @@ const Planselection = () => {
             const currentDateTime = getCurrentDateForPOAPOI()
             config.OTPGenTime=currentDateTime
             // config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + geolocation.longitude + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
-            config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + "73.07347" + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
+            config.DG_LTP ="LTP;Z00092;156932;"+ "19.167634" + "," + "73.07347" + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
                 
             
             history.push('/CustOTP')

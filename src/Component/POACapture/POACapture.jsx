@@ -21,6 +21,7 @@ import 'react-html5-camera-photo/build/css/index.css';
 import { storeCustomerPOAcapture } from '../../action';
 import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
 import useGeolocation from 'react-hook-geolocation'
+import readDocumentService from '../../services/readDocumentService';
 
 
 const display = {
@@ -65,6 +66,7 @@ const POACapture = () => {
     const [backsrc, setBacksrc] = useState('');
     const [side, setSide] = useState('Front Side')
     const [previewWindow, setPreviewWindow] = useState('')
+    const [triggerAction] = useLoader();
 
     const geolocation = useGeolocation()
     const history = useHistory();
@@ -621,7 +623,7 @@ const POACapture = () => {
         //     currentDateTime + ";hyperverge;"
 
         let DG_POA = "POA;" + config.SelectedDocPOAObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-            config.SelectedDocPOAObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
+            config.SelectedDocPOAObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
 
 
@@ -869,12 +871,13 @@ const POACapture = () => {
             let image = response.data.image;
 
             setBacksrc(image);
+            documentUpload(image, "0", response.data.type);
             const currentDateTime = getCurrentDateForPOAPOI()
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             //     currentDateTime + ";hyperverge;"
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
 
@@ -884,6 +887,35 @@ const POACapture = () => {
         } else {
             alert(response.message)
         }
+    }
+
+    const documentUpload = async (e, isback, filename) => {
+
+        const readDocument = await triggerAction(() => readDocumentService(e, isback, filename));
+       
+            setLoading(false);
+            if (readDocument.errorCode === "00") {
+
+            }
+            else {
+                confirmAlert({
+                    title: "Alert!",
+                    message: readDocument.errorMsgg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { 
+                                return false;
+                            }
+                        }
+                    ]
+                });
+               
+
+            }
+
+        
+
     }
 
 

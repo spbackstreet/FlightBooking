@@ -127,7 +127,7 @@ const CAFRequest = {
     SegmentCodeValue: "",
     SegmentSubTypename: "",
     SegmentTypename: "",
-    ServiceType: "",//Done
+    ServiceType: "MOBILITY",//Done
     Service_provider_name: "",
     Simtype: "N",
     State: "",//Done

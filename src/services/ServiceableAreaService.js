@@ -25,7 +25,8 @@ const ServiceableAreaService = async (pin) => {
 
         "guid": config.guid,
         "Customer_RMN": "",
-        "Cust_pincode": pin
+        "Cust_pincode": pin,
+        "orn" : config.ORN
 
     }
     console.log("Request : ", Request)

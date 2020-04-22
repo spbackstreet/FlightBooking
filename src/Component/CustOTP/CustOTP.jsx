@@ -146,10 +146,10 @@ const CustOTP = () => {
             const currentDateTime = getCurrentDateForPOAPOI()
 
             // CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
-            CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + "73.07347" + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
+            CAFRequest.DG_OTP = "OTP;Z00092;423504;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
 
             // CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
-            CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
+            CAFRequest.DG_ATP = "ATP;Z00092;520048;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
             
             openOtpValidationSuccessDialog();
@@ -273,7 +273,8 @@ const CustOTP = () => {
 
         console.log('planselectionMode', PlanselectionModel);
         setloading(true)
-        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.PRODUCT_ID));
+        debugger;
+        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.FRCID));
         setloading(false)
         if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
             const arrayResponse = []
@@ -481,7 +482,8 @@ const CustOTP = () => {
         fintxnUploadData.TxnInfo.TxnHeader.TxnDiscValueFlag = "";
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
-        fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID;
+        // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
+        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "49";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";
@@ -684,8 +686,8 @@ const CustOTP = () => {
             CAFRequest.Localref_noCalled + "|" +
             CAFRequest.AgentAuthAadharTxnRefNo + "|" +
             CAFRequest.AgentAuthAadharTxnRefDateTime + "|" +
-            // CAFRequest.ServiceType + "|" + //for test
-            "MOBILITY" + "|" +
+            CAFRequest.ServiceType + "|" + //for test
+            // "MOBILITY" + "|" +
             CAFRequest.BuildingId + "|" +
             CAFRequest.InstallationCharges + "|" +
             CAFRequest.AgentName + "|" +

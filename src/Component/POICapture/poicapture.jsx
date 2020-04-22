@@ -20,6 +20,7 @@ import { storeCustomerPOImage } from '../../action';
 import useGeolocation from 'react-hook-geolocation'
 import GlobalPOAModel from '../../Model/POAModel';
 import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
+import readDocumentService from '../../services/readDocumentService';
 
 
 var GSON = require('gson');
@@ -1115,7 +1116,7 @@ const POICapture = () => {
         //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
         //     currentDateTime + ";hyperverge;"
         let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
-            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
+            config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
         console.log(DG_POI)
         
@@ -1149,7 +1150,7 @@ const POICapture = () => {
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             //     currentDateTime + ";hyperverge;"
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
            
@@ -1171,12 +1172,15 @@ const POICapture = () => {
             let image = response.data.image;
 
             setFrontsrc(image);
+            documentUpload(image, "0", response.data.type);
+
             setShowPhotoView(true)
             const currentDateTime = getCurrentDateForPOAPOI()
             let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
-            config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + "73.07347" + ";" +
+            config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
             console.log(DG_POI)
+            debugger;
         
 
         config.DG_POI = DG_POI
@@ -1193,12 +1197,14 @@ const POICapture = () => {
             let image = response.data.image;
 
             setBacksrc(image);
+            documentUpload(image, "0", response.data.type);
+
             const currentDateTime = getCurrentDateForPOAPOI()
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             //     currentDateTime + ";hyperverge;"
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + " 73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
            
@@ -1208,6 +1214,35 @@ const POICapture = () => {
         } else {
             alert(response.message)
         }
+    }
+
+    const documentUpload = async (e, isback, filename) => {
+
+        const readDocument = await triggerAction(() => readDocumentService(e, isback, filename));
+       
+            setLoading(false);
+            if (readDocument.errorCode === "00") {
+
+            }
+            else {
+                confirmAlert({
+                    title: "Alert!",
+                    message: readDocument.errorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { 
+                                return false;
+                            }
+                        }
+                    ]
+                });
+               
+
+            }
+
+        
+
     }
 
 

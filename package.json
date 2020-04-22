@@ -51,6 +51,7 @@
     "react-webcam": "^5.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "resize-base64": "^1.0.12",
     "rimraf": "^3.0.0",
     "serve-build": "^0.1.0",
     "simple-react-validator": "^1.2.4",
