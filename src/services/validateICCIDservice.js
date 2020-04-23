@@ -8,11 +8,11 @@ const validateICCID = async (iccid) => {
 
     const Request = {
         "guId": config.guid,
-        "storeId": "INT9",
-        "userId": '10051311',
+        "storeId": config.storeID,
+        "userId": config.userID,
         "action": "1",
-        "circleId": "MU",
-        "orn": "NO25464657",
+        "circleId": config.custCircleHeader,
+        "orn": config.ORN,
         "identifier": [{
             "name": "ICCID",
             "value": iccid

@@ -11,9 +11,9 @@ const vanityNumberservice = async () => {
 
     const Request = {
         "guId": config.guid,
-        "storeId": "INT9",
-        "circleId": 'MU',
-        "orn": "",
+        "storeId": config.storeID,
+        "circleId": config.custCircleHeader,
+        "orn": config.ORN,
         "identifier": {
             "name": "MSISDN"
         },

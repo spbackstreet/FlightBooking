@@ -7,7 +7,7 @@ import { basicAuth } from '../commom/basicAuth';
 import { apiCall } from '../commom/commonApiCalling';
 
 
-const ServiceableAreaService = async (pin) => {
+const ServiceableAreaService = async (pin, msdn) => {
 
     // const Request = {
 
@@ -24,7 +24,7 @@ const ServiceableAreaService = async (pin) => {
     const Request = {
 
         "guid": config.guid,
-        "Customer_RMN": "",
+        "Customer_RMN": msdn,
         "Cust_pincode": pin,
         "orn" : config.ORN
 

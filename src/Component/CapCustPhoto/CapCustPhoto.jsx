@@ -372,26 +372,27 @@ const CapCustPhoto = () => {
         let resized = resizebase64(frontsrc, 300, 300);
 
         debugger;
-        setLoading(true)
-        const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc"));
-        setLoading(false)
-        if (getLiveNess.errorCode === "00") {
-            history.push('/deliveryAddress');
-        }
-        else {
-            confirmAlert({
-                title: "Alert!",
-                message: getLiveNess.errorMsg,
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => {
-                            return false;
-                        }
-                    }
-                ]
-            });
-        }
+        //for test
+        // setLoading(true)
+        // const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
+        // setLoading(false)
+        // if (getLiveNess.errorCode === "00") {
+        //     history.push('/deliveryAddress');
+        // }
+        // else {
+        //     confirmAlert({
+        //         title: "Alert!",
+        //         message: getLiveNess.errorMsg,
+        //         buttons: [
+        //             {
+        //                 label: 'OK',
+        //                 onClick: () => {
+        //                     return false;
+        //                 }
+        //             }
+        //         ]
+        //     });
+        // }
 
         history.push('/deliveryAddress'); //for test
 

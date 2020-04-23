@@ -9,7 +9,7 @@ import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
 import useLoader from '../../hooks/useLoader';
 import * as constants from '../../commom/constants';
-import { getCurrentDateForPOAPOI, getCurrentDateForTxn , getFourDigitsTxnId, getCurrentDateForReceipt} from '../../commom/CommonMethods';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn , getFourDigitsTxnId, getCurrentDateForReceipt, hmacshaChecksum} from '../../commom/CommonMethods';
 import validateOTP from '../../services/validateOTP';
 import uploadTxnDataNextGenService from '../../services/uploadTxnDataNextGenService';
 import getTaxSummaryGSTService from '../../services/getTaxSummaryGSTService';
@@ -24,7 +24,7 @@ import getItemMrpDetailsRPOSService from '../../services/getItemMrpDetailsRPOSSe
 import cAFValidationService from '../../services/cAFValidationService';
 import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
 import getBilldeskQueryStr from '../../services/getBilldeskQueryStr';
-import { set } from 'date-fns';
+import getBilldeskModalQueryStr from '../../services/getBilldeskModalQueryStr';
 
 
 var GSON = require('gson');
@@ -274,7 +274,7 @@ const CustOTP = () => {
         console.log('planselectionMode', PlanselectionModel);
         setloading(true)
         debugger;
-        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(PlanselectionModel.FRCID));
+        const getItemMrpDetailsRPOS = await triggerAction(() => getItemMrpDetailsRPOSService(config.frcID));
         setloading(false)
         if (getItemMrpDetailsRPOS.Errorcode == "00" || getItemMrpDetailsRPOS.Errorcode == "0") {
             const arrayResponse = []
@@ -483,7 +483,7 @@ const CustOTP = () => {
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
         // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
-        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "49";
+        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "32";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";
@@ -796,11 +796,50 @@ const CustOTP = () => {
         debugger;
         fintxnUploadData.TxnInfo.TxnTenderList[0].Amount = config.amount;
         fintxnUploadData.TxnInfo.TxnHeader.PaymentStartTime = getCurrentDateForTxn();
-        
-        let str = await triggerAction(() => getBilldeskQueryStr());
-        // window.location.href = 'http://devfin.ril.com:8080/HealthService/GetBillDeskDetails/?data=' + str;
 
+        // let msgStr = "RRLUAT" + "|" + config.ORN + "|NA|" + config.amount + "|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|";
+        // const fullMsg = msgStr + hmacshaChecksum(msgStr);
+        // console.log("fullMsg : ", fullMsg);
+        // window.bdPayment.initialize ({
+        //     "msg":fullMsg,
+        //     "options": {
+        //      "enableChildWindowPosting": true,
+        //      "enablePaymentRetry": true,
+        //      "retry_attempt_count": 2,
+        //      "txtPayCategory": "NETBANKING"
+        //      },
+        //      "callbackUrl": "http://devfin.ril.com:8080/HealthService/OrderPlacedBillDesk"
+        //     });
+
+        
+        // let str = await triggerAction(() => getBilldeskModalQueryStr());
+        // window.bdPayment.initialize ({
+        //     "msg": str.msg,
+        //     "options": {
+        //      "enableChildWindowPosting": true,
+        //      "enablePaymentRetry": true,
+        //      "retry_attempt_count": 2,
+        //      "txtPayCategory": "NETBANKING"
+        //      },
+        //      "callbackUrl": str.callbackUrl
+        //     });
+
+
+        // window.bdPayment.initialize ({
+        //     "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
+        //     "options": {
+        //      "enableChildWindowPosting": true,
+        //      "enablePaymentRetry": true,
+        //      "retry_attempt_count": 2,
+        //      "txtPayCategory": "NETBANKING"
+        //      },
+        //      "callbackUrl": "http://devfin.ril.com:8080/HealthService/OrderPlacedBillDesk"
+        //     });
+        
+        // let str = await triggerAction(() => getBilldeskQueryStr());
+        
         UploadTxnData()
+
 
     }
 
@@ -851,12 +890,7 @@ const CustOTP = () => {
 
 
         if (uploadTxnDataNextGen.Errorcode === '0' || uploadTxnDataNextGen.Errorcode === '00') {
-            this.props.props.history.push({
-                pathname: '/Thankyou',
-                state: {
-
-                }
-            })
+            history.push('/OrderPlaced')
 
         }
         else if (uploadTxnDataNextGen.ErrorCode === '03' || uploadTxnDataNextGen.ErrorCode === '3') {
@@ -898,7 +932,7 @@ const CustOTP = () => {
 
         const uploadPOIFront = await triggerAction(() => uploadDocumentService("CUST_EKYC", config.poiImage.frontImage));
         const uploadPOIBack = await triggerAction(() => uploadDocumentService("CUST_EKYC_CONSENT", config.poiImage.backImage));
-        const uploadCustImg = await triggerAction(() => uploadDocumentService("CUST_IMG ", config.custCaptureImage));
+        const uploadCustImg = await triggerAction(() => uploadDocumentService("CUST_IMG ", config.custCaptureImage.frontCustImg));
 
     }
 

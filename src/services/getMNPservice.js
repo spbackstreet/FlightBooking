@@ -3,13 +3,14 @@ import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { apiCall } from '../commom/commonApiCalling';
 
-const getMNPservice = async () => {
+const getMNPservice = async (upccode) => {
     const Request = 
         {
-            "circlecode": "MU",
+            "circlecode": config.userCircelId,
             "guId": config.guid,
-            "upccode": "AM555755",
-            "storeid": "INT9"
+            // "upccode": "AM555755",
+            "upccode": upccode,
+            "storeid": config.storeID
         }
 
     
@@ -19,8 +20,7 @@ const getMNPservice = async () => {
     const  url=service.ZONEURL
     const APIURL = `${url}${name}`;
 
-
-  //  const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
+//    const APIURL = "http://devfin.ril.com:8080/MobilityPlan/MNP"
     try {
         const response = await postApiCall(Request, APIURL);
         return response;

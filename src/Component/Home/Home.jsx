@@ -134,7 +134,7 @@ const  hidePinModal =() =>{
         setErrorPin(false)
         if (pin) {
             setLoading(true)
-            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin));
+            const GetServiceableAreaBypincode = await triggerAction(() => ServiceableAreaService(pin, msdn));
             setLoading(false)
             if (GetServiceableAreaBypincode.Errocode == "00") {
                 setLoading(true)
@@ -188,6 +188,8 @@ const  hidePinModal =() =>{
                 // config.guid = callValidateOTP.guid //for later in new encryption
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
                 config.JCID = callValidateOTP.storeID
+                config.storeID = callValidateOTP.storeID
+                config.storeCode = callValidateOTP.storeID
                 config.deviceId = callValidateOTP.deviceID
                 apiCall()
                 setDisplayPIN(true)

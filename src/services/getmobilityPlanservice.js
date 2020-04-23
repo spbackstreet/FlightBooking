@@ -3,56 +3,60 @@ import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { basicAuth } from '../commom/basicAuth';
 import { apiCall } from '../commom/commonApiCalling';
+import CAFRequest from "../txnUploadData/cafRequest"
+import GlobalPOAModel from '../Model/POAModel';
+import GlobalPOIModel from '../Model/POIModel';
+
 
 const getmobilityPlanservice = async (pType) => {
 
     const Request =
         {
-            "AadhaarNumber": "P371777733",
-            "AgentId": "10051311",
-            "CustomerCircleCode": "MU",
-            "DateOfBirth": "12-09-2001",
-            "EmailAddress": "",
-            "FirstName": "Nisha M",
-            "Gender": "F",
+            "AadhaarNumber": GlobalPOAModel.docNumber,
+            "AgentId": config.userID,
+            "CustomerCircleCode": config.userCircelId,
+            "DateOfBirth":  CAFRequest.DOB,
+            "EmailAddress": CAFRequest.Email,
+            "FirstName": CAFRequest.FirstName,
+            "Gender": CAFRequest.Gender,
             "MenuType": "onboarding",
-            "MiddleName": "Sham M",
-            "MobileNumber": "9683838388",
-            "ORN": "NO00000B7A2I",
+            "MiddleName": "",
+            "MobileNumber": config.custNumber,
+            "ORN": config.ORN,
             "POA": [
                 {
-                    "Number": "P371777733",
-                    "Type": "Z00021"
+                    "Number": GlobalPOAModel.docNumber,
+                    "Type":  GlobalPOAModel.doctypecode
                 }
             ],
             "POI": [
                 {
-                    "Number": "P371777733",
-                    "Type": "Z00021"
+                    "Number": GlobalPOIModel.docNumber,
+                    "Type": GlobalPOIModel.doctypecode
                 }
             ],
             "billingDetails": {
                 "address": {
-                    "buildingName": "plot no 36",
+                    "buildingName": config.custLocalAdd.houseNo,
                     "careOf": "",
-                    "city": "Mumbai,",
+                    "city": config.custLocalAdd.city,
                     "country": "IN",
-                    "district": "Suburban Mumbai",
-                    "landmark": "Near national Park",
-                    "locality": "Abhinav Nagar",
-                    "pincode": "400066",
-                    "state": "MAHARASHTRA",
-                    "streetName": "Road number 4"
+                    "district":config.custLocalAdd.district,
+                    "landmark": config.custLocalAdd.landMark,
+                    "locality": config.custLocalAdd.area,
+                    "pincode": config.custLocalAdd.pincode,
+                    "state": config.custLocalAdd.state,
+                    "streetName": config.custLocalAdd.roadName
                 }
             },
             "caf_category": "EKYC",
             "caf_type": pType,
-            "circleId": "MU",
+            "circleId": config.userCircelId,
             "guid": config.guid,
             "serviceType": "MOBILITY",
-            "storeid": "INT9"
+            "storeid": config.storeID
         }
-    console.log("Request : ", Request)
+    console.log("Request GetmobilityPlan : ", Request)
     
 
 

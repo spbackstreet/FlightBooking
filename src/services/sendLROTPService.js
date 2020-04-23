@@ -8,8 +8,8 @@ const sendLROTPService = async (mobileNo, action, name, lrOTP) => {
 
         "LRMobileNo": mobileNo,
         "LRCustName": name,
-        "AgentId": "10051311",
-        "Orn": "NO86673333",
+        "AgentId": config.custNumber,
+        "Orn": config.ORN,
         "Action": action,
         "LROtp": lrOTP,
         "StoreNo": "INT9",

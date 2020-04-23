@@ -1,18 +1,16 @@
+
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css 
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 
 import { apiCall } from '../commom/commonApiCalling';
 
-const getLiveNessService = async (docImage, imageName) => {
+const getBilldeskModalQueryStr = async () => {
     const Request = {
         "orn": config.ORN,
-        "whiteBackground": "0",
-        "eyesCheck": "1",
-        "capture_type": "0",
-        "image": docImage,
-        "image2": "",
-        "imageFileName": imageName
+        "amount": config.amount,
+        "guid": config.guid,
+        "mobile" : config.custNumber
     };
     // console.log("Request : ", Request)
     // const  service =apiCall("GetTaxSummaryGST")
@@ -20,7 +18,7 @@ const getLiveNessService = async (docImage, imageName) => {
     // const  url=service.ZONEURL
     // const APIURL = `${url}${name}`;
     
-    const APIURL = "http://devfin.ril.com:8080/HealthService/getLiveNess";
+    const APIURL = "https://devfin.ril.com:8443/HealthService/getCheckSumBillDesk";
 
     try {
         const response = await postApiCall(Request, APIURL);
@@ -32,4 +30,4 @@ const getLiveNessService = async (docImage, imageName) => {
 
 }
 
-export default getLiveNessService;
+export default getBilldeskModalQueryStr;
