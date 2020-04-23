@@ -49,7 +49,7 @@ const Planselection = () => {
 
     const [userid, setUserid] = useState('')
     const [lstSegmentPlan, setlstSegmentPlan] = useState([])
-    const [lstPlan, setlstPlan] = useState([])
+    const [lstPlan, setLstPlan] = useState([])
     const [Search, setSearch] = useState('')
     const [displayCustDet, setdisplayCustDet] = useState(false)
     const [simCirclecode, setsimCirclecode] = useState('')
@@ -1139,8 +1139,8 @@ const Planselection = () => {
         setloading(false)
 
         if (GetmobilityPlan.ErrorCode === "00") {
-            setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
-            setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
+           setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
+        //     setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
 
             // for(let  i=0 ;i<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;i++ ){
             //     if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i].lstFRC.length!==0){
@@ -1184,7 +1184,7 @@ const Planselection = () => {
         }
 
 
-
+        
 
     }
 
@@ -1368,7 +1368,6 @@ const Planselection = () => {
         <div>
             <div>
                 {/* {modal} */}
-
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
                     <div className="modal-dialog" style={{ top: "4%" }}>
                         <div className="modal-content">
