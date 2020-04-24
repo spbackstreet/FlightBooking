@@ -377,7 +377,7 @@ const CapCustPhoto = () => {
         // const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
         // setLoading(false)
         // if (getLiveNess.errorCode === "00") {
-        //     history.push('/deliveryAddress');
+        //     history.push('/CustomerDetails');
         // }
         // else {
         //     confirmAlert({
@@ -394,7 +394,7 @@ const CapCustPhoto = () => {
         //     });
         // }
 
-        history.push('/deliveryAddress'); //for test
+        history.push('/CustomerDetails'); //for test
 
 
     }

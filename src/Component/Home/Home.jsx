@@ -147,6 +147,7 @@ const  hidePinModal =() =>{
                     config.custCircleHeader = GetPincode.pincodelist[0].area
                     config.CAF_NUMBER = GetPincode.cafNumber
                     
+                    config.pincode = pin
                     history.push('/DKYC')
                 }    
             }

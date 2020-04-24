@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
 import getpincode from '../../services/getpincode';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerCircle, storeCustomerDelivery , storeCustomeroutstation} from '../../action';
+import { storeCustomerCircle, storeCustomerDelivery, storeCustomeroutstation } from '../../action';
 import { confirmAlert } from 'react-confirm-alert';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
 import CAFRequest from "../../txnUploadData/cafRequest"
 import config from '../../config';
+import {showErrorAlert} from '../../commom/commonMethod';
 
 
 const display = {
@@ -39,6 +40,46 @@ const DeliveryAddress = () => {
     const [state, setState] = useState('');
 
     const history = useHistory()
+
+    useEffect(() => {
+        (async () => {
+            setPincode(config.pincode);
+            setLoading(true)
+
+            const getCustomerCircle = await triggerAction(() => getpincode(config.pincode));
+            setLoading(false)
+            if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
+                // dispatch(storeCustomerCircle(vpincode));
+                config.userCircelId = getCustomerCircle.pincodelist[0].statecode;
+
+                let vcityLst = [];
+                let vdistrictLst = [];
+                let vstateLst = []
+                for (let i = 0; i < getCustomerCircle.pincodelist.length; i++) {
+                    const element = getCustomerCircle.pincodelist[i];
+                    vcityLst.push(element.city);
+                    vdistrictLst.push(element.district);
+                    vstateLst.push(element.state);
+                }
+                setCityLst([...vcityLst]);
+                setDistrictLst([...vdistrictLst]);
+                setStateLst([...vstateLst])
+
+            }
+            else {
+                confirmAlert({
+                    title: <h3 style={{ "color": "red" }}>Error</h3>,
+                    message: getCustomerCircle.ErrorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return false; }
+                        }
+                    ]
+                });
+            }
+        })()
+    }, [])
 
     const updatePincode = async (e) => {
         setPincode(e.currentTarget.value.substring(0, 6))
@@ -111,72 +152,117 @@ const DeliveryAddress = () => {
         setState(e.target.value)
     }
 
-    const validateFields = async(e) => {
-        if (houseNo && roadName && area && city && district && state) {
-
-            let delAddr = {
-                "houseNo": houseNo,
-                "landMark": landMark,
-                "roadName": roadName,
-                "area": area,
-                "city": city,
-                "district": district,
-                "state": state,
-                "pincode":pincode
-            }
-
-            // CAFRequest.FirstName=custName
-            // CAFRequest.DOB =dob
-            CAFRequest.District=district
-            CAFRequest.LandMark=landMark
-            CAFRequest.State=state
-            CAFRequest.City= city
-            CAFRequest.Localadd_pincode=pincode
-            CAFRequest.LocalAdd_landmark=roadName
-            
-
-
-            confirmAlert({
-                message: "Are you an outstation customer?",
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: async () => {
-                            // await dispatch(storeCustomerDelivery(delAddr));
-                            config.custLocalAdd = delAddr;
-                            // await dispatch(storeCustomeroutstation(true));
-                            config.isOutstation = true
-                            history.push('/permanentAddress')
-                            CAFRequest.CUSTOMER_TYPE = '0005'
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: async() => { 
-                            // await dispatch(storeCustomerDelivery(delAddr));
-                            config.custLocalAdd = delAddr;
-                            // await dispatch(storeCustomeroutstation(false));
-                            config.isOutstation = false
-                            CAFRequest.CUSTOMER_TYPE = '0001'
-                            history.push('/permanentAddress') }
-                            
-                    }
-                ]
-            });
+    const isValidateFileds = (e) => {
+        if(!pincode) {
+            showErrorAlert("Please enter valid Pincode")
+            return false
+        }
+        else if(!houseNo) {
+            showErrorAlert("Please enter House No/Flat No/Building/Apartment")
+            return false
+        }
+        else if(!roadName) {
+            showErrorAlert("Please enter Street Address/Road Name")
+            return false
+        }
+        else if(!area) {
+            showErrorAlert("Please enter Area/Sector/Locality")
+            return false
+        }
+        else if(!district) {
+            showErrorAlert("Please Select District")
+            return false
+        }
+        else if(!state) {
+            showErrorAlert("Please Select State")
+            return false
+        }
+        else if(!city) {
+            showErrorAlert("Please Select City")
+            return false
+        }
+        else if((houseNo + roadName + area).replace(" ","").length<14){
+            showErrorAlert("Please enter complete address and the length should be minimum 14 characters")
+            return false
+        }
+        else{
+            return true
         }
 
-        else {
-            confirmAlert({
-                title: <h3 style={{ "color": "red" }}>Error</h3>,
-                message: "Please enter all mandatory fields",
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => { return false; }
-                    }
-                ]
-            });
+    }
+
+
+    const validateFields = async (e) => {
+        if(isValidateFileds){
+            history.push('/localreference')
         }
+
+        // if (houseNo && roadName && area && city && district && state) {
+
+        //     let delAddr = {
+        //         "houseNo": houseNo,
+        //         "landMark": landMark,
+        //         "roadName": roadName,
+        //         "area": area,
+        //         "city": city,
+        //         "district": district,
+        //         "state": state,
+        //         "pincode": pincode
+        //     }
+
+        //     // CAFRequest.FirstName=custName
+        //     // CAFRequest.DOB =dob
+        //     CAFRequest.District = district
+        //     CAFRequest.LandMark = landMark
+        //     CAFRequest.State = state
+        //     CAFRequest.City = city
+        //     CAFRequest.Localadd_pincode = pincode
+        //     CAFRequest.LocalAdd_landmark = roadName
+
+
+
+        //     confirmAlert({
+        //         message: "Are you an outstation customer?",
+        //         buttons: [
+        //             {
+        //                 label: 'Yes',
+        //                 onClick: async () => {
+        //                     // await dispatch(storeCustomerDelivery(delAddr));
+        //                     config.custLocalAdd = delAddr;
+        //                     // await dispatch(storeCustomeroutstation(true));
+        //                     config.isOutstation = true
+        //                     history.push('/permanentAddress')
+        //                     CAFRequest.CUSTOMER_TYPE = '0005'
+        //                 }
+        //             },
+        //             {
+        //                 label: 'No',
+        //                 onClick: async () => {
+        //                     // await dispatch(storeCustomerDelivery(delAddr));
+        //                     config.custLocalAdd = delAddr;
+        //                     // await dispatch(storeCustomeroutstation(false));
+        //                     config.isOutstation = false
+        //                     CAFRequest.CUSTOMER_TYPE = '0001'
+        //                     history.push('/permanentAddress')
+        //                 }
+
+        //             }
+        //         ]
+        //     });
+        // }
+
+        // else {
+        //     confirmAlert({
+        //         title: <h3 style={{ "color": "red" }}>Error</h3>,
+        //         message: "Please enter all mandatory fields",
+        //         buttons: [
+        //             {
+        //                 label: 'OK',
+        //                 onClick: () => { return false; }
+        //             }
+        //         ]
+        //     });
+        // }
     }
 
 
@@ -194,7 +280,7 @@ const DeliveryAddress = () => {
                                         <div class="md-font f-16 pl-3 pb-2">Customer Delivery Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                                <div className="spin" style={{top: "50%"}}>
+                                                <div className="spin" style={{ top: "50%" }}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
@@ -312,7 +398,7 @@ const DeliveryAddress = () => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
-                                                            style={{ "background": "#0D95A2" }}  onClick={(e) => validateFields(e)}
+                                                                style={{ "background": "#0D95A2" }} onClick={(e) => validateFields(e)}
                                                             >Submit</button>
                                                         </div>
                                                     </div>

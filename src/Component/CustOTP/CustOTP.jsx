@@ -483,7 +483,7 @@ const CustOTP = () => {
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
         // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
-        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "32";
+        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "34";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";
@@ -569,13 +569,19 @@ const CustOTP = () => {
         CAFRequest.DG_PIC = config.DG_PIC
         CAFRequest.DG_LTP = config.DG_LTP
         CAFRequest.Aadhar_Number = "215542599440"
+        if(config.isOutstation){
+            CAFRequest.CUSTOMER_TYPE = "0005"
+        }
+        else{
+            CAFRequest.CUSTOMER_TYPE = "0001"
+        }
 
         let caffields =
             CAFRequest.CAF_TYPE + "|" +
             // CAFRequest.CAF_NUMBER + "|" +
             config.CAF_NUMBER + "|" +
-            // CAFRequest.CUSTOMER_TYPE + "|" + //for test
-            "0001" + "|" +
+            CAFRequest.CUSTOMER_TYPE + "|" + //for test
+            // "0001" + "|" +
             CAFRequest.PRODUCT_ID + "|" +
             // CAFRequest.RMN + "|" + //for test
             "7008124658" + "|" +

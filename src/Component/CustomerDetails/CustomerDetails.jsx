@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FixedHeader } from '../../commom/FixedHeader';
 import Spinner from 'react-spinner-material';
 import useLoader from '../../hooks/useLoader';
@@ -32,6 +32,7 @@ const CustomerDetails = () => {
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
     const [houseNo, setHouseNo] = useState('')
+    const [custAadhaar, setCustAadhaar] = useState(CAFRequest.DocumentId)
     const [custName, setCustName] = useState('')
     const [landMark, setLandmark] = useState('')
     const [roadName, setRoadName] = useState('')
@@ -47,6 +48,11 @@ const CustomerDetails = () => {
     const [{ app: { custLocalAdd, custNumber } },] = useGlobalState();
 
     const history = useHistory()
+
+    // useEffect (() => {
+
+    //     setAltMobileNum()
+    // }, [])
 
     const updatePincode = async (e) => {
         setPincode(e.currentTarget.value.substring(0, 6))
@@ -93,6 +99,10 @@ const CustomerDetails = () => {
         setCustName(e.target.value)
     }
 
+    const updateCustAadhaar = (e) => {
+        setCustAadhaar(e.target.value)
+    }
+
     const changeRelationType = (e) => {
         console.log(`relation`, e.target.value)
         if (e.target.value == "Self") {
@@ -115,7 +125,7 @@ const CustomerDetails = () => {
         }
     }
 
-    const changeMobileNumber = (e) => {  
+    const changeMobileNumber = (e) => {
         setAltMobileNum(e.target.value)
     }
 
@@ -158,8 +168,8 @@ const CustomerDetails = () => {
     const validateFields = async (e) => {
 
         console.log(`dob`, dob)
-console.log(`altMobileNum[0]`,altMobileNum[0])
-console.log(`altMobileNum`,altMobileNum.length)
+        console.log(`altMobileNum[0]`, altMobileNum[0])
+        console.log(`altMobileNum`, altMobileNum.length)
         var birthday = new Date(dob);
 
 
@@ -168,92 +178,81 @@ console.log(`altMobileNum`,altMobileNum.length)
 
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
-        if (custName && houseNo && roadName && area && city && district && state && dob)
-         {
-            if (document.getElementById('alternate').value.startsWith('6') ||document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
-            ||document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
+        if (custName && altMobileNum && dob && relName && document.getElementById('email').value) {
+            if (document.getElementById('alternate').value.startsWith('6') || document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
+                || document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
 
                     let delAddr = {
                         "custName": custName,
                         "dob": dob,
-                        "houseNo": houseNo,
-                        "landMark": landMark,
-                        "roadName": roadName,
-                        "area": area,
-                        "city": city,
-                        "district": district,
-                        "state": state,
-                        "pincode": pincode,
+                        // "houseNo": houseNo,
+                        // "landMark": landMark,
+                        // "roadName": roadName,
+                        // "area": area,
+                        // "city": city,
+                        // "district": district,
+                        // "state": state,
+                        // "pincode": pincode,
                         "altMoNo": altMobileNum,
                         "ALT_Contact_Type": "Mobile" //hardcoded
                     }
 
-                    // const dateInput = new Date(document.getElementById("doB").value)
-                    // const extractedDay = dateInput.getDate()
-                    // let extractedMonth = dateInput.getMonth() + 1
-                    // if (extractedMonth < 10) {
-                    //     extractedMonth = `0${extractedMonth}`
-                    // }
-
-                    // CAFRequest.Aadharaddrsameinstalltion = 'N';
+                   
 
                     const dateInput = new Date(document.getElementById("dob").value)
                     const extractedDay = dateInput.getDate()
                     let extractedMonth = dateInput.getMonth() + 1
                     if (extractedMonth < 10) {
-                      extractedMonth = `0${extractedMonth}`
+                        extractedMonth = `0${extractedMonth}`
                     }
                     const extractedYear = dateInput.getFullYear()
-        
+
                     if (config.isAadharKYC) {
-                        CAFRequest.Aadhar_Number = document.getElementById('docNumber').value;
+                        CAFRequest.Aadhar_Number = document.getElementById('custAadhaar').value;
                         CAFRequest.Aadharaddrsameinstalltion = 'Y';
                     }
-                    
-                    // CAFRequest.DocumentId = document.getElementById('docNumber').value
-                    CAFRequest.BldgName = document.getElementById('houseNo').value;
-                    CAFRequest.BuildingId = document.getElementById('houseNo').value;
-                    CAFRequest.City = document.getElementById('village').value;
+
+                    CAFRequest.DocumentId = document.getElementById('custAadhaar').value
+                    // CAFRequest.BldgName = document.getElementById('houseNo').value;
+                    // CAFRequest.BuildingId = document.getElementById('houseNo').value;
+                    // CAFRequest.City = document.getElementById('village').value;
                     CAFRequest.Country = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
                     CAFRequest.DOB = extractedDay + "-" + extractedMonth + '-' + extractedYear;
-                    CAFRequest.District = document.getElementById('district').value;
+                    // CAFRequest.District = document.getElementById('district').value;
                     CAFRequest.Email = document.getElementById('email').value;
                     CAFRequest.FirstName = document.getElementById('custName').value;
                     CAFRequest.Gender = document.getElementById('gender').value;
-                    CAFRequest.LandMark = document.getElementById('landMark').value;
-                    CAFRequest.LocalAdd_Street = document.getElementById('roadName').value;
-                    CAFRequest.StreetName = document.getElementById('roadName').value;
-                    CAFRequest.LocalAdd_buildingName = document.getElementById('houseNo').value;
-                    CAFRequest.LocalAdd_landmark = document.getElementById('landMark').value;
-                    CAFRequest.LocalAdd_locality = document.getElementById('area').value;
-                    //CAFRequest.LocalRef_callingpartyNo=document.getElementById('mobileNo').value;
-                    CAFRequest.Localadd_City = document.getElementById('village').value;
-                    CAFRequest.Localadd_postoffice = document.getElementById('village').value;
-                    CAFRequest.Localadd_district = document.getElementById('district').value;
-                    CAFRequest.Localadd_pincode = document.getElementById('pinCode').value;
-                    CAFRequest.Localadd_state = document.getElementById('state').value;
-                    CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
-                    CAFRequest.Locality = document.getElementById('area').value;
-                    CAFRequest.PostCode = document.getElementById('pinCode').value;
-                    // CAFRequest.RMN = document.getElementById('altMobileNo').value;
+                    // CAFRequest.LandMark = document.getElementById('landMark').value;
+                    // CAFRequest.LocalAdd_Street = document.getElementById('roadName').value;
+                    // CAFRequest.StreetName = document.getElementById('roadName').value;
+                    // CAFRequest.LocalAdd_buildingName = document.getElementById('houseNo').value;
+                    // CAFRequest.LocalAdd_landmark = document.getElementById('landMark').value;
+                    // CAFRequest.LocalAdd_locality = document.getElementById('area').value;
+                    // //CAFRequest.LocalRef_callingpartyNo=document.getElementById('mobileNo').value;
+                    // CAFRequest.Localadd_City = document.getElementById('village').value;
+                    // CAFRequest.Localadd_postoffice = document.getElementById('village').value;
+                    // CAFRequest.Localadd_district = document.getElementById('district').value;
+                    // CAFRequest.Localadd_pincode = document.getElementById('pinCode').value;
+                    // CAFRequest.Localadd_state = document.getElementById('state').value;
+                    // CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
+                    // CAFRequest.Locality = document.getElementById('area').value;
+                    // CAFRequest.PostCode = document.getElementById('pinCode').value;
+                    // //CAFRequest.RMN = document.getElementById('altMobileNo').value;
                     CAFRequest.RMN = config.custNumber;
                     CAFRequest.RMN_relationship = relationShipType;
-                    CAFRequest.Locality = document.getElementById('area').value;
-                    CAFRequest.Locality = document.getElementById('area').value;
-                    CAFRequest.Locality = document.getElementById('area').value;
-                    CAFRequest.Locality = document.getElementById('area').value;
+                    // CAFRequest.Locality = document.getElementById('area').value;
                     CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
 
                     CAFRequest.CareOf = "C/O Rajat"
                     CAFRequest.Localadd_careof = "C/O Rajat"
                     CAFRequest.FFN = document.getElementById('fname').value
 
-                    // const abc = await dispatch(storeCustomerDelivery(delAddr));
+                    // //const abc = await dispatch(storeCustomerDelivery(delAddr));
                     config.custDelAdd = delAddr
-                    //await dispatch(storeCustomeroutstation(true));
-                    //await dispatch(storeCustomeroutstation(false));
-                    history.push('/planselection')
+                    // //await dispatch(storeCustomeroutstation(true));
+                    // //await dispatch(storeCustomeroutstation(false));
+                    history.push('/permanentAddress')
 
                 }
                 else {
@@ -309,10 +308,10 @@ console.log(`altMobileNum`,altMobileNum.length)
                                 <div class="col">
                                     {FixedHeader()}
                                     <section class="card-view-sm mt-3">
-                                        <div class="md-font f-16 pl-3 pb-2">Customer Delivery Details</div>
+                                        <div class="md-font f-16 pl-3 pb-2">Customer Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                                <div className="spin" style={{top:"50%"}}>
+                                                <div className="spin" style={{ top: "50%" }}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
@@ -320,6 +319,29 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                     <div class="col-12">
                                                         <form action="" class="">
                                                             <div class="login">
+
+                                                                {config.isAadharKYC ?
+
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Aadhaar Number<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="custAadhaar" type="text" required="required" name="custAadhaar" autocomplete="off" placeholder=" "
+                                                                            value={custAadhaar}
+                                                                            onChange={(e) => updateCustAadhaar(e)}
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                        />
+                                                                    </div>
+
+                                                                    :
+                                                                    <div class="form-group">
+                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Document No. POI<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                        <input id="custAadhaar" type="text" required="required" name="custAadhaar" autocomplete="off" placeholder=" "
+                                                                            value={custAadhaar}
+                                                                            onChange={(e) => updateCustAadhaar(e)}
+                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                        />
+                                                                    </div>
+                                                                }
+
 
                                                                 <div class="form-group">
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Customer Name<label style={{ color: "#FF0000" }}>*</label></label>
@@ -384,7 +406,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                     />
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
                                                                         value={config.custNumber}
@@ -393,7 +415,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                     />
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Relationship  Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" " id="relationType"
                                                                         onChange={(e) => changeRelationType(e)}
@@ -403,26 +425,26 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                         <option>Others</option>
                                                                     </select>
                                                                 </div>
-                                                                {relationShipType ?
+                                                                {/* {relationShipType ?
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" "    maxlength="10"
-                                                                          value={config.custNumber} disabled 
+                                                                        <input id="alternate" type="number" required="required" name="alternate" autocomplete="off" placeholder=" " maxlength="10"
+                                                                            value={config.custNumber} disabled
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>
 
-                                                                    :
+                                                                    : */}
                                                                     <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate"  type="number"  maxLength="10" required="required" name="alternate" autocomplete="off" placeholder=" "  
-                                                                            onChange={(e) => changeMobileNumber(e)}  
+                                                                        <input id="alternate" type="number" maxLength="10" required="required" name="alternate" autocomplete="off" placeholder=" "
+                                                                            onChange={(e) => changeMobileNumber(e)} value ={altMobileNum}
                                                                             style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
                                                                         />
                                                                     </div>
-                                                                }
+                                                                {/* } */}
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="Mtype" type="text" required="required" name="Mtype" autocomplete="off" placeholder=" "
 
@@ -444,7 +466,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div>
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="houseNo" type="text" required="required" name="houseNo" autocomplete="off" placeholder=" "
                                                                         value={houseNo} onChange={(e) => updateHouseNo(e)}
@@ -455,7 +477,7 @@ console.log(`altMobileNum`,altMobileNum.length)
 
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
                                                                     <input id="landMark" type="text" required="required" name="landMark" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -464,7 +486,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div>
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="roadName" type="text" required="required" name="roadName" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -473,7 +495,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div>
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                     <input id="area" type="text" required="required" name="area" autocomplete="off"
@@ -483,7 +505,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div>
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
 
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="pinCode" type="number" required="required" name="pinCode" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -495,7 +517,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div>
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="village" type="number" required="required" name="village" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -509,7 +531,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                     </select>
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="district" type="text" required="required" name="district" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -522,7 +544,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                     </select>
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
 
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Sub-District<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="subDistrict" type="text" required="required" name="subDistrict" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -545,7 +567,7 @@ console.log(`altMobileNum`,altMobileNum.length)
                                                                 </div> */}
 
 
-                                                                <div class="form-group">
+                                                                <div class="form-group" style ={{"display" : "none"}}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="state" type="text" required="required" name="state" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "

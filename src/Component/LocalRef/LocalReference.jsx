@@ -15,7 +15,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import CAFRequest from "../../txnUploadData/cafRequest";
 import { storeCustomerLocal } from  '../../action';
 import config from '../../config';
-
+import {showErrorAlert} from '../../commom/commonMethod';
 
 
 const display = {
@@ -408,13 +408,19 @@ const LocalReference = () => {
             setDisplayotp(false)
         }
 
+        const validateReference = () => {
+            
+        }
+
 
 
         const  goToPlanSelection  = async (e) =>{
             console.log(`lrMobile`,lrMobile[0])
-if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && city && district &&  state
-    )
-           { 
+            if((houseNo + roadName + area).replace(" ", "").length < 14){
+                showErrorAlert("Please enter complete address and the length should be minimum 14 characters")
+            }
+            else if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && city && district &&  state){ 
+
                if(lrMobile.length < 10  ||  lrMobile[0]=="0" ||  lrMobile[0]=="1" ||  lrMobile[0]=="2" ||  lrMobile[0]=="3" || 
                 lrMobile[0]=="4" ||  lrMobile[0]=="5" )  {
                 confirmAlert({
@@ -427,7 +433,7 @@ if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && ci
                 })
                }
                else{
-            let  localref ={
+                let  localref ={
                 "firstName":firstName,
                 "middleName":middleName,
                 "lastName":lastName,
@@ -456,15 +462,14 @@ if(firstName && lrMobile && houseNo && roadName && area && pincodeLocalRef && ci
             CAFRequest.Ref_city = city
             CAFRequest.Ref_state = state
             CAFRequest.Ref_country = "IN"
-
             console.log(`localref`,localref)
             // await dispatch(storeCustomerLocal(localref));
             config.custLocalRefAdd = localref;
-            // history.push('/planselection')
-            history.push('/CustomerDetails')
+            history.push('/Planselection')
         }
 
         }
+        
         else{
             confirmAlert({
                 message: "Please enter all the mandatory fields",
