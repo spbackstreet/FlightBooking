@@ -411,7 +411,7 @@ const config = {
     mobile: '',
     discountAmount: '0',
     planType: 'R',
-    userCircelId: '',
+    userCircelId: 'MH',
     posid: '',
     storeCode: '',
     APIKey: 'l7xx051a664ec28e43ce9775edf4ae88becf',

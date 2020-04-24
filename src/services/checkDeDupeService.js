@@ -2,25 +2,27 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { postApiCall } from '../commom/ApiRouter';
 import config from '../config';
 import { apiCall } from '../commom/commonApiCalling';
+import CAFRequest from "../txnUploadData/cafRequest"
+
 
 const checkDeDupeService = async (mobileNo, isLRDedup) => {
     const Request = {
 
         "AadharNo": "",
         "Guid": config.guid,
-        "Circle_ID": "MU",
-        "StoreNo": "INT9",
-        "UserId": "10051311",
+        "Circle_ID": config.userCircelId,
+        "StoreNo": config.storeID,
+        "UserId": config.userID,
         "NoofConnections": "",
         "RequestType": "",
         "LR_Contact_Number": mobileNo,
 
         // added for new Vid Request
         "uidai": "215542599440",
-        "Pincode": "400701",
-        "city": "Mumbai",
-        "customerName": "Chandrani",
-        "dob": "16/05/1993"
+        "Pincode": config.pincode,
+        "city": config.custLocalAdd.city,
+        "customerName": CAFRequest.FirstName,
+        "dob": CAFRequest.DOB
     };
     console.log("Request : ", Request)
 

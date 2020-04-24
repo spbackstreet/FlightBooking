@@ -11,11 +11,11 @@ const BlockMSISDNservice = async (MSISDN) => {
 
     const Request = {
         "guId": config.guid,
-        "storeId": 'INT9',
-        "userId": '10051311',
-        "orn": "",
-        "circleId": 'MU',
-        "orderRefNumber": 'NO12345678',
+        "storeId": config.storeID,
+        "userId": config.userID,
+        "orn": config.ORN,
+        "circleId": config.userCircelId,
+        "orderRefNumber": config.ORN,
         "identifier": [{
             "name": "MSISDN",
             "value": MSISDN

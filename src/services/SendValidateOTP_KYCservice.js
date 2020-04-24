@@ -8,16 +8,16 @@ const SendValidateOTP_KYCservice = async (custotp, agentotp, action, ORN) => {
 
     const Request = {
 
-        Agent_id: "10051311",
+        Agent_id: config.userID,
         DeviceId: "",
-        storeid: "INT9",
+        storeid: config.storeID,
         Guid: config.guid,
         Action: action,
         agent_otp: agentotp,
-        cust_mobileno: "9561499434",
+        cust_mobileno: config.custNumber,
         cust_otp: custotp,
         Orn: ORN,
-        Agent_mobileno: "9096284056"
+        Agent_mobileno: config.custNumber
 
         // cust_TVotp: "",
         // agent_TVotp: "",

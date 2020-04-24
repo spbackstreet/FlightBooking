@@ -9,7 +9,7 @@ const getPincode = async (doctype, image) => {
         "guid": config.guid,
         "agentid": config.userID,
         "storeid": config.storeID,
-        "orn": "NO00000123",
+        "orn": config.ORN,
         "doctype": doctype,
         "image": image
     }

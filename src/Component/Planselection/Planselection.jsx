@@ -95,9 +95,10 @@ const Planselection = () => {
     const [msg, setmsg] = useState('')
     const [msgCust, setmsgCust] = useState('');
     const geolocation = useGeolocation()
-    const [noOFConnectionValueOperator,setNoOFConnectionValueOperator]=useState('')
-    const [operatorName,setOperatorName]=useState('')
-    const [frcID,setFrcID] = useState('')
+    const [noOFConnectionValueOperator, setNoOFConnectionValueOperator] = useState('')
+    const [operatorName, setOperatorName] = useState('')
+    const [frcID, setFrcID] = useState('')
+    const [upcCode, setupcCode] = useState('')
 
     let validator = new SimpleReactValidator();
 
@@ -189,7 +190,7 @@ const Planselection = () => {
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
         debugger;
-       
+
         if (lstFRC.length >= 1) {
             var FRC = []
             for (let x = 0; x < lstFRC.length; x++) {
@@ -199,7 +200,8 @@ const Planselection = () => {
             setPOS_DESC(POS_DESC);
             setSELLINGPRICE(SELLINGPRICE)
             setlstFRC([...FRC])
-            setFrcID(lstFRC.frcID)
+            // setFrcID(lstFRC.frcID)
+            config.frcID = lstFRC[0].frcID
             setselectPlan(false)
             setisPlanselected(true)
 
@@ -278,21 +280,21 @@ const Planselection = () => {
     }
 
     const checkNextPlan = (frm, e) => {
-// if(noOFConnectionValueOperator=="Select"){
-//     showErrorAlert("Please select no of connections.")
-// }else{
+        // if(noOFConnectionValueOperator=="Select"){
+        //     showErrorAlert("Please select no of connections.")
+        // }else{
 
-// }
-// if(operatorName=="Select"){
-//     showErrorAlert("Please select operator.")
+        // }
+        // if(operatorName=="Select"){
+        //     showErrorAlert("Please select operator.")
 
-// }
-//     else{
+        // }
+        //     else{
 
-//     }
-   
+        //     }
 
-       
+
+
         e.preventDefault();
         var validationCheck = lstPlanFRCValidator(frm, e);
         if (validationCheck) {
@@ -438,7 +440,7 @@ const Planselection = () => {
     const btnSave = (e) => {
         var continueflag = true;
         var msg = "";
-       
+
         if (document.getElementById('edtMobile').value.length != 10) {
             setmsg("Mobile Number lenght should be 10.")
             continueflag = false
@@ -457,8 +459,8 @@ const Planselection = () => {
         else if (document.getElementById('edtName') === undefined
             || document.getElementById('edtName').value.trim === "") {
 
-                continueflag = false
-                setmsg("Please Enter Customer Name(Self/Family Members.")
+            continueflag = false
+            setmsg("Please Enter Customer Name(Self/Family Members.")
             // confirmAlert({
             //     message: "Please Enter Customer Name(Self/Family Members.",
             //     buttons: [
@@ -471,8 +473,8 @@ const Planselection = () => {
 
         } else if (document.getElementById('edtMobile') === undefined
             || document.getElementById('edtMobile').value.trim === "" && document.getElementById('edtMobile').value.length != 10) {
-                continueflag = false;
-                setmsg("Please enter valid mobile number")
+            continueflag = false;
+            setmsg("Please enter valid mobile number")
             // confirmAlert({
             //     message: "Please enter valid mobile number",
             //     buttons: [
@@ -488,8 +490,8 @@ const Planselection = () => {
         else if (!isIncomeAndReasonCaptured) {
             if (document.getElementById('edtCustomerIndividualIncome') === undefined
                 || document.getElementById('edtCustomerIndividualIncome').value === "") {
-                    continueflag = false;
-                    setmsg("Please Enter Customer Individual Income.")
+                continueflag = false;
+                setmsg("Please Enter Customer Individual Income.")
                 // confirmAlert({
                 //     message: "Please Enter Customer Individual Income.",
                 //     buttons: [
@@ -503,8 +505,8 @@ const Planselection = () => {
             }
             else if (document.getElementById('edtCustomerFamilyIncome') === undefined
                 || document.getElementById('edtCustomerFamilyIncome').value.trim === "") {
-                    continueflag = false;
-                    setmsg("Please Enter Customer Family Income.")
+                continueflag = false;
+                setmsg("Please Enter Customer Family Income.")
                 // confirmAlert({
                 //     message: "Please Enter Customer Family Income.",
                 //     buttons: [
@@ -518,8 +520,8 @@ const Planselection = () => {
             }
             else if (document.getElementById('edtReasonForMultipleConnections') === undefined
                 || document.getElementById('edtReasonForMultipleConnections').value.trim === "") {
-                    continueflag = false;
-                    setmsg("Please Enter Reason For Multiple Connections.")
+                continueflag = false;
+                setmsg("Please Enter Reason For Multiple Connections.")
                 // confirmAlert({
                 //     message: "Please Enter Reason For Multiple Connections.",
                 //     buttons: [
@@ -553,8 +555,8 @@ const Planselection = () => {
             else if (document.getElementById('edtMobile') === undefined
                 || document.getElementById('edtMobile').value.trim === "" &&
                 document.getElementById('edtMobile').value.length != 10) {
-                    continueflag = false;
-                    setmsg("Please enter valid mobile number")
+                continueflag = false;
+                setmsg("Please enter valid mobile number")
                 // confirmAlert({
                 //     message: "Please enter valid mobile number",
                 //     buttons: [
@@ -884,11 +886,11 @@ const Planselection = () => {
     }
 
 
-    const callOtp = async(e) => {
+    const callOtp = async (e) => {
 
         if (document.getElementById("chkVerified").checked) {
-            let BlockMSISD=  await callBlockMSISDN(); 
-            let send_Cust=  await send_Cust_Agent('send_Cust_Agent');
+            let BlockMSISD = await callBlockMSISDN();
+            let send_Cust = await send_Cust_Agent('send_Cust_Agent');
         }
         else {
             setmsgCust("Please check the box before proceed")
@@ -1017,12 +1019,12 @@ const Planselection = () => {
         setloading(false)
 
         if (SendValidateOTP_KYC.errorCode === "00") {
-            config.ORN=SendValidateOTP_KYC.ORN
+            config.ORN = SendValidateOTP_KYC.ORN
             //var countdownTimer = setInterval(this.secondPassed(countdownTimer), 1000)
             setdisplayCustDet(!displayCustDet)
             console.log(`fgufhi`, CAFRequest)
             PlanselectionModel.PRODUCT_ID = PRODUCT_ID
-            PlanselectionModel.FRCID = frcID
+            PlanselectionModel.FRCID = config.frcID
             // PlanselectionModel.lstFRC = document.getElementById('lstFRC').value
             // PlanselectionModel.FRCiccid = document.getElementById('FRCiccid').value
             // PlanselectionModel.FRCimsi = document.getElementById('FRCimsi').value
@@ -1032,17 +1034,17 @@ const Planselection = () => {
             CAFRequest.MSISDN = document.getElementById('FRCmsisdn').value
             CAFRequest.PRODUCT_ID = PRODUCT_ID
             // CAFRequest.PLANID = lstFRC[0].frcID
-            CAFRequest.PLANID=document.getElementById('lstFRC').value
+            CAFRequest.PLANID = document.getElementById('lstFRC').value
             console.log('planselectionModel', PlanselectionModel)
 
             const currentDateTime = getCurrentDateForPOAPOI()
-            config.OTPGenTime=currentDateTime
+            config.OTPGenTime = currentDateTime
             // config.DG_LTP ="LTP;Z00092;156932;"+ geolocation.latitude + "," + geolocation.longitude + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
-            config.DG_LTP ="LTP;Z00092;156932;"+ "19.167634" + "," + "73.07347" + ";" +currentDateTime+ ";" + config.agentMobile + ";" + currentDateTime+ ";"
-                
-            
+            config.DG_LTP = "LTP;Z00092;156932;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + currentDateTime + ";"
+
+
             history.push('/CustOTP')
-            
+
         }
         else if (SendValidateOTP_KYC.errorCode === '03' || SendValidateOTP_KYC.errorCode === '3') {
             confirmAlert({
@@ -1120,8 +1122,8 @@ const Planselection = () => {
     const fetchPlans = async (e) => {
         setplanType(e.target.value)
 
-        
-        
+
+
         let pType = '';
         if (e.target.value == "Postpaid Plans") {
             CAFRequest.CAF_TYPE = 'postpaid'
@@ -1140,19 +1142,19 @@ const Planselection = () => {
            setlstSegmentPlan(GetmobilityPlan.lstSegmentPlan);
         //     setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan)
 
-for(let  a=0 ;a<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;a++ ){
-    if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[a].lstFRC.length!==0){
-       
-       lstPlan.push(GetmobilityPlan.lstSegmentPlan[0].lstPlan[a])
-    }
-    else{
-       console.log(`abcd`)
-    }
-}
-        //    console.log(`karanshah`,GetmobilityPlan.lstSegmentPlan)
+            // for(let  i=0 ;i<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;i++ ){
+            //     if(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i].lstFRC.length!==0){
+
+            //        setlstPlan(GetmobilityPlan.lstSegmentPlan[0].lstPlan[i])
+            //     }
+            //     else{
+            //        console.log(`abcd`)
+            //     }
+            // }
 
 
-             setselectPlan(true)
+
+            setselectPlan(true)
         }
         else if (GetmobilityPlan.ErrorCode === '03' || GetmobilityPlan.ErrorCode === '3') {
             confirmAlert({
@@ -1190,53 +1192,59 @@ for(let  a=0 ;a<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;a++ ){
 
     const mnpclick = async (e) => {
 
-        setloading(true)
-        const GetMNP = await triggerAction(() => getMNPservice());
-        setloading(false)
+        setupcCode(e.currentTarget.value.substring(0, 8).toUpperCase())
+
+        if (e.currentTarget.value.substring(0, 8).length === 8) {
+
+            debugger;
+            setloading(true)
+            const GetMNP = await getMNPservice(e.currentTarget.value.substring(0, 8));
+            setloading(false)
+            debugger;
+
+            if (GetMNP.ErrorCode === "00") {
+                setlstMNP(GetMNP.lstMNP);
+                setmnpSelect(GetMNP.lstMNP[0].mnpSelect)
+                // setisOpen(true)
 
 
-        if (GetMNP.ErrorCode === "00") {
-            setlstMNP(GetMNP.lstMNP);
-            setmnpSelect(GetMNP.lstMNP[0].mnpSelect)
-            setisOpen(true)
-
-
-        }
-        else if (GetMNP.ErrorCode === '03' || GetMNP.ErrorCode === '3') {
-            confirmAlert({
-                title: "Alert!",
-                message: GetMNP.ErrorMessage,
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => {
-                            // logout(this, this.props, config); 
-                            history.push('/home')
+            }
+            else if (GetMNP.ErrorCode === '03' || GetMNP.ErrorCode === '3') {
+                confirmAlert({
+                    title: "Alert!",
+                    message: GetMNP.ErrorMessage,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {
+                                // logout(this, this.props, config); 
+                                history.push('/home')
+                            }
                         }
-                    }
-                ]
-            });
+                    ]
+                });
 
+            }
+            else {
+                confirmAlert({
+
+                    message: GetMNP.ErrorMessage,
+                    buttons: [
+                        {
+                            label: 'OK',
+                        }
+                    ]
+                });
+            }
+
+            // for test
+            // txnUploadData.CAFRequest.VANITYFLAG = "N";
+            // txnUploadData.CAFRequest.VanityType = "";
+            CAFRequest.VANITYFLAG = "N";
+            CAFRequest.VanityType = "";
         }
-        else {
-            confirmAlert({
 
-                message: GetMNP.ErrorMessage,
-                buttons: [
-                    {
-                        label: 'OK',
-                    }
-                ]
-            });
-        }
-
-        // for test
-        // txnUploadData.CAFRequest.VANITYFLAG = "N";
-        // txnUploadData.CAFRequest.VanityType = "";
-        CAFRequest.VANITYFLAG = "N";
-        CAFRequest.VanityType = "";
-
-        openMNPDialog();
+        // openMNPDialog();
 
 
     }
@@ -1332,7 +1340,8 @@ for(let  a=0 ;a<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;a++ ){
         CAFRequest.VanityType = "";
         CAFRequest.Upc_code = document.getElementById('UPCCode').value
         setsimMSISDN(document.getElementById('MNPMsisdn').value)
-        CAFRequest.Mnp_type = document.getElementById('Prepaid1').checked ? 'Prepaid' : 'Postpaid'
+        CAFRequest.Mnp_type = document.getElementById('Prepaid1').checked ? '1' : '2'
+        CAFRequest.Service_provider_name=document.getElementById('serviceProvider').value
         const dateInput = new Date(document.getElementById("upcGenDate").value)
         const extractedDay = dateInput.getDate()
         let extractedMonth = dateInput.getMonth() + 1
@@ -1340,27 +1349,27 @@ for(let  a=0 ;a<GetmobilityPlan.lstSegmentPlan[0].lstPlan.length;a++ ){
             extractedMonth = `0${extractedMonth}`
         }
         const extractedYear = dateInput.getFullYear()
-        CAFRequest.Generation_date = extractedDay + "-" + extractedMonth + '-' + extractedYear
+        CAFRequest.Generation_date = extractedYear + "-" + extractedMonth + '-' + extractedDay
         setisOpen(false)
+
     }
 
-const noOfConnectionsforoperator =(e)=>{
-    setNoOFConnectionValueOperator(e.target.value)
-}
+    const noOfConnectionsforoperator = (e) => {
+        setNoOFConnectionValueOperator(e.target.value)
+    }
 
 
-const  operatorNameFor =(e)=>{
-    setOperatorName(e.target.value)
-}
+    const operatorNameFor = (e) => {
+        setOperatorName(e.target.value)
+    }
 
     return (
 
         <div>
             <div>
                 {/* {modal} */}
-               {console.log(`karan`,lstPlan)}
                 <div className="modal" role="dialog" style={selectPlan ? display : hide}>
-                    <div className="modal-dialog" style={{top:"4%"}}>
+                    <div className="modal-dialog" style={{ top: "4%" }}>
                         <div className="modal-content">
                             <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                                 <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>{planType}</h5>
@@ -1406,7 +1415,7 @@ const  operatorNameFor =(e)=>{
                                                                 </AccordionItemButton>
                                                             </AccordionItemHeading>
                                                             <AccordionItemPanel>
-                                                         
+
                                                                 <div class="row plan_heading title">
                                                                     <div class="col col-1  pr-0 plan_heading_list"></div>
                                                                     <div class="col col-3 plan_heading_list md-font text-plan-amount" >PLAN ID</div>
@@ -1414,8 +1423,8 @@ const  operatorNameFor =(e)=>{
                                                                     <div class="col col-2 plan_heading_list md-font text-plan-amount">AMOUNT<br /></div>
                                                                     {/* <div class="col col-2 pr-0 plan_heading_list md-font"></div> */}
                                                                 </div>
-                                                              
-                                                                {lstPlan.map(function (xitem, xkey) {
+
+                                                                {lstSegmentPlan[key].lstPlan.map(function (xitem, xkey) {
                                                                     if (
                                                                         (Search !== "") &&
                                                                         (xitem.POS_DESC.toLowerCase().indexOf(Search.toLowerCase()) === -1) &&
@@ -1426,41 +1435,40 @@ const  operatorNameFor =(e)=>{
                                                                         return null
                                                                     }
                                                                     return (
-                                                                      
+
                                                                         <div class="row plan_details" onClick={(e) => showPlanselected(e, xitem.PRODUCT_ID, xitem.POS_DESC, xitem.SELLINGPRICE, xitem.lstFRC)}>
                                                                             <div class="col col-3 plan_detail_list">
                                                                                 <div class="list_inline">
-                                                                                {xitem.lstFRC.length !==0?
-                                                                                    <span class="big_tt">{xitem.lstFRC[0].frcID}</span>
-                                                                                    :''
-                                                                                }
+                                                                                    {xitem.lstFRC.length ?
+                                                                                        <span class="big_tt">{xitem.lstFRC[0].frcID}</span>
+                                                                                        : null}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-7 plan_detail_list">
                                                                                 <div class="list_inline">
-                                                                                {xitem.lstFRC.length?
-                                                                                    <span class="big_tt" >{xitem.lstFRC[0].frcDesc}</span>
-                                                                                   : null} 
-                                                                                     {/* <span class="small_tt">{zitem.validity.split(" ")[1].toString()}</span> */}
+                                                                                    {xitem.lstFRC.length ?
+                                                                                        <span class="big_tt" >{xitem.lstFRC[0].frcDesc}</span>
+                                                                                        : null}
+                                                                                    {/* <span class="small_tt">{zitem.validity.split(" ")[1].toString()}</span> */}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col col-2 plan_detail_list">
                                                                                 <div class="plan-amt">
-                                                                                {xitem.lstFRC.length?
-                                                                                <>
-                                                                                    <span className="rupee"></span>
-                                                                                    <span class="big_tt f-16">
-                                                                                        {xitem.lstFRC[0].frcPrice}
-                                                                                    </span>
-                                                                                    </>
-                                                                                    :null}
+                                                                                    {xitem.lstFRC.length ?
+                                                                                        <>
+                                                                                            <span className="rupee"></span>
+                                                                                            <span class="big_tt f-16">
+                                                                                                {xitem.lstFRC[0].frcPrice}
+                                                                                            </span>
+                                                                                        </>
+                                                                                        : null}
                                                                                 </div>
                                                                             </div>
 
                                                                         </div>
-                                                                        
-                                                                        
-                                                                        
+
+
+
 
 
                                                                     )
@@ -1510,7 +1518,7 @@ const  operatorNameFor =(e)=>{
                                         <div class="row no-gutters">
                                             <div class="col-12 pt-2 pb-3">
                                                 <div class="form-group">
-                                                    <input type="text" id="UPCCode" class="jio-form-control" placeholder=" " autocomplete="off" />
+                                                    <input type="text" id="UPCCode" class="jio-form-control" placeholder=" " autocomplete="off" onChange={(e) => mnpclick(e)} value={upcCode} />
                                                     <label for="UPCCode" class="control-label">UPC Code :</label>
                                                 </div>
                                             </div>
@@ -1526,7 +1534,7 @@ const  operatorNameFor =(e)=>{
                                             </div>
                                         </div>
 
-                                        <select class="form-control" id="SelQType1"
+                                        <select class="form-control" id="serviceProvider"
                                         >
                                             {lstMNP.map(function (item, key) {
                                                 return (
@@ -1629,7 +1637,7 @@ const  operatorNameFor =(e)=>{
                 </div>
 
 
-                <div className="spin" style={{ zIndex: 10 ,top: "50%"}}>
+                <div className="spin" style={{ zIndex: 10, top: "50%" }}>
                     <Spinner visible={loading}
                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                 </div>
@@ -1679,7 +1687,7 @@ const  operatorNameFor =(e)=>{
                                                             <div>
                                                                 <div class="radio-wrap f-18 w-100">
                                                                     <div class="custom-control custom-radio custom-control-inline col-5">
-                                                                        <input type="radio" id="Prepaid" name="SimType" value="Prepaid Plans" class="custom-control-input" onClick={(e) => fetchPlans(e)}  />
+                                                                        <input type="radio" id="Prepaid" name="SimType" value="Prepaid Plans" class="custom-control-input" onClick={(e) => fetchPlans(e)} />
                                                                         <label class="custom-control-label" for="Prepaid">Prepaid</label>
                                                                     </div>
                                                                     <div class="custom-control custom-radio custom-control-inline col-5">
@@ -1779,10 +1787,10 @@ const  operatorNameFor =(e)=>{
                                                                 </div>
                                                                 <div class="custom-control custom-radio custom-control-inline">
                                                                     <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
-                                                                        onClick={(e) => mnpclick(e)}
+                                                                        // onClick={(e) => mnpclick(e)}
+                                                                        onClick={(e) => setisOpen(true)}
                                                                     />
-                                                                    {/* onClick={child.mnpclick () {
-.bind(this)} */}
+                                                                    {/* onClick={child.mnpclick () {.bind(this)} */}
                                                                     {/* onClick={() => this.setState({ isOPen: true })} */}
                                                                     <label class="custom-control-label" for="mnp">MNP</label>
                                                                 </div>
@@ -1829,8 +1837,8 @@ const  operatorNameFor =(e)=>{
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="custom-select-wrap">
-                                                                            <select class="custom-select rounded-0 p-1" id="operator" onChange={(e)=>operatorNameFor(e)}>
-                                                                               <option>Select</option>
+                                                                            <select class="custom-select rounded-0 p-1" id="operator" onChange={(e) => operatorNameFor(e)}>
+                                                                                <option>Select</option>
                                                                                 <option value="Jio">Jio</option>
                                                                                 <option value="Airtel">Airtel</option>
                                                                                 <option value="BSNL">BSNL</option>
@@ -1848,16 +1856,16 @@ const  operatorNameFor =(e)=>{
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <div class="row">
-                                                                    <br/>
-                                                                    <br/>
+                                                                    <br />
+                                                                    <br />
                                                                     <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
-                                                                            onClick={(e) => btnAdd(e)} >ADD</button>
+                                                                        onClick={(e) => btnAdd(e)} >ADD</button>
 
-</div>
-</div>
-</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-</div>
+                                                    </div>
 
 
 
@@ -1871,20 +1879,20 @@ const  operatorNameFor =(e)=>{
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="custom-select-wrap">
-                                                                                <select class="custom-select rounded-0 p-1" id="et_connection" onChange={(e)=>noOfConnectionsforoperator(e)}>
-                                                                                  <option>Select</option>
+                                                                                <select class="custom-select rounded-0 p-1" id="et_connection" onChange={(e) => noOfConnectionsforoperator(e)}>
+                                                                                    <option>Select</option>
                                                                                     <option value="1">1</option>
                                                                                     <option value="2">2</option>
                                                                                     <option value="3">3</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                          {/* <div style={{ marginTop: "20px" }}> */}
+                                                                        {/* <div style={{ marginTop: "20px" }}> */}
 
-                                                                        <button type="submit" class="btn btn-primary btn-login" style={{"margin-left": "150px", width: "100px","margin-top": "-56px"}} onClick={() => setdisplayCustDet(!displayCustDet)}>OK</button>
+                                                                        <button type="submit" class="btn btn-primary btn-login" style={{ "margin-left": "150px", width: "100px", "margin-top": "-56px" }} onClick={() => setdisplayCustDet(!displayCustDet)}>OK</button>
                                                                     </div>
                                                                     {/* </div> */}
-                                                                  
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2007,26 +2015,26 @@ const  operatorNameFor =(e)=>{
                                             <label style={{ "marginTop": "2px" }}>{GlobalPOAModel.placeOfIssue}</label>
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
-                                           { displayOtrCon ? 
-                                            <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label> :''}
+                                            {displayOtrCon ?
+                                                <label style={{ "fontWeight": "bolder", "marginTop": "2px", "fontSize": "13px" }}>No. of Mobile Connections in the name of<br></br>customer*:(operator Wise)</label> : ''}
                                             <br></br>
-                                            { displayOtrCon ? 
-                                             <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>operator-number </label> :''}
-                                             { displayOtrCon ? 
-                                            <label style={{ "marginTop": "2px" }}>     {operatorName}-{noOFConnectionValueOperator}</label> :''}
+                                            {displayOtrCon ?
+                                                <label style={{ "fontWeight": "bolder", "marginTop": "2px" }}>operator-number </label> : ''}
+                                            {displayOtrCon ?
+                                                <label style={{ "marginTop": "2px" }}>     {operatorName}-{noOFConnectionValueOperator}</label> : ''}
                                             <br></br>
                                             <hr style={{ "borderColor": "#28a3ae" }}></hr>
                                             <input type="checkbox" id="chkVerified"></input>
                                             <label style={{ "marginTop": "2px", "fontSize": "13px" }}>Details verified by Customer </label>
                                             <br></br>
-                                            {msgCust ? 
-                                            <>
-                                            <label style={{ color: "#FF0000" }}>{msgCust}</label>
+                                            {msgCust ?
+                                                <>
+                                                    <label style={{ color: "#FF0000" }}>{msgCust}</label>
                                                     <br></br>
-                                            </>
-                                            :
-                                            null
-                                        }
+                                                </>
+                                                :
+                                                null
+                                            }
                                             <button style={{ "color": "#fff", "background": "#0D95A2", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
                                                 PROCEED
                                                 </button>

@@ -8,7 +8,7 @@ const getBilldeskQueryStr = async () => {
     const Request = {
         "totalAmt" : config.amount, 
         "userId" : config.custNumber, 
-        orn: config.ORN
+        "orn": config.ORN
     };
 
     console.log("Request : ", Request)

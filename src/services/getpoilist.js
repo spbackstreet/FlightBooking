@@ -7,10 +7,10 @@ const getPoiList = async (isAadhaar) => {
     const Request = {
 
         "Guid": config.guid,
-        "Storeid": "INT9",
+        "Storeid": config.storeID,
         // "AgentId": "10051311",
         "IsAadharKyc": isAadhaar,
-        "CircleId": 'MU'
+        "CircleId": config.custCircleHeader
     };
     console.log("Request : ", Request)
 

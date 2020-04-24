@@ -318,5 +318,21 @@ export function compareTwoDateTime(strDate1, strDate2) {
 
 }
 
+export function hmacshaChecksum(text){
+
+    let sha256 = require('js-sha256');
+
+    let key="WNvVhcelCw1J";
+
+    let hash = sha256.hmac.create(key);
+
+    hash.update(text);
+
+   console.log(hash.hex().toUpperCase())
+   
+return hash.hex().toUpperCase();
+
+}
+
 
 
