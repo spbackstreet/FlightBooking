@@ -14,6 +14,7 @@ import useLoader from '../../hooks/useLoader';
 import { confirmAlert } from 'react-confirm-alert';
 import config from '../../config';
 import { apiCall } from '../../commom/commonApiCalling';
+import { set } from 'date-fns';
 
 
 const display = {
@@ -73,7 +74,8 @@ const Home = () => {
     const hideModal = (e) => {
         setDisplayOTP(false)
         setLoading(false)
-    }
+        setCustOtp('')
+   }
     const startTimer = () => {
         if (timer == 0 && seconds > 0) {
             setTimer(setInterval(countDown, 1000))
@@ -129,6 +131,7 @@ const  hidePinModal =() =>{
     
  setDisplayPIN(false)
  setLoading(false)
+ setPin('')
 }
     const getServicableArea = async () => {
         setErrorPin(false)
@@ -155,6 +158,8 @@ const  hidePinModal =() =>{
                 setDisplayOTP(false)
                 setDisplayPIN(false)
                 setLoading(false)
+                setPin('')
+                setCustOtp('')
                 confirmAlert({
                     title: <h3 style={{ "color": "red" }}>Sorry!!</h3>,
                     message: GetServiceableAreaBypincode.Erromessage,
@@ -215,8 +220,8 @@ const  hidePinModal =() =>{
 
     const SendOtp = async () => {
 console.log(`sdjos`,msdn.length)
-        if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn[0]==9)) {
-            setLoading(true)
+if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn[0]==9)) {
+             setLoading(true)
             const callCheckMobile = await triggerAction(() => checkMobile(msdn, "AUTH"));
             setLoading(false)
 
@@ -362,7 +367,7 @@ console.log(`sdjos`,msdn.length)
 
                                                 <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => validateCustOTP()}
+                                                        onClick={(e) => validateCustOTP()}   disabled={loading}
                                                     >Validate OTP</button>
                                                 </div>
 
@@ -428,7 +433,7 @@ console.log(`sdjos`,msdn.length)
                                                 
                                                 <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => getServicableArea(e)}
+                                                        onClick={(e) => getServicableArea(e)}  disabled={loading}
                                                     >CHECK</button>
                                                 </div>
 
@@ -508,7 +513,7 @@ console.log(`sdjos`,msdn.length)
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                                onClick={(e) => SendOtp()}
+                                                                onClick={(e) => SendOtp()}   disabled={loading}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>

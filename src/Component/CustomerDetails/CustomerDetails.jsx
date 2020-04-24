@@ -311,7 +311,7 @@ const CustomerDetails = () => {
                                         <div class="md-font f-16 pl-3 pb-2">Customer Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                                <div className="spin" style={{ top: "50%" }}>
+                                                <div className="spin" style={{top:"70%"}}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
@@ -585,7 +585,7 @@ const CustomerDetails = () => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
-                                                                style={{ "background": "#0D95A2" }} onClick={(e) => validateFields(e)}
+                                                                style={{ "background": "#0D95A2" }} onClick={(e) => validateFields(e)} disabled={loading}
                                                             >Submit</button>
                                                         </div>
                                                     </div>
