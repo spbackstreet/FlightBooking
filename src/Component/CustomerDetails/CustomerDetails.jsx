@@ -171,8 +171,13 @@ const CustomerDetails = () => {
         console.log(`altMobileNum[0]`, altMobileNum[0])
         console.log(`altMobileNum`, altMobileNum.length)
         var birthday = new Date(dob);
+var doiPoa =  new Date(config.POADate)
 
 
+console.log(`POA Date`,config.POADate)
+
+console.log(`comp 1`,doiPoa>=birthday)
+console.log(`comp 2`,doiPoa<birthday)
         // console.log(`check1`, document.getElementById("mnp").checked )
         // console.log(`check2`, document.getElementById("cocp").checked )
 
@@ -182,7 +187,7 @@ const CustomerDetails = () => {
             if (document.getElementById('alternate').value.startsWith('6') || document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
                 || document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
-
+if(doiPoa>=birthday) {
                     let delAddr = {
                         "custName": custName,
                         "dob": dob,
@@ -254,7 +259,21 @@ const CustomerDetails = () => {
                     // //await dispatch(storeCustomeroutstation(false));
                     history.push('/permanentAddress')
 
+                 } else{
+                    confirmAlert({
+                        title: "Error",
+                        message: "POA date cannot be greater than DOB",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => { return false; }
+                            }
+                        ]
+                    });
+                 }
+                
                 }
+
                 else {
                     confirmAlert({
                         title: "Error",

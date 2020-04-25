@@ -460,10 +460,11 @@ const LocalReference = () => {
             CAFRequest.Ref_postcode = pincodeLocalRef
             CAFRequest.Ref_district= district
             CAFRequest.Ref_city = city
-            CAFRequest.Ref_state = state
+            CAFRequest.Ref_state = "MH"
             CAFRequest.Ref_country = "IN"
             console.log(`localref`,localref)
             // await dispatch(storeCustomerLocal(localref));
+            console.log(`Pincode`,  CAFRequest.Ref_postcode)
             config.custLocalRefAdd = localref;
             history.push('/Planselection')
         }
