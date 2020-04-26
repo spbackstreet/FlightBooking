@@ -194,6 +194,24 @@ const DeliveryAddress = () => {
 
     const validateFields = async (e) => {
         if(isValidateFileds){
+            CAFRequest.LocalAdd_buildingName = houseNo
+            CAFRequest.LocalAdd_locality = area
+            CAFRequest.LocalAdd_landmark = landMark
+            CAFRequest.LocalAdd_Street  = roadName
+            CAFRequest.Localadd_subdistrict = district
+            CAFRequest.Localadd_postoffice = roadName
+            CAFRequest.Localadd_pincode = pincode
+            CAFRequest.Localadd_City = city
+            CAFRequest.Localadd_district = district
+            CAFRequest.Localadd_state = state
+console.log(`dndh`, CAFRequest.LocalAdd_buildingName)
+console.log(`localoty`, CAFRequest.LocalAdd_locality)
+console.log(`district`,CAFRequest.Localadd_subdistrict)
+console.log(`pincode`,CAFRequest.Localadd_pincode)
+console.log(`state`, CAFRequest.Localadd_state)
+
+
+
             history.push('/localreference')
         }
 

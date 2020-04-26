@@ -162,7 +162,7 @@ const DKYCPOA = () => {
         GlobalPOAModel.setSdkUsed(GlobalPOIModel.sdkUsed);
 
         // CAFRequest.Aadhar_Number(document.getElementById("docNumber").value)
-
+config.POADate =document.getElementById("dateOfIssue").value
         config.Aadhar_Number = document.getElementById("docNumber").value
 
         transferToNextFragment();
@@ -252,6 +252,7 @@ const DKYCPOA = () => {
         }
         else {
             // await dispatch(storeSelectedDocPOAObject(SelectedDocPOAObject));
+            //document.getElementById("dateOfIssue").value
             config.SelectedDocPOAObject = SelectedDocPOAObject
             history.push('/POACapture');
         }

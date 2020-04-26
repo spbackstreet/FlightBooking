@@ -394,6 +394,7 @@ const config = {
     isAadharKYC: false,
     dateofIssuePOI: '',
     dateofIssuePOA: '',
+    POADate:'',
     LogonTime: '',
     custAltNo: '',
     custNo: '',

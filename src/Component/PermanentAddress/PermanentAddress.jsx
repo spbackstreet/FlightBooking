@@ -229,6 +229,8 @@ const PermanentAddress = () => {
             // CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
             CAFRequest.Locality = document.getElementById('area').value;
             CAFRequest.PostCode = document.getElementById('pinCodePerm').value;
+            CAFRequest.State    =  document.getElementById('state').value;
+
             if(config.pincode === document.getElementById('pinCodePerm').value){
                 config.isOutstation = false;
                 history.push('/Planselection')
