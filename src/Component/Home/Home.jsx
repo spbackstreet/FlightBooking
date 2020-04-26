@@ -5,7 +5,7 @@ import Spinner from 'react-spinner-material';
 import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
-import { storeCustomerNumber, storeORN , storeInitData, storeCustomerCircleHeader} from '../../action';
+import { storeCustomerNumber, storeORN, storeInitData, storeCustomerCircleHeader } from '../../action';
 import checkMobile from '../../services/checkMobile';
 import validateOTP from '../../services/validateOTP';
 import ServiceableAreaService from '../../services/ServiceableAreaService';
@@ -75,7 +75,7 @@ const Home = () => {
         setDisplayOTP(false)
         setLoading(false)
         setCustOtp('')
-   }
+    }
     const startTimer = () => {
         if (timer == 0 && seconds > 0) {
             setTimer(setInterval(countDown, 1000))
@@ -127,12 +127,28 @@ const Home = () => {
     const resendCustOtp = async () => {
         const callCheckMobile = await triggerAction(() => checkMobile(msdn));
     }
-const  hidePinModal =() =>{
-    
- setDisplayPIN(false)
- setLoading(false)
- setPin('')
-}
+    const hidePinModal = () => {
+
+        setDisplayPIN(false)
+        setLoading(false)
+        setPin('')
+    }
+    const testbilldsk = () => {
+        //
+        config.Aadhar_Number = "test"
+        console.log("config : ", config);
+        window.bdPayment.initialize ({
+            "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
+            "options": {
+             "enableChildWindowPosting": true,
+             "enablePaymentRetry": true,
+             "retry_attempt_count": 2,
+             "txtPayCategory": "NETBANKING"
+             },
+             "callbackUrl": "http://localhost:3000/"
+            });
+    }
+
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
@@ -143,18 +159,18 @@ const  hidePinModal =() =>{
                 setLoading(true)
                 const GetPincode = await triggerAction(() => getpincode(pin));
                 setLoading(false)
-                if(GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0"){
+                if (GetPincode.ErrorCode === "00" || GetPincode.ErrorCode === "0") {
                     // dispatch(storeCustomerNumber(msdn));
                     config.custNumber = msdn
                     // dispatch(storeCustomerCircleHeader(GetPincode.pincodelist[0].area))
                     config.custCircleHeader = GetPincode.pincodelist[0].area
                     config.CAF_NUMBER = GetPincode.cafNumber
-                    
+
                     config.pincode = pin
                     history.push('/DKYC')
-                }    
+                }
             }
-            else{
+            else {
                 setDisplayOTP(false)
                 setDisplayPIN(false)
                 setLoading(false)
@@ -216,12 +232,12 @@ const  hidePinModal =() =>{
     useEffect(() => {
         let timeLeftVar = secondsToTime(seconds);
         setTime(timeLeftVar);
+        console.log("config : ", config);
     }, []);
 
     const SendOtp = async () => {
-console.log(`sdjos`,msdn.length)
-if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn[0]==9)) {
-             setLoading(true)
+        if (msdn && msdn.length == '10' && (msdn[0] == 6 || msdn[0] == 7 || msdn[0] == 8 || msdn[0] == 9)) {
+            setLoading(true)
             const callCheckMobile = await triggerAction(() => checkMobile(msdn, "AUTH"));
             setLoading(false)
 
@@ -367,7 +383,7 @@ if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn
 
                                                 <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => validateCustOTP()}   disabled={loading}
+                                                        onClick={(e) => validateCustOTP()} disabled={loading}
                                                     >Validate OTP</button>
                                                 </div>
 
@@ -430,10 +446,11 @@ if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn
                                                     </>
                                                     : null
                                                 }
-                                                
+
                                                 <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => getServicableArea(e)}  disabled={loading}
+                                                        onClick={(e) => getServicableArea(e)} disabled={loading}
+                                                        // onClick={(e) =>testbilldsk()}
                                                     >CHECK</button>
                                                 </div>
 
@@ -470,7 +487,7 @@ if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn
                                                             <div class="login">
                                                                 <div class="form-group">
                                                                     <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
-                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10" autoComplete= "off"         
+                                                                    <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10" autoComplete="off"
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
                                                                     <label for="msdn" class="control-label">Enter alternate Mobile No.</label>
@@ -513,7 +530,7 @@ if (msdn && msdn.length=='10' && (msdn[0]==6 || msdn[0]==7 || msdn[0]==8 || msdn
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                                onClick={(e) => SendOtp()}   disabled={loading}
+                                                                onClick={(e) => SendOtp()} disabled={loading}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>

@@ -1172,7 +1172,10 @@ const POICapture = () => {
             let image = response.data.image;
 
             setFrontsrc(image);
-            documentUpload(image, "0", response.data.type);
+            if(config.isAadharKYC){
+                documentUpload(image, "0", response.data.type);
+            }
+            
 
             setShowPhotoView(true)
             const currentDateTime = getCurrentDateForPOAPOI()
@@ -1197,7 +1200,10 @@ const POICapture = () => {
             let image = response.data.image;
 
             setBacksrc(image);
-            documentUpload(image, "0", response.data.type);
+            if(config.isAadharKYC){
+                documentUpload(image, "0", response.data.type);
+            }
+            
 
             const currentDateTime = getCurrentDateForPOAPOI()
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +

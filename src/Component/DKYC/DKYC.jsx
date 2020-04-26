@@ -65,10 +65,12 @@ const DKYC = () => {
         if (e.target.value === "NonAadhar") {
             setIsAadhar(false)
             config.DG_KYC = "O"
+            config.isAadharKYC = false
         }
         else {
             config.DG_KYC = "A"
             setIsAadhar(true)
+            config.isAadharKYC = true
         }
     }
 
@@ -93,6 +95,8 @@ const DKYC = () => {
                 setSelectedDocObject((fetchPoaPoiMaster.lstPOI)[1])
                 setShowQrDiv(showDiv)
                 setShowDocView(showDoc)
+
+                console.log("config : ", config);
 
             }
         })()
