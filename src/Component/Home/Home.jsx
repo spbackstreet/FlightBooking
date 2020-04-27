@@ -140,12 +140,12 @@ const Home = () => {
         window.bdPayment.initialize ({
             "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
             "options": {
-             "enableChildWindowPosting": true,
+             "enableChildWindowPosting": false,
              "enablePaymentRetry": true,
              "retry_attempt_count": 2,
              "txtPayCategory": "NETBANKING"
              },
-             "callbackUrl": "http://localhost:3000/"
+             "callbackUrl": "http://devfin.ril.com:3008/"
             });
     }
 
@@ -283,28 +283,28 @@ const Home = () => {
 
 
     return (
-        <div class="my_app_container">
-            <div class="rechargehome_wrapper">
+        <div className="my_app_container">
+            <div className="rechargehome_wrapper">
                 <div>
-                    <div class="container">
+                    <div className="container">
                         {/* <OtpDialogue></OtpDialogue> */}
 
-                        <div class="modal fade show oy" id="otpModal" style={displayOTP ? display : hide}
+                        <div className="modal fade show oy" id="otpModal" style={displayOTP ? display : hide}
                         >
-                            <div class="modal-backdrop fade show"></div>
-                            <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
-                                    <div class="text-center" style={{ "background": "#0D95A2" }}>
+                            <div className="modal-backdrop fade show"></div>
+                            <div className="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div className="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                                    <div className="text-center" style={{ "background": "#0D95A2" }}>
 
-                                        <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
-                                        <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => hideModal(e)} /></span>
+                                        <h6 className="modal-title mt-10"><b style={{ color: "white" }}>Customer OTP Validation</b></h6>
+                                        <span className="remove-no" style={{ marginLeft: "260px" }}> <img className="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "marginTop": "-40px" }} onClick={(e) => hideModal(e)} /></span>
 
                                     </div>
 
-                                    <div class="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+                                    <div className="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
 
 
-                                        <div class="text-left display-linebreak">
+                                        <div className="text-left display-linebreak">
 
                                             <p style={{ color: "black" }}>
 
@@ -312,7 +312,7 @@ const Home = () => {
 
                                                 <br></br>
 
-                                                <input class="input-style mb10" id="custOtp" name="custOtp" type="number"
+                                                <input className="input-style mb10" id="custOtp" name="custOtp" type="number"
                                                     onChange={(e) => updateCustOtp(e)}
 
                                                     pattern="^[1-9]\d*$"
@@ -359,7 +359,7 @@ const Home = () => {
 
                                                 {error ?
                                                     <>
-                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                        <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                             <h3 style={{ "color": "red" }}>Please Enter OTP</h3>
                                                         </div>
                                                         <br></br>
@@ -369,7 +369,7 @@ const Home = () => {
 
                                                 {wrongOTP ?
                                                     <>
-                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                        <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                             <h3 style={{ "color": "red" }}>Please Enter Correct OTP</h3>
                                                         </div>
                                                         <br></br>
@@ -377,12 +377,12 @@ const Home = () => {
                                                     : null
                                                 }
 
-                                                {/* <button type="submit" class="btn btn-primary btn-login"
+                                                {/* <button type="submit" className="btn btn-primary btn-login"
                                                     onClick={validateCustOTP}
                                                 >Validate OTP</button> */}
 
-                                                <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
-                                                    <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                    <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                         onClick={(e) => validateCustOTP()} disabled={loading}
                                                     >Validate OTP</button>
                                                 </div>
@@ -402,22 +402,22 @@ const Home = () => {
 
                         {/* servicabelarea */}
 
-                        <div class="modal fade show oy" id="otpModal" style={displayPIN ? display : hide}
+                        <div className="modal fade show oy" id="otpModal" style={displayPIN ? display : hide}
                         >
-                            <div class="modal-backdrop fade show"></div>
-                            <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                                <div class="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
-                                    <div class="text-center" style={{ "background": "#0D95A2" }}>
+                            <div className="modal-backdrop fade show"></div>
+                            <div className="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div className="modal-content" style={{ "position": "fixed", "top": "30%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
+                                    <div className="text-center" style={{ "background": "#0D95A2" }}>
 
-                                        <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Servicable area Check</b></h6>
-                                        <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => hidePinModal(e)} /></span>
+                                        <h6 className="modal-title mt-10"><b style={{ color: "white" }}>Servicable area Check</b></h6>
+                                        <span className="remove-no" style={{ marginLeft: "260px" }}> <img className="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "marginTop": "-40px" }} onClick={(e) => hidePinModal(e)} /></span>
 
                                     </div>
 
-                                    <div class="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
+                                    <div className="input-style" style={{ "height": "auto", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
 
 
-                                        <div class="text-left display-linebreak">
+                                        <div className="text-left display-linebreak">
 
                                             <p style={{ color: "black" }}>
 
@@ -425,7 +425,7 @@ const Home = () => {
 
                                                 <br></br>
 
-                                                <input class="input-style mb10" id="pin" name="pin" type="number"
+                                                <input className="input-style mb10" id="pin" name="pin" type="number"
                                                     onChange={(e) => updatePIN(e)}
 
                                                     pattern="^[1-9]\d*$"
@@ -439,7 +439,7 @@ const Home = () => {
 
                                                 {errorPin ?
                                                     <>
-                                                        <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                        <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                             <h3 style={{ "color": "red" }}>Please Enter PINCODE</h3>
                                                         </div>
                                                         <br></br>
@@ -447,10 +447,10 @@ const Home = () => {
                                                     : null
                                                 }
 
-                                                <div class="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
-                                                    <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        onClick={(e) => getServicableArea(e)} disabled={loading}
-                                                        // onClick={(e) =>testbilldsk()}
+                                                <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
+                                                    <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                        // onClick={(e) => getServicableArea(e)} disabled={loading}
+                                                        onClick={(e) =>testbilldsk()}
                                                     >CHECK</button>
                                                 </div>
 
@@ -469,56 +469,56 @@ const Home = () => {
 
 
                         {/* end */}
-                        <div class="">
-                            <div class="row">
-                                <div class="col">
+                        <div className="">
+                            <div className="row">
+                                <div className="col">
                                     {FixedHeader()}
-                                    <section class="card-view-sm mt-3">
-                                        <div class="md-font f-16 pl-3 pb-2">Customer Details</div>
-                                        <div class="card shadow-sm">
-                                            <div class="card-body">
+                                    <section className="card-view-sm mt-3">
+                                        <div className="md-font f-16 pl-3 pb-2">Customer Details</div>
+                                        <div className="card shadow-sm">
+                                            <div className="card-body">
                                                 <div className="spin">
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
-                                                <div class="row no-gutters">
-                                                    <div class="col-12">
-                                                        <form action="" class="">
-                                                            <div class="login">
-                                                                <div class="form-group">
-                                                                    <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
+                                                <div className="row no-gutters">
+                                                    <div className="col-12">
+                                                        <form action="" className="">
+                                                            <div className="login">
+                                                                <div className="form-group">
+                                                                    <span className="remove-no"> <img className="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={(e) => setMsdn('')} /></span>
                                                                     <input id="msdn" type="number" required="required" value={msdn} onChange={(e) => updateMsdn(e)} maxLength="10" autoComplete="off"
                                                                     //onChange={(e) =>this.validateMobile(e.target.value)}
                                                                     />
-                                                                    <label for="msdn" class="control-label">Enter alternate Mobile No.</label>
+                                                                    <label for="msdn" className="control-label">Enter alternate Mobile No.</label>
                                                                 </div>
 
 
-                                                                {/* <div class="row no-gutters">
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <div class="radio-wrap">
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="vanity" name="onboardtype" value="Paper CAF" class="custom-control-input"
+                                                                {/* <div className="row no-gutters">
+                                                                    <div className="col-12">
+                                                                        <div className="form-group">
+                                                                            <div className="radio-wrap">
+                                                                                <div className="custom-control custom-radio custom-control-inline">
+                                                                                    <input type="radio" id="vanity" name="onboardtype" value="Paper CAF" className="custom-control-input"
                                                                                     //onSelect={(e) => this.setOptionData(e.target.value, false, false)}
                                                                                     />
-                                                                                    <label class="custom-control-label" for="vanity">Paper CAF</label>
+                                                                                    <label className="custom-control-label" for="vanity">Paper CAF</label>
                                                                                 </div>
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
+                                                                                <div className="custom-control custom-radio custom-control-inline">
+                                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" className="custom-control-input"
                                                                                     //onSelect={(e) => this.setOptionData(false, e.target.value, false)}
                                                                                     />
-                                                                                    <label class="custom-control-label" for="mnp">Digital KYC</label>
+                                                                                    <label className="custom-control-label" for="mnp">Digital KYC</label>
                                                                                 </div>
-                                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                                    <input type="radio" id="cocp" name="onboardtype" value="cocp" class="custom-control-input"
+                                                                                <div className="custom-control custom-radio custom-control-inline">
+                                                                                    <input type="radio" id="cocp" name="onboardtype" value="cocp" className="custom-control-input"
                                                                                     // onSelect={
                                                                                     //     (e) => {
                                                                                     //         this.setOptionData(false, false, e.target.value);
                                                                                     //     }
                                                                                     // }
                                                                                     />
-                                                                                    <label class="custom-control-label" for="cocp">eKYC</label>
+                                                                                    <label className="custom-control-label" for="cocp">eKYC</label>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -528,8 +528,8 @@ const Home = () => {
                                                             </div>
                                                         </form>
 
-                                                        <div class="form-group text-center mt-5 mb-0">
-                                                            <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
+                                                        <div className="form-group text-center mt-5 mb-0">
+                                                            <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                                 onClick={(e) => SendOtp()} disabled={loading}
                                                             >Generate OTP</button>
                                                         </div>
