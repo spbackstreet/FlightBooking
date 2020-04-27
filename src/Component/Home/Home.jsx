@@ -449,8 +449,8 @@ const Home = () => {
 
                                                 <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                        // onClick={(e) => getServicableArea(e)} disabled={loading}
-                                                        onClick={(e) =>testbilldsk()}
+                                                        onClick={(e) => getServicableArea(e)} disabled={loading}
+                                                        // onClick={(e) =>testbilldsk()}
                                                     >CHECK</button>
                                                 </div>
 

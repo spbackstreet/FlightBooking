@@ -483,7 +483,7 @@ const CustOTP = () => {
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
         // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
-        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "34";
+        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "36";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";

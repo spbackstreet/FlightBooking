@@ -57,6 +57,7 @@ const LocalReference = () => {
     const [cityLst, setCityLst] = useState([])
     const [districtLst, setDistrictLst] = useState([]);
     const [stateLst, setStateLst] = useState([])
+    const [stateCode,setStateCode] = useState('')
 
     // const [{ app: { pincode, custLocalAdd, custNumber } }, dispatch] = useGlobalState();
 
@@ -150,6 +151,7 @@ const LocalReference = () => {
                 const getCustomerCircle = await triggerAction(() => getpincode(e.currentTarget.value.substring(0, 6)));
                 setLoading(false)
                 if (getCustomerCircle.ErrorCode === "00" || getCustomerCircle.ErrorCode === "0") {
+                    setStateCode(getCustomerCircle.pincodelist[0].statecode)
                     // dispatch(storeCustomerCircle(getCustomerCircle));
                     let vcityLst = [];
                     let vdistrictLst = [];
@@ -445,11 +447,12 @@ const LocalReference = () => {
                  "pincode":pincodeLocalRef,
                  "city":city,
                  "district":district,
-                 "state":state,
+                 "state":stateCode,
                 "callingNo":callingNo
             
             }
             // CAFRequest.FirstName = firstName
+            debugger;
             CAFRequest.Ref_fName = firstName
             CAFRequest.Ref_MName = middleName
             CAFRequest.Ref_LName = lastName
@@ -460,11 +463,11 @@ const LocalReference = () => {
             CAFRequest.Ref_postcode = pincodeLocalRef
             CAFRequest.Ref_district= district
             CAFRequest.Ref_city = city
-            CAFRequest.Ref_state = "MH"
+            CAFRequest.Ref_state = stateCode
             CAFRequest.Ref_country = "IN"
+
             console.log(`localref`,localref)
             // await dispatch(storeCustomerLocal(localref));
-            console.log(`Pincode`,  CAFRequest.Ref_postcode)
             config.custLocalRefAdd = localref;
             history.push('/Planselection')
         }

@@ -36,7 +36,7 @@ const DKYC = () => {
     const [poiList, setPoiList] = useState([])
     const [poaList, setPoaList] = useState([])
 
-    const [showQrDiv, setShowQrDiv] = useState(true)
+    const [showQrDiv, setShowQrDiv] = useState(false)
     const [AadhaarScan, setAadhaarScan] = useState(false)
     const [showDocView, setShowDocView] = useState(false)
     const [selectedDocObject, setSelectedDocObject] = useState('')
@@ -239,12 +239,12 @@ const DKYC = () => {
             {FixedHeader()}
             <div class="rechargehome_wrapper">
                 <div>
-                <div className="spin" style={{top: "30%"}}>
-                                                    <Spinner visible={loading}
-                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
-                                                        </div>
+                    <div className="spin" style={{ top: "30%" }}>
+                        <Spinner visible={loading}
+                            spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                    </div>
                     <div class="container">
-                   
+
                         <div class="row">
                             <div class="col">
                                 <div class="date-title bold-font mt-3  mb-2 ml-3 mr-3 f-16">Mode of Activation</div>
@@ -276,6 +276,8 @@ const DKYC = () => {
                             </div>
                         </div>
                         <div class="pt-95 text-center mt-2">
+                        {showDocView ?
+                        <>
                             <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
                             <br />
                             <select class="customsel"
@@ -290,8 +292,10 @@ const DKYC = () => {
                                     >{element.DocName}</option>))}
 
                             </select>
+                            </>
+                            : ''}
 
-                            <div id="QrView" style={showQrDiv ? { marginBottom: '20vh' } : { display: 'none' }} >
+                            {/* <div id="QrView" style={showQrDiv ? { marginBottom: '20vh' } : { display: 'none' }} >
                                 <p class="fs-13 txt-col-1 mt-10">Scan QR Here</p>
                                 <button class="scan-icon-70 mt-1"
                                     onClick={(e) => doScan(e)}
@@ -301,7 +305,7 @@ const DKYC = () => {
                                 {AadhaarScan ?
                                     <p class="fs-13 txt-col-1">Aadhar QR code validated successfully. Click on next to proceed.</p>
                                     : null}
-                            </div>
+                            </div> */}
 
                             <div >
 
@@ -330,6 +334,36 @@ const DKYC = () => {
                                             <div class="form-group">
                                                 <input type="text" id="authority" autoComplete="off"
                                                     class="jio-form-control" placeholder=" " value={selectedDocObject.issuingauth} />
+                                                <label for="authority" class="control-label">Issuing Authority <label style={{ color: "#FF0000" }}>*</label></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    : ''}
+
+                                {!showDocView ?
+                                    <div class="card shadow" style={{ "marginTop": "20px" }} >
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <input type="text" id="docNumber" autoComplete="off"
+                                                    class="jio-form-control" placeholder=" " value={docNumber} onChange={(e) => updateDocNumber(e)} />
+                                                <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
+                                            </div>
+                                            {/* <div class="form-group">
+                                                <input type="date" id="dateOfIssue" autocomplete="off" class="jio-form-control" placeholder=" " max="31-12-9999"
+                                                />
+                                                <label for="dateOfIssue" class="control-label">Date of Issue <label style={{ color: "#FF0000" }}>*</label></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" id="placeOfIssue" autoComplete="off"
+                                                    class="jio-form-control" placeholder=" " value={placeOfIssue} onChange={(e) => updatePlaceOfIssue(e)} />
+                                                <label for="placeOfIssue" class="control-label">Place of Issue <label style={{ color: "#FF0000" }}>*</label></label>
+                                            </div> */}
+                                            <div class="form-group">
+                                                <input type="text" id="authority" autoComplete="off"
+                                                    class="jio-form-control" placeholder=" " value="UIDAI Government of India(GOI)" />
                                                 <label for="authority" class="control-label">Issuing Authority <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
                                         </div>

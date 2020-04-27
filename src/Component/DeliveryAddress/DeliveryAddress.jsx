@@ -204,14 +204,7 @@ const DeliveryAddress = () => {
             CAFRequest.Localadd_City = city
             CAFRequest.Localadd_district = district
             CAFRequest.Localadd_state = state
-console.log(`dndh`, CAFRequest.LocalAdd_buildingName)
-console.log(`localoty`, CAFRequest.LocalAdd_locality)
-console.log(`district`,CAFRequest.Localadd_subdistrict)
-console.log(`pincode`,CAFRequest.Localadd_pincode)
-console.log(`state`, CAFRequest.Localadd_state)
-
-
-
+            
             history.push('/localreference')
         }
 
