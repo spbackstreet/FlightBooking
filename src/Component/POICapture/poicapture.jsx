@@ -123,7 +123,10 @@ const POICapture = () => {
         var Finaldate = (date + "-" + '0' + month + "-" + year + " " + hours + ":" + min + ":" + sec);
 
         setDeviceDate(Finaldate)
+        // mediaperm()
 
+        // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||navigator.mozGetUserMedia ||navigator.msGetUserMedia;
 
         // setShowWebcam(false)
 
@@ -143,7 +146,10 @@ const POICapture = () => {
 
     }, []);
 
-   
+    const mediaperm = async () => {
+        let stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+
+    }
 
 
     const fetchLocation = (e, param) => {
@@ -744,23 +750,23 @@ const POICapture = () => {
 
         // if (frontsrc && backsrc) {
 
-            let poiCaptureImage = {
-                "frontImage": frontsrc,
-                "backImage": backsrc
-            }
+        let poiCaptureImage = {
+            "frontImage": frontsrc,
+            "backImage": backsrc
+        }
 
-            
-            // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
-            config.poiImage = poiCaptureImage      
-                  history.push('/DKYCPOA')
-        
+
+        // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
+        config.poiImage = poiCaptureImage
+        history.push('/DKYCPOA')
+
         // }
         // else {
         //     showErrorAlert("Please upload image.")
         // }
     }
 
-  const verifyAlignment = (uri, param, number) => {
+    const verifyAlignment = (uri, param, number) => {
         console.log("1", uri);
         console.log("2", param);
         console.log("3", number);
@@ -1119,7 +1125,7 @@ const POICapture = () => {
             config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
             currentDateTime + ";hyperverge;"
         console.log(DG_POI)
-        
+
 
         config.DG_POI = DG_POI
 
@@ -1153,7 +1159,7 @@ const POICapture = () => {
                 config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
-           
+
             config.DG_POA = DG_POA
         }
 
@@ -1172,21 +1178,21 @@ const POICapture = () => {
             let image = response.data.image;
 
             setFrontsrc(image);
-            if(config.isAadharKYC){
+            if (config.isAadharKYC) {
                 documentUpload(image, "0", response.data.type);
             }
-            
+
 
             setShowPhotoView(true)
             const currentDateTime = getCurrentDateForPOAPOI()
             let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
-            config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
-            currentDateTime + ";hyperverge;"
+                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
+                currentDateTime + ";hyperverge;"
             console.log(DG_POI)
             debugger;
-        
 
-        config.DG_POI = DG_POI
+
+            config.DG_POI = DG_POI
 
             console.log("image : ", image)
             console.log("response : ", response)
@@ -1200,10 +1206,10 @@ const POICapture = () => {
             let image = response.data.image;
 
             setBacksrc(image);
-            if(config.isAadharKYC){
-                documentUpload(image, "0", response.data.type);
+            if (config.isAadharKYC) {
+                documentUpload(image, "1", response.data.type);
             }
-            
+
 
             const currentDateTime = getCurrentDateForPOAPOI()
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
@@ -1213,7 +1219,7 @@ const POICapture = () => {
                 config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
-           
+
 
             console.log("image : ", image)
             console.log("response : ", response)
@@ -1224,30 +1230,32 @@ const POICapture = () => {
 
     const documentUpload = async (e, isback, filename) => {
 
-        const readDocument = await triggerAction(() => readDocumentService(e, isback, filename));
-       
-            setLoading(false);
-            if (readDocument.errorCode === "00") {
+        const readDocument = await triggerAction(() => readDocumentService(isback, e, filename));
 
-            }
-            else {
-                confirmAlert({
-                    title: "Alert!",
-                    message: readDocument.errorMsg,
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { 
-                                return false;
-                            }
+        alert("RES readDocument : "+ JSON.stringify(readDocument))
+
+        setLoading(false);
+        if (readDocument.errorCode === "00") {
+
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: readDocument.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
                         }
-                    ]
-                });
-               
+                    }
+                ]
+            });
 
-            }
 
-        
+        }
+
+
 
     }
 
@@ -1313,9 +1321,9 @@ const POICapture = () => {
                         <div class="my_app_container">
                             {FixedHeader()}
                             <div className="spin">
-                                                    <Spinner visible={loading}
-                                                        spinnerColor={"rgba(0, 0, 0, 0.3)"} />
-                                                        </div>
+                                <Spinner visible={loading}
+                                    spinnerColor={"rgba(0, 0, 0, 0.3)"} />
+                            </div>
                             {/* {showWebcam ?
                                 <WebcamCapture />
                                 : ''
@@ -1333,8 +1341,8 @@ const POICapture = () => {
 
                                     <div style={{ position: "relative", display: "block", width: "100%" }}>
                                         <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side." 
-                                        onClick = {()=> capturePOIFront()}
+                                        <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."
+                                            onClick={() => capturePOIFront()}
                                         ></img>
 
                                         {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFile(e)} /> */}
@@ -1371,10 +1379,10 @@ const POICapture = () => {
 
                                         <div style={{ position: "relative", display: "block", width: "100%" }}>
                                             <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
-                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View" 
-                                             onClick = {()=> capturePOIBack()}
-                                                ></img>
-                                            
+                                            <img id="BackImage" height="100" width="100" src={require("../../img/poi.png")} alt="Capture Back View"
+                                                onClick={() => capturePOIBack()}
+                                            ></img>
+
                                             {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => uploadFileBack(e)} /> */}
 
                                         </div>
@@ -1427,12 +1435,12 @@ const POICapture = () => {
                         </div>
                         <div>
                             <input class="mt-40" id="LAT" type="text"
-                            // style={{ "display": "none" }} 
+                            style={{ "display": "none" }} 
                             />
 
                         </div>
                         <div>
-                            <input class="mt-40" id="LON" type="text" />
+                            <input class="mt-40" id="LON" type="text" style={{ "display": "none" }} />
 
                         </div>
                         <div>

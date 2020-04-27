@@ -16,8 +16,10 @@ const readDocumentService = async (isback, e, filename) => {
     // const  name=service.MICROSERVICENAME
     // const  url=service.ZONEURL
     // const APIURL = `${url}${name}`;
+
+    alert('req : '+ JSON.stringify(Request));
     
-    const APIURL = "http://devfin.ril.com:8080/HealthService/ReadDocument";
+    const APIURL = "https://devfin.ril.com:8443/HealthService/ReadDocument";
 
     try {
         const response = await postApiCall(Request, APIURL);
