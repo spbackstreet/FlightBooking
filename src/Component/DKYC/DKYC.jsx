@@ -148,7 +148,7 @@ const DKYC = () => {
         var regPassport = /([a-zA-Z]){1}([0-9]){7}?$/;
         var regexAadhar = /^\d{12}$/;
         let verhoeffValidated = 0;
-        verhoeffValidated = validateVerhoeff(document.getElementById("docNumber").value)
+        verhoeffValidated = validateVerhoeff(docNumber)
         if (GlobalPOIModel.isAadharKYC) {
             if (AadhaarScan == true) {
                 if (docNumber == '') {
@@ -157,7 +157,7 @@ const DKYC = () => {
                     showErrorAlert('Please enter valid Aadhaar number')
                 } else if (selectedDocObject.doctypecode == 'Z00005' && !regexAadhar.test(docNumber)) {
                     showErrorAlert('Please enter valid Aadhaar number')
-                } else if(verhoeffValidated!=0){
+                } else if(!verhoeffValidated){
                     showErrorAlert('Please enter valid Aadhaar number')
                }  else{  config.isAadharKYC = true
                     transferToNext()
