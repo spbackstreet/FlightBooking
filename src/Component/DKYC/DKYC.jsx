@@ -15,6 +15,8 @@ import { getCurrentDateForPOAPOI, getCurrentDateForTxn, docDateofIssue } from '.
 import useGlobalState from '../../hooks/useGlobalState';
 import { storeSelectedDocObject, storeListPOA } from '../../action';
 import CAFRequest from "../../txnUploadData/cafRequest"
+import { validateVerhoeff } from '../../commom/commonvalidation';
+
 
 
 const display = {
@@ -145,6 +147,8 @@ const DKYC = () => {
         var regPanCard = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
         var regPassport = /([a-zA-Z]){1}([0-9]){7}?$/;
         var regexAadhar = /^\d{12}$/;
+        let verhoeffValidated = 0;
+        verhoeffValidated = validateVerhoeff(document.getElementById("docNumber").value)
         if (GlobalPOIModel.isAadharKYC) {
             if (AadhaarScan == true) {
                 if (docNumber == '') {
@@ -153,8 +157,9 @@ const DKYC = () => {
                     showErrorAlert('Please enter valid Aadhaar number')
                 } else if (selectedDocObject.doctypecode == 'Z00005' && !regexAadhar.test(docNumber)) {
                     showErrorAlert('Please enter valid Aadhaar number')
-                } else {
-                    config.isAadharKYC = true
+                } else if(verhoeffValidated!=0){
+                    showErrorAlert('Please enter valid Aadhaar number')
+               }  else{  config.isAadharKYC = true
                     transferToNext()
                 }
 
