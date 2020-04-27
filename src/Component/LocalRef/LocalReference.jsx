@@ -496,7 +496,7 @@ const LocalReference = () => {
 
                                 <div class="modal-backdrop fade show"></div>
                                 <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                                    <div class="modal-content" style={{ height: "53vh" }}>
+                                    <div class="modal-content" style={{ height: "56vh" }}>
 
                                         <div class="text-center" style={{ "background": "#024C9D" }}>
                                             <h4 class="modal-title mt-10" style={{ color: "white" }}><b>Local Reference Validation</b></h4>
