@@ -317,6 +317,7 @@ const Home = () => {
 
                                                     pattern="^[1-9]\d*$"
                                                     value={custOtp}
+                                                    autoComplete= "off"
                                                 />
 
                                                 <br></br>
