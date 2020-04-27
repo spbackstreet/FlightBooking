@@ -353,6 +353,10 @@ const CapCustPhoto = () => {
 
 
     const callNextScreen = async (e) => {
+        
+        // debugger;
+
+        // window.stopCamera()
 
         let custCapture = {
             "frontCustImg": frontsrc,

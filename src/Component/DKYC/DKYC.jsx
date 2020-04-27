@@ -37,7 +37,7 @@ const DKYC = () => {
     const [poaList, setPoaList] = useState([])
 
     const [showQrDiv, setShowQrDiv] = useState(false)
-    const [AadhaarScan, setAadhaarScan] = useState(false)
+    const [AadhaarScan, setAadhaarScan] = useState(true)
     const [showDocView, setShowDocView] = useState(false)
     const [selectedDocObject, setSelectedDocObject] = useState('')
     const [dateOfIssue, setDateOfIssue] = useState('')
@@ -66,11 +66,14 @@ const DKYC = () => {
             setIsAadhar(false)
             config.DG_KYC = "O"
             config.isAadharKYC = false
+            GlobalPOIModel.isAadharKYC = false
         }
         else {
             config.DG_KYC = "A"
             setIsAadhar(true)
             config.isAadharKYC = true
+            GlobalPOIModel.isAadharKYC = true
+            setSelectedDocObject({ "Aspect_ratio": "0.625", "DocName": "Aadhaar", "IS_OCR": "Y", "IsDateOfIssue": "NO", "IsPlaceOfIssue": "NO", "IsSameAsPOI": "YES", "PhotoCount": "2", "ViewToCapture": "Capture Front View;Capture Back View", "docdesc": "UID Card (Adhaar Card)", "doctypecode": "Z00005", "issuingauth": "UIDAI Government of India(GOI)" })
         }
     }
 
@@ -81,24 +84,34 @@ const DKYC = () => {
             const fetchPoaPoiMaster = await triggerAction(() => getpoilist(isAadhaar));
             setLoading(false)
 
-            if (fetchPoaPoiMaster.Error_Code === "00" || fetchPoaPoiMaster.Error_Code === "0") {
-                setPoiList([...fetchPoaPoiMaster.lstPOI])
-                setPoaList([...fetchPoaPoiMaster.lstPOA])
-                //set up spinner
-                var showDiv = false;
-                var showDoc = true;
-                if (isAadhaar) {
-                    showDiv = true;
-                    showDoc = false
-                }
-
-                setSelectedDocObject((fetchPoaPoiMaster.lstPOI)[1])
-                setShowQrDiv(showDiv)
-                setShowDocView(showDoc)
-
-                console.log("config : ", config);
+            if (isAadhaar) {
+                config.DG_KYC = "A"
+                config.isAadharKYC = true
+                GlobalPOIModel.isAadharKYC = true
+                setSelectedDocObject({ "Aspect_ratio": "0.625", "DocName": "Aadhaar", "IS_OCR": "Y", "IsDateOfIssue": "NO", "IsPlaceOfIssue": "NO", "IsSameAsPOI": "YES", "PhotoCount": "2", "ViewToCapture": "Capture Front View;Capture Back View", "docdesc": "UID Card (Adhaar Card)", "doctypecode": "Z00005", "issuingauth": "UIDAI Government of India(GOI)" })
 
             }
+            else{
+                if (fetchPoaPoiMaster.Error_Code === "00" || fetchPoaPoiMaster.Error_Code === "0") {
+                    setPoiList([...fetchPoaPoiMaster.lstPOI])
+                    setPoaList([...fetchPoaPoiMaster.lstPOA])
+                    //set up spinner
+                    var showDiv = false;
+                    var showDoc = true;
+                    if (isAadhaar) {
+                        showDiv = true;
+                        showDoc = false
+                    }
+    
+                    setSelectedDocObject((fetchPoaPoiMaster.lstPOI)[1])
+                    setShowQrDiv(showDiv)
+                    setShowDocView(showDoc)
+    
+                    console.log("config : ", config);
+    
+                }
+            }
+            
         })()
 
 
@@ -134,8 +147,17 @@ const DKYC = () => {
         var regexAadhar = /^\d{12}$/;
         if (GlobalPOIModel.isAadharKYC) {
             if (AadhaarScan == true) {
-                config.isAadharKYC = true
-                transferToNext()
+                if (docNumber == '') {
+                    showErrorAlert('Please enter Doc Number')
+                }else if (selectedDocObject.doctypecode == 'Z00005' && (docNumber.length != 12)) {
+                    showErrorAlert('Please enter valid Aadhaar number')
+                } else if (selectedDocObject.doctypecode == 'Z00005' && !regexAadhar.test(docNumber)) {
+                    showErrorAlert('Please enter valid Aadhaar number')
+                } else {
+                    config.isAadharKYC = true
+                    transferToNext()
+                }
+
             }
             else {
                 showErrorAlert("Please scan Aadhaar QR code")
@@ -187,8 +209,7 @@ const DKYC = () => {
 
     const transferToNext = async (e) => {
 
-        const dateInput = docDateofIssue(document.getElementById("dateOfIssue").value)
-
+        debugger;
         console.log("Success", "Next Screem")
         console.log(`selectedDocObject.DocName`, GlobalPOIModel.setDocName)
         GlobalPOIModel.setDocName = selectedDocObject.DocName
@@ -203,8 +224,10 @@ const DKYC = () => {
         GlobalPOIModel.issuingauth = selectedDocObject.issuingauth;
         if (selectedDocObject.doctypecode == "Z00005") {
             GlobalPOIModel.setAadharKYC(true);
+            GlobalPOIModel.docNumber = (docNumber);
 
         } else {
+            const dateInput = docDateofIssue(document.getElementById("dateOfIssue").value)
             GlobalPOIModel.setAadharKYC(false);
             GlobalPOIModel.docNumber = (docNumber);
             GlobalPOIModel.dateOfIssue = dateInput;
@@ -276,24 +299,24 @@ const DKYC = () => {
                             </div>
                         </div>
                         <div class="pt-95 text-center mt-2">
-                        {showDocView ?
-                        <>
-                            <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
-                            <br />
-                            <select class="customsel"
-                                onChange={(e) => handleSpinnerChange(e)}
-                            // value={selectedDocObject}
-                            >
+                            {showDocView ?
+                                <>
+                                    <p style={{ color: "black", marginTop: "0px" }}>Select POI *</p>
+                                    <br />
+                                    <select class="customsel"
+                                        onChange={(e) => handleSpinnerChange(e)}
+                                    // value={selectedDocObject}
+                                    >
 
-                                {poiList.map((element) => (
-                                    <option
-                                        // selected={selectedDocObject == element}
-                                        defaultValue={selectedDocObject}
-                                    >{element.DocName}</option>))}
+                                        {poiList.map((element) => (
+                                            <option
+                                                // selected={selectedDocObject == element}
+                                                defaultValue={selectedDocObject}
+                                            >{element.DocName}</option>))}
 
-                            </select>
-                            </>
-                            : ''}
+                                    </select>
+                                </>
+                                : ''}
 
                             {/* <div id="QrView" style={showQrDiv ? { marginBottom: '20vh' } : { display: 'none' }} >
                                 <p class="fs-13 txt-col-1 mt-10">Scan QR Here</p>

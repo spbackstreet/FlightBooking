@@ -12,7 +12,7 @@ class POIModel extends React.Component {
   docNumber = "";
   dateOfIssue = "";
   placeOfIssue = "";
-  isAadharKYC = false;
+  isAadharKYC = true;
   custPhotoCaptureTime;
   custLat = "";
   custLong = "";
