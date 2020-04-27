@@ -19,7 +19,7 @@ const checkMobile = async (msisdn, action) => {
     // const  url=service.ZONEURL
     // const APIURL = `${url}${name}`;
 
-    const APIURL = `${process.env.REACT_APP_API_URL}/HealthService/CheckMobile`;
+    const APIURL = `${process.env.REACT_APP_API_URLS}/HealthService/CheckMobile`;
     // const APIURL = `${process.env.REACT_APP_OTP_URL}/HealthService/CheckMobile`;
 
     try {

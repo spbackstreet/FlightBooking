@@ -718,8 +718,8 @@ const CustOTP = () => {
             CAFRequest.SegmentSubTypename + "|" +
             CAFRequest.SegmentCodeValue + "|" +
             CAFRequest.SegmentCodeName + "|" +
-            // CAFRequest.DocumentId + "|" + //for test
-            "215542599440" + "|" +
+            CAFRequest.DocumentId + "|" + //for test
+            // "215542599440" + "|" +
             CAFRequest.CustIncome + "|" +
             CAFRequest.CustFamilyIncome + "|" +
             CAFRequest.ReasonMultipleConnection + "|" +

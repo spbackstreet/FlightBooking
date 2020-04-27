@@ -171,13 +171,13 @@ const CustomerDetails = () => {
         console.log(`altMobileNum[0]`, altMobileNum[0])
         console.log(`altMobileNum`, altMobileNum.length)
         var birthday = new Date(dob);
-var doiPoa =  new Date(config.POADate)
+        // var doiPoa =  new Date(config.POADate)
 
 
-console.log(`POA Date`,config.POADate)
+        // console.log(`POA Date`,config.POADate)
 
-console.log(`comp 1`,doiPoa>=birthday)
-console.log(`comp 2`,doiPoa<birthday)
+        // console.log(`comp 1`,doiPoa>=birthday)
+        // console.log(`comp 2`,doiPoa<birthday)
         // console.log(`check1`, document.getElementById("mnp").checked )
         // console.log(`check2`, document.getElementById("cocp").checked )
 
@@ -187,7 +187,7 @@ console.log(`comp 2`,doiPoa<birthday)
             if (document.getElementById('alternate').value.startsWith('6') || document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
                 || document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
-if(doiPoa>=birthday) {
+                    // if(doiPoa>=birthday) {
                     let delAddr = {
                         "custName": custName,
                         "dob": dob,
@@ -203,7 +203,7 @@ if(doiPoa>=birthday) {
                         "ALT_Contact_Type": "Mobile" //hardcoded
                     }
 
-                   
+
 
                     const dateInput = new Date(document.getElementById("dob").value)
                     const extractedDay = dateInput.getDate()
@@ -259,19 +259,19 @@ if(doiPoa>=birthday) {
                     // //await dispatch(storeCustomeroutstation(false));
                     history.push('/permanentAddress')
 
-                 } else{
-                    confirmAlert({
-                        title: "Error",
-                        message: "POA date cannot be greater than DOB",
-                        buttons: [
-                            {
-                                label: 'OK',
-                                onClick: () => { return false; }
-                            }
-                        ]
-                    });
-                 }
-                
+                    //  } else{
+                    //     confirmAlert({
+                    //         title: "Error",
+                    //         message: "POA date cannot be greater than DOB",
+                    //         buttons: [
+                    //             {
+                    //                 label: 'OK',
+                    //                 onClick: () => { return false; }
+                    //             }
+                    //         ]
+                    //     });
+                    // }
+
                 }
 
                 else {
@@ -330,7 +330,7 @@ if(doiPoa>=birthday) {
                                         <div class="md-font f-16 pl-3 pb-2">Customer Details</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                                <div className="spin" style={{top:"70%"}}>
+                                                <div className="spin" style={{ top: "70%" }}>
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                                                 </div>
@@ -425,7 +425,7 @@ if(doiPoa>=birthday) {
                                                                     />
                                                                 </div>
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Number Used For Customer Signature<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="mCustNo" type="number" required="required" name="mCustNo" autocomplete="off" placeholder=" "
                                                                         value={config.custNumber}
@@ -434,7 +434,7 @@ if(doiPoa>=birthday) {
                                                                     />
                                                                 </div>
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Relationship  Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="type" type="text" required="required" name="type" autocomplete="off" placeholder=" " id="relationType"
                                                                         onChange={(e) => changeRelationType(e)}
@@ -454,16 +454,16 @@ if(doiPoa>=birthday) {
                                                                     </div>
 
                                                                     : */}
-                                                                    <div class="form-group">
-                                                                        <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
-                                                                        <input id="alternate" type="number" maxLength="10" required="required" name="alternate" autocomplete="off" placeholder=" "
-                                                                            onChange={(e) => changeMobileNumber(e)} value ={altMobileNum}
-                                                                            style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
-                                                                        />
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Alternate Mobile Number<label style={{ color: "#FF0000" }}>*</label></label>
+                                                                    <input id="alternate" type="number" maxLength="10" required="required" name="alternate" autocomplete="off" placeholder=" "
+                                                                        onChange={(e) => changeMobileNumber(e)} value={altMobileNum}
+                                                                        style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }}
+                                                                    />
+                                                                </div>
                                                                 {/* } */}
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Mobile Type<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="Mtype" type="text" required="required" name="Mtype" autocomplete="off" placeholder=" "
 
@@ -485,7 +485,7 @@ if(doiPoa>=birthday) {
                                                                 </div>
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>House No/Flat No/Building/Apartment<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="houseNo" type="text" required="required" name="houseNo" autocomplete="off" placeholder=" "
                                                                         value={houseNo} onChange={(e) => updateHouseNo(e)}
@@ -496,7 +496,7 @@ if(doiPoa>=birthday) {
 
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Landmark</label>
                                                                     <input id="landMark" type="text" required="required" name="landMark" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -505,7 +505,7 @@ if(doiPoa>=birthday) {
                                                                 </div>
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Street Address/Road Name <label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="roadName" type="text" required="required" name="roadName" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -514,7 +514,7 @@ if(doiPoa>=birthday) {
                                                                 </div>
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label>
 
                                                                     <input id="area" type="text" required="required" name="area" autocomplete="off"
@@ -524,7 +524,7 @@ if(doiPoa>=birthday) {
                                                                 </div>
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
 
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Pincode<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="pinCode" type="number" required="required" name="pinCode" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -536,7 +536,7 @@ if(doiPoa>=birthday) {
                                                                 </div>
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Village/Town/City<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="village" type="number" required="required" name="village" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -550,7 +550,7 @@ if(doiPoa>=birthday) {
                                                                     </select>
                                                                 </div>
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>District<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="district" type="text" required="required" name="district" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -563,7 +563,7 @@ if(doiPoa>=birthday) {
                                                                     </select>
                                                                 </div>
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
 
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Sub-District<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <input id="subDistrict" type="text" required="required" name="subDistrict" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
@@ -586,7 +586,7 @@ if(doiPoa>=birthday) {
                                                                 </div> */}
 
 
-                                                                <div class="form-group" style ={{"display" : "none"}}>
+                                                                <div class="form-group" style={{ "display": "none" }}>
                                                                     <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>State<label style={{ color: "#FF0000" }}>*</label></label>
                                                                     <select id="state" type="text" required="required" name="state" autocomplete="off"
                                                                         style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
