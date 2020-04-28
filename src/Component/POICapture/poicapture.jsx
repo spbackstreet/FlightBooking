@@ -1191,11 +1191,8 @@ const POICapture = () => {
             console.log(DG_POI)
             debugger;
 
-
             config.DG_POI = DG_POI
 
-            console.log("image : ", image)
-            console.log("response : ", response)
         } else {
             alert(response.message)
         }
@@ -1220,9 +1217,7 @@ const POICapture = () => {
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
 
-
-            console.log("image : ", image)
-            console.log("response : ", response)
+            config.DG_POA = DG_POA
         } else {
             alert(response.message)
         }

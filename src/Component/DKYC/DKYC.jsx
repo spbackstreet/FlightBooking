@@ -8,6 +8,7 @@ import '../../css/style.css';
 import useLoader from '../../hooks/useLoader';
 import GlobalORNModel from '../../Model/ORNModel';
 import GlobalPOIModel from '../../Model/POIModel';
+import GlobalPOAModel from '../../Model/POAModel';
 import config from '../../config';
 import { getValueFromAuthConfigList, logout, showErrorAlert } from '../../commom/commonMethod';
 import { getCurrentDateForPOAPOI, getCurrentDateForTxn, docDateofIssue } from '../../commom/CommonMethods';
@@ -67,6 +68,8 @@ const DKYC = () => {
             config.DG_KYC = "O"
             config.isAadharKYC = false
             GlobalPOIModel.isAadharKYC = false
+            setShowQrDiv(false)
+            setShowDocView(true)
         }
         else {
             config.DG_KYC = "A"
@@ -74,6 +77,8 @@ const DKYC = () => {
             config.isAadharKYC = true
             GlobalPOIModel.isAadharKYC = true
             setSelectedDocObject({ "Aspect_ratio": "0.625", "DocName": "Aadhaar", "IS_OCR": "Y", "IsDateOfIssue": "NO", "IsPlaceOfIssue": "NO", "IsSameAsPOI": "YES", "PhotoCount": "2", "ViewToCapture": "Capture Front View;Capture Back View", "docdesc": "UID Card (Adhaar Card)", "doctypecode": "Z00005", "issuingauth": "UIDAI Government of India(GOI)" })
+            setShowQrDiv(true)
+            setShowDocView(false)
         }
     }
 
@@ -225,6 +230,9 @@ const DKYC = () => {
         if (selectedDocObject.doctypecode == "Z00005") {
             GlobalPOIModel.setAadharKYC(true);
             GlobalPOIModel.docNumber = (docNumber);
+            GlobalPOAModel.docNumber = (docNumber)
+            GlobalPOAModel.dateOfIssue = ""
+            GlobalPOAModel.placeOfIssue = ""
 
         } else {
             const dateInput = docDateofIssue(document.getElementById("dateOfIssue").value)
