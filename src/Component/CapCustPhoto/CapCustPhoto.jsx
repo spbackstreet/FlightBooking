@@ -377,28 +377,28 @@ const CapCustPhoto = () => {
 
         debugger;
         //for test
-        // setLoading(true)
-        // const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
-        // setLoading(false)
-        // if (getLiveNess.errorCode === "00") {
-        //     history.push('/CustomerDetails');
-        // }
-        // else {
-        //     confirmAlert({
-        //         title: "Alert!",
-        //         message: getLiveNess.errorMsg,
-        //         buttons: [
-        //             {
-        //                 label: 'OK',
-        //                 onClick: () => {
-        //                     return false;
-        //                 }
-        //             }
-        //         ]
-        //     });
-        // }
+        setLoading(true)
+        const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
+        setLoading(false)
+        if (getLiveNess.errorCode === "00") {
+            history.push('/CustomerDetails');
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: getLiveNess.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
+        }
 
-        history.push('/CustomerDetails'); //for test
+        // history.push('/CustomerDetails'); //for test
 
 
     }

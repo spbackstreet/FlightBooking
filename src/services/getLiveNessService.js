@@ -20,7 +20,7 @@ const getLiveNessService = async (docImage, imageName) => {
     // const  url=service.ZONEURL
     // const APIURL = `${url}${name}`;
     
-    const APIURL = "http://devfin.ril.com:8080/HealthService/getLiveNess";
+    const APIURL = "https://devfin.ril.com:8443/HealthService/getLiveNess";
 
     try {
         const response = await postApiCall(Request, APIURL);

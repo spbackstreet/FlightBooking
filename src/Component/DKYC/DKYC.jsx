@@ -98,7 +98,7 @@ const DKYC = () => {
                 setSelectedDocObject({ "Aspect_ratio": "0.625", "DocName": "Aadhaar", "IS_OCR": "Y", "IsDateOfIssue": "NO", "IsPlaceOfIssue": "NO", "IsSameAsPOI": "YES", "PhotoCount": "2", "ViewToCapture": "Capture Front View;Capture Back View", "docdesc": "UID Card (Adhaar Card)", "doctypecode": "Z00005", "issuingauth": "UIDAI Government of India(GOI)" })
 
             }
-            else{
+            else {
                 if (fetchPoaPoiMaster.Error_Code === "00" || fetchPoaPoiMaster.Error_Code === "0") {
                     setPoiList([...fetchPoaPoiMaster.lstPOI])
                     setPoaList([...fetchPoaPoiMaster.lstPOA])
@@ -109,16 +109,16 @@ const DKYC = () => {
                         showDiv = true;
                         showDoc = false
                     }
-    
+
                     setSelectedDocObject((fetchPoaPoiMaster.lstPOI)[1])
                     setShowQrDiv(showDiv)
                     setShowDocView(showDoc)
-    
+
                     console.log("config : ", config);
-    
+
                 }
             }
-            
+
         })()
 
 
@@ -152,19 +152,21 @@ const DKYC = () => {
         var regPanCard = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
         var regPassport = /([a-zA-Z]){1}([0-9]){7}?$/;
         var regexAadhar = /^\d{12}$/;
-        let verhoeffValidated = 0;
-        verhoeffValidated = validateVerhoeff(docNumber)
+        
         if (GlobalPOIModel.isAadharKYC) {
+            let verhoeffValidated = 0;
+            verhoeffValidated = validateVerhoeff(docNumber)
             if (AadhaarScan == true) {
                 if (docNumber == '') {
                     showErrorAlert('Please enter Doc Number')
-                }else if (selectedDocObject.doctypecode == 'Z00005' && (docNumber.length != 12)) {
+                } else if (selectedDocObject.doctypecode == 'Z00005' && (docNumber.length != 12)) {
                     showErrorAlert('Please enter valid Aadhaar number')
                 } else if (selectedDocObject.doctypecode == 'Z00005' && !regexAadhar.test(docNumber)) {
                     showErrorAlert('Please enter valid Aadhaar number')
-                } else if(!verhoeffValidated){
+                } else if (!verhoeffValidated) {
                     showErrorAlert('Please enter valid Aadhaar number')
-               }  else{  config.isAadharKYC = true
+                } else {
+                config.isAadharKYC = true
                     transferToNext()
                 }
 
