@@ -30,14 +30,14 @@ const checkDeDupeService = async (mobileNo, isLRDedup) => {
     
     if (isLRDedup) {
 
-        // const  service =apiCall("DeDupe")
-        // const  name=service.MICROSERVICENAME
-        // const  url=service.ZONEURL
-        //    APIURL = `${url}${name}`;
+        const  service =apiCall("DeDupe")
+        const  name=service.MICROSERVICENAME
+        const  url=service.ZONEURL
+           APIURL = `${url}${name}`;
 
 
 
-      APIURL = `https://devfin.ril.com:8443/SelfDkycTransactionManagement/DeDupe`;
+    //   APIURL = `https://devfin.ril.com:8443/SelfDkycTransactionManagement/DeDupe`;
         // APIURL = `${process.env.REACT_APP_APT_URL_DOTNET}/Micro_TransactionManagement/api/v1.0/DeDupe`;
     }
     else {
