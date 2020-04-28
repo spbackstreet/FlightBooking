@@ -61,10 +61,10 @@ const createHeaderForNewEncryption = (header, basicAuth) => {
     'Content-Type': 'text/plain',
     Authorization: basicAuth,
     GUID: config.guid,
-    storeid: config.storeID,
+   // storeid: config.storeID,
     KEY: header,
     USERID: config.userID,
-    Circle : config.custCircleHeader
+    Circle : config.custCircleHeader  
   }
 
   return rquestHeader;
