@@ -1,7 +1,7 @@
 import GlobalAgantAuthModal from './Modal/AgentAuthModal';
 import { confirmAlert } from 'react-confirm-alert';
 import moment from 'moment';
-// import config from '../../config';
+import config from '../config';
 import StaticVarsAndClasses from './StaticVarsAndClasses';
 import ModelTxnHeader from './Modal/ModelTxnHeader';
 
@@ -83,9 +83,9 @@ export function getHttpStatus(code) {
 //added by cc
 export function getValueFromAuthConfigList(key) {
   var value = '';
-  if (GlobalAgantAuthModal.objSupervisorLogin.lstAuth_Config != null) {
-      for (let w = 0; w < GlobalAgantAuthModal.objSupervisorLogin.lstAuth_Config.length; w++) {
-          const element = GlobalAgantAuthModal.objSupervisorLogin.lstAuth_Config[w];
+  if (config.lstAuth_Config != null) {
+      for (let w = 0; w < config.lstAuth_Config.length; w++) {
+          const element = config.lstAuth_Config[w];
           if ((element.Key).toUpperCase() === key.toUpperCase()) {
 
               //if (element.Value !== '') {
