@@ -990,7 +990,7 @@ const CustOTP = () => {
                                                                         onChange={(e) => setOtp(e, "custOtp")}
                                                                         pattern="^[1-9]\d*$"
                                                                         maxLength="6"
-                                                                        value={custOtp} />
+                                                                        value={custOtp} autoComplete="off"/>
                                                                     {/* {this.validator.message('custOtp', this.state.custOtp, 'required')} */}
 
                                                                     {time.s > 9 ?
