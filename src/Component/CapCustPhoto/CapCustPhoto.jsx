@@ -398,9 +398,6 @@ const CapCustPhoto = () => {
             });
         }
 
-        // history.push('/CustomerDetails'); //for test
-
-
     }
 
 
