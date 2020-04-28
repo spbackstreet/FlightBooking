@@ -64,7 +64,7 @@ const createHeaderForNewEncryption = (header, basicAuth) => {
     // storeid: config.storeID,
     KEY: header,
     USERID: config.userID,
-    Circle : config.custCircleHeader
+    Circle : config.custCircleHeader  
   }
 
   return rquestHeader;
