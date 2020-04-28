@@ -495,7 +495,7 @@ const LocalReference = () => {
                             <div class="modal fade show oy" id="custDetModal" style={displayotp ? display : hide}>
 
                                 <div class="modal-backdrop fade show"></div>
-                                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div class="modal-dialog" style={{ zIndex: "inherit", "marginTop": "60px" }} >
                                     <div class="modal-content" style={{ height: "56vh" }}>
 
                                         <div class="text-center" style={{ "background": "#024C9D" }}>
