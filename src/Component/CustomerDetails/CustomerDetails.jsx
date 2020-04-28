@@ -183,10 +183,14 @@ const CustomerDetails = () => {
 
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
+        const regex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (custName && altMobileNum && dob && relName && document.getElementById('email').value) {
             if (document.getElementById('alternate').value.startsWith('6') || document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
                 || document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
+if(regex.test(document.getElementById('email').value)){
+
+
                     // if(doiPoa>=birthday) {
                     let delAddr = {
                         "custName": custName,
@@ -271,6 +275,19 @@ const CustomerDetails = () => {
                     //         ]
                     //     });
                     // }
+
+                }else{
+                    confirmAlert({
+                        title: "Error",
+                        message: "Please enter valid Email Id.",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => { return false; }
+                            }
+                        ]
+                    });
+                }
 
                 }
 

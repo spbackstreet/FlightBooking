@@ -307,7 +307,23 @@ const Planselection = () => {
                 else {
                     if (planType === "Postpaid Plans") {
                         if (document.getElementById('FRCEmail')) {
-                            setdisplayCustDet(true)
+                            const regex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                           
+                            if(regex.test(document.getElementById('FRCEmail').value)){
+                                confirmAlert({
+                                    title: "Error",
+                                    message: "Please enter valid Email Id.",
+                                    buttons: [
+                                        {
+                                            label: 'OK',
+                                            onClick: () => { return false; }
+                                        }
+                                    ]
+                                });
+                            }
+                            else{
+                           setdisplayCustDet(true)
+                        }
                         }
                         else {
                             confirmAlert({
