@@ -63,7 +63,7 @@
     "xml2js": "^0.4.22"
   },
   "scripts": {
-    "start": "set HTTPS=true&&set PORT=9002&&react-scripts start",
+    "start": "HTTPS=true PORT=9002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

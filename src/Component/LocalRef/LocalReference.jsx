@@ -327,7 +327,7 @@ const LocalReference = () => {
                             label: 'OK',
                             onClick: () => {
                                 setDisplayotp(false)
-                                document.getElementById('CallingNo').disabled = true;
+                                // document.getElementById('CallingNo').disabled = true;
                                 setLROTP('')  
                             }
                         }
@@ -357,7 +357,7 @@ const LocalReference = () => {
         resetLROTPDetails();
         setDisplayotp(false)
         setSkipOtp(true)
-        document.getElementById('CallingNo').disabled = false;
+        // document.getElementById('CallingNo').disabled = false;
     } 
     
     const resetLROTPDetails = (e) => {
@@ -495,7 +495,7 @@ const LocalReference = () => {
                             <div class="modal fade show oy" id="custDetModal" style={displayotp ? display : hide}>
 
                                 <div class="modal-backdrop fade show"></div>
-                                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
+                                <div class="modal-dialog" style={{ zIndex: "inherit", "marginTop": "60px" }} >
                                     <div class="modal-content" style={{ height: "56vh" }}>
 
                                         <div class="text-center" style={{ "background": "#024C9D" }}>
@@ -732,15 +732,13 @@ const LocalReference = () => {
                                                                     </div>
 
 
-                                                                    <div class="form-group">
-                                                                        {/* <span class="remove-no"> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" onClick={ (e) => setMsdn('')} /></span> */}
+                                                                    {/* <div class="form-group">
                                                                         <label style={{ color: "black", "fontWeight": "bolder", marginBottom: "0px" }}>Calling Party Number</label>
 
                                                                         <input id="CallingNo" type="text" required="required" name="CallingNo" autocomplete="off" style={{ width: "100%", padding: "12px 20px", margin: "8px 0", display: "inline-block", border: "1px solid #ccc", "border-radius": "4px", "box-sizing": "border-box", border: "2px solid rgb(13, 149, 162)", "border-radius": "8px" }} placeholder=" "
                                                                             value={callingNo} onChange={(e) => updateCallingPartyNumber(e)}
                                                                         />
-                                                                        {/* <label for="customerName" class="control-label">Area/Sector/Locality<label style={{ color: "#FF0000" }}>*</label></label> */}
-                                                                    </div>
+                                                                    </div> */}
 
 
                                                                 </div>

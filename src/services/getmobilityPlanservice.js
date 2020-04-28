@@ -58,14 +58,12 @@ const getmobilityPlanservice = async (pType) => {
         }
     console.log("Request GetmobilityPlan : ", Request)
     
+    // const  service =apiCall("GetmobilityPlan")
+    // const  name=service.MICROSERVICENAME
+    // const  url=service.ZONEURL
+    // const APIURL = `${url}${name}`;
 
-
-
-    const  service =apiCall("GetmobilityPlan")
-    const  name=service.MICROSERVICENAME
-    const  url=service.ZONEURL
-    const APIURL = `${url}${name}`;
-   // const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetmobilityPlan";
+   const APIURL = "https://devfin.ril.com:8443/SelfDkycMobilityPlan/GetmobilityPlan";
     try {
         const response = await postApiCall(Request, APIURL);
         return response;
