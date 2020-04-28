@@ -215,7 +215,8 @@ const Home = () => {
                 config.storeID = callValidateOTP.storeID
                 config.storeCode = callValidateOTP.storeID
                 config.deviceId = callValidateOTP.deviceID
-                apiCall()
+                config.posid = callValidateOTP.deviceID.substring(callValidateOTP.deviceID.length-3, callValidateOTP.deviceID.length)
+                // apiCall()
                 setDisplayPIN(true)
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')
