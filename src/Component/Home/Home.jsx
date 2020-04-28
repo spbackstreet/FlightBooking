@@ -203,11 +203,13 @@ const Home = () => {
 
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
-                // config.userID = msdn //for later in new encryption
+                //for later in new encryption
+                config.userID = msdn 
                 config.custNumber = msdn
                 // dispatch(storeInitData(callValidateOTP));
                 config.lstGrpMS = callValidateOTP.lstGrpMS
-                // config.guid = callValidateOTP.guid //for later in new encryption
+                //for later in new encryption
+                config.guid = callValidateOTP.guid 
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
                 config.JCID = callValidateOTP.storeID
                 config.storeID = callValidateOTP.storeID
