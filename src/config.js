@@ -31,7 +31,9 @@ const config = {
     DG_POI : '',
     DG_KYC : '',
     selectedDocObject : {},
+    selectedPOIModel : {},
     selectedDocPOAObject : {},
+    selectedPOAModel : {},
     OTPGenTime : '',
     DG_LTP : '',
     objSupervisorLogin: {

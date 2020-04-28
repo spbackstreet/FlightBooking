@@ -21,6 +21,7 @@ import useGeolocation from 'react-hook-geolocation'
 import GlobalPOAModel from '../../Model/POAModel';
 import { getCurrentDateForPOAPOI, getCurrentDateForTxn } from '../../commom/CommonMethods';
 import readDocumentService from '../../services/readDocumentService';
+import dayDeDupeService from '../../services/dayDeDupeService';
 
 
 var GSON = require('gson');
@@ -126,7 +127,7 @@ const POICapture = () => {
         // mediaperm()
 
         // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||navigator.mozGetUserMedia ||navigator.msGetUserMedia;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
         // setShowWebcam(false)
 
@@ -758,12 +759,23 @@ const POICapture = () => {
 
         // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
         config.poiImage = poiCaptureImage
+
+        if (config.selectedDocObject.doctypecode === 'Z00005') {
+            callDayDeDupe()
+        }
         history.push('/DKYCPOA')
 
         // }
         // else {
         //     showErrorAlert("Please upload image.")
         // }
+    }
+
+    const callDayDeDupe = async () => {
+        setLoading(true)
+
+        const dayDeDupe = await triggerAction(() => dayDeDupeService());
+        setLoading(false)
     }
 
     const verifyAlignment = (uri, param, number) => {
@@ -1186,12 +1198,13 @@ const POICapture = () => {
             setShowPhotoView(true)
             const currentDateTime = getCurrentDateForPOAPOI()
             let DG_POI = "POI;" + config.selectedDocObject.doctypecode + ";" + GlobalPOIModel.docNumber + ";" + GlobalPOIModel.dateOfIssue + ";" + GlobalPOIModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POI)
             debugger;
 
             config.DG_POI = DG_POI
+            config.selectedPOIModel = { "custPOITime": currentDateTime, "custPOILat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOILong": JSON.stringify(geolocation.longitude).substring(0, 9) }
 
         } else {
             alert(response.message)
@@ -1213,11 +1226,13 @@ const POICapture = () => {
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             //     currentDateTime + ";hyperverge;"
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" +JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
 
             config.DG_POA = DG_POA
+            config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9)}
+        
         } else {
             alert(response.message)
         }
@@ -1227,7 +1242,7 @@ const POICapture = () => {
 
         const readDocument = await triggerAction(() => readDocumentService(isback, e, filename));
 
-        alert("RES readDocument : "+ JSON.stringify(readDocument))
+        alert("RES readDocument : " + JSON.stringify(readDocument))
 
         setLoading(false);
         if (readDocument.errorCode === "00") {
@@ -1430,7 +1445,7 @@ const POICapture = () => {
                         </div>
                         <div>
                             <input class="mt-40" id="LAT" type="text"
-                            style={{ "display": "none" }} 
+                                style={{ "display": "none" }}
                             />
 
                         </div>

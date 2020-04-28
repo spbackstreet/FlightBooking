@@ -152,7 +152,7 @@ const DKYC = () => {
         var regPanCard = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
         var regPassport = /([a-zA-Z]){1}([0-9]){7}?$/;
         var regexAadhar = /^\d{12}$/;
-        
+
         if (GlobalPOIModel.isAadharKYC) {
             let verhoeffValidated = 0;
             verhoeffValidated = validateVerhoeff(docNumber)
@@ -261,6 +261,7 @@ const DKYC = () => {
 
         // await dispatch(storeSelectedDocObject(selectedDocObject));
         config.selectedDocObject = selectedDocObject
+        
         // await dispatch(storeListPOA(poaList));
         config.poaList = poaList
         CAFRequest.DocumentId = docNumber

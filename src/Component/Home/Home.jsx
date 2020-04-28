@@ -140,12 +140,12 @@ const Home = () => {
         window.bdPayment.initialize ({
             "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
             "options": {
-             "enableChildWindowPosting": false,
+             "enableChildWindowPosting": true,
              "enablePaymentRetry": true,
              "retry_attempt_count": 2,
              "txtPayCategory": "NETBANKING"
              },
-             "callbackUrl": "http://devfin.ril.com:3008/"
+             "callbackUrl": "https://192.168.1.5:9002"
             });
     }
 
@@ -454,7 +454,6 @@ const Home = () => {
                                                 <div className="form-group text-center mb-0" style={{ "marginTop": "10px" }}>
                                                     <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                         onClick={(e) => getServicableArea(e)} disabled={loading}
-                                                        // onClick={(e) =>testbilldsk()}
                                                     >CHECK</button>
                                                 </div>
 
@@ -535,6 +534,7 @@ const Home = () => {
                                                         <div className="form-group text-center mt-5 mb-0">
                                                             <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                                 onClick={(e) => SendOtp()} disabled={loading}
+                                                                // onClick={(e) =>testbilldsk()}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>
