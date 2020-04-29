@@ -164,7 +164,7 @@ const POACapture = () => {
         console.log()
         // var base64Icon = 'data:image/jpg;base64,' + GlobalPOIModel.poaImage;
         // document.getElementById("previewImage").src = base64Icon;
-        document.getElementById("previewImage").src = frontsrc
+        document.getElementById("previewImage").src = backsrc
 
         setShowDialog(true);
     }
@@ -849,7 +849,7 @@ const POACapture = () => {
         window.idSDK.captureDocumentFront(false, myCallBackFunctionFront);
     }
     const capturePOABack = () => {
-        window.idSDK.captureDocumentFront(false, myCallBackFunctionBack);
+        window.idSDK.captureDocumentBack(false, myCallBackFunctionBack);
     }
 
     const myCallBackFunctionFront = (response) => {
@@ -876,14 +876,21 @@ const POACapture = () => {
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
             //     currentDateTime + ";hyperverge;"
+            // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
+            //     config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
+            //     currentDateTime + ";hyperverge;"
+            // console.log(DG_POA)
+
+
+            //
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" + "19.167634" + "," + " 73.07347" + ";" +
+                config.selectedDocObject.issuingauth + ";" +JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
 
-
-            console.log("image : ", image)
-            console.log("response : ", response)
+            config.DG_POA = DG_POA
+            config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9)}
+        
         } else {
             alert(response.message)
         }
@@ -967,30 +974,24 @@ const POACapture = () => {
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >
                         <div className="modal-header1" style={{ "background": "#0D95A2" }}>
                             <h5 className="modal-title" style={{ 'font-weight': 'bold', color: "#ffffff" }}>Preview</h5>
-
                             <a className="close" style={{ color: "#ffffff" }} onClick={() => setShowDialog(false)}>X</a>
-
                         </div>
                         <img id="previewImage" style={{ "height": "330px" }} justifyContent='center' ></img>
-
-
                     </div>
                 </div>
-
             </div>
 
-            <div class="back-color">
+            <div style={{ height: "100vh" }}>
                 <div id="SdkReponseForm">
-
                     <div className="spin">
                         <Spinner visible={loading}
                             spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                     </div>
-                    <div class="back-color">
+                    <div >
 
-                        <div class="top-fixed-header">
+                        <div class="my_app_container">
                             {FixedHeader()}
-                            <div style={{ textAlign: "center" }}>
+                            <div style={{ textAlign: "center" , overflowY: "scroll", height: "480px"}}>
                                 <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Back View</p>
                                 <div id="poaview" class="photoPreviewFrame">
 
@@ -1005,10 +1006,10 @@ const POACapture = () => {
                                     <div style={{ position: "relative", display: "block", width: "100%" }}>
                                         <input id="instructions" type="text" class="form-control" style={{ padding: "6px 50px 6px 12px !important", width: "90% !important", filter: "alpha(opacity=0)" }} placeholder="Upload Instructions" hidden />
                                         <img id="FrontImage" height="100" width="100" src={require("../../img/poi.png")} alt="If POA is same as POI Click back side."
-                                            // onClick={() => capturePOAFront()}
+                                            onClick={() => capturePOABack()}
                                         ></img>
 
-                                        <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} />
+                                        {/* <input id="upload-instructions" type="file" name="Instruction-data" style={{ position: "absolute", width: "100%", height: "100%", top: "0", left: "0", opacity: "0", filter: "alpha(opacity=0)" }} accept="image/*" capture="camera" onChange={(e) => openCameraFunction(e)} /> */}
 
                                     </div>
 

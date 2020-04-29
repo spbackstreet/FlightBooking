@@ -18,7 +18,7 @@ const getLiveNessService = async (docImage, imageName) => {
         "upperScore": getValueFromAuthConfigList('FM_VM_UPPERSCORE')
 
     };
-    // console.log("Request : ", Request)
+    console.log("Request : ", Request)
     // const  service =apiCall("GetTaxSummaryGST")
     // const  name=service.MICROSERVICENAME
     // const  url=service.ZONEURL
