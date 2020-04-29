@@ -763,7 +763,10 @@ const POICapture = () => {
         if (config.selectedDocObject.doctypecode === 'Z00005') {
             callDayDeDupe()
         }
-        history.push('/DKYCPOA')
+        else{
+            history.push('/DKYCPOA')
+        }
+       
 
         // }
         // else {
@@ -773,9 +776,72 @@ const POICapture = () => {
 
     const callDayDeDupe = async () => {
         setLoading(true)
+        const Request = {
+            "ORN": config.ORN,
+            "storeid": config.storeID,
+            "Guid": config.guid,
+            "Agent_Circle": config.custCircleHeader,
+            "identification": [
+                {
+                    "id": "POI",
+                    "latlong": config.selectedPOIModel.custPOILat + config.selectedPOIModel.custPOILong,
+                    "issueingCountry": config.selectedDocObject.issuingauth,
+                    "DateOfIssue": GlobalPOIModel.dateOfIssue,
+                    "latlong_timestamp": config.selectedPOIModel.custPOITime,
+                    "number": GlobalPOIModel.docNumber,
+                    "PlaceOfIssue": GlobalPOIModel.placeOfIssue,
+                    "type": config.selectedDocObject.doctypecode
+                },
+                {
+                    "id": "POA",
+                    "latlong": config.selectedPOAModel.custPOALat + config.selectedPOAModel.custPOALong,
+                    "issueingCountry": config.selectedDocObject.issuingauth,
+                    "DateOfIssue": GlobalPOAModel.dateOfIssue,
+                    "latlong_timestamp": config.selectedPOAModel.custPOATime,
+                    "number": GlobalPOAModel.docNumber,
+                    "PlaceOfIssue": GlobalPOAModel.placeOfIssue,
+                    "type": config.selectedDocObject.doctypecode
+                }
+            ],
+            "Deviceid": config.deviceId,
+            "Agent_Id": config.custNumber
+        };
 
-        const dayDeDupe = await triggerAction(() => dayDeDupeService());
+        const dayDeDupe = await triggerAction(() => dayDeDupeService(Request));
         setLoading(false)
+        if (dayDeDupe.errorCode === "00") {
+            history.push('/DKYCPOA')
+        }
+        else if(dayDeDupe.errorCode === "03") {
+            confirmAlert({
+                title: "Alert!",
+                message: dayDeDupe.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            history.push('/home')
+                        }
+                    }
+                ]
+            });
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: dayDeDupe.errorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
+        }
+
+        
     }
 
     const verifyAlignment = (uri, param, number) => {

@@ -149,6 +149,8 @@ const Home = () => {
             });
     }
 
+    
+
     const getServicableArea = async () => {
         setErrorPin(false)
         if (pin) {
@@ -533,8 +535,8 @@ const Home = () => {
 
                                                         <div className="form-group text-center mt-5 mb-0">
                                                             <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                                // onClick={(e) => SendOtp()} disabled={loading}
-                                                                onClick={(e) =>testbilldsk()}
+                                                                onClick={(e) => SendOtp()} disabled={loading}
+                                                                // onClick={(e) =>testbilldsk()}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>
