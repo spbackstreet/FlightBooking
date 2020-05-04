@@ -378,11 +378,11 @@ const CapCustPhoto = () => {
         debugger;
         //for test
         setLoading(true)
-        const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
+       const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
         setLoading(false)
         if (getLiveNess.errorCode === "00") {
-            history.push('/CustomerDetails');
-        }
+           history.push('/CustomerDetails');
+       }
         else {
             confirmAlert({
                 title: "Alert!",
@@ -1915,8 +1915,8 @@ const CapCustPhoto = () => {
 
 
 
-                        <div className="spin">
-                            <Spinner visible={loading}
+                        <div className="spin" style={{"margin-left":"670px","margin-top":"180px","position":"absolute"}}>
+                            <Spinner visible={loading} style={{"top": "50%"}}
                                 spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                         </div>
 
