@@ -1398,10 +1398,10 @@ const POICapture = () => {
                     <div>
                         <div class="my_app_container">
                             {FixedHeader()}
-                            <div className="spin">
+                            {/* <div className="spin">
                                 <Spinner visible={loading}
                                     spinnerColor={"rgba(0, 0, 0, 0.3)"} />
-                            </div>
+                            </div> */}
                             {/* {showWebcam ?
                                 <WebcamCapture />
                                 : ''

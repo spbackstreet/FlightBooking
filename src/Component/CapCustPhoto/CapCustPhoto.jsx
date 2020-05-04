@@ -1818,8 +1818,8 @@ const CapCustPhoto = () => {
 
 
 
-                        <div className="spin">
-                            <Spinner visible={loading}
+                        <div className="spin" style={{"margin-left":"670px","margin-top":"180px","position":"absolute"}}>
+                            <Spinner visible={loading} style={{"top": "50%"}}
                                 spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                         </div>
 

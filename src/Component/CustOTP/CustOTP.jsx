@@ -25,6 +25,7 @@ import cAFValidationService from '../../services/cAFValidationService';
 import PlanselectionModel from '../../commom/Modal/PlanselectionModel';
 import getBilldeskQueryStr from '../../services/getBilldeskQueryStr';
 import getBilldeskModalQueryStr from '../../services/getBilldeskModalQueryStr';
+import checkMobile from '../../services/checkMobile';
 
 
 var GSON = require('gson');
@@ -90,9 +91,14 @@ const CustOTP = () => {
             setseconds(30);
             setdoneC(false)
             startTimer()
-            send_Cust_Agent("send_Customer");
+            resendCustOtp();
         }
 
+    }
+
+
+    const resendCustOtp = async () => {
+        const callCheckMobile = await triggerAction(() => checkMobile(config.custNumber));
     }
 
     const startTimer = (e) => {
