@@ -1093,7 +1093,7 @@ const CustOTP = () => {
                                     </section>
                                     <div class="form-group text-center mt-5 mb-0">
                                         <button type="button" onClick={(e) => validateDigitalKycOTP(e, custOtp)}
-                                            class="btn jio-btn jio-btn-primary w-100" >Validate OTP</button>
+                                            class="btn jio-btn jio-btn-primary w-100" disabled={loading}>Validate OTP</button>
                                     </div>
                                 </div>
                             </div>
@@ -1159,7 +1159,7 @@ const CustOTP = () => {
                                                             <div class="col-12 p-2">
                                                                 <button type="button"
                                                                     onClick={(e) => getCAFNumber(e)}
-                                                                    class="btn-block jio-btn jio-btn-primary">PROCEED</button>
+                                                                    class="btn-block jio-btn jio-btn-primary" disabled={loading}>PROCEED</button>
                                                             </div>
                                                         </div>
                                                     </div>

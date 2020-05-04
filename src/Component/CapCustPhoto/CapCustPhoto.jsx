@@ -1978,13 +1978,13 @@ const CapCustPhoto = () => {
 
                                 <div style={{ textAlign: "center", marginTop: "150px" }}>
                                     <button
-                                        onClick={(e) => captureCust()}
+                                        onClick={(e) => captureCust()} disabled={loading}
                                     >
                                         <img src={require("../../img/add_new.png")} style={{ width: "100px" }} alt="logo" />
                                     </button>
                                     <span>
 
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} style={{ "background": "#28a3ae", "color": "#fff", "width": "120px", "marginLeft": "20px", "padding": "10px" }}>preview</button>
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} style={{ "background": "#28a3ae", "color": "#fff", "width": "120px", "marginLeft": "20px", "padding": "10px" }} disabled={loading}>preview</button>
 
                                     </span>
                                 </div>
@@ -2262,7 +2262,7 @@ const CapCustPhoto = () => {
 
 
 
-                            <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                            <button type="button" onClick={(e) => proceed(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>NEXT</button>
 
 
 

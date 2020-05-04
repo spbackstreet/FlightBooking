@@ -421,7 +421,7 @@ if(regex.test(document.getElementById('email').value)){
 
 
                                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
+                                                                    <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input" checked
 
                                                                     />
                                                                     <label class="custom-control-label" for="mnp">Father Name</label>

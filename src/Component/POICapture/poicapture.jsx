@@ -1429,7 +1429,7 @@ const POICapture = () => {
 
 
                                     <div class="col-6 col-sm-6">
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>Preview</button>
                                     </div>
                                 </div>
 
@@ -1463,7 +1463,7 @@ const POICapture = () => {
 
                                         </div>
                                         <div class="col-6 col-sm-6">
-                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }} disabled={loading}>Preview</button>
                                         </div>
                                     </div>
                                     : null}
@@ -1534,7 +1534,7 @@ const POICapture = () => {
                 <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>
                 <div class="row m-0 mt-4">
                     <div class="col-12 p-2">
-                        <button type="button" onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                        <button type="button" onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>NEXT</button>
                     </div>
                 </div>
             </div>

@@ -419,7 +419,7 @@ const DKYC = () => {
 
                         <button type="submit"
                             onClick={(e) => submit(e)}
-                            class="btn jio-btn jio-btn-primary w-50 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                            class="btn jio-btn jio-btn-primary w-50 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>NEXT</button>
 
                     </div>
                 </div>

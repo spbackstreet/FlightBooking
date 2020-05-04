@@ -1578,10 +1578,10 @@ const Planselection = () => {
 
                                     <div class="row" style={{ marginTop: "25px" }}>
                                         <div class="col-6 col-sm-6">
-                                            <button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={() => setisOpen(false)}>Close</button>
+                                            <button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={() => setisOpen(false)} disabled={loading}>Close</button>
                                         </div>
                                         <div class="col-6 col-sm-6">
-                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1"
+                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1" disabled={loading}
                                                 onClick={(e) => setMNPdata(e)}
                                             >
                                                 Save</button>
@@ -1640,10 +1640,10 @@ const Planselection = () => {
 
                                     <div class="row" style={{ marginTop: "25px" }}>
                                         <div class="col-6 col-sm-6">
-                                            <button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={(e) => setcocpselected(false)}>Close</button>
+                                            <button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={(e) => setcocpselected(false)} disabled={loading}>Close</button>
                                         </div>
                                         <div class="col-6 col-sm-6">
-                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1">Save</button>
+                                            <button type="button" class="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1" disabled={loading}>Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1733,7 +1733,7 @@ const Planselection = () => {
 																					</div> */}
                                                                             </div>
                                                                             <div class="w-100"><button type="button" class="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-3 mt-3 mr-1 py-1"
-                                                                                onClick={(e) => setisPlanselected(false)} >Change</button></div>
+                                                                                onClick={(e) => setisPlanselected(false)} disabled={loading}>Change</button></div>
                                                                         </div>
                                                                         <div class="w-100 text-center pr-1 f-12">
                                                                             <select class="input-style" style={{ width: "90%", height: "38px", borderRadius: "20px" }} id="lstFRC">
@@ -1875,7 +1875,7 @@ const Planselection = () => {
                                                                     <br />
                                                                     <br />
                                                                     <button type="submit" class="btn btn-primary btn-login" style={{ width: "30%", position: "absolute", bottom: "60px", marginLeft: "225px" }}
-                                                                        onClick={(e) => btnAdd(e)} >ADD</button>
+                                                                     disabled={loading}   onClick={(e) => btnAdd(e)} >ADD</button>
 
                                                                 </div>
                                                             </div>
@@ -1905,7 +1905,7 @@ const Planselection = () => {
                                                                         </div>
                                                                         {/* <div style={{ marginTop: "20px" }}> */}
 
-                                                                        <button type="submit" class="btn btn-primary btn-login" style={{ "margin-left": "150px", width: "100px", "margin-top": "-56px" }} onClick={() => setdisplayCustDet(!displayCustDet)}>OK</button>
+                                                                        <button type="submit" class="btn btn-primary btn-login" style={{ "margin-left": "150px", width: "100px", "margin-top": "-56px" }} onClick={() => setdisplayCustDet(!displayCustDet)} disabled={loading}>OK</button>
                                                                     </div>
                                                                     {/* </div> */}
 
@@ -1926,7 +1926,7 @@ const Planselection = () => {
                                     </div>
                                     <div class="row m-0 mt-4">
                                         <div class="col-12 p-2">
-                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => checkNextPlan(document.getElementById('frm'), e)}>NEXT<span class="pl-2"></span></button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} onClick={(e) => checkNextPlan(document.getElementById('frm'), e)} disabled={loading}>NEXT<span class="pl-2"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -2051,7 +2051,7 @@ const Planselection = () => {
                                                 :
                                                 null
                                             }
-                                            <button style={{ "color": "#fff", "background": "#0D95A2", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)}>
+                                            <button style={{ "color": "#fff", "background": "#0D95A2", "borderRadius": "3rem", "padding": "5px", "margin": "15px", "marginLeft": "90px" }} onClick={(e) => callOtp(e)} disabled={loading}>
                                                 PROCEED
                                                 </button>
                                             <br></br>
@@ -2196,7 +2196,7 @@ const Planselection = () => {
                                             <button type="submit" class="btn btn-primary btn-login" style={{ "marginLeft": "15px" }}
 
                                                 onClick={(e) => btnSave(e)}
-
+                                                disabled={loading}
                                             >SAVE</button>
 
                                         </p>

@@ -544,7 +544,7 @@ const LocalReference = () => {
                                                         <br /><br />
                                                         <button type="submit" class="btn btn-primary btn-login"
                                                             style={{ width: "135px" }}
-                                                            onClick={(e) => btnValidateOTP(e)}
+                                                            onClick={(e) => btnValidateOTP(e)} disabled={loading}
                                                         >
                                                             VALIDATE OTP
                                                 </button>
@@ -553,7 +553,7 @@ const LocalReference = () => {
                                                         {skpVsble ?
                                                             <button type="submit" class="btn btn-primary btn-login"
                                                                 style={{ width: "135px" }}
-                                                             onClick={(e) => btnSkip(e)}
+                                                             onClick={(e) => btnSkip(e)} 
                                                             >
                                                                 SKIP
                                                 </button>
@@ -746,9 +746,9 @@ const LocalReference = () => {
 
                                                             <div class="form-group text-center mt-5 mb-0">
                                                                 <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
-                                                             //   onClick={(e) => history.push('/Planselection')}
+                                                             //   onClick={(e) => history.push('/Planselection')}  
                                                              onClick={(e) => goToPlanSelection(e)}
-                                >NEXT</button>
+                              disabled={loading}  >NEXT</button>
                                                             </div>
                                                         </div>
                                                     </div>
