@@ -223,8 +223,7 @@ const DKYC = () => {
 
         debugger;
         console.log("Success", "Next Screem")
-        console.log(`selectedDocObject.DocName`, GlobalPOIModel.setDocName)
-        GlobalPOIModel.setDocName = selectedDocObject.DocName
+        GlobalPOIModel.DocName = selectedDocObject.DocName
         GlobalPOIModel.PhotoCount = selectedDocObject.PhotoCount;
         GlobalPOIModel.ViewToCapture = selectedDocObject.ViewToCapture;
         GlobalPOIModel.docdesc = selectedDocObject.docdesc;

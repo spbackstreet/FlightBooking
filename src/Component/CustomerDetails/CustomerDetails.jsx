@@ -11,6 +11,7 @@ import OtpDialogue from '../OtpDialogue/OtpDialogue';
 import '../../css/style.css';
 import { useHistory } from 'react-router-dom';
 import CAFRequest from "../../txnUploadData/cafRequest"
+import hypervergeValidateService from '../../services/hypervergeValidateService';
 
 
 
@@ -49,10 +50,52 @@ const CustomerDetails = () => {
 
     const history = useHistory()
 
-    // useEffect (() => {
+    useEffect(() => {
 
-    //     setAltMobileNum()
-    // }, [])
+        hyperVergValidate();
+
+    }, [])
+
+    const hyperVergValidate = async () => {
+
+        setLoading(true)
+        const hypervergeValidate = await triggerAction(() => hypervergeValidateService());
+        setLoading(false)
+
+
+        if (hypervergeValidate.ErrorCode === "00") {
+            //   dispatch(SET_BANK_DETAILS(request));
+            //   history.push("/Success")
+
+        }
+        else if(hypervergeValidate.ErrorCode === "03"){
+            confirmAlert({
+                title: "Alert!",
+                message: "Session Expired",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { history.push('/home') }
+                    }
+                ]
+            });
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: hypervergeValidate.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => { setLoading(false) }
+                    }
+                ]
+            });
+        }
+
+
+
+    }
 
     const updatePincode = async (e) => {
         setPincode(e.currentTarget.value.substring(0, 6))
@@ -183,111 +226,111 @@ const CustomerDetails = () => {
 
         var totalYears = new Number((new Date().getTime() - birthday.getTime()) / 31536000000).toFixed(0);
         console.log(`abc`, totalYears)
-        const regex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (custName && altMobileNum && dob && relName && document.getElementById('email').value) {
             if (document.getElementById('alternate').value.startsWith('6') || document.getElementById('alternate').value.startsWith('7') || document.getElementById('alternate').value.startsWith('8')
                 || document.getElementById('alternate').value.startsWith('9') || document.getElementById('alternate').value.length == "10") {
                 if (totalYears >= 18 && totalYears <= 100) {
-if(regex.test(document.getElementById('email').value)){
+                    if (regex.test(document.getElementById('email').value)) {
 
 
-                    // if(doiPoa>=birthday) {
-                    let delAddr = {
-                        "custName": custName,
-                        "dob": dob,
-                        // "houseNo": houseNo,
-                        // "landMark": landMark,
-                        // "roadName": roadName,
-                        // "area": area,
-                        // "city": city,
-                        // "district": district,
-                        // "state": state,
-                        // "pincode": pincode,
-                        "altMoNo": altMobileNum,
-                        "ALT_Contact_Type": "Mobile" //hardcoded
+                        // if(doiPoa>=birthday) {
+                        let delAddr = {
+                            "custName": custName,
+                            "dob": dob,
+                            // "houseNo": houseNo,
+                            // "landMark": landMark,
+                            // "roadName": roadName,
+                            // "area": area,
+                            // "city": city,
+                            // "district": district,
+                            // "state": state,
+                            // "pincode": pincode,
+                            "altMoNo": altMobileNum,
+                            "ALT_Contact_Type": "Mobile" //hardcoded
+                        }
+
+
+
+                        const dateInput = new Date(document.getElementById("dob").value)
+                        const extractedDay = dateInput.getDate()
+                        let extractedMonth = dateInput.getMonth() + 1
+                        if (extractedMonth < 10) {
+                            extractedMonth = `0${extractedMonth}`
+                        }
+                        const extractedYear = dateInput.getFullYear()
+
+                        if (config.isAadharKYC) {
+                            CAFRequest.Aadhar_Number = document.getElementById('custAadhaar').value;
+                            CAFRequest.Aadharaddrsameinstalltion = 'Y';
+                        }
+
+                        CAFRequest.DocumentId = document.getElementById('custAadhaar').value
+                        // CAFRequest.BldgName = document.getElementById('houseNo').value;
+                        // CAFRequest.BuildingId = document.getElementById('houseNo').value;
+                        // CAFRequest.City = document.getElementById('village').value;
+                        CAFRequest.Country = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
+                        CAFRequest.DOB = extractedDay + "-" + extractedMonth + '-' + extractedYear;
+                        // CAFRequest.District = document.getElementById('district').value;
+                        CAFRequest.Email = document.getElementById('email').value;
+                        CAFRequest.FirstName = document.getElementById('custName').value;
+                        CAFRequest.Gender = document.getElementById('gender').value;
+                        // CAFRequest.LandMark = document.getElementById('landMark').value;
+                        // CAFRequest.LocalAdd_Street = document.getElementById('roadName').value;
+                        // CAFRequest.StreetName = document.getElementById('roadName').value;
+                        // CAFRequest.LocalAdd_buildingName = document.getElementById('houseNo').value;
+                        // CAFRequest.LocalAdd_landmark = document.getElementById('landMark').value;
+                        // CAFRequest.LocalAdd_locality = document.getElementById('area').value;
+                        // //CAFRequest.LocalRef_callingpartyNo=document.getElementById('mobileNo').value;
+                        // CAFRequest.Localadd_City = document.getElementById('village').value;
+                        // CAFRequest.Localadd_postoffice = document.getElementById('village').value;
+                        // CAFRequest.Localadd_district = document.getElementById('district').value;
+                        // CAFRequest.Localadd_pincode = document.getElementById('pinCode').value;
+                        // CAFRequest.Localadd_state = document.getElementById('state').value;
+                        // CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
+                        // CAFRequest.Locality = document.getElementById('area').value;
+                        // CAFRequest.PostCode = document.getElementById('pinCode').value;
+                        // //CAFRequest.RMN = document.getElementById('altMobileNo').value;
+                        CAFRequest.RMN = config.custNumber;
+                        CAFRequest.RMN_relationship = relationShipType;
+                        // CAFRequest.Locality = document.getElementById('area').value;
+                        CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
+
+                        CAFRequest.CareOf = "C/O Rajat"
+                        CAFRequest.Localadd_careof = "C/O Rajat"
+                        CAFRequest.FFN = document.getElementById('fname').value
+
+                        // //const abc = await dispatch(storeCustomerDelivery(delAddr));
+                        config.custDelAdd = delAddr
+                        // //await dispatch(storeCustomeroutstation(true));
+                        // //await dispatch(storeCustomeroutstation(false));
+                        history.push('/permanentAddress')
+
+                        //  } else{
+                        //     confirmAlert({
+                        //         title: "Error",
+                        //         message: "POA date cannot be greater than DOB",
+                        //         buttons: [
+                        //             {
+                        //                 label: 'OK',
+                        //                 onClick: () => { return false; }
+                        //             }
+                        //         ]
+                        //     });
+                        // }
+
+                    } else {
+                        confirmAlert({
+                            title: "Error",
+                            message: "Please enter valid Email Id.",
+                            buttons: [
+                                {
+                                    label: 'OK',
+                                    onClick: () => { return false; }
+                                }
+                            ]
+                        });
                     }
-
-
-
-                    const dateInput = new Date(document.getElementById("dob").value)
-                    const extractedDay = dateInput.getDate()
-                    let extractedMonth = dateInput.getMonth() + 1
-                    if (extractedMonth < 10) {
-                        extractedMonth = `0${extractedMonth}`
-                    }
-                    const extractedYear = dateInput.getFullYear()
-
-                    if (config.isAadharKYC) {
-                        CAFRequest.Aadhar_Number = document.getElementById('custAadhaar').value;
-                        CAFRequest.Aadharaddrsameinstalltion = 'Y';
-                    }
-
-                    CAFRequest.DocumentId = document.getElementById('custAadhaar').value
-                    // CAFRequest.BldgName = document.getElementById('houseNo').value;
-                    // CAFRequest.BuildingId = document.getElementById('houseNo').value;
-                    // CAFRequest.City = document.getElementById('village').value;
-                    CAFRequest.Country = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
-                    CAFRequest.DOB = extractedDay + "-" + extractedMonth + '-' + extractedYear;
-                    // CAFRequest.District = document.getElementById('district').value;
-                    CAFRequest.Email = document.getElementById('email').value;
-                    CAFRequest.FirstName = document.getElementById('custName').value;
-                    CAFRequest.Gender = document.getElementById('gender').value;
-                    // CAFRequest.LandMark = document.getElementById('landMark').value;
-                    // CAFRequest.LocalAdd_Street = document.getElementById('roadName').value;
-                    // CAFRequest.StreetName = document.getElementById('roadName').value;
-                    // CAFRequest.LocalAdd_buildingName = document.getElementById('houseNo').value;
-                    // CAFRequest.LocalAdd_landmark = document.getElementById('landMark').value;
-                    // CAFRequest.LocalAdd_locality = document.getElementById('area').value;
-                    // //CAFRequest.LocalRef_callingpartyNo=document.getElementById('mobileNo').value;
-                    // CAFRequest.Localadd_City = document.getElementById('village').value;
-                    // CAFRequest.Localadd_postoffice = document.getElementById('village').value;
-                    // CAFRequest.Localadd_district = document.getElementById('district').value;
-                    // CAFRequest.Localadd_pincode = document.getElementById('pinCode').value;
-                    // CAFRequest.Localadd_state = document.getElementById('state').value;
-                    // CAFRequest.Localadd_subdistrict = document.getElementById('subDistrict').value;
-                    // CAFRequest.Locality = document.getElementById('area').value;
-                    // CAFRequest.PostCode = document.getElementById('pinCode').value;
-                    // //CAFRequest.RMN = document.getElementById('altMobileNo').value;
-                    CAFRequest.RMN = config.custNumber;
-                    CAFRequest.RMN_relationship = relationShipType;
-                    // CAFRequest.Locality = document.getElementById('area').value;
-                    CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
-
-                    CAFRequest.CareOf = "C/O Rajat"
-                    CAFRequest.Localadd_careof = "C/O Rajat"
-                    CAFRequest.FFN = document.getElementById('fname').value
-
-                    // //const abc = await dispatch(storeCustomerDelivery(delAddr));
-                    config.custDelAdd = delAddr
-                    // //await dispatch(storeCustomeroutstation(true));
-                    // //await dispatch(storeCustomeroutstation(false));
-                    history.push('/permanentAddress')
-
-                    //  } else{
-                    //     confirmAlert({
-                    //         title: "Error",
-                    //         message: "POA date cannot be greater than DOB",
-                    //         buttons: [
-                    //             {
-                    //                 label: 'OK',
-                    //                 onClick: () => { return false; }
-                    //             }
-                    //         ]
-                    //     });
-                    // }
-
-                }else{
-                    confirmAlert({
-                        title: "Error",
-                        message: "Please enter valid Email Id.",
-                        buttons: [
-                            {
-                                label: 'OK',
-                                onClick: () => { return false; }
-                            }
-                        ]
-                    });
-                }
 
                 }
 

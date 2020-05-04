@@ -761,6 +761,8 @@ const POICapture = () => {
         config.poiImage = poiCaptureImage
 
         if (config.selectedDocObject.doctypecode === 'Z00005') {
+            config.aadharFront = frontsrc;
+            config.frontFileName = "aadhaarfront.png"
             callDayDeDupe()
         }
         else{
@@ -809,13 +811,13 @@ const POICapture = () => {
 
         const dayDeDupe = await triggerAction(() => dayDeDupeService(Request));
         setLoading(false)
-        if (dayDeDupe.errorCode === "00") {
+        if (dayDeDupe.ErrorCode === "00") {
             history.push('/DKYCPOA')
         }
-        else if(dayDeDupe.errorCode === "03") {
+        else if(dayDeDupe.ErrorCode === "03") {
             confirmAlert({
                 title: "Alert!",
-                message: dayDeDupe.errorMsg,
+                message: dayDeDupe.ErrorMsg,
                 buttons: [
                     {
                         label: 'OK',
@@ -829,7 +831,7 @@ const POICapture = () => {
         else {
             confirmAlert({
                 title: "Alert!",
-                message: dayDeDupe.errorMsg,
+                message: dayDeDupe.ErrorMsg,
                 buttons: [
                     {
                         label: 'OK',
@@ -1305,7 +1307,7 @@ const POICapture = () => {
     }
 
     const documentUpload = async (e, isback, filename) => {
-
+        setLoading(true);
         const readDocument = await triggerAction(() => readDocumentService(isback, e, filename));
 
         alert("RES readDocument : " + JSON.stringify(readDocument))
@@ -1534,7 +1536,7 @@ const POICapture = () => {
                 <p class="mt-10" style={{ color: "red", "fontWeight": "bolder" }}>Ensure camera to complete auto focus for image capture</p>
                 <div class="row m-0 mt-4">
                     <div class="col-12 p-2">
-                        <button type="button" onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>NEXT</button>
+                        <button type="button" disabled={loading} onClick={(e) => validateAndNext(e)} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
                     </div>
                 </div>
             </div>

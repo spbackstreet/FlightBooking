@@ -148,6 +148,7 @@ const CustOTP = () => {
         setloading(false)
 
         if (callValidateOTP.errorCode === "00") {
+            config.guid = callValidateOTP.guid 
 
             const currentDateTime = getCurrentDateForPOAPOI()
 
@@ -249,7 +250,7 @@ const CustOTP = () => {
         setloading(true)
         const getTransactionId = await triggerAction(() => getTransactionIdService());
 
-
+        setloading(false)
         if (getTransactionId.ErrorCode === "00") {
 
             setTxnID(getTransactionId.TxnID)
@@ -489,7 +490,7 @@ const CustOTP = () => {
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
         // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
-        fintxnUploadData.TxnInfo.TxnHeader.TxnId = "39";
+        fintxnUploadData.TxnInfo.TxnHeader.TxnId = config.TxnID;
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnSalesManID = "";

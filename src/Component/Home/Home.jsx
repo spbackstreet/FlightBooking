@@ -15,6 +15,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import config from '../../config';
 import { apiCall } from '../../commom/commonApiCalling';
 import { set } from 'date-fns';
+import getBilldeskModalQueryStr from '../../services/getBilldeskModalQueryStr';
+
 
 
 const display = {
@@ -133,19 +135,22 @@ const Home = () => {
         setLoading(false)
         setPin('')
     }
-    const testbilldsk = () => {
+    const testbilldsk = async() => {
         //
         config.Aadhar_Number = "test"
         console.log("config : ", config);
+
+        let str = await triggerAction(() => getBilldeskModalQueryStr());
+        debugger;
         window.bdPayment.initialize ({
-            "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
+            "msg": 'RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804',
             "options": {
              "enableChildWindowPosting": true,
              "enablePaymentRetry": true,
              "retry_attempt_count": 2,
              "txtPayCategory": "NETBANKING"
              },
-             "callbackUrl": "https://192.168.1.5:9002"
+             "callbackUrl": 'https://localhost:3008/OrderPlaced'
             });
     }
 

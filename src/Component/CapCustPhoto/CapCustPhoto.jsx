@@ -34,6 +34,7 @@ import useGeolocation from 'react-hook-geolocation'
 
 import Spinner from 'react-spinner-material';
 import getLiveNessService from '../../services/getLiveNessService';
+import facematchService from '../../services/facematchService';
 import useLoader from '../../hooks/useLoader';
 
 var resizebase64 = require('resize-base64');
@@ -110,7 +111,7 @@ const CapCustPhoto = () => {
     const [isFrontCam, setIsFrontCam] = useState(false)
 
     const [reqCode, setReqCode] = useState('Front Side')
-
+    const [live, setLive] = useState('false');
 
 
     let [showWebcam, setShowWebcam] = useState(false);
@@ -217,26 +218,6 @@ const CapCustPhoto = () => {
     useEffect(() => {
 
         window.idSDK.init();
-
-        // var date = new Date().getDate();
-
-        // var month = new Date().getMonth() + 1;
-
-        // var year = new Date().getFullYear();
-
-        // var hours = new Date().getHours(); //Current Hours
-
-        // var min = new Date().getMinutes(); //Current Minutes
-
-        // var sec = new Date().getSeconds(); //Current Seconds
-
-        // var Finaldate = (date + "-" + '0' + month + "-" + year + " " + hours + ":" + min + ":" + sec);
-
-        // setDeviceDate(Finaldate)
-
-
-
-        // setFM_NONAADHAAR_CHECK(getValueFromAuthConfigList("FM_NONAADHAAR_CHECK"));
 
         setFM_NONAADHAAR_CHECK("0");
 
@@ -353,7 +334,7 @@ const CapCustPhoto = () => {
 
 
     const callNextScreen = async (e) => {
-        
+
         // debugger;
 
         // window.stopCamera()
@@ -377,16 +358,50 @@ const CapCustPhoto = () => {
 
         debugger;
         //for test
-        setLoading(true)
-       const getLiveNess = await triggerAction(() => getLiveNessService(frontsrc, "userfrontsrc.png"));
-        setLoading(false)
-        if (getLiveNess.errorCode === "00") {
-           history.push('/CustomerDetails');
-       }
-        else {
+        if (config.selectedDocObject.doctypecode === 'Z00005' && live) {
+            setLoading(true)
+            const facematch = await triggerAction(() => facematchService(frontsrc, "userfrontsrc.png"));
+            setLoading(false)
+            if (facematch.errorCode === "00") {
+                history.push('/CustomerDetails');
+
+            }
+            else if (facematch.errorCode === "03") {
+                confirmAlert({
+                    title: "Alert!",
+                    message: facematch.errorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {
+                                history.push('/home');
+                            }
+                        }
+                    ]
+                });
+            }
+            else {
+                confirmAlert({
+                    title: "Alert!",
+                    message: facematch.errorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {
+                                return false;
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+        else if(live){
+            history.push('/CustomerDetails');
+        }
+        else{
             confirmAlert({
                 title: "Alert!",
-                message: getLiveNess.errorMsg,
+                message: "face not live",
                 buttons: [
                     {
                         label: 'OK',
@@ -397,6 +412,8 @@ const CapCustPhoto = () => {
                 ]
             });
         }
+        history.push('/CustomerDetails');//for test
+
 
     }
 
@@ -551,12 +568,36 @@ const CapCustPhoto = () => {
     const captureCust = () => {
         window.idSDK.captureFace(false, myCallBackFunction);
     }
-    const myCallBackFunction = (response) => {
+    const myCallBackFunction = async (response) => {
         if (response.success) {
             let image = response.data.image;
 
             setFrontsrc(image);
             setShowPhotoView(true)
+            setLoading(true)
+            const getLiveNess = await triggerAction(() => getLiveNessService(image, "userfrontsrc.png"));
+            setLoading(false)
+            if (getLiveNess.errorCode === "00") {
+                setLive(true)
+                // let resJSON = JSON.parse(getLiveNess.responseString.replace(/\\/g, ""));
+                // config.livenessScore = resJSON.result
+                config.livenessScore = getLiveNess.responseString
+            }
+            else {
+                confirmAlert({
+                    title: "Alert!",
+                    message: getLiveNess.errorMsg,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {
+                                return false;
+                            }
+                        }
+                    ]
+                });
+            }
+
 
             console.log("image : ", image)
             console.log("response : ", response)
@@ -1265,144 +1306,6 @@ const CapCustPhoto = () => {
         // }
 
 
-
-
-
-    }
-
-
-
-    const verifyFaceMatchVishwam = () => {
-
-        SDKJourney = 'vishwam';
-
-
-
-        var jsonBody = {
-
-            "dataLogging": "yes",
-
-            "type": "id",
-
-            "signed": "yes",
-
-            "allowMultipleFaces": "no",
-
-            "match_type": 0,
-
-            "app_id": "dkyc",
-
-            "allowDataLogging": true,
-
-            "store_id": config.objGetStore.StoreID
-
-
-
-        }
-
-
-
-        var jsonHeader = {
-
-            "referenceId": GlobalPOIModel.mOrnNumber
-
-        }
-
-
-
-        if (window.Mobile) {
-
-
-
-            var appId = "dkyc"
-
-
-
-            var appKey = "oljsGtPZWqQEjPcVKOrDBqNLLulfPDrhlvRHoNVRHkqkpjFPZWAOxlFugtYAAopO"
-
-
-
-            var appMixPanel = "0"
-
-
-
-            var apptimeout = ""
-
-            console.log("VISHWAM_AppId", appId)
-
-            console.log("VISHWAM_AppKey", appKey)
-
-            console.log("VISHWAM_MIX_PANEL", appMixPanel)
-
-            console.log("VISHWAM_TIMEOUT", apptimeout)
-
-
-
-            //cc
-
-            window.Mobile.verifyFaceMatch("vishwam", "verifyfacematch", '', GlobalPOIModel.Hyperverge_Cust_IMg_Path, GlobalPOIModel.Hyperverge_POI_1_Img_Path,
-
-
-
-                JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId,
-
-                appKey, appMixPanel, apptimeout);
-
-            //end
-
-
-
-        }
-
-    }
-
-    const verifyFaceMatchHyperVerge = () => {
-
-        SDKJourney = 'hyperverge';
-
-
-
-        var jsonBody = {
-
-            "dataLogging": "yes",
-
-            "type": "id",
-
-            "signed": "yes",
-
-            "allowMultipleFaces": "no"
-
-
-
-        }
-
-
-
-        var jsonHeader = {
-
-            "referenceId": GlobalPOIModel.mOrnNumber
-
-        }
-
-
-
-        if (window.Mobile) {
-
-            //cc
-
-            window.Mobile.verifyFaceMatch("hyperverge", "verifyfacematch", 'https://jio-faceid-staging.hyperverge.co/v1/photo/verifyPair', GlobalPOIModel.Hyperverge_Cust_IMg_Path, GlobalPOIModel.Hyperverge_POI_1_Img_Path,
-
-
-
-                JSON.stringify(jsonBody), JSON.stringify(jsonHeader), appId,
-
-                appKey, appMixPanel, apptimeout);
-
-            //end
-
-
-
-        }
 
 
 
