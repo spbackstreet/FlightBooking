@@ -720,6 +720,8 @@ const POICapture = () => {
     }
 
     const callDigKYCPoaFragment = async () => {
+//setLoading(true)
+
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -755,7 +757,6 @@ const POICapture = () => {
             "frontImage": frontsrc,
             "backImage": backsrc
         }
-
 
         // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
         config.poiImage = poiCaptureImage
@@ -1391,8 +1392,8 @@ const POICapture = () => {
 
             <div style={{ height: "100vh" }}>
                 <div id="SdkReponseForm">
-                    <div className="spin">
-                        <Spinner visible={loading}
+                    <div className="spin"  style={{"top":"50%"}}>
+                        <Spinner visible={loading} 
                             spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                     </div>
                     <div>
