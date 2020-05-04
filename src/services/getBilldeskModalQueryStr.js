@@ -7,10 +7,10 @@ import { apiCall } from '../commom/commonApiCalling';
 
 const getBilldeskModalQueryStr = async () => {
     const Request = {
-        "orn": config.ORN,
-        "amount": config.amount,
-        "guid": config.guid,
-        "mobile" : config.custNumber
+        "orn": 'NO00000B4BF8',
+        "amount": '100',
+        "guid": '7341ec33-be23-437a-8138-00739a55bf5a:INT9',
+        "mobile" : '7008124658'
     };
     // console.log("Request : ", Request)
     // const  service =apiCall("GetTaxSummaryGST")

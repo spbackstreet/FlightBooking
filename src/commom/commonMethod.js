@@ -87,10 +87,10 @@ export function getValueFromAuthConfigList(key) {
   if (config.lstAuth_Config != null) {
       for (let w = 0; w < config.lstAuth_Config.length; w++) {
           const element = config.lstAuth_Config[w];
-          if ((element.Key).toUpperCase() === key.toUpperCase()) {
+          if ((element.KEY).toUpperCase() === key.toUpperCase()) {
 
               //if (element.Value !== '') {
-                  value = element.Value;
+                  value = element.VALUE;
                   return value;
               //}
           }

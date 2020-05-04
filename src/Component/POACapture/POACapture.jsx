@@ -568,7 +568,7 @@ const POACapture = () => {
         var GlobalPOAModel = require("../../Model/POAModel")
         var GlobalPOIModel = require("../../Model/POIModel")
 
-        if (frontsrc === '') {
+        if (backsrc === '') {
             showErrorAlert("Please Capture Image");
         } else {
             callUserPhotoCaptureScreen();
@@ -623,17 +623,20 @@ const POACapture = () => {
         //     currentDateTime + ";hyperverge;"
 
         let DG_POA = "POA;" + config.SelectedDocPOAObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-            config.SelectedDocPOAObject.issuingauth + ";" + "19.167634" + "," + "73.07347" + ";" +
+            config.SelectedDocPOAObject.issuingauth + ";" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
             currentDateTime + ";hyperverge;"
 
 
         console.log(DG_POA)
 
         config.DG_POA = DG_POA
+        config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9) }
 
 
-        history.push('/CapCustPhoto')
+        callDayDeDupe()
+
     }
+
     const callDayDeDupe = async () => {
         setLoading(true)
         const Request = {
@@ -655,12 +658,12 @@ const POACapture = () => {
                 {
                     "id": "POA",
                     "latlong": config.selectedPOAModel.custPOALat + config.selectedPOAModel.custPOALong,
-                    "issueingCountry": config.selectedDocObject.issuingauth,
+                    "issueingCountry": config.selectedDocPOAObject.issuingauth,
                     "DateOfIssue": GlobalPOAModel.dateOfIssue,
                     "latlong_timestamp": config.selectedPOAModel.custPOATime,
                     "number": GlobalPOAModel.docNumber,
                     "PlaceOfIssue": GlobalPOAModel.placeOfIssue,
-                    "type": config.selectedDocObject.doctypecode
+                    "type": config.selectedDocPOAObject.doctypecode
                 }
             ],
             "Deviceid": config.deviceId,
@@ -668,7 +671,41 @@ const POACapture = () => {
         };
 
         const dayDeDupe = await triggerAction(() => dayDeDupeService(Request));
+
         setLoading(false)
+
+        if (dayDeDupe.ErrorCode === "00") {
+            history.push('/CapCustPhoto')
+        }
+        else if (dayDeDupe.ErrorCode === "03") {
+            confirmAlert({
+                title: "Alert!",
+                message: dayDeDupe.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            history.push('/home')
+                        }
+                    }
+                ]
+            });
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: dayDeDupe.ErrorMsg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
+        }
+
     }
 
 
@@ -894,7 +931,7 @@ const POACapture = () => {
             let image = response.data.image;
 
             setFrontsrc(image);
-            
+
 
             console.log("image : ", image)
             console.log("response : ", response)
@@ -908,7 +945,10 @@ const POACapture = () => {
             let image = response.data.image;
 
             setBacksrc(image);
-            documentUpload(image, "0", response.data.type);
+            if (config.SelectedDocPOAObject.doctypecode == "Z00005") {
+                documentUpload(image, "0", response.data.type);
+            }
+
             const currentDateTime = getCurrentDateForPOAPOI()
             // let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
             //     config.selectedDocObject.issuingauth + ";" + geolocation.latitude + "," + geolocation.longitude + ";" +
@@ -921,13 +961,13 @@ const POACapture = () => {
 
             //
             let DG_POA = "POA;" + config.selectedDocObject.doctypecode + ";" + GlobalPOAModel.docNumber + ";" + GlobalPOAModel.dateOfIssue + ";" + GlobalPOAModel.placeOfIssue + ";" +
-                config.selectedDocObject.issuingauth + ";" +JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
+                config.selectedDocObject.issuingauth + ";" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POA)
 
             config.DG_POA = DG_POA
-            config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9)}
-        
+            config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9) }
+
         } else {
             alert(response.message)
         }
@@ -936,29 +976,29 @@ const POACapture = () => {
     const documentUpload = async (e, isback, filename) => {
 
         const readDocument = await triggerAction(() => readDocumentService(e, isback, filename));
-       
-            setLoading(false);
-            if (readDocument.errorCode === "00") {
 
-            }
-            else {
-                confirmAlert({
-                    title: "Alert!",
-                    message: readDocument.errorMsgg,
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => { 
-                                return false;
-                            }
+        setLoading(false);
+        if (readDocument.errorCode === "00") {
+
+        }
+        else {
+            confirmAlert({
+                title: "Alert!",
+                message: readDocument.errorMsgg,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
                         }
-                    ]
-                });
-               
+                    }
+                ]
+            });
 
-            }
 
-        
+        }
+
+
 
     }
 
@@ -1028,7 +1068,7 @@ const POACapture = () => {
 
                         <div class="my_app_container">
                             {FixedHeader()}
-                            <div style={{ textAlign: "center" , overflowY: "scroll", height: "480px"}}>
+                            <div style={{ textAlign: "center", overflowY: "scroll", height: "480px" }}>
                                 <p style={{ color: "black", "fontWeight": "bolder" }}>Capture Back View</p>
                                 <div id="poaview" class="photoPreviewFrame">
 

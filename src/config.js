@@ -36,6 +36,8 @@ const config = {
     selectedPOAModel : {},
     OTPGenTime : '',
     DG_LTP : '',
+    aadharFront : '',
+    frontFileName : '',
     objSupervisorLogin: {
         lstUrl: [
             {
