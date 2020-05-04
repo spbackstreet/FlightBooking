@@ -385,7 +385,7 @@ const DKYC = () => {
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <input type="text" id="docNumber" autoComplete="off"
+                                                <input type="number" id="docNumber" autoComplete="off"
                                                     class="jio-form-control" placeholder=" " value={docNumber} onChange={(e) => updateDocNumber(e)} />
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
