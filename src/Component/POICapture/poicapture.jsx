@@ -1247,7 +1247,18 @@ const POICapture = () => {
             config.selectedPOIModel = { "custPOITime": currentDateTime, "custPOILat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOILong": JSON.stringify(geolocation.longitude).substring(0, 9) }
 
         } else {
-            alert(response.message)
+            confirmAlert({
+                title: "Alert!",
+                message: response.message,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
         }
     }
 
@@ -1274,16 +1285,24 @@ const POICapture = () => {
             config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9)}
         
         } else {
-            alert(response.message)
+            confirmAlert({
+                title: "Alert!",
+                message: response.message,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
         }
     }
 
     const documentUpload = async (e, isback, filename) => {
         setLoading(true);
         const readDocument = await triggerAction(() => readDocumentService(isback, e, filename));
-
-        alert("RES readDocument : " + JSON.stringify(readDocument))
-
         setLoading(false);
         if (readDocument.errorCode === "00") {
 

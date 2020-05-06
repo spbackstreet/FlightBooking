@@ -901,7 +901,6 @@ const CustOTP = () => {
 
             if (popup.closed) {
                 clearInterval(timer);
-                // alert('closed');
             }
         }, 1000);
 

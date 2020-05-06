@@ -599,7 +599,18 @@ const CapCustPhoto = () => {
             console.log("image : ", image)
             console.log("response : ", response)
         } else {
-            alert(response.message)
+            confirmAlert({
+                title: "Alert!",
+                message: response.message,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
         }
     }
 

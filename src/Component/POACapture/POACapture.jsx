@@ -912,7 +912,18 @@ const POACapture = () => {
             console.log("image : ", image)
             console.log("response : ", response)
         } else {
-            alert(response.message)
+            confirmAlert({
+                title: "Alert!",
+                message: response.message,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
         }
     }
 
@@ -945,7 +956,18 @@ const POACapture = () => {
             config.selectedPOAModel = { "custPOATime": currentDateTime, "custPOALat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOALong": JSON.stringify(geolocation.longitude).substring(0, 9) }
 
         } else {
-            alert(response.message)
+            confirmAlert({
+                title: "Alert!",
+                message: response.message,
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {
+                            return false;
+                        }
+                    }
+                ]
+            });
         }
     }
 
@@ -970,58 +992,13 @@ const POACapture = () => {
                     }
                 ]
             });
-
-
         }
-
-
 
     }
 
 
-
-
     return (
         <div>
-            {/* 
-            <div class="modal fade show oy" id="otpModal" style={showWebcam ? display : hide}
-            >
-                <div class="modal-backdrop fade show"></div>
-                <div class="modal-dialog" style={{ zIndex: "inherit" }}>
-                    <div class="modal-content" style={{ "position": "fixed", "top": "10%", "left": "35%", "marginTop": "-50px", "marginLeft": "-100px", "width": "80%" }}>
-                        <div class="text-center" style={{ "background": "#0D95A2" }}>
-
-                            <h6 class="modal-title mt-10"><b style={{ color: "white" }}>Click {side} photo</b></h6>
-                            <span class="remove-no" style={{ marginLeft: "260px" }}> <img class="img-fluid" src="./img/pos/icon-remove.png" width="16px" height="16px" style={{ "margin-top": "-40px" }} onClick={(e) => closeWebcam(e)} /></span>
-                        </div>
-
-                        <div class="input-style" style={{ "height": "80vh", "marginLeft": "10px", "marginTop": "10px", "marginBottom": "10px" }}>
-
-                         
-
-                            <>
-                                <Webcam
-                                    audio={false}
-                                    height={420}
-                                    ref={webcamRef}
-                                    screenshotFormat="image/jpeg"
-                                    width={280}
-                                    videoConstraints={videoConstraints}
-                                />
-                                <button class="btn-block jio-btn jio-btn-primary" style={{ "marginTop": "20px" }} onClick={(e) => capture(e)}>Capture photo</button>
-                            </>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div> */}
-
-
-
-
             <div className="modal" role="dialog" style={showDialog ? display : hide}>
                 <div className="modal-dialog" style={{ marginTop: "100px", padding: "21px" }}>
                     <div className="modal-content" style={{ "height": "350px" }} justifyContent='center' >

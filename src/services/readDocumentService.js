@@ -17,7 +17,7 @@ const readDocumentService = async (isback, e, filename) => {
     // const  url=service.ZONEURL
     // const APIURL = `${url}${name}`;
 
-    alert('req : '+ JSON.stringify(Request));
+    console.log('req : ', JSON.stringify(Request));
     
     const APIURL = "https://devfin.ril.com:8443/HealthService/ReadDocument";
 

@@ -52,7 +52,7 @@ const CustomerDetails = () => {
 
     useEffect(() => {
 
-        // hyperVergValidate();
+        hyperVergValidate();
 
     }, [])
 
