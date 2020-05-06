@@ -410,7 +410,7 @@ const CapCustPhoto = () => {
                 ]
             });
         }
-        history.push('/CustomerDetails'); //for test
+        // history.push('/CustomerDetails'); //for test
 
     }
 
