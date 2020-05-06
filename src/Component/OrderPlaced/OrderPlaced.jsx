@@ -195,7 +195,7 @@ return(
                                         <div>
                                             <div className="row m-0 mb-4">
                                                 <div className="col-12 p-2">
-                                                    <button type="button" className="btn-block jio-btn jio-btn-primary" onClick={() => history.push('/category/Mobiles')}>OK</button>
+                                                    <button type="button" className="btn-block jio-btn jio-btn-primary" onClick={() => history.push('/category/Mobiles')} >OK</button>
                                                 </div>
                                             </div>
                                         </div>

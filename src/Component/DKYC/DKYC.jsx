@@ -384,7 +384,7 @@ const DKYC = () => {
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <input type="text" id="docNumber" autoComplete="off"
+                                                <input type="number" id="docNumber" autoComplete="off"
                                                     class="jio-form-control" placeholder=" " value={docNumber} onChange={(e) => updateDocNumber(e)} />
                                                 <label for="docNumber" class="control-label">Document Number <label style={{ color: "#FF0000" }}>*</label></label>
                                             </div>
@@ -417,7 +417,7 @@ const DKYC = () => {
 
                         <button type="submit"
                             onClick={(e) => submit(e)}
-                            class="btn jio-btn jio-btn-primary w-50 plan-btn" style={{ "background": "#0D95A2" }}>NEXT</button>
+                            class="btn jio-btn jio-btn-primary w-50 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>NEXT</button>
 
                     </div>
                 </div>

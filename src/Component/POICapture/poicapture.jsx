@@ -720,6 +720,8 @@ const POICapture = () => {
     }
 
     const callDigKYCPoaFragment = async () => {
+//setLoading(true)
+
         // this.requestPermissions()
 
         //console.log("navigator.permissions.query({name:'geolocation'})   : ", navigator.permissions.query({ name: 'geolocation' }))
@@ -755,7 +757,6 @@ const POICapture = () => {
             "frontImage": frontsrc,
             "backImage": backsrc
         }
-
 
         // const storepoiCaptureImage = await dispatch(storeCustomerPOImage(poiCaptureImage));
         config.poiImage = poiCaptureImage
@@ -1390,8 +1391,8 @@ const POICapture = () => {
 
             <div style={{ height: "100vh" }}>
                 <div id="SdkReponseForm">
-                    <div className="spin">
-                        <Spinner visible={loading}
+                    <div className="spin"  style={{"top":"50%"}}>
+                        <Spinner visible={loading} 
                             spinnerColor={"rgba(0, 0, 0, 0.3)"} />
                     </div>
                     <div>
@@ -1430,7 +1431,7 @@ const POICapture = () => {
 
 
                                     <div class="col-6 col-sm-6">
-                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}>Preview</button>
+                                        <button type="submit" onClick={(e) => previewClicked(e, "FRONT")} class="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }} disabled={loading}>Preview</button>
                                     </div>
                                 </div>
 
@@ -1464,7 +1465,7 @@ const POICapture = () => {
 
                                         </div>
                                         <div class="col-6 col-sm-6">
-                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }}>Preview</button>
+                                            <button type="submit" class="btn jio-btn jio-btn-primary w-100 plan-btn" onClick={(e) => previewClicked(e, "BACK")} style={{ "background": "#0D95A2" }} disabled={loading}>Preview</button>
                                         </div>
                                     </div>
                                     : null}

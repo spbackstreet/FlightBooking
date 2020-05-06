@@ -589,7 +589,7 @@ const PermanentAddress = () => {
 
                                                         <div class="form-group text-center mt-5 mb-0">
                                                             <button class="btn jio-btn jio-btn-primary w-100 plan-btn " type="button" style={{ "background": "#0D95A2" }}
-                                                                onClick={(e) => validateFields(e)}
+                                                                onClick={(e) => validateFields(e)}  disabled={loading}
                                                             >NEXT</button>
                                                         </div>
                                                     </div>
