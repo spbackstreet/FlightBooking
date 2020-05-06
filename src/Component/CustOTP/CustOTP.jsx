@@ -160,11 +160,11 @@ const CustOTP = () => {
 
             const currentDateTime = getCurrentDateForPOAPOI()
 
-            // CAFRequest.DG_OTP = "OTP;Z00092;423504;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
-            CAFRequest.DG_OTP = "OTP;Z00092;423504;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
+            CAFRequest.DG_OTP = "OTP;Z00092;423504;" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
+            // CAFRequest.DG_OTP = "OTP;Z00092;423504;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + CAFRequest.RMN + ";" + config.OTPGenTime + ";"
 
-            // CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
-            CAFRequest.DG_ATP = "ATP;Z00092;520048;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
+            CAFRequest.DG_ATP = "ATP;Z00092;520048;" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
+            // CAFRequest.DG_ATP = "ATP;Z00092;520048;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
 
             openOtpValidationSuccessDialog();
@@ -266,7 +266,7 @@ const CustOTP = () => {
             config.TaxInvoice = getTransactionId.TaxInvoice;
             txnUploadData.TxnInfo.TxnHeader.TxnStartTime = getCurrentDateForTxn();
             txnUploadData.TxnInfo.TxnHeader.LogonTime = getCurrentDateForTxn();
-            callGetItemMrpDetailsRPOS(getTransactionId); //for test
+            callGetItemMrpDetailsRPOS(getTransactionId); 
 
         }
         else {
@@ -497,7 +497,6 @@ const CustOTP = () => {
         fintxnUploadData.TxnInfo.TxnHeader.TxnDiscValueFlag = "";
         // fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime: new Date().getDate() + "/" + (new Date().getMonth() + 1)
         //   + "/" + new Date().getFullYear() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
-        // fintxnUploadData.TxnInfo.TxnHeader.TxnId = txnRes.TxnID; //for test
         fintxnUploadData.TxnInfo.TxnHeader.TxnId = config.TxnID;
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReason = "";
         fintxnUploadData.TxnInfo.TxnHeader.TxnMarkDownReasonDesc = "";
@@ -595,11 +594,11 @@ const CustOTP = () => {
             CAFRequest.CAF_TYPE + "|" +
             // CAFRequest.CAF_NUMBER + "|" +
             config.CAF_NUMBER + "|" +
-            CAFRequest.CUSTOMER_TYPE + "|" + //for test
+            CAFRequest.CUSTOMER_TYPE + "|" + 
             // "0001" + "|" +
             CAFRequest.PRODUCT_ID + "|" +
-            // CAFRequest.RMN + "|" + //for test
-            "7008124658" + "|" +
+            CAFRequest.RMN + "|" + 
+            // "7008124658" + "|" +//for test
             // CAFRequest.ICCID + "|" +
             "NA" + "|" +
             // CAFRequest.IMSI + "|" +
@@ -649,9 +648,9 @@ const CustOTP = () => {
             CAFRequest.CustomerId + "|" +
             CAFRequest.R4GID + "|" +
             CAFRequest.Caf_Category + "|" +
-            // CAFRequest.Aadhar_Number + "|" +
+            CAFRequest.Aadhar_Number + "|" +
             // config.Aadhar_Number + "|" + //for test
-            "215542599440" + "|" +
+            // "215542599440" + "|" +
             CAFRequest.BldgName + "|" +
             CAFRequest.Locality + "|" +
             CAFRequest.LandMark + "|" +

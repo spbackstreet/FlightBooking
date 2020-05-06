@@ -262,10 +262,10 @@ const CustomerDetails = () => {
                         const extractedYear = dateInput.getFullYear()
 
                         if (config.isAadharKYC) {
-                            CAFRequest.Aadhar_Number = document.getElementById('custAadhaar').value;
+                            
                             CAFRequest.Aadharaddrsameinstalltion = 'Y';
                         }
-
+                        CAFRequest.Aadhar_Number = document.getElementById('custAadhaar').value;
                         CAFRequest.DocumentId = document.getElementById('custAadhaar').value
                         // CAFRequest.BldgName = document.getElementById('houseNo').value;
                         // CAFRequest.BuildingId = document.getElementById('houseNo').value;
@@ -292,7 +292,7 @@ const CustomerDetails = () => {
                         // CAFRequest.Locality = document.getElementById('area').value;
                         // CAFRequest.PostCode = document.getElementById('pinCode').value;
                         // //CAFRequest.RMN = document.getElementById('altMobileNo').value;
-                        CAFRequest.RMN = config.custNumber;
+                        CAFRequest.RMN = document.getElementById('alternate').value;
                         CAFRequest.RMN_relationship = relationShipType;
                         // CAFRequest.Locality = document.getElementById('area').value;
                         CAFRequest.Nationality = document.getElementById('nationality').value.toUpperCase().substring(0, 2);
