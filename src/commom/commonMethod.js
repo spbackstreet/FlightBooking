@@ -83,7 +83,6 @@ export function getHttpStatus(code) {
 //added by cc
 export function getValueFromAuthConfigList(key) {
   var value = '';
-  debugger;
   if (config.lstAuth_Config != null) {
       for (let w = 0; w < config.lstAuth_Config.length; w++) {
           const element = config.lstAuth_Config[w];

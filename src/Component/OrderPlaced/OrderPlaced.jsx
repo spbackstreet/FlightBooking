@@ -132,7 +132,7 @@ return(
                                             </div>
                                         </div>
                                         <h6 className="supporting-c2 mt-3 mb-3 pb-3">
-                                            <b>Your order #{varRefNo} has been placed!</b>
+                                            <b>Your order #{config.successtxnid} has been placed!</b>
                                         </h6>
 
                                         <AccessTimeIcon /><b>Time placed :</b> {new Date().toLocaleString()}

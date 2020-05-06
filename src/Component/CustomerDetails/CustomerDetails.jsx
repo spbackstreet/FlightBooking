@@ -52,7 +52,7 @@ const CustomerDetails = () => {
 
     useEffect(() => {
 
-        hyperVergValidate();
+        // hyperVergValidate();
 
     }, [])
 
@@ -165,6 +165,7 @@ const CustomerDetails = () => {
         }
         else {
             setRelation(false)
+            document.getElementById("mnp").checked = true
         }
     }
 
@@ -465,9 +466,9 @@ const CustomerDetails = () => {
 
                                                                 <div class="custom-control custom-radio custom-control-inline">
                                                                     <input type="radio" id="mnp" name="onboardtype" value="mnp" class="custom-control-input"
-
+                                                                    defaultChecked={true}
                                                                     />
-                                                                    <label class="custom-control-label" for="mnp">Father Name</label>
+                                                                    <label class="custom-control-label" for="mnp" >Father Name</label>
                                                                 </div>
                                                                 {rel ?
                                                                     <div class="custom-control custom-radio custom-control-inline">

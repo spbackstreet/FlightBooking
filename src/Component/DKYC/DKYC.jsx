@@ -221,7 +221,6 @@ const DKYC = () => {
 
     const transferToNext = async (e) => {
 
-        debugger;
         console.log("Success", "Next Screem")
         GlobalPOIModel.DocName = selectedDocObject.DocName
         GlobalPOIModel.PhotoCount = selectedDocObject.PhotoCount;

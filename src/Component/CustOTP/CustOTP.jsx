@@ -9,7 +9,7 @@ import '../../css/style.css';
 import useGlobalState from '../../hooks/useGlobalState';
 import useLoader from '../../hooks/useLoader';
 import * as constants from '../../commom/constants';
-import { getCurrentDateForPOAPOI, getCurrentDateForTxn , getFourDigitsTxnId, getCurrentDateForReceipt, hmacshaChecksum} from '../../commom/CommonMethods';
+import { getCurrentDateForPOAPOI, getCurrentDateForTxn, getFourDigitsTxnId, getCurrentDateForReceipt, hmacshaChecksum } from '../../commom/CommonMethods';
 import validateOTP from '../../services/validateOTP';
 import uploadTxnDataNextGenService from '../../services/uploadTxnDataNextGenService';
 import getTaxSummaryGSTService from '../../services/getTaxSummaryGSTService';
@@ -36,6 +36,14 @@ const display = {
 const hide = {
     display: 'none'
 };
+
+let status = ""
+
+export const updateState = (param) => {
+    status = param
+
+}
+
 
 const CustOTP = () => {
     const [doneC, setdoneC] = useState(false)
@@ -148,7 +156,7 @@ const CustOTP = () => {
         setloading(false)
 
         if (callValidateOTP.errorCode === "00") {
-            config.guid = callValidateOTP.guid 
+            config.guid = callValidateOTP.guid
 
             const currentDateTime = getCurrentDateForPOAPOI()
 
@@ -158,7 +166,7 @@ const CustOTP = () => {
             // CAFRequest.DG_ATP = "ATP;Z00092;520048;" + geolocation.latitude + "," + geolocation.longitude + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
             CAFRequest.DG_ATP = "ATP;Z00092;520048;" + "19.167634" + "," + "73.07347" + ";" + currentDateTime + ";" + config.agentMobile + ";" + config.OTPGenTime + ";"
 
-            
+
             openOtpValidationSuccessDialog();
 
         }
@@ -369,10 +377,10 @@ const CustOTP = () => {
                 Stylecode: "0",
                 SupervisorID: "",
                 TaxDetails: {
-                    AddlDetailsList:[
+                    AddlDetailsList: [
                     ],
                     TaxCodeType: "",
-                    TaxGSTList:[
+                    TaxGSTList: [
                         // {
                         //     HSN_TYPE : "",
                         //     SEQUENCEID_TAX: "",
@@ -539,11 +547,11 @@ const CustOTP = () => {
             fintxnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxType = Object.values(GetTaxSummaryGST.taxMap)[0][0].taxType;
             fintxnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxCodeType = Object.values(GetTaxSummaryGST.taxMap)[0][0].taxCodeType;
 
-           
+
             for (let i = 0; i < Object.values(GetTaxSummaryGST.taxMap)[0].length; i++) {
                 const element = Object.values(GetTaxSummaryGST.taxMap)[0][i];
                 let taxGST = {
-                    HSN_TYPE : element.hsnType,
+                    HSN_TYPE: element.hsnType,
                     SEQUENCEID_TAX: element.sequenceID,
                     TaxAmount: element.taxAmount,
                     TaxRate: element.taxRate
@@ -551,7 +559,7 @@ const CustOTP = () => {
 
                 fintxnUploadData.TxnInfo.TxnItemList[0].TaxDetails.TaxGSTList.push(taxGST)
             }
-            
+
             debugger;
 
 
@@ -576,10 +584,10 @@ const CustOTP = () => {
         CAFRequest.DG_PIC = config.DG_PIC
         CAFRequest.DG_LTP = config.DG_LTP
         CAFRequest.Aadhar_Number = "215542599440"
-        if(config.isOutstation){
+        if (config.isOutstation) {
             CAFRequest.CUSTOMER_TYPE = "0005"
         }
-        else{
+        else {
             CAFRequest.CUSTOMER_TYPE = "0001"
         }
 
@@ -737,9 +745,12 @@ const CustOTP = () => {
             CAFRequest.EID + "|" +
             CAFRequest.QR_XML + "|" +
             // CAFRequest.DG_POA + "|" +
-            config.DG_POA + "|" +
+            // config.DG_POA + "|" +
+            "POA;FS0002;J8369854;30-03-2020;sdvsv;Republic of India (ROI);19.167634,73.07347;2020-04-23T17:35:25;hyperverge;" + "|" +
             // CAFRequest.DG_POI + "|" +
-            config.DG_POI + "|" +
+            // config.DG_POI + "|" +
+            "POI;Z00079;MH122005000088;30-03-2020;adscsc;Regional Transport Office (RTO);19.167634,73.07347;2020-04-23T17:33:17;hyperverge;" + "|" +
+
             // CAFRequest.DG_KYC + "|" +
             config.DG_KYC + "|" +
             // CAFRequest.DG_PIC + "|" +
@@ -801,7 +812,6 @@ const CustOTP = () => {
                 ]
             });
         }
-        // UploadTxnData() //for test
 
     }
 
@@ -809,6 +819,20 @@ const CustOTP = () => {
         debugger;
         fintxnUploadData.TxnInfo.TxnTenderList[0].Amount = config.amount;
         fintxnUploadData.TxnInfo.TxnHeader.PaymentStartTime = getCurrentDateForTxn();
+        console.log("bdState :", config.bdState);
+        let str = await triggerAction(() => getBilldeskModalQueryStr());
+        // let bdparam = {
+        //     "msg":str.msg,
+        //     "options": {
+        //      "enableChildWindowPosting": str.enableChildWindowPosting,
+        //      "enablePaymentRetry": str.enablePaymentRetry,
+        //      "retry_attempt_count": str.retry_attempt_count,
+        //      "txtPayCategory": str.txtPayCategory
+        //      },
+        //      "callbackUrl": str.callbackUrl 
+        // }
+
+        // let bdparamStr = JSON.stringify(str)
 
         // let msgStr = "RRLUAT" + "|" + config.ORN + "|NA|" + config.amount + "|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|";
         // const fullMsg = msgStr + hmacshaChecksum(msgStr);
@@ -825,7 +849,72 @@ const CustOTP = () => {
         //     });
 
         
-        // let str = await triggerAction(() => getBilldeskModalQueryStr());
+
+        debugger;
+        // let encryptbdStr = await triggerAction(() => getBilldeskQueryStr(str));
+        // var popup = window.open("https://localhost:9003/child?str=" + encryptbdStr, "Popup", "width=300,height=100");
+        var popup;
+        // popup = window.open("https://localhost:9003/child?str=" + encryptbdStr, "Popup", "width=300,height=100");
+        popup = window.open("https://localhost:9003/child", "Popup", "width=300,height=100");
+       
+
+        
+
+        var timer = setInterval(function () {
+
+            // try{
+            // if(popup.origin.startsWith("https://localhost:9003")){
+
+            if (popup.document.getElementById('bMsg') && !popup.document.getElementById('bMsg').value){
+                popup.document.getElementById('bMsg').value = str.msg
+                popup.document.getElementById('startbd').click()
+            }
+            if (popup.document.getElementById('txtSuccess') && popup.document.getElementById('txtSuccess').value) {
+
+                config.successtxnid = popup.document.getElementById('txtSuccess').value
+                // document.getElementById('btn').disabled = false;
+                confirmAlert({
+                    title: 'Success!!',
+                    message: 'txn successfull with txnid : ' + popup.document.getElementById('txtSuccess').value,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { UploadTxnData() }
+                        },
+                    ]
+                })
+                popup.close();
+            }
+            if (popup.document.getElementById('txtFail') && popup.document.getElementById('txtFail').value) {
+                // document.getElementById('btn').disabled = false;
+                confirmAlert({
+                    title: 'Fail!!',
+                    // message: 'txn failed with txnid : ' + popup.document.getElementById('txtFail').value,
+                    message : "Sorry!! We could not process your payment.Please try again.",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => { return (false) }
+                        },
+                    ]
+                })
+                popup.close();
+            }
+            // }
+
+            // }
+            // catch(e){
+
+            // }
+
+            if (popup.closed) {
+                clearInterval(timer);
+                // alert('closed');
+            }
+        }, 1000);
+
+        popup.focus();
+
         // window.bdPayment.initialize ({
         //     "msg": str.msg,
         //     "options": {
@@ -848,16 +937,16 @@ const CustOTP = () => {
         //      },
         //      "callbackUrl": "http://devfin.ril.com:8080/HealthService/OrderPlacedBillDesk"
         //     });
-        
+
         // let str = await triggerAction(() => getBilldeskQueryStr());
-        
-        UploadTxnData()
+
+
 
 
     }
 
     //for after txn
-    const UploadTxnData = async() => {
+    const UploadTxnData = async () => {
         fintxnUploadData.TxnInfo.TxnHeader.PaymentEndTime = getCurrentDateForTxn()
         fintxnUploadData.TxnInfo.TxnHeader.TxnEndTime = getCurrentDateForTxn()
         fintxnUploadData.TxnInfo.TxnHeader.receiptRefID = config.JCID + config.posid + getFourDigitsTxnId("1") + getCurrentDateForReceipt();
@@ -913,8 +1002,8 @@ const CustOTP = () => {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => { 
-                            history.push('/home') 
+                        onClick: () => {
+                            history.push('/home')
                         }
                     }
                 ]
@@ -958,9 +1047,9 @@ const CustOTP = () => {
             <div class="my_app_container">
                 {FixedHeader()}
                 <div class="rechargehome_wrapper">
-               
+
                     <div class="container">
-                        
+
                         <div class="">
                             <div class="row">
                                 <div class="col">
@@ -968,10 +1057,10 @@ const CustOTP = () => {
                                         <div class="md-font f-16 pl-3 pb-2">Customer OTP validation</div>
                                         <div class="card shadow-sm">
                                             <div class="card-body">
-                                            <div className="spin">
+                                                <div className="spin">
                                                     <Spinner visible={loading}
                                                         spinnerColor={"rgba(0, 0, 0, 0.3)"} />
-                                                        </div>
+                                                </div>
                                                 <div class="row no-gutters">
                                                     <div class="col-12">
                                                         <form action="" class="">
@@ -997,7 +1086,7 @@ const CustOTP = () => {
                                                                         onChange={(e) => setOtp(e, "custOtp")}
                                                                         pattern="^[1-9]\d*$"
                                                                         maxLength="6"
-                                                                        value={custOtp} autoComplete="off"/>
+                                                                        value={custOtp} autoComplete="off" />
                                                                     {/* {this.validator.message('custOtp', this.state.custOtp, 'required')} */}
 
                                                                     {time.s > 9 ?

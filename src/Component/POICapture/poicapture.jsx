@@ -1269,7 +1269,6 @@ const POICapture = () => {
                 config.selectedDocObject.issuingauth + ";" + JSON.stringify(geolocation.latitude).substring(0, 9) + "," + JSON.stringify(geolocation.longitude).substring(0, 9) + ";" +
                 currentDateTime + ";hyperverge;"
             console.log(DG_POI)
-            debugger;
 
             config.DG_POI = DG_POI
             config.selectedPOIModel = { "custPOITime": currentDateTime, "custPOILat": JSON.stringify(geolocation.latitude).substring(0, 9), "custPOILong": JSON.stringify(geolocation.longitude).substring(0, 9) }

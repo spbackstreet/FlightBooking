@@ -335,7 +335,7 @@ const CapCustPhoto = () => {
 
     const callNextScreen = async (e) => {
 
-        // debugger;
+       
 
         // window.stopCamera()
 
@@ -356,7 +356,6 @@ const CapCustPhoto = () => {
 
         let resized = resizebase64(frontsrc, 300, 300);
 
-        debugger;
         //for test
         if (config.selectedDocObject.doctypecode === 'Z00005' && live) {
             setLoading(true)
@@ -412,8 +411,6 @@ const CapCustPhoto = () => {
                 ]
             });
         }
-        history.push('/CustomerDetails');//for test
-
 
     }
 
@@ -1187,7 +1184,6 @@ const CapCustPhoto = () => {
 
         }
 
-        // debugger;
 
 
 

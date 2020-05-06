@@ -452,7 +452,6 @@ const LocalReference = () => {
             
             }
             // CAFRequest.FirstName = firstName
-            debugger;
             CAFRequest.Ref_fName = firstName
             CAFRequest.Ref_MName = middleName
             CAFRequest.Ref_LName = lastName

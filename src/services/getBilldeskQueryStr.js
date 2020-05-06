@@ -4,12 +4,12 @@ import config from '../config';
 import { decryptData, Encrypt, encryptionDataWithRandomKey, encryptHeader } from '../commom/Encryption-Decryption';
 
 
-const getBilldeskQueryStr = async () => {
-    const Request = {
-        "totalAmt" : config.amount, 
-        "userId" : config.custNumber, 
-        "orn": config.ORN
-    };
+const getBilldeskQueryStr = async (Request) => {
+    // const Request = {
+    //     "totalAmt" : config.amount, 
+    //     "userId" : config.custNumber, 
+    //     "orn": config.ORN
+    // };
 
     console.log("Request : ", Request)
    

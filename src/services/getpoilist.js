@@ -21,7 +21,6 @@ const getPoiList = async (isAadhaar) => {
 
 //     const APIURL =  "http://devfin.ril.com:8080/CouponManagement/GetPOAPOIMaster"
 
-// debugger;
     // const APIURL = `${process.env.REACT_APP_API_URL}/CouponManagement/GetPOAPOIMaster`;
     //main const APIURL = "https://devfin.ril.com:8443/SelfDkycCouponManagement/GetPOAPOIMaster";
     try {

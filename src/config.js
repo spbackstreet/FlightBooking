@@ -38,6 +38,8 @@ const config = {
     DG_LTP : '',
     aadharFront : '',
     frontFileName : '',
+    bdState : "",
+    successtxnid : "",
     objSupervisorLogin: {
         lstUrl: [
             {

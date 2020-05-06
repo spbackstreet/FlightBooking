@@ -189,7 +189,6 @@ const Planselection = () => {
 
     }
     const showPlanselected = (e, PRODUCT_ID, POS_DESC, SELLINGPRICE, lstFRC) => {
-        debugger;
 
         if (lstFRC.length >= 1) {
             var FRC = []
@@ -1212,11 +1211,9 @@ const Planselection = () => {
 
         if (e.currentTarget.value.substring(0, 8).length === 8) {
 
-            debugger;
             setloading(true)
             const GetMNP = await getMNPservice(e.currentTarget.value.substring(0, 8));
             setloading(false)
-            debugger;
 
             if (GetMNP.ErrorCode === "00") {
                 setlstMNP(GetMNP.lstMNP);
