@@ -400,7 +400,7 @@ const Planselection = () => {
                     .getNoofConnections());
         }
         //for test
-        agentCircleJKorNE = true;
+        // agentCircleJKorNE = true;
         if (agentCircleJKorNE) {
             if (parseInt(noOfConnections)
                 + parseInt(document.getElementById('et_connection').value) > 5) {
@@ -610,8 +610,6 @@ const Planselection = () => {
             }
 
 
-            //for test
-            // txnUploadData.CAFRequest.CustIncome = document.getElementById('edtCustomerIndividualIncome').value;
             CAFRequest.CustIncome = document.getElementById('edtCustomerIndividualIncome').value;
 
 
@@ -1250,9 +1248,6 @@ const Planselection = () => {
                 });
             }
 
-            // for test
-            // txnUploadData.CAFRequest.VANITYFLAG = "N";
-            // txnUploadData.CAFRequest.VanityType = "";
             CAFRequest.VANITYFLAG = "N";
             CAFRequest.VanityType = "";
         }

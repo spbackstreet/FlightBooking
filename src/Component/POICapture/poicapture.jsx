@@ -687,34 +687,6 @@ const POICapture = () => {
 
     const validateAndNext = (e) => {
         e.preventDefault();
-        // var GlobalPOIModel = require("../../commom/Modal/POIModel").default
-        // for test
-        // if (GlobalPOIModel.PhotoCount > 1) {
-        //     if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
-        //         showErrorAlert("Please Capture POI");
-        //     } else if ((GlobalPOIModel.Hyperverge_POI_2_Img_Path == null ||
-        //         GlobalPOIModel.Hyperverge_POI_2_Img_Path == '')) {
-        //         showErrorAlert("Please Capture POA");
-
-        //     } else {
-
-        //         callDigKYCPoaFragment();
-
-
-
-        //     }
-        // }
-        // else {
-        //     if ((GlobalPOIModel.Hyperverge_POI_1_Img_Path == null || GlobalPOIModel.Hyperverge_POI_1_Img_Path == '')) {
-        //         showErrorAlert("Please Capture POI");
-        //     } else {
-
-        //         callDigKYCPoaFragment();
-
-
-
-        //     }
-        // }
         callDigKYCPoaFragment();
 
     }

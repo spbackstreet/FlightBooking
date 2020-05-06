@@ -575,15 +575,6 @@ const POACapture = () => {
 
         }
 
-        //for test
-        // if ((GlobalPOIModel.default.Hyperverge_POI_2_Img_Path == null || GlobalPOIModel.default.Hyperverge_POI__Img_Path == '')) {
-        //     showErrorAlert("Please Capture POA");
-        // } else {
-
-        //     callUserPhotoCaptureScreen();
-        // }
-
-
     }
 
     const callUserPhotoCaptureScreen = async (e) => {
@@ -884,23 +875,11 @@ const POACapture = () => {
     }
 
     useEffect(() => {
-        // setFaceMatchIdfySDKAllowFlag("2");
-        // setFaceMatch_SDK_NA("4");
         window.idSDK.init();
 
     }, [])
 
 
-    // const permissionsToRequest: {
-    //     "permissions": ["geolocation"],
-    //     "origins": ["https://developer.mozilla.org/"]
-    // }
-
-    //for test
-    // setFaceMatchIdfySDKAllowFlag (getValueFromAuthConfigList('FaceMatch_SDK'));
-
-
-    // setFaceMatch_SDK_NA (getValueFromAuthConfigList('FaceMatch_SDK_NA'));
 
     const openCameraFunction = (e) => {
         let files = e.target.files;
@@ -910,9 +889,6 @@ const POACapture = () => {
         reader.onload = (e) => {
             console.warn("Data", e.target.result)
             setFrontsrc(e.target.result);
-            //setinstructionUpload( 'File Uploaded Successfully' );
-            // setinstructiondata(files);
-            //console.warn("ByteArray", this.state.previewData)
         }
 
 

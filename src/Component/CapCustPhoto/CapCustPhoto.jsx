@@ -356,7 +356,6 @@ const CapCustPhoto = () => {
 
         let resized = resizebase64(frontsrc, 300, 300);
 
-        //for test
         if (config.selectedDocObject.doctypecode === 'Z00005' && live) {
             setLoading(true)
             const facematch = await triggerAction(() => facematchService(frontsrc, "userfrontsrc.png"));
@@ -411,6 +410,7 @@ const CapCustPhoto = () => {
                 ]
             });
         }
+        history.push('/CustomerDetails'); //for test
 
     }
 

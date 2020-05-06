@@ -336,8 +336,7 @@ class PlanselectionChild extends React.Component {
                 + parseInt(this.props.state.lstTelcoSelected[i]
                     .getNoofConnections());
         }
-        //for test
-        this.props.state.agentCircleJKorNE = true;
+       
         if (this.props.state.agentCircleJKorNE) {
             if (parseInt(this.props.state.noOfConnections)
                 + parseInt(document.getElementById('et_connection').value) > 5) {
