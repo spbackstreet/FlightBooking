@@ -140,26 +140,27 @@ const Home = () => {
         setDisplayPIN(false)
         setLoading(false)
         setPin('')
+        setMsdn('')
     }
-    const testbilldsk = async() => {
+    const testbilldsk = async () => {
         //
         config.Aadhar_Number = "test"
         console.log("config : ", config);
 
         let str = await triggerAction(() => getBilldeskModalQueryStr());
-        window.bdPayment.initialize ({
+        window.bdPayment.initialize({
             "msg": 'RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804',
             "options": {
-             "enableChildWindowPosting": true,
-             "enablePaymentRetry": true,
-             "retry_attempt_count": 2,
-             "txtPayCategory": "NETBANKING"
-             },
-             "callbackUrl": 'https://localhost:3008/OrderPlaced'
-            });
+                "enableChildWindowPosting": true,
+                "enablePaymentRetry": true,
+                "retry_attempt_count": 2,
+                "txtPayCategory": "NETBANKING"
+            },
+            "callbackUrl": 'https://localhost:3008/OrderPlaced'
+        });
     }
 
-    
+
 
     const getServicableArea = async () => {
         setErrorPin(false)
@@ -216,20 +217,29 @@ const Home = () => {
             // const callValidateOTP = await triggerAction(() => checkMobile(msdn, "VALID"))
             if (callValidateOTP.errorCode == '0' || callValidateOTP.errorCode == '00') {
                 //for later in new encryption
-                config.userID = msdn 
+                config.userID = msdn
                 config.custNumber = msdn
                 // dispatch(storeInitData(callValidateOTP));
                 config.lstGrpMS = callValidateOTP.lstGrpMS
                 //for later in new encryption
-                config.guid = callValidateOTP.guid 
+                config.guid = callValidateOTP.guid
                 config.lstAuth_Config = callValidateOTP.lstAuth_Config
                 config.JCID = callValidateOTP.storeID
                 config.storeID = callValidateOTP.storeID
                 config.storeCode = callValidateOTP.storeID
                 config.deviceId = callValidateOTP.deviceID
-                config.posid = callValidateOTP.deviceID.substring(callValidateOTP.deviceID.length-3, callValidateOTP.deviceID.length)
+                config.posid = callValidateOTP.deviceID.substring(callValidateOTP.deviceID.length - 3, callValidateOTP.deviceID.length)
                 // apiCall()
                 setDisplayPIN(true)
+
+                setDisplayOTP(false)
+                setLoading(false)
+                setCustOtp('')
+                setTimer(0)
+                setSeconds(30)
+                setTime({})
+                clearInterval(timer)
+
                 // dispatch(storeCustomerNumber(msdn));
                 // history.push('/DKYC')
             }
@@ -332,7 +342,7 @@ const Home = () => {
 
                                                     pattern="^[1-9]\d*$"
                                                     value={custOtp}
-                                                    autoComplete= "off"
+                                                    autoComplete="off"
                                                 />
 
                                                 <br></br>
@@ -546,7 +556,7 @@ const Home = () => {
                                                         <div className="form-group text-center mt-5 mb-0">
                                                             <button type="button" className="btn jio-btn jio-btn-primary w-100 plan-btn" style={{ "background": "#0D95A2" }}
                                                                 onClick={(e) => SendOtp()} disabled={loading}
-                                                                // onClick={(e) =>testbilldsk()}
+                                                            // onClick={(e) =>testbilldsk()}
                                                             >Generate OTP</button>
                                                         </div>
                                                     </div>
