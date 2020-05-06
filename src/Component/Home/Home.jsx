@@ -136,7 +136,6 @@ const Home = () => {
         const callCheckMobile = await triggerAction(() => checkMobile(msdn));
     }
     const hidePinModal = () => {
-
         setDisplayPIN(false)
         setLoading(false)
         setPin('')

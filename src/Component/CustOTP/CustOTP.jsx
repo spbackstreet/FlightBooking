@@ -813,44 +813,10 @@ const CustOTP = () => {
         fintxnUploadData.TxnInfo.TxnHeader.PaymentStartTime = getCurrentDateForTxn();
         console.log("bdState :", config.bdState);
         let str = await triggerAction(() => getBilldeskModalQueryStr());
-        // let bdparam = {
-        //     "msg":str.msg,
-        //     "options": {
-        //      "enableChildWindowPosting": str.enableChildWindowPosting,
-        //      "enablePaymentRetry": str.enablePaymentRetry,
-        //      "retry_attempt_count": str.retry_attempt_count,
-        //      "txtPayCategory": str.txtPayCategory
-        //      },
-        //      "callbackUrl": str.callbackUrl 
-        // }
 
-        // let bdparamStr = JSON.stringify(str)
-
-        // let msgStr = "RRLUAT" + "|" + config.ORN + "|NA|" + config.amount + "|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|";
-        // const fullMsg = msgStr + hmacshaChecksum(msgStr);
-        // console.log("fullMsg : ", fullMsg);
-        // window.bdPayment.initialize ({
-        //     "msg":fullMsg,
-        //     "options": {
-        //      "enableChildWindowPosting": true,
-        //      "enablePaymentRetry": true,
-        //      "retry_attempt_count": 2,
-        //      "txtPayCategory": "NETBANKING"
-        //      },
-        //      "callbackUrl": "http://devfin.ril.com:8080/HealthService/OrderPlacedBillDesk"
-        //     });
-
-        
-
-        debugger;
-        // let encryptbdStr = await triggerAction(() => getBilldeskQueryStr(str));
-        // var popup = window.open("https://localhost:9003/child?str=" + encryptbdStr, "Popup", "width=300,height=100");
         var popup;
-        // popup = window.open("https://localhost:9003/child?str=" + encryptbdStr, "Popup", "width=300,height=100");
         popup = window.open("https://localhost:9003/child", "Popup", "width=300,height=100");
        
-
-        
 
         var timer = setInterval(function () {
 
@@ -892,12 +858,6 @@ const CustOTP = () => {
                 })
                 popup.close();
             }
-            // }
-
-            // }
-            // catch(e){
-
-            // }
 
             if (popup.closed) {
                 clearInterval(timer);
@@ -905,34 +865,6 @@ const CustOTP = () => {
         }, 1000);
 
         popup.focus();
-
-        // window.bdPayment.initialize ({
-        //     "msg": str.msg,
-        //     "options": {
-        //      "enableChildWindowPosting": true,
-        //      "enablePaymentRetry": true,
-        //      "retry_attempt_count": 2,
-        //      "txtPayCategory": "NETBANKING"
-        //      },
-        //      "callbackUrl": str.callbackUrl
-        //     });
-
-
-        // window.bdPayment.initialize ({
-        //     "msg":"RRLUAT|NO00000B8AE8|NA|1098|NA|NA|NA|INR|NA|R|rrluat|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|NA|5C747B9372C8B123A14C5120EDDEB680754E95E708B7B31A854787485A71A804",
-        //     "options": {
-        //      "enableChildWindowPosting": true,
-        //      "enablePaymentRetry": true,
-        //      "retry_attempt_count": 2,
-        //      "txtPayCategory": "NETBANKING"
-        //      },
-        //      "callbackUrl": "http://devfin.ril.com:8080/HealthService/OrderPlacedBillDesk"
-        //     });
-
-        // let str = await triggerAction(() => getBilldeskQueryStr());
-
-
-
 
     }
 
@@ -953,30 +885,9 @@ const CustOTP = () => {
             TxnInfo: fintxnUploadData.TxnInfo
         }
 
-        // if (config.planType === 'B') {
-        //   config.OrderType = 'BILLPAY';
-        //   Request.BillPayRequest = this.props.props.globalState.BillPayRequest
-        // } else {
-        //   if (config.planType === 'R') {
-        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
-
-        //     config.OrderType = 'RECHARGE'
-        //   }
-        //   else if (config.planType === 'T') {
-        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
-
-        //     config.OrderType = 'TOPUP'
-        //   }
-        //   else if (config.planType === 'A') {
-        //     Request.objRechargeTopUpAddonRequest = objRechargeTopUpAddonRequest;
-
-        //     config.OrderType = 'ADDON'
-        //   }
-        //   else if (config.planType === 'C') {
+        
         config.OrderType = 'DIB'
-        //   }
-        // }
-
+        
         setloading(true)
         const uploadTxnDataNextGen = await triggerAction(() => uploadTxnDataNextGenService(Request));
         setloading(false)
