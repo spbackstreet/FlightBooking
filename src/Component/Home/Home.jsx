@@ -77,6 +77,12 @@ const Home = () => {
         setDisplayOTP(false)
         setLoading(false)
         setCustOtp('')
+        setMsdn('')
+        setTimer(0)
+        setSeconds(30)
+        setTime({})
+        clearInterval(timer)
+        // window.location.reload()
     }
     const startTimer = () => {
         if (timer == 0 && seconds > 0) {
