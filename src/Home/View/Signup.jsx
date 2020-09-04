@@ -90,7 +90,7 @@ class Edit extends Component {
                                                             <div class="form-group text-center mt-5 mb-0">
                                                                 <button type="button" class="btn jio-btn jio-btn-primary w-100 plan-btn"
                                                                     onClick={() => this.signIn()}
-                                                                >Sign In</button>
+                                                                >Sign Up</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -167,7 +167,7 @@ class Edit extends Component {
             else{
             confirmAlert({
                 title: "Information",
-                message: 'Signed in successfully.',
+                message: 'Signed up successfully.',
                 buttons: [
                     {
                         label: 'Ok',
