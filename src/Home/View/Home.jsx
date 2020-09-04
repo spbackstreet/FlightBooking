@@ -2,48 +2,61 @@ import React, { Component } from 'react';
 import { FixedHeader } from '../../Common/JS/FixedHeader';
 import Spinner from 'react-spinner-material';
 import { ReactMic } from 'react-mic';
-import FormDataService from "./FormDataService";
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            record: false,
             loading: false,
-            resultSet: []
+            Search: "",
+            mfSchemes: [
+                {
+                    strItemName: "CR Bluechip Equity Fund - D (G)",
+                    stritemdesc: "29.92",
+                    strItemPrc: "4.30%"
+                },
+                {
+                    strItemName: "JM Large Cap Fund - D (G)",
+                    stritemdesc: "3.86",
+                    strItemPrc: "2.30%"
+                },
+                {
+                    strItemName: "Axis Bluechip Fund - D (G)",
+                    stritemdesc: "9.92",
+                    strItemPrc: "4.10%"
+                },
+                {
+                    strItemName: "Union Largecap Fund - GrowthLarge Cap Fund",
+                    stritemdesc: "20.92",
+                    strItemPrc: "4.20%"
+                },
+                {
+                    strItemName: "LIC MF Large Cap Fund - GF",
+                    stritemdesc: "3.76",
+                    strItemPrc: "2.33%"
+                },
+                {
+                    strItemName: "Union Largecap Fund - GrowthLarge Cap Fund",
+                    stritemdesc: "3.90",
+                    strItemPrc: "2.33%"
+                },
+                {
+                    strItemName: "HDFC Top 100 Fund - GrowthLarge Cap Fund",
+                    stritemdesc: "4.86",
+                    strItemPrc: "2.31%"
+                }
+            ]
         }
     }
-
-
-
-    startRecording = () => {
-        this.setState({ record: true });
-    }
-
-
-
-    stopRecording = () => {
-        this.setState({ record: false });
-    }
-
-
-
-    onData(recordedBlob) {
-        console.log('chunk of real-time data is: ', recordedBlob);
-    }
-
-
-    async onStop(recordedBlob) {
-        this.setState({ loading: true })
-        const response = await FormDataService.uploadFormData(recordedBlob.blob)
-        //console.log(response.data)
-        this.setState({
-            resultSet: response.data,
-            loading: false
-        })
+    bindGraph=(strItemName)=>{
+        this.props.history.push({ pathname: '/Graph',
+        state: {
+            strItemName:strItemName
+          } })
     }
 
     render = () => {
+        const { Search } = this.state;
         return (
             <div class="my_app_container">
                 <div class="rechargehome_wrapper">
@@ -54,7 +67,7 @@ class Home extends Component {
                                     <div class="col">
                                         {FixedHeader()}
                                         <section class="card-view-sm mt-3">
-                                            <div class="md-font f-16 pl-3 pb-2">Voice Assistance</div>
+                                            <div onClick={() => this.props.history.push({ pathname: '/Edit' })} class="md-font f-16 pl-3 pb-2" style={{ textAlign: "end" }}>Edit Profile</div>
                                             <div class="card shadow-sm">
                                                 <div class="card-body">
                                                     <div className="spin">
@@ -66,57 +79,70 @@ class Home extends Component {
                                                             <form action="" class="">
                                                                 <div class="login">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Click Start to Record Voice.</label>
+                                                                        <div className="date-title bold-font mt-3  mb-2 ml-3 mr-3 f-16">Top Performing Funds</div>
                                                                     </div>
 
 
-                                                                    <div class="row no-gutters" style={{ marginTop: "50px" }}>
+                                                                    <div class="row no-gutters" style={{ marginTop: "20px" }}>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
                                                                                 <div class="radio-wrap">
-                                                                                    <ReactMic
-                                                                                        record={this.state.record}
-                                                                                        className="sound-wave"
-                                                                                        width="310"
-                                                                                        onStop={this.onStop.bind(this)}
-                                                                                        onData={this.onData}
-                                                                                        strokeColor="#000000"
-                                                                                        mimeType="audio/x-wav"
-                                                                                        channelCount={1}
-                                                                                        bitRate={16000}
-                                                                                        sampleRate={16000}
-                                                                                        backgroundColor="#E4E9F0" />
-
-                                                                                    <div className="cust-dtl mt-0">
-
-                                                                                        <div className="row" style={{ marginTop: "25px" }}>
-                                                                                            <div className="col-6 col-sm-6">
-                                                                                                <button type="button" className="jio-btn jio-btn jio-btn-primary bg-transparent primary-c1 w-100 mb-2 mr-1" onClick={this.startRecording}>Start</button>
-                                                                                            </div>
-                                                                                            <div className="col-6 col-sm-6">
-                                                                                                <button type="button" className="jio-btn jio-btn jio-btn-primary w-100 mb-2 ml-1" onClick={this.stopRecording}>Stop</button>
+                                                                                    <div class="wrapper-1">
+                                                                                        <div class="d-flex flex-wrap flex-row justify-content-center align-items-center ptb-5">
+                                                                                            <div class="dc-input">
+                                                                                                <input type="text" class="form-control search" name="search" id='searchitem' placeholder="Type or scan to search" autoComplete="off"
+                                                                                                    onChange={(e) => this.setState({ Search: e.target.value })} />
+                                                                                                <img src={require("../img/searchicon.png")} className="search-img" />
                                                                                             </div>
                                                                                         </div>
+                                                                                        <br />
                                                                                     </div>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td colspan="4">
 
-                                                                                    {this.state.resultSet.map(item => {
-                      return (
-                                                                                    <div className="row plan_details">
+                                                                                                <table cellpadding="0" cellspacing="0" class="list-data">
 
-                                                                                    <div className="col col-6 plan_detail_list">
-                                                                                        <div className="plan-amt">
-                                                                                            <span className="rupee md-font text-plan-amount">`</span><span className="big_tt md-font text-plan-amount">{item.pos_desc}</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="col col-6 plan_detail_list">
-                                                                                        <div className="plan-amt">
-                                                                                            <span className="rupee md-font text-plan-amount">`</span><span className="big_tt md-font text-plan-amount">{item.product_id}</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    </div>
-                      )
+                                                                                                    <tr>
+                                                                                                        <th>Mutual Fund Name</th>
+                                                                                                        <th>AuM (Cr)</th>
+                                                                                                        <th>Interest rate</th>
+                                                                                                    </tr>
+
+
+                                                                                                </table>
+
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    {this.state.mfSchemes.map( (item, key)=> {
+                                                                                        if (
+                                                                                            (Search !== "") &&
+                                                                                            (item.strItemName.toLowerCase().indexOf(Search.toLowerCase()) === -1)
+                                                                                        ) {
+                                                                                            return null
+                                                                                        }
+                                                                                        return (
+                                                                                            <tbody>
+                                                                                                <tr key={key}>
+                                                                                                    <td colspan="4">
+
+                                                                                                        <table cellpadding="0" cellspacing="0" class="list-data">
+
+                                                                                                            <tr onClick={() =>this.bindGraph(item.strItemName)}>
+                                                                                                                <td>{item.strItemName}</td>
+                                                                                                                <td>{item.stritemdesc}</td>
+                                                                                                                <td>{item.strItemPrc}</td>
+                                                                                                            </tr>
+
+
+                                                                                                        </table>
+
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        )
                                                                                     })}
-
                                                                                 </div>
                                                                             </div>
                                                                         </div>

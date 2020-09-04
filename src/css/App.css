@@ -700,15 +700,7 @@ a {
 }
 
 
-.accordian-unit-frame .accordian-set .accordian-head span.down-arrow {
-  position: absolute;
-  top: 12px;
-  right: 10px;
-  width: 18px;
-  height: 11px;
-  display: inline-block;
-  background: url(../img/sprites/sprite-icons.png) -7px -173px;
-}
+
 .accordian-unit-frame .accordian-set .accordian-head span.active-arrow-icon
 {
    background-position: -7px -185px;
@@ -1023,18 +1015,6 @@ select{
 }
 .custom-select-wrap .custom-select {
   background: 0 0;
-}
-.custom-select-wrap::after {
-  background: url(../img/pos/down-arrow.png) no-repeat center;
-  display: inline-block;
-  content: ' ';
-  width: 20px;
-  height: 12px;
-  position: absolute;
-  top: 12px;
-  right: 20px;
-  pointer-events: none;
-  background-position: -113px -60px;
 }
 
 /* dropdwon arrow ends */
@@ -1358,3 +1338,33 @@ position: absolute;
   left: 0;
 }
 
+.react-confirm-alert-button-group > button {
+  outline: none;
+  background:#024C9D;
+  border: none;
+  display: inline-block;
+  padding: 6px 18px;
+  color: #eee;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.dc-input{display: flex;flex-wrap:wrap;flex-direction: row;justify-content: center;align-items: center;flex-basis:85%;position:relative;margin-right:10px;}
+.list-grid, .list-data{margin:0;padding:0;width:100%;border-collapse: collapse;table-layout:fixed;}
+.list-grid thead tr {border-bottom:1px solid #e7e7e7;}
+.list-grid thead tr th:nth-child(1){width:40%;text-align:left;padding:5px 2px;color:#a9a9a9;}
+.list-grid thead tr th:nth-child(2){width:75%;text-align:center;padding:5px 2px;color:#a9a9a9;}
+.list-grid thead tr th:nth-child(3){width:20%;text-align:center;padding:5px 2px;color:#a9a9a9;}
+.list-grid thead tr th:nth-child(4){width:20%;text-align:center;padding:5px 2px;color:#a9a9a9;}
+.list-data  tr{border-bottom:1px solid #aaaaaa;width:100%;display:table;}
+.list-data  tr td:nth-child(1){width:40%;text-align:left;padding:5px 2px;vertical-align:middle;}
+.list-data  tr td:nth-child(2){width:75%;text-align:center;padding:5px 2px;vertical-align:middle;}
+.list-data  tr td:nth-child(3){width:20%;text-align:center;padding:5px 2px;vertical-align:middle;}
+.list-data  tr td:nth-child(4){width:20%;text-align:center;padding:5px 2px;vertical-align:middle;}
+.search-img{
+  width: 25px;
+   height: 25px;
+   position: absolute;
+   right: 0
+}
