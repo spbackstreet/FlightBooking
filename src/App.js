@@ -6,11 +6,7 @@ import './css/App.css';
 import './LazyLoader/css/LazyLoader.css';
 import ErrorBoundary from './Common/JS/ErrorBoundary';
 import BackgroundLoader from './BackgroundLoader';
-const Signup = React.lazy(() => import('./Home/View/Signup'));
-const Login = React.lazy(() => import('./Home/View/Login'));
 const Home = React.lazy(() => import('./Home/View/Home'));
-const Edit = React.lazy(() => import('./Home/View/Edit'));
-const Graph = React.lazy(() => import('./Home/View/Graph'));
 
 
 class App extends React.Component {
@@ -26,13 +22,7 @@ class App extends React.Component {
         <div>
           <React.Suspense fallback={<BackgroundLoader />}>
             <BrowserRouter>
-
-                    <Route exact path="/" component={Login} />
-                    <Route exact path="/Signup" component={Signup} />
-                    <Route exact path="/Home" component={Home} />
-                    <Route exact path="/Edit" component={Edit} />
-                    <Route exact path="/Graph" component={Graph} />
-
+                    <Route exact path="/" component={Home} />
             </BrowserRouter>
           </React.Suspense>
         </div>
