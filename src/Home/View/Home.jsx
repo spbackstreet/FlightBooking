@@ -133,7 +133,7 @@ class Home extends Component {
 
                                                         <div class="d-flex flex-wrap flex-row justify-content-center align-items-center ptb-5">
                                                             <div class="dc-input">
-                                                                <input type="text" class="form-control search" name="search" id='searchitem' placeholder="Type or scan to search" autoComplete="off"
+                                                                <input type="text" class="form-control search" name="search" id='searchitem' placeholder="Type to search" autoComplete="off"
                                                                     onChange={(e) => this.setState({ Search: e.target.value })} />
                                                                 <img src={require("../img/searchicon.png")} className="search-img" />
                                                             </div>
