@@ -36,7 +36,8 @@ class Home extends Component {
       ],
       value: [0, 20],
       sourceValues: [],
-      destinationValues: []
+      destinationValues: [],
+      sourceDestination:"All avaliable flights."
     }
   }
   valuetext = (value) => {
@@ -89,7 +90,7 @@ else if(!this.state.desinationCity){
 else{
   let searchedArray = filghtData.filter(
     (item) => item.source_code == this.state.originCity.value && item.destination_code == this.state.desinationCity.value);
-  this.setState({ data: searchedArray })
+  this.setState({ data: searchedArray, sourceDestination: this.state.originCity.label+" > "+this.state.desinationCity.label})
 }
 
   }
@@ -220,9 +221,7 @@ this.setState({ data: priceFiltered })
           <section id="main-content">
             <section className="wrapper">
               <div className="mt">
-                <h3>
-                  <i className="fa fa-angle-right"></i>Avaliable Flight(s)
-                </h3>
+              <h3>{this.state.sourceDestination}</h3>
                 <hr />
                 <div className="row mt">
                   <div style={{ marginLeft: "20px", width: "80%" }}>
@@ -235,7 +234,6 @@ this.setState({ data: priceFiltered })
                               spinnerColor={"rgba(0, 0, 0, 0.3)"}
                             />
                           </div>
-
                           <div>
                             <Scrollbars style={{ height: "70vh" }}>
                               {this.state.data.map((
