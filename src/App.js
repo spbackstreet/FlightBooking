@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import 'bootstrap/dist/css/bootstrap.css';
-import './css/App.css';
+import './css/Style.css';
+import "./lib/bootstrap/css/bootstrap.min.css";
+import "./lib/font-awesome/css/font-awesome.css";
 import './LazyLoader/css/LazyLoader.css';
 import ErrorBoundary from './Common/JS/ErrorBoundary';
 import BackgroundLoader from './BackgroundLoader';
