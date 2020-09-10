@@ -37,7 +37,7 @@ class Home extends Component {
       value: [0, 20],
       sourceValues: [],
       destinationValues: [],
-      sourceDestination:"All avaliable flights."
+      sourceDestination: "All avaliable flights."
     }
   }
   valuetext = (value) => {
@@ -67,43 +67,43 @@ class Home extends Component {
   }
 
   searchOperation = () => {
-if(!this.state.originCity){
-  confirmAlert({
-    message: "Please select origin city",
-    buttons: [
-        {
+    if (!this.state.originCity) {
+      confirmAlert({
+        message: "Please select origin city",
+        buttons: [
+          {
             label: 'Ok'
-        },
-    ]
-});
-}
-else if(!this.state.desinationCity){
-  confirmAlert({
-    message: "Please select destination city",
-    buttons: [
-        {
+          },
+        ]
+      });
+    }
+    else if (!this.state.desinationCity) {
+      confirmAlert({
+        message: "Please select destination city",
+        buttons: [
+          {
             label: 'Ok'
-        },
-    ]
-})
-}
-else{
-  let searchedArray = filghtData.filter(
-    (item) => item.source_code == this.state.originCity.value && item.destination_code == this.state.desinationCity.value);
-  this.setState({ data: searchedArray, sourceDestination: this.state.originCity.label+" > "+this.state.desinationCity.label})
-}
+          },
+        ]
+      })
+    }
+    else {
+      let searchedArray = filghtData.filter(
+        (item) => item.source_code == this.state.originCity.value && item.destination_code == this.state.desinationCity.value);
+      this.setState({ data: searchedArray, sourceDestination: this.state.originCity.label + " > " + this.state.desinationCity.label })
+    }
 
   }
 
 
 
 
-  priceFilter=()=>{
-console.log(this.state.value)
-let priceFiltered = filghtData.filter(
-  (item) => parseInt(item.fare.replace(/Rs /g, "")) >= this.state.value[0]*1000 && parseInt(item.fare.replace(/Rs /g, "")) <= this.state.value[1]*1000);
-  console.log(priceFiltered)
-this.setState({ data: priceFiltered })
+  priceFilter = () => {
+    console.log(this.state.value)
+    let priceFiltered = this.state.data.filter(
+      (item) => parseInt(item.fare.replace(/Rs /g, "")) >= this.state.value[0] * 1000 && parseInt(item.fare.replace(/Rs /g, "")) <= this.state.value[1] * 1000);
+    console.log(priceFiltered)
+    this.setState({ data: priceFiltered, sourceDestination: "Price : " + this.state.value[0] * 1000 + " to " + this.state.value[1] * 1000 })
   }
   render = () => {
 
@@ -208,7 +208,7 @@ this.setState({ data: priceFiltered })
                       />
                       <button
                         class="btn btn-primary min-wid-90 mt-5"
-                        onClick={()=>this.priceFilter()}
+                        onClick={() => this.priceFilter()}
                       >
                         Apply Filter
                             </button>
@@ -221,7 +221,7 @@ this.setState({ data: priceFiltered })
           <section id="main-content">
             <section className="wrapper">
               <div className="mt">
-              <h3>{this.state.sourceDestination}</h3>
+                <h3>{this.state.sourceDestination}</h3>
                 <hr />
                 <div className="row mt">
                   <div style={{ marginLeft: "20px", width: "80%" }}>

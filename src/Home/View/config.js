@@ -13,7 +13,7 @@ let filghtData = [{
     "source_code": "Kol",
     "destination": "Mumbai",
     "destination_code": "Mum",
-    "fare": "Rs 6500",
+    "fare": "Rs 12000",
     "departs_at": "10:00 PM",
     "arrives_at": "01:00 AM"
 }, {
